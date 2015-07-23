@@ -11,7 +11,7 @@ public class Base64 {
                     'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8',
                     '9', '+', '/'};
     private static final char S_BASE64PAD = '=';
-    private static final byte[] S_DECODETABLE = new byte[''];
+    private static final byte[] S_DECODETABLE = new byte[128];
 
     static {
         for (int i = 0; i < S_DECODETABLE.length; i++) {
