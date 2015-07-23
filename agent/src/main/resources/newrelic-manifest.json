@@ -1,0 +1,2076 @@
+{
+  "store": {
+    "storeMap": {
+      "SubTypesScanner": {
+        "com.newrelic.agent.bridge.Transaction": [
+          "com.newrelic.agent.TransactionApiImpl",
+          "com.newrelic.agent.bridge.NoOpTransaction"
+        ],
+        "com.newrelic.agent.stats.ApdexStats": [
+          "com.newrelic.agent.stats.ApdexStatsImpl"
+        ],
+        "com.newrelic.agent.dispatchers.Dispatcher": [
+          "com.newrelic.agent.dispatchers.DefaultDispatcher"
+        ],
+        "com.newrelic.agent.browser.BrowserTransactionState": [
+          "com.newrelic.agent.browser.BrowserTransactionStateImpl"
+        ],
+        "com.newrelic.agent.config.LabelsConfig": [
+          "com.newrelic.agent.config.LabelsConfigImpl"
+        ],
+        "com.newrelic.agent.transaction.TransactionNamingPolicy": [
+          "com.newrelic.agent.transaction.HigherPriorityTransactionNamingPolicy",
+          "com.newrelic.agent.transaction.SameOrHigherPriorityTransactionNamingPolicy"
+        ],
+        "java.lang.instrument.ClassFileTransformer": [
+          "com.newrelic.agent.instrumentation.ExtensionInstrumentation$MultiClassFileTransformer",
+          "com.newrelic.agent.instrumentation.StartableClassFileTransformer",
+          "com.newrelic.agent.instrumentation.context.InstrumentationContextManager$2",
+          "com.newrelic.bootstrap.BootstrapLoader$ApiClassTransformer"
+        ],
+        "com.newrelic.agent.util.asm.BytecodeGenProxyBuilder$Handler": [
+          "com.newrelic.agent.util.asm.BytecodeGenProxyBuilder$VariableLoaderImpl$4"
+        ],
+        "com.newrelic.agent.attributes.AttributeSender": [
+          "com.newrelic.agent.attributes.AgentAttributeSender",
+          "com.newrelic.agent.attributes.CustomAttributeSender"
+        ],
+        "com.newrelic.agent.transaction.ConnectionCache": [
+          "com.newrelic.agent.DummyTransaction$DummyConnectionCache"
+        ],
+        "com.newrelic.agent.config.ClassTransformerConfig": [
+          "com.newrelic.agent.config.ClassTransformerConfigImpl"
+        ],
+        "com.newrelic.agent.extension.beans.Extension$Instrumentation$Pointcut$Method$Parameters": [
+          "com.newrelic.agent.extension.beans.MethodParameters"
+        ],
+        "com.newrelic.agent.database.DatabaseStatementParser": [
+          "com.newrelic.agent.database.CachingDatabaseStatementParser",
+          "com.newrelic.agent.DummyTransaction$DummyDatabaseStatementParser",
+          "com.newrelic.agent.database.DefaultDatabaseStatementParser"
+        ],
+        "com.newrelic.agent.environment.EnvironmentChangeListener": [
+          "com.newrelic.agent.RPMService"
+        ],
+        "java.security.SecureClassLoader": [
+          "com.newrelic.agent.util.CleverClassLoader"
+        ],
+        "com.newrelic.agent.config.Config": [
+          "com.newrelic.agent.config.ClassTransformerConfig",
+          "com.newrelic.agent.config.BaseConfig"
+        ],
+        "com.newrelic.agent.environment.EnvironmentService": [
+          "com.newrelic.agent.environment.EnvironmentServiceImpl"
+        ],
+        "com.newrelic.agent.instrumentation.weaver.ClassAppender": [
+          "com.newrelic.agent.instrumentation.weaver.ClassAppender$2",
+          "com.newrelic.agent.instrumentation.weaver.ClassAppender$1"
+        ],
+        "com.newrelic.agent.util.asm.VariableLoader": [
+          "com.newrelic.agent.instrumentation.tracing.BridgeUtils$1"
+        ],
+        "java.util.Map$Entry": [
+          "com.newrelic.agent.service.async.AsyncTransactionService$1"
+        ],
+        "com.newrelic.agent.tracers.Tracer": [
+          "com.newrelic.agent.TransactionActivity$2",
+          "com.newrelic.agent.tracers.AbstractTracer",
+          "com.newrelic.agent.tracers.SkipTracer",
+          "com.newrelic.agent.tracers.IOTracer"
+        ],
+        "javax.sql.DataSource": [
+          "com.newrelic.agent.instrumentation.pointcuts.database.ReflectiveDataSource"
+        ],
+        "com.newrelic.agent.profile.ProfilingTask": [
+          "com.newrelic.agent.profile.XrayProfilingTask",
+          "com.newrelic.agent.profile.ProfilingTaskController"
+        ],
+        "java.util.List": [
+          "com.newrelic.agent.TracerList",
+          "com.newrelic.agent.service.analytics.FixedSizeArrayList"
+        ],
+        "com.newrelic.agent.tracers.SkipTracer": [
+          "com.newrelic.agent.tracers.MethodExitTracer"
+        ],
+        "com.newrelic.agent.util.asm.Variables": [
+          "com.newrelic.agent.util.asm.BytecodeGenProxyBuilder$VariableLoaderImpl"
+        ],
+        "com.newrelic.agent.IAgent": [
+          "com.newrelic.agent.Agent"
+        ],
+        "ch.qos.logback.core.pattern.PatternLayoutEncoderBase": [
+          "com.newrelic.agent.logging.CustomPatternLogbackEncoder"
+        ],
+        "com.newrelic.agent.extension.jaxb.Unmarshaller": [
+          "com.newrelic.agent.extension.jaxb.Unmarshaller$4",
+          "com.newrelic.agent.extension.jaxb.Unmarshaller$3",
+          "com.newrelic.agent.extension.jaxb.Unmarshaller$1",
+          "com.newrelic.agent.extension.jaxb.UnmarshallerFactory$1",
+          "com.newrelic.agent.extension.jaxb.Unmarshaller$2",
+          "com.newrelic.agent.extension.jaxb.Unmarshaller$5",
+          "com.newrelic.agent.extension.jaxb.UnmarshallerFactory$2"
+        ],
+        "com.newrelic.agent.jmx.JmxAttributeProcessor": [
+          "com.newrelic.agent.jmx.JmxAttributeProcessorWrapper$JmxAttributeProcessorNone",
+          "com.newrelic.agent.jmx.AbstractStatsAttributeProcessor",
+          "com.newrelic.agent.jmx.JmxAttributeProcessorWrapper"
+        ],
+        "java.lang.reflect.InvocationHandler": [
+          "com.newrelic.agent.tracers.Tracer",
+          "com.newrelic.agent.instrumentation.AgentWrapper",
+          "com.newrelic.agent.util.asm.BytecodeGenProxyBuilder$1",
+          "com.newrelic.agent.instrumentation.NoOpInvocationHandler",
+          "com.newrelic.agent.util.asm.BytecodeGenProxyBuilder$Handler",
+          "com.newrelic.agent.instrumentation.AgentWrapper$IgnoreTransactionHandler",
+          "com.newrelic.agent.instrumentation.InvocationPoint$StacklessInvocationPoint",
+          "com.newrelic.agent.bridge.ExitTracer",
+          "com.newrelic.agent.instrumentation.InvocationPoint",
+          "com.newrelic.agent.instrumentation.IgnoreApdexInvocationHandler"
+        ],
+        "com.newrelic.agent.HarvestListener": [
+          "com.newrelic.agent.service.analytics.TransactionEventsService",
+          "com.newrelic.agent.profile.XrayProfileSession",
+          "com.newrelic.agent.cache.CacheService",
+          "com.newrelic.agent.config.ConfigServiceImpl",
+          "com.newrelic.agent.service.module.JarCollectorServiceImpl",
+          "com.newrelic.agent.service.async.AsyncTransactionService",
+          "com.newrelic.agent.TransactionService",
+          "com.newrelic.agent.service.analytics.InsightsServiceImpl$2",
+          "com.newrelic.agent.GCService",
+          "com.newrelic.agent.trace.TransactionTraceService",
+          "com.newrelic.agent.xray.XRaySessionService",
+          "com.newrelic.agent.sql.SqlTraceServiceImpl",
+          "com.newrelic.agent.profile.ProfilingTask",
+          "com.newrelic.agent.commands.CommandParser",
+          "com.newrelic.agent.samplers.CPUSamplerService",
+          "com.newrelic.agent.jmx.JmxService",
+          "com.newrelic.agent.extension.ExtensionService",
+          "com.newrelic.agent.circuitbreaker.CircuitBreakerService"
+        ],
+        "com.newrelic.agent.transaction.AbstractTransactionNamer": [
+          "com.newrelic.agent.transaction.WebTransactionNamer",
+          "com.newrelic.agent.transaction.OtherTransactionNamer"
+        ],
+        "org.yaml.snakeyaml.constructor.Constructor": [
+          "com.newrelic.agent.extension.ExtensionParsers$1",
+          "com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor",
+          "com.newrelic.agent.config.AgentConfigHelper$ExtensionConstructor"
+        ],
+        "java.util.Comparator": [
+          "com.newrelic.agent.service.ServiceTiming$1",
+          "com.newrelic.agent.normalization.NormalizationRuleFactory$1"
+        ],
+        "com.newrelic.agent.errors.AbstractExceptionHandlerPointCut": [
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.SpringExceptionHandlerPointCut",
+          "com.newrelic.agent.errors.ExceptionHandlerPointCut"
+        ],
+        "org.yaml.snakeyaml.constructor.Construct": [
+          "com.newrelic.agent.extension.ConfigurationConstruct",
+          "com.newrelic.agent.config.AgentConfigHelper$ExtensionConstructor$1"
+        ],
+        "com.newrelic.agent.tracers.jasper.Visitor": [
+          "com.newrelic.agent.tracers.jasper.JasperClassFactory$VisitorImpl",
+          "com.newrelic.agent.tracers.jasper.GenerateVisitor"
+        ],
+        "com.newrelic.api.agent.Config": [
+          "com.newrelic.agent.config.AgentConfig",
+          "com.newrelic.agent.bridge.NoOpConfig",
+          "com.newrelic.api.agent.NoOpAgent$4"
+        ],
+        "com.newrelic.agent.instrumentation.weaver.LogWeavedMethodInvocationsVisitor$BaseLogAdapter": [
+          "com.newrelic.agent.instrumentation.weaver.LogWeavedMethodInvocationsVisitor$1",
+          "com.newrelic.agent.instrumentation.weaver.LogWeavedMethodInvocationsVisitor$2"
+        ],
+        "com.newrelic.agent.tracers.IgnoreChildSocketCalls": [
+          "com.newrelic.agent.tracers.DatabaseTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.SolrServerPointCut$SolrServerTracer",
+          "com.newrelic.agent.tracers.AbstractExternalComponentTracer"
+        ],
+        "java.util.Enumeration": [
+          "com.newrelic.agent.util.IteratorEnumeration"
+        ],
+        "com.newrelic.agent.xray.XRaySessionListener": [
+          "com.newrelic.agent.profile.XrayProfileSession",
+          "com.newrelic.agent.trace.TransactionTraceService"
+        ],
+        "com.newrelic.agent.instrumentation.ClassTransformerService": [
+          "com.newrelic.agent.instrumentation.ClassTransformerServiceImpl"
+        ],
+        "com.newrelic.agent.service.AbstractService": [
+          "com.newrelic.agent.service.analytics.TransactionEventsService",
+          "com.newrelic.agent.rpm.RPMConnectionServiceImpl",
+          "com.newrelic.agent.reinstrument.RemoteInstrumentationServiceImpl",
+          "com.newrelic.agent.profile.ProfilerService",
+          "com.newrelic.agent.cache.CacheService",
+          "com.newrelic.agent.config.ConfigServiceImpl",
+          "com.newrelic.agent.service.module.JarCollectorServiceImpl",
+          "com.newrelic.agent.TracerService",
+          "com.newrelic.agent.service.async.AsyncTransactionService",
+          "com.newrelic.agent.service.analytics.InsightsServiceImpl",
+          "com.newrelic.agent.database.DatabaseService",
+          "com.newrelic.agent.normalization.NormalizationServiceImpl",
+          "com.newrelic.agent.TransactionService",
+          "com.newrelic.agent.environment.EnvironmentServiceImpl",
+          "com.newrelic.agent.deadlock.DeadlockDetectorService",
+          "com.newrelic.agent.samplers.SamplerServiceImpl",
+          "com.newrelic.agent.GCService",
+          "com.newrelic.agent.instrumentation.ClassTransformerServiceImpl",
+          "com.newrelic.agent.trace.TransactionTraceService",
+          "com.newrelic.agent.xray.XRaySessionService",
+          "com.newrelic.agent.sql.SqlTraceServiceImpl",
+          "com.newrelic.agent.browser.BrowserServiceImpl",
+          "com.newrelic.agent.service.ServiceManagerImpl",
+          "com.newrelic.agent.utilization.UtilizationService",
+          "com.newrelic.agent.HarvestServiceImpl",
+          "com.newrelic.agent.ThreadService",
+          "com.newrelic.agent.service.NoopService",
+          "com.newrelic.agent.commands.CommandParser",
+          "com.newrelic.agent.service.ServiceManagerImpl$InitialStatsService",
+          "com.newrelic.agent.RPMService",
+          "com.newrelic.agent.samplers.CPUSamplerService",
+          "com.newrelic.agent.attributes.AttributesService",
+          "com.newrelic.agent.stats.StatsServiceImpl",
+          "com.newrelic.agent.jmx.JmxService",
+          "com.newrelic.agent.Agent",
+          "com.newrelic.agent.RPMServiceManagerImpl",
+          "com.newrelic.agent.extension.ExtensionService",
+          "com.newrelic.agent.circuitbreaker.CircuitBreakerService"
+        ],
+        "java.lang.Runnable": [
+          "com.newrelic.agent.rpm.RPMConnectionServiceImpl$RPMConnectionTask$3",
+          "com.newrelic.agent.profile.ProfileSession$3",
+          "com.newrelic.agent.instrumentation.AbstractTracingMethodAdapter$StoreReturnValueAndReload",
+          "com.newrelic.agent.util.asm.BytecodeGenProxyBuilder$VariableLoaderImpl$5",
+          "com.newrelic.agent.samplers.SamplerServiceImpl$1",
+          "com.newrelic.agent.instrumentation.tracing.TraceMethodVisitor$1",
+          "com.newrelic.agent.reinstrument.PeriodicRetransformer",
+          "com.newrelic.agent.instrumentation.tracing.FlyweightTraceMethodVisitor$4",
+          "com.newrelic.agent.util.SafeWrappers$1",
+          "com.newrelic.agent.instrumentation.AbstractTracingMethodAdapter$1",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$9$1",
+          "com.newrelic.agent.Agent$1",
+          "com.newrelic.agent.profile.ProfileSession$1",
+          "com.newrelic.agent.rpm.RPMConnectionServiceImpl$RPMConnectionTask$1",
+          "com.newrelic.agent.util.asm.BytecodeGenProxyBuilder$VariableLoaderImpl$3",
+          "com.newrelic.agent.instrumentation.context.InstrumentationContext$3",
+          "com.newrelic.agent.profile.ProfileSession$4",
+          "com.newrelic.agent.HarvestServiceImpl$HarvestTask",
+          "com.newrelic.agent.rpm.RPMConnectionServiceImpl$RPMConnectionTask",
+          "com.newrelic.agent.instrumentation.ClassTransformerServiceImpl$1",
+          "com.newrelic.agent.Agent$2",
+          "com.newrelic.agent.util.asm.BytecodeGenProxyBuilder$LoaderMarker",
+          "com.newrelic.agent.util.LatchingRunnable",
+          "com.newrelic.agent.profile.ProfilingTask",
+          "com.newrelic.agent.deadlock.DeadlockDetectorService$1",
+          "com.newrelic.agent.rpm.RPMConnectionServiceImpl$RPMConnectionTask$2",
+          "com.newrelic.agent.instrumentation.weaver.ClassWeaverService$1",
+          "com.newrelic.agent.ThreadService$1",
+          "com.newrelic.agent.instrumentation.tracing.FlyweightTraceMethodVisitor$5",
+          "com.newrelic.agent.util.asm.BytecodeGenProxyBuilder$VariableLoaderImpl$2",
+          "com.newrelic.agent.profile.ProfileSession$2",
+          "com.newrelic.agent.instrumentation.weaver.ClassWeaverService$2"
+        ],
+        "com.newrelic.agent.TransactionStateImpl": [
+          "com.newrelic.agent.tracers.servlet.ServletAsyncTransactionStateImpl",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayTransactionStateImpl",
+          "com.newrelic.agent.async.AsyncTransactionState"
+        ],
+        "com.newrelic.agent.instrumentation.classmatchers.ManyClassMatcher": [
+          "com.newrelic.agent.instrumentation.classmatchers.AndClassMatcher",
+          "com.newrelic.agent.instrumentation.classmatchers.OrClassMatcher"
+        ],
+        "java.lang.ThreadLocal": [
+          "com.newrelic.agent.circuitbreaker.CircuitBreakerService$2",
+          "com.newrelic.agent.trace.TransactionGuidFactory$1",
+          "com.newrelic.agent.Transaction$1",
+          "com.newrelic.agent.TransactionActivity$1",
+          "com.newrelic.agent.circuitbreaker.CircuitBreakerService$1",
+          "com.newrelic.agent.TransactionService$2",
+          "com.newrelic.agent.service.analytics.ReserviorSampledArrayList$1",
+          "com.newrelic.agent.TransactionService$1",
+          "com.newrelic.agent.circuitbreaker.CircuitBreakerService$3",
+          "com.newrelic.agent.circuitbreaker.CircuitBreakerService$4"
+        ],
+        "org.apache.commons.logging.LogFactory": [
+          "com.newrelic.agent.logging.ApacheCommonsAdaptingLogFactory"
+        ],
+        "com.newrelic.agent.stats.Stats": [
+          "com.newrelic.agent.stats.StatsImpl"
+        ],
+        "com.newrelic.agent.application.ApplicationNamingPolicy": [
+          "com.newrelic.agent.application.AbstractApplicationNamingPolicy"
+        ],
+        "java.util.HashMap": [
+          "com.newrelic.agent.util.JSONException$1",
+          "com.newrelic.agent.instrumentation.pointcuts.amazon.AmazonS3ConectionPointCut$1",
+          "com.newrelic.agent.OutboundHeadersMap",
+          "com.newrelic.agent.util.RubyConversion$1",
+          "com.newrelic.agent.instrumentation.MethodBuilder$1"
+        ],
+        "java.util.TreeSet": [
+          "com.newrelic.agent.util.FixedSizeSet"
+        ],
+        "com.newrelic.agent.jmx.AgentMBean": [
+          "com.newrelic.agent.jmx.AgentMBeanImpl"
+        ],
+        "com.newrelic.agent.commands.CommandException": [
+          "com.newrelic.agent.commands.UnknownCommand"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.commons.HttpCommonsPointCut": [
+          "com.newrelic.agent.instrumentation.pointcuts.commons.HttpMethodBasePointCut"
+        ],
+        "com.newrelic.agent.ThreadService$AgentThread": [
+          "com.newrelic.agent.util.DefaultThreadFactory$AgentThreadImpl"
+        ],
+        "java.util.Set": [
+          "com.newrelic.agent.DummyTransaction$DummySet"
+        ],
+        "com.newrelic.agent.bridge.ObjectFieldManager": [
+          "com.newrelic.agent.bridge.NoOpObjectFieldManager",
+          "com.newrelic.agent.instrumentation.weaver.ObjectFieldManagerImpl"
+        ],
+        "com.newrelic.agent.normalization.NormalizationService": [
+          "com.newrelic.agent.normalization.NormalizationServiceImpl"
+        ],
+        "org.objectweb.asm.AnnotationVisitor": [
+          "com.newrelic.agent.instrumentation.tracing.Annotation$1",
+          "com.newrelic.agent.instrumentation.spring.SpringAnnotationVisitor$2$2$1$2",
+          "com.newrelic.agent.instrumentation.spring.SpringAnnotationVisitor$2$2$1",
+          "com.newrelic.agent.instrumentation.spring.SpringAnnotationVisitor$2$1$1",
+          "com.newrelic.agent.util.asm.AnnotationDetails",
+          "com.newrelic.agent.instrumentation.spring.SpringAnnotationVisitor$2$1",
+          "com.newrelic.agent.instrumentation.webservices.RestAnnotationVisitor$4$2$1",
+          "com.newrelic.agent.instrumentation.webservices.RestAnnotationVisitor$4$1",
+          "com.newrelic.agent.instrumentation.weaver.WeaveMatchTypeAccessor$1",
+          "com.newrelic.agent.servlet.ServletAnnotationVisitor$1$1$1",
+          "com.newrelic.agent.instrumentation.spring.SpringAnnotationVisitor$2$2$1$1",
+          "com.newrelic.agent.servlet.ServletAnnotationVisitor$1$1",
+          "com.newrelic.agent.instrumentation.webservices.WebServiceVisitor$1$WebServiceAnnotationVisitor",
+          "com.newrelic.agent.instrumentation.tracing.Annotation"
+        ],
+        "org.objectweb.asm.tree.MethodNode": [
+          "com.newrelic.agent.instrumentation.weaver.MergeMethodVisitor",
+          "com.newrelic.agent.instrumentation.weaver.ClassWeaver$MethodMerger",
+          "com.newrelic.agent.instrumentation.weaver.ClassWeaver$ConstructorMerger"
+        ],
+        "com.newrelic.agent.instrumentation.tracing.FlyweightTraceMethodVisitor$Handler": [
+          "com.newrelic.agent.instrumentation.tracing.FlyweightTraceMethodVisitor$2",
+          "com.newrelic.agent.instrumentation.tracing.FlyweightTraceMethodVisitor$UnsupportedHandler",
+          "com.newrelic.agent.instrumentation.tracing.FlyweightTraceMethodVisitor$3",
+          "com.newrelic.agent.instrumentation.tracing.FlyweightTraceMethodVisitor$1"
+        ],
+        "com.newrelic.agent.instrumentation.annotationmatchers.AnnotationMatcher": [
+          "com.newrelic.agent.instrumentation.annotationmatchers.OrAnnotationMatcher",
+          "com.newrelic.agent.instrumentation.annotationmatchers.ClassNameAnnotationMatcher",
+          "com.newrelic.agent.instrumentation.annotationmatchers.NoMatchAnnotationMatcher",
+          "com.newrelic.agent.config.ClassTransformerConfigImpl$1"
+        ],
+        "com.newrelic.agent.instrumentation.classmatchers.DefaultClassAndMethodMatcher": [
+          "com.newrelic.agent.instrumentation.classmatchers.HashSafeClassAndMethodMatcher"
+        ],
+        "com.newrelic.agent.config.StripExceptionConfig": [
+          "com.newrelic.agent.config.StripExceptionConfigImpl"
+        ],
+        "com.newrelic.agent.ConnectionListener": [
+          "com.newrelic.agent.reinstrument.RemoteInstrumentationServiceImpl",
+          "com.newrelic.agent.config.ConfigServiceImpl",
+          "com.newrelic.agent.normalization.NormalizationServiceImpl",
+          "com.newrelic.agent.RPMServiceManagerImpl$1",
+          "com.newrelic.agent.browser.BrowserServiceImpl",
+          "com.newrelic.agent.HarvestServiceImpl$ConnectionListenerImpl"
+        ],
+        "com.newrelic.agent.instrumentation.methodmatchers.MethodMatcher": [
+          "com.newrelic.agent.instrumentation.methodmatchers.ManyMethodMatcher",
+          "com.newrelic.agent.instrumentation.methodmatchers.ExactParamsMethodMatcher",
+          "com.newrelic.agent.instrumentation.methodmatchers.AnnotationMethodMatcher",
+          "com.newrelic.agent.instrumentation.methodmatchers.OrMethodMatcher$DescMethodMatcher",
+          "com.newrelic.agent.instrumentation.methodmatchers.OrMethodMatcher$OrExactMethodMatchers",
+          "com.newrelic.agent.instrumentation.methodmatchers.AccessMethodMatcher",
+          "com.newrelic.agent.instrumentation.methodmatchers.GetterSetterMethodMatcher",
+          "com.newrelic.agent.instrumentation.methodmatchers.ExactReturnTypeMethodMatcher",
+          "com.newrelic.agent.instrumentation.methodmatchers.NoMethodsMatcher",
+          "com.newrelic.agent.instrumentation.methodmatchers.NameMethodMatcher",
+          "com.newrelic.agent.instrumentation.methodmatchers.AllMethodsMatcher",
+          "com.newrelic.agent.instrumentation.methodmatchers.ExactMethodMatcher",
+          "com.newrelic.agent.instrumentation.methodmatchers.NotMethodMatcher"
+        ],
+        "com.newrelic.agent.TransactionActivity": [
+          "com.newrelic.agent.DummyTransaction$DummyTransactionActivity"
+        ],
+        "com.newrelic.agent.stats.CountStats": [
+          "com.newrelic.agent.stats.ResponseTimeStats",
+          "com.newrelic.agent.stats.Stats",
+          "com.newrelic.agent.stats.AbstractStats"
+        ],
+        "com.newrelic.agent.tracers.DefaultTracer": [
+          "com.newrelic.agent.errors.AbstractExceptionHandlerPointCut$1",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandlerMethodInvokerPointCut$1",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.SpringPointCut$1",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayControllerPointCut$PlayControllerTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.database.SqlStatementTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.StrutsActionPointCut$StrutsActionTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.SolrServerPointCut$SolrServerTracer",
+          "com.newrelic.agent.tracers.OtherRootTracer",
+          "com.newrelic.agent.tracers.AbstractExternalComponentTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.database.DataSourcePointCut$ConnectionTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.container.JasperCompilerPointCut$JasperCompilerTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.SolrRequestHandlerPointCut$1",
+          "com.newrelic.agent.tracers.AsyncRootTracer",
+          "com.newrelic.agent.tracers.servlet.BasicRequestRootTracer",
+          "com.newrelic.agent.instrumentation.yaml.CustomTracerFactory$2"
+        ],
+        "com.newrelic.agent.tracers.OtherRootTracer": [
+          "com.newrelic.agent.instrumentation.pointcuts.play2.CreateInvokerPointCut$CreateInvokerTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.QuartzJobPointCut$QuartzJobTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.QuartzSystemPointCut$QuartzJobTracer",
+          "com.newrelic.agent.instrumentation.yaml.CustomTracerFactory$1"
+        ],
+        "com.newrelic.agent.jmx.metrics.JmxAction": [
+          "com.newrelic.agent.jmx.metrics.JmxAction$3",
+          "com.newrelic.agent.jmx.metrics.JmxAction$2",
+          "com.newrelic.agent.jmx.metrics.JmxAction$4",
+          "com.newrelic.agent.jmx.metrics.JmxAction$1"
+        ],
+        "com.newrelic.agent.logging.IAgentLogger": [
+          "com.newrelic.agent.instrumentation.verifier.VerificationLogger",
+          "com.newrelic.agent.logging.LogbackLogger"
+        ],
+        "com.newrelic.agent.transport.DataSender": [
+          "com.newrelic.agent.transport.DataSenderImpl"
+        ],
+        "com.newrelic.agent.tracers.metricname.AbstractMetricNameFormat": [
+          "com.newrelic.agent.tracers.metricname.ClassMethodMetricNameFormat",
+          "com.newrelic.agent.tracers.metricname.DefaultMetricNameFormat"
+        ],
+        "org.json.simple.JSONAware": [
+          "com.newrelic.agent.instrumentation.pointcuts.database.PreparedStatementTracer$PreparedStatementSql",
+          "com.newrelic.agent.profile.ThreadType"
+        ],
+        "com.newrelic.agent.tracers.metricname.MetricNameFormat": [
+          "com.newrelic.agent.tracers.metricname.AbstractMetricNameFormat",
+          "com.newrelic.agent.tracers.ExternalComponentNameFormat",
+          "com.newrelic.agent.tracers.metricname.OtherTransSimpleMetricNameFormat",
+          "com.newrelic.agent.database.ParsedDatabaseStatement",
+          "com.newrelic.agent.tracers.MetricNameFormatWithHost",
+          "com.newrelic.agent.tracers.CrossProcessNameFormat",
+          "com.newrelic.agent.tracers.metricname.SimpleMetricNameFormat"
+        ],
+        "com.newrelic.api.agent.Agent": [
+          "com.newrelic.agent.bridge.Agent",
+          "com.newrelic.api.agent.NoOpAgent"
+        ],
+        "com.newrelic.agent.instrumentation.AbstractImplementationClassTransformer": [
+          "com.newrelic.agent.instrumentation.InterfaceImplementationClassTransformer",
+          "com.newrelic.agent.instrumentation.pointcuts.database.ConnectionClassTransformer",
+          "com.newrelic.agent.instrumentation.JDBCClassTransformer"
+        ],
+        "com.newrelic.agent.config.AgentConfigListener": [
+          "com.newrelic.agent.service.analytics.TransactionEventsService",
+          "com.newrelic.agent.reinstrument.RemoteInstrumentationServiceImpl",
+          "com.newrelic.agent.database.DatabaseService",
+          "com.newrelic.agent.errors.ErrorService$MyConfigListener",
+          "com.newrelic.agent.service.analytics.InsightsServiceImpl$4",
+          "com.newrelic.agent.RPMService",
+          "com.newrelic.agent.attributes.AttributesService",
+          "com.newrelic.agent.circuitbreaker.CircuitBreakerService"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.frameworks.AbstractPortletPointCut": [
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.RenderPortletPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.ProcessActionPortletPointCut"
+        ],
+        "com.newrelic.agent.bridge.JmxApi": [
+          "com.newrelic.agent.jmx.JmxApiImpl",
+          "com.newrelic.agent.bridge.NoOpJmxApi"
+        ],
+        "com.newrelic.agent.attributes.DestinationPredicate": [
+          "com.newrelic.agent.attributes.DefaultDestinationPredicate",
+          "com.newrelic.agent.attributes.DisabledDestinationPredicate"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.database.DataSourcePointCut$ConnectionTracer": [
+          "com.newrelic.agent.instrumentation.pointcuts.database.DataSourcePointCut$DataSourceTracer"
+        ],
+        "com.newrelic.agent.instrumentation.context.ClassMatchVisitorFactory": [
+          "com.newrelic.agent.instrumentation.spring.SpringAnnotationVisitor$1",
+          "com.newrelic.agent.instrumentation.context.TraceMatchVisitor",
+          "com.newrelic.agent.instrumentation.webservices.RestAnnotationVisitor$1",
+          "com.newrelic.agent.service.module.JarCollectorServiceImpl$1",
+          "com.newrelic.agent.instrumentation.ejb3.EJBAnnotationVisitor",
+          "com.newrelic.agent.instrumentation.context.GeneratedClassDetector",
+          "com.newrelic.agent.instrumentation.webservices.WebServiceVisitor",
+          "com.newrelic.agent.servlet.ServletAnnotationVisitor",
+          "com.newrelic.agent.instrumentation.api.ApiImplementationUpdate$1",
+          "com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher",
+          "com.newrelic.agent.instrumentation.webservices.RestAnnotationVisitor$2"
+        ],
+        "com.google.common.cache.CacheLoader": [
+          "com.newrelic.bootstrap.EmbeddedJarFilesImpl$1",
+          "com.newrelic.agent.attributes.DefaultDestinationPredicate$1",
+          "com.newrelic.agent.instrumentation.weaver.Verifier$1",
+          "com.newrelic.agent.service.analytics.InsightsServiceImpl$1",
+          "com.newrelic.agent.service.analytics.TransactionEventsService$1"
+        ],
+        "com.newrelic.agent.service.Service": [
+          "com.newrelic.agent.HarvestService",
+          "com.newrelic.agent.service.ServiceManager",
+          "com.newrelic.agent.service.analytics.TransactionEventsService",
+          "com.newrelic.agent.xray.IXRaySessionService",
+          "com.newrelic.agent.service.module.JarCollectorService",
+          "com.newrelic.agent.IAgent",
+          "com.newrelic.agent.service.AbstractService",
+          "com.newrelic.agent.normalization.NormalizationService",
+          "com.newrelic.agent.stats.StatsService",
+          "com.newrelic.agent.IRPMService",
+          "com.newrelic.agent.samplers.SamplerService",
+          "com.newrelic.agent.reinstrument.RemoteInstrumentationService",
+          "com.newrelic.agent.rpm.RPMConnectionService",
+          "com.newrelic.agent.RPMServiceManager",
+          "com.newrelic.agent.config.ConfigService",
+          "com.newrelic.agent.sql.SqlTraceService",
+          "com.newrelic.agent.service.analytics.InsightsService",
+          "com.newrelic.agent.browser.BrowserService",
+          "com.newrelic.agent.instrumentation.ClassTransformerService",
+          "com.newrelic.agent.environment.EnvironmentService"
+        ],
+        "com.newrelic.agent.bridge.ExitTracer": [
+          "com.newrelic.agent.tracers.Tracer"
+        ],
+        "com.newrelic.agent.jmx.metrics.KafkaMetricGenerator": [
+          "com.newrelic.agent.jmx.metrics.KafkaMetricGenerator$4",
+          "com.newrelic.agent.jmx.metrics.KafkaMetricGenerator$3",
+          "com.newrelic.agent.jmx.metrics.KafkaMetricGenerator$2",
+          "com.newrelic.agent.jmx.metrics.KafkaMetricGenerator$1"
+        ],
+        "com.newrelic.agent.tracers.AbstractTracer": [
+          "com.newrelic.agent.tracers.MethodExitTracerNoSkip",
+          "com.newrelic.agent.async.AsyncTracer",
+          "com.newrelic.agent.tracers.DefaultTracer"
+        ],
+        "com.newrelic.agent.config.ReinstrumentConfig": [
+          "com.newrelic.agent.config.ReinstrumentConfigImpl"
+        ],
+        "com.newrelic.agent.tracers.PointCutInvocationHandler": [
+          "com.newrelic.agent.tracers.EntryInvocationHandler",
+          "com.newrelic.agent.tracers.TracerFactory"
+        ],
+        "java.lang.Comparable": [
+          "com.newrelic.agent.profile.Profile$ProfileSegmentSort",
+          "com.newrelic.agent.instrumentation.PointCut",
+          "com.newrelic.agent.trace.TransactionTrace",
+          "com.newrelic.agent.sql.SqlStatementInfo",
+          "com.newrelic.agent.errors.TracedError",
+          "com.newrelic.agent.instrumentation.pointcuts.database.SqlStatementTracer"
+        ],
+        "com.google.common.collect.ForwardingSetMultimap": [
+          "com.newrelic.agent.util.collect.NRMultimaps$1"
+        ],
+        "com.newrelic.agent.IgnoreSilentlyException": [
+          "com.newrelic.agent.PostTooBigException"
+        ],
+        "com.newrelic.agent.jmx.metrics.EjbPoolJmxMetricGenerator": [
+          "com.newrelic.agent.jmx.metrics.EjbPoolJmxMetricGenerator$1",
+          "com.newrelic.agent.jmx.metrics.EjbPoolJmxMetricGenerator$6",
+          "com.newrelic.agent.jmx.metrics.EjbPoolJmxMetricGenerator$4",
+          "com.newrelic.agent.jmx.metrics.EjbPoolJmxMetricGenerator$3",
+          "com.newrelic.agent.jmx.metrics.EjbPoolJmxMetricGenerator$5",
+          "com.newrelic.agent.jmx.metrics.EjbPoolJmxMetricGenerator$2"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.database.SqlStatementTracer": [
+          "com.newrelic.agent.instrumentation.pointcuts.database.PreparedStatementTracer"
+        ],
+        "com.newrelic.agent.tracers.TimedItem": [
+          "com.newrelic.agent.tracers.Tracer"
+        ],
+        "com.newrelic.agent.trace.ITransactionSampler": [
+          "com.newrelic.agent.trace.XRayTransactionSampler",
+          "com.newrelic.agent.trace.TransactionTraceBucket",
+          "com.newrelic.agent.trace.SyntheticsTransactionSampler",
+          "com.newrelic.agent.trace.RandomTransactionSampler"
+        ],
+        "com.newrelic.agent.config.BrowserMonitoringConfig": [
+          "com.newrelic.agent.config.BrowserMonitoringConfigImpl"
+        ],
+        "com.newrelic.agent.service.module.JarCollectorService": [
+          "com.newrelic.agent.service.module.JarCollectorServiceImpl"
+        ],
+        "com.newrelic.agent.install.SelfInstaller": [
+          "com.newrelic.agent.install.JBossSelfInstaller",
+          "com.newrelic.agent.install.JettySelfInstaller",
+          "com.newrelic.agent.install.TomcatSelfInstaller",
+          "com.newrelic.agent.install.GlassfishSelfInstaller",
+          "com.newrelic.agent.install.JBoss7SelfInstaller"
+        ],
+        "com.newrelic.agent.tracers.ISqlStatementTracer": [
+          "com.newrelic.agent.instrumentation.pointcuts.database.SqlStatementTracer"
+        ],
+        "com.newrelic.agent.config.ConfigService": [
+          "com.newrelic.agent.config.ConfigServiceImpl"
+        ],
+        "com.newrelic.agent.instrumentation.tracing.Annotation": [
+          "com.newrelic.agent.instrumentation.context.TraceMatchVisitor$1$1$1",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$TraceAnnotationVisitor$1"
+        ],
+        "com.newrelic.agent.jmx.create.JmxConfiguration": [
+          "com.newrelic.agent.jmx.create.JmxYmlParser"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.database.SqlDriverPointCut$ConnectionErrorTracer": [
+          "com.newrelic.agent.instrumentation.pointcuts.database.SqlDriverPointCut$ConnectionTracer"
+        ],
+        "com.newrelic.agent.database.DefaultDatabaseStatementParser$DefaultStatementFactory": [
+          "com.newrelic.agent.database.DefaultDatabaseStatementParser$DDLStatementFactory",
+          "com.newrelic.agent.database.DefaultDatabaseStatementParser$1"
+        ],
+        "com.newrelic.agent.transaction.TransactionNamer": [
+          "com.newrelic.agent.transaction.AbstractTransactionNamer"
+        ],
+        "java.lang.annotation.Annotation": [
+          "com.newrelic.agent.instrumentation.pointcuts.LoadOnBootstrap",
+          "com.newrelic.agent.instrumentation.weaver.WeaveInstrumentation",
+          "com.newrelic.agent.instrumentation.pointcuts.InterfaceMapper",
+          "com.newrelic.agent.instrumentation.weaver.WeavedMethod",
+          "com.newrelic.agent.instrumentation.context.ModifiedClassloader",
+          "com.newrelic.agent.instrumentation.pointcuts.InterfaceMixin",
+          "com.newrelic.api.agent.weaver.CatchAndLog",
+          "com.newrelic.agent.instrumentation.pointcuts.MethodMapper",
+          "com.newrelic.api.agent.weaver.SkipIfPresent",
+          "com.newrelic.api.agent.Trace",
+          "com.newrelic.api.agent.weaver.NewField",
+          "com.newrelic.agent.instrumentation.InstrumentedMethod",
+          "com.newrelic.api.agent.weaver.Weave",
+          "com.newrelic.agent.instrumentation.InstrumentedClass",
+          "com.newrelic.agent.jmx.metrics.JmxInit",
+          "com.newrelic.agent.instrumentation.pointcuts.FieldAccessor",
+          "com.newrelic.agent.instrumentation.pointcuts.PointCut"
+        ],
+        "com.newrelic.agent.instrumentation.StartableClassFileTransformer": [
+          "com.newrelic.agent.instrumentation.AbstractImplementationClassTransformer",
+          "com.newrelic.agent.instrumentation.AbstractClassTransformer"
+        ],
+        "com.newrelic.agent.bridge.AsyncApi": [
+          "com.newrelic.agent.AsyncApiImpl",
+          "com.newrelic.agent.bridge.NoOpAsyncApi"
+        ],
+        "com.newrelic.agent.tracers.jasper.AbstractRUMState": [
+          "com.newrelic.agent.tracers.jasper.ScriptPostHeaderState",
+          "com.newrelic.agent.tracers.jasper.MetaState",
+          "com.newrelic.agent.tracers.jasper.PreMetaState",
+          "com.newrelic.agent.tracers.jasper.QuoteSate",
+          "com.newrelic.agent.tracers.jasper.SingleQuoteState",
+          "com.newrelic.agent.tracers.jasper.ScriptPreHeaderState",
+          "com.newrelic.agent.tracers.jasper.BodyState",
+          "com.newrelic.agent.tracers.jasper.HeadState",
+          "com.newrelic.agent.tracers.jasper.DoneState",
+          "com.newrelic.agent.tracers.jasper.TitleState",
+          "com.newrelic.agent.tracers.jasper.CommentState",
+          "com.newrelic.agent.tracers.jasper.GeneratorVisitTracerFactory$RUMStateProcessor"
+        ],
+        "com.newrelic.agent.tracers.jasper.TemplateText": [
+          "com.newrelic.agent.tracers.jasper.JasperClassFactory$TemplateTextImpl"
+        ],
+        "com.newrelic.agent.instrumentation.classmatchers.TraceClassAndMethodMatcher": [
+          "com.newrelic.agent.instrumentation.custom.ExtensionClassAndMethodMatcher"
+        ],
+        "com.newrelic.agent.IRPMService": [
+          "com.newrelic.agent.RPMService"
+        ],
+        "org.objectweb.asm.ClassVisitor": [
+          "com.newrelic.agent.instrumentation.webservices.RestAnnotationVisitor$2$1",
+          "com.newrelic.agent.servlet.ServletAnnotationVisitor$1",
+          "com.newrelic.agent.instrumentation.spring.SpringAnnotationVisitor$2",
+          "com.newrelic.agent.instrumentation.context.InstrumentationContextManager$MarkWeaverMethodsVisitor",
+          "com.newrelic.agent.instrumentation.weaver.ClassWeaver",
+          "com.newrelic.agent.instrumentation.webservices.WebServiceVisitor$1",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$14",
+          "com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher$ClassMethods",
+          "com.newrelic.agent.util.asm.ClassStructure$1",
+          "com.newrelic.agent.instrumentation.context.InstrumentationContext$2",
+          "com.newrelic.agent.util.asm.ProxyClassVisitor",
+          "com.newrelic.agent.instrumentation.weaver.RegisterClosableInstrumentationVisitor",
+          "com.newrelic.agent.util.ClassUtils$1",
+          "com.newrelic.agent.instrumentation.tracing.TraceClassVisitor",
+          "com.newrelic.agent.instrumentation.FieldAccessorGeneratingClassAdapter",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationPackage$GatherClassMethodMatchers",
+          "com.newrelic.agent.instrumentation.context.GeneratedClassDetector$1",
+          "com.newrelic.agent.util.asm.ClassStructure$2",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$8",
+          "com.newrelic.agent.instrumentation.api.ApiImplementationUpdate$2",
+          "com.newrelic.agent.instrumentation.context.ClassLoaderClassTransformer$ClassLoaderClassVisitor",
+          "com.newrelic.agent.instrumentation.InterfaceImplementationClassTransformer$InterfaceImplementationClassVisitor",
+          "com.newrelic.agent.instrumentation.api.ApiImplementationUpdate$1$1",
+          "com.newrelic.agent.instrumentation.weaver.LogWeavedMethodInvocationsVisitor",
+          "com.newrelic.agent.instrumentation.context.CurrentTransactionRewriter$2",
+          "com.newrelic.agent.profile.MethodLineNumberMatcher$LineNumberClassVisitor",
+          "com.newrelic.agent.instrumentation.AddInterfaceAdapter",
+          "com.newrelic.agent.instrumentation.context.InstrumentationContextManager$4",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$10",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$11",
+          "com.newrelic.agent.instrumentation.context.CurrentTransactionRewriter$1",
+          "com.newrelic.agent.instrumentation.weaver.WeaveUtils$1",
+          "com.newrelic.agent.instrumentation.weaver.MixinClassVisitor",
+          "com.newrelic.agent.instrumentation.webservices.RestAnnotationVisitor$4",
+          "com.newrelic.agent.instrumentation.context.TraceMatchVisitor$1",
+          "com.newrelic.agent.instrumentation.weaver.LogApiCallsVisitor",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$13",
+          "com.newrelic.agent.instrumentation.context.InstrumentationContextManager$3$1",
+          "com.newrelic.agent.util.asm.ClassStructure$3",
+          "com.newrelic.agent.instrumentation.weaver.ReferencesVisitor",
+          "com.newrelic.agent.instrumentation.ejb3.EJBAnnotationVisitor$1",
+          "com.newrelic.agent.instrumentation.api.DefaultApiImplementations$1",
+          "com.newrelic.agent.instrumentation.MethodMappersAdapter",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$1",
+          "com.newrelic.agent.instrumentation.GenericClassAdapter",
+          "com.newrelic.agent.instrumentation.RequireMethodsAdapter",
+          "com.newrelic.agent.instrumentation.context.InstrumentationContextManager$3$2",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$12",
+          "com.newrelic.agent.instrumentation.weaver.NewClassMarker$1",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor",
+          "com.newrelic.agent.instrumentation.RequireMethodsAdapter$MissingMethodsVisitor",
+          "com.newrelic.agent.instrumentation.weaver.NewClassDependencyVisitor"
+        ],
+        "com.newrelic.agent.database.SqlObfuscator": [
+          "com.newrelic.agent.database.SqlObfuscator$1",
+          "com.newrelic.agent.database.SqlObfuscator$DefaultSqlObfuscator",
+          "com.newrelic.agent.database.SqlObfuscator$CachingSqlObfuscator",
+          "com.newrelic.agent.database.SqlObfuscator$2"
+        ],
+        "com.newrelic.agent.instrumentation.context.ContextClassTransformer": [
+          "com.newrelic.agent.instrumentation.context.ClassLoaderClassTransformer",
+          "com.newrelic.agent.instrumentation.custom.CustomClassTransformer",
+          "com.newrelic.agent.instrumentation.webservices.RestAnnotationVisitor$InterfaceImplementationMatcher",
+          "com.newrelic.agent.instrumentation.context.InstrumentationContextManager$1",
+          "com.newrelic.agent.instrumentation.ClassTransformer",
+          "com.newrelic.agent.instrumentation.tracing.TraceClassTransformer",
+          "com.newrelic.agent.instrumentation.ClassTransformerServiceImpl$TraceMatchTransformer",
+          "com.newrelic.agent.instrumentation.weaver.WeavingClassTransformer",
+          "com.newrelic.agent.instrumentation.context.InstrumentationContextManager$3",
+          "com.newrelic.agent.instrumentation.api.ApiImplementationUpdate"
+        ],
+        "com.newrelic.agent.profile.method.MethodInfo": [
+          "com.newrelic.agent.profile.method.ExactMethodInfo",
+          "com.newrelic.agent.profile.method.MultipleMethodInfo"
+        ],
+        "com.newrelic.agent.config.AgentConfig": [
+          "com.newrelic.agent.config.AgentConfigImpl"
+        ],
+        "com.newrelic.agent.stats.TransactionStats": [
+          "com.newrelic.agent.DummyTransaction$DummyTransactionStats"
+        ],
+        "com.newrelic.agent.profile.AbstractController": [
+          "com.newrelic.agent.profile.XrayCpuTimeController",
+          "com.newrelic.agent.profile.XrayClockTimeController"
+        ],
+        "com.newrelic.agent.TracerService$ITracerService": [
+          "com.newrelic.agent.TracerService$NoOpTracerService",
+          "com.newrelic.agent.TracerService$TracerServiceImpl"
+        ],
+        "java.util.Map": [
+          "com.newrelic.agent.bridge.NoOpTransaction$NoOpMap",
+          "com.newrelic.agent.LazyMapImpl",
+          "com.newrelic.agent.DummyTransaction$DummyMap"
+        ],
+        "com.newrelic.api.agent.Logger": [
+          "com.newrelic.agent.logging.IAgentLogger",
+          "com.newrelic.api.agent.NoOpAgent$3",
+          "com.newrelic.agent.bridge.NoOpLogger"
+        ],
+        "com.newrelic.agent.tracers.TransactionActivityInitiator": [
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpClientTracer",
+          "com.newrelic.agent.tracers.OtherRootTracer",
+          "com.newrelic.agent.tracers.AsyncRootTracer",
+          "com.newrelic.agent.tracers.servlet.BasicRequestRootTracer"
+        ],
+        "ch.qos.logback.core.filter.Filter": [
+          "com.newrelic.agent.logging.FineFilter"
+        ],
+        "java.lang.Thread": [
+          "com.newrelic.agent.util.DefaultThreadFactory$AgentThreadImpl"
+        ],
+        "com.newrelic.agent.rpm.RPMConnectionService": [
+          "com.newrelic.agent.rpm.RPMConnectionServiceImpl"
+        ],
+        "com.newrelic.agent.commands.AbstractCommand": [
+          "com.newrelic.agent.commands.DisabledCommand",
+          "com.newrelic.agent.commands.ShutdownCommand",
+          "com.newrelic.agent.xray.StartXRayCommand",
+          "com.newrelic.agent.profile.StopProfilerCommand",
+          "com.newrelic.agent.commands.InstrumentUpdateCommand",
+          "com.newrelic.agent.commands.RestartCommand",
+          "com.newrelic.agent.profile.StartProfilerCommand"
+        ],
+        "com.google.common.cache.RemovalListener": [
+          "com.newrelic.agent.service.async.AsyncTransactionService$2"
+        ],
+        "com.newrelic.agent.bridge.PrivateApi": [
+          "com.newrelic.agent.PrivateApiImpl",
+          "com.newrelic.agent.bridge.NoOpPrivateApi"
+        ],
+        "org.objectweb.asm.commons.LocalVariablesSorter": [
+          "com.newrelic.org.objectweb.asm.commons.MethodCallInlinerAdapter"
+        ],
+        "com.newrelic.agent.config.JarResource": [
+          "com.newrelic.agent.config.AgentJarHelper$1",
+          "com.newrelic.agent.config.AgentJarHelper$2"
+        ],
+        "com.newrelic.agent.stats.ApdexStatsImpl": [
+          "com.newrelic.agent.DummyTransaction$DummyApdexStat"
+        ],
+        "com.newrelic.agent.instrumentation.methodmatchers.ManyMethodMatcher": [
+          "com.newrelic.agent.instrumentation.methodmatchers.OrMethodMatcher",
+          "com.newrelic.agent.instrumentation.methodmatchers.AndMethodMatcher"
+        ],
+        "com.newrelic.agent.bridge.TracedMethod": [
+          "com.newrelic.agent.bridge.NoOpTracedMethod",
+          "com.newrelic.agent.bridge.ExitTracer"
+        ],
+        "com.newrelic.agent.config.JarCollectorConfig": [
+          "com.newrelic.agent.config.JarCollectorConfigImpl"
+        ],
+        "org.objectweb.asm.commons.AdviceAdapter": [
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$7",
+          "com.newrelic.agent.instrumentation.AbstractTracingMethodAdapter",
+          "com.newrelic.agent.instrumentation.tracing.TraceClassVisitor$6",
+          "com.newrelic.agent.instrumentation.weaver.LogWeavedMethodInvocationsVisitor$BaseLogAdapter",
+          "com.newrelic.agent.instrumentation.GenericClassAdapter$InitMethodAdapter",
+          "com.newrelic.agent.instrumentation.tracing.TraceClassVisitor$3",
+          "com.newrelic.agent.instrumentation.weaver.RegisterClosableInstrumentationVisitor$1",
+          "com.newrelic.agent.instrumentation.context.ClassLoaderClassTransformer$ClassLoaderClassVisitor$1",
+          "com.newrelic.agent.instrumentation.GenericClassAdapter$InitMethod",
+          "com.newrelic.agent.instrumentation.weaver.LogApiCallsVisitor$1",
+          "com.newrelic.agent.instrumentation.context.ClassLoaderClassTransformer$ClassLoaderClassVisitor$2",
+          "com.newrelic.agent.instrumentation.tracing.TraceClassVisitor$5",
+          "com.newrelic.agent.instrumentation.tracing.FlyweightTraceMethodVisitor",
+          "com.newrelic.agent.instrumentation.tracing.TraceMethodVisitor",
+          "com.newrelic.agent.instrumentation.tracing.TraceClassVisitor$4",
+          "com.newrelic.agent.instrumentation.tracing.TraceClassVisitor$1",
+          "com.newrelic.agent.instrumentation.tracing.TraceClassVisitor$7",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$9",
+          "com.newrelic.agent.instrumentation.context.CurrentTransactionRewriter$RewriteVisitor",
+          "com.newrelic.agent.instrumentation.tracing.TraceClassVisitor$2"
+        ],
+        "com.newrelic.agent.stats.StatsImpl": [
+          "com.newrelic.agent.DummyTransaction$DummyStats"
+        ],
+        "com.newrelic.agent.jmx.metrics.DataSourceJmxMetricGenerator": [
+          "com.newrelic.agent.jmx.metrics.DataSourceJmxMetricGenerator$6",
+          "com.newrelic.agent.jmx.metrics.DataSourceJmxMetricGenerator$5",
+          "com.newrelic.agent.jmx.metrics.DataSourceJmxMetricGenerator$4",
+          "com.newrelic.agent.jmx.metrics.DataSourceJmxMetricGenerator$1",
+          "com.newrelic.agent.jmx.metrics.DataSourceJmxMetricGenerator$2",
+          "com.newrelic.agent.jmx.metrics.DataSourceJmxMetricGenerator$3",
+          "com.newrelic.agent.jmx.metrics.DataSourceJmxMetricGenerator$9",
+          "com.newrelic.agent.jmx.metrics.DataSourceJmxMetricGenerator$8",
+          "com.newrelic.agent.jmx.metrics.DataSourceJmxMetricGenerator$7",
+          "com.newrelic.agent.jmx.metrics.DataSourceJmxMetricGenerator$10"
+        ],
+        "com.newrelic.agent.instrumentation.yaml.MetricNameFormatFactory": [
+          "com.newrelic.agent.instrumentation.yaml.PointCutFactory$ClassMethodNameFormatDescriptor",
+          "com.newrelic.agent.instrumentation.yaml.SimpleMetricNameFormatFactory"
+        ],
+        "com.newrelic.agent.instrumentation.context.TraceDetailsList": [
+          "com.newrelic.agent.instrumentation.webservices.RestAnnotationVisitor$TraceList",
+          "com.newrelic.agent.instrumentation.context.InstrumentationContext"
+        ],
+        "java.util.concurrent.Callable": [
+          "com.newrelic.agent.database.CachingDatabaseStatementParser$1",
+          "com.newrelic.agent.utilization.UtilizationService$UtilizationTask"
+        ],
+        "com.newrelic.agent.instrumentation.weaver.WeavingClassTransformer": [
+          "com.newrelic.agent.instrumentation.weaver.ClassWeaverService$BootstrapClassTransformer"
+        ],
+        "com.newrelic.agent.jmx.create.JmxAttributeFilter": [
+          "com.newrelic.agent.jmx.values.WeblogicJmxValues$1"
+        ],
+        "com.newrelic.agent.normalization.Normalizer": [
+          "com.newrelic.agent.normalization.NormalizerFactory$1",
+          "com.newrelic.agent.normalization.NormalizerFactory$2",
+          "com.newrelic.agent.normalization.NormalizerImpl",
+          "com.newrelic.agent.normalization.NormalizerFactory$UrlNormalizer"
+        ],
+        "java.io.FileFilter": [
+          "com.newrelic.agent.extension.ExtensionFileFilter",
+          "com.newrelic.agent.extension.MultipleExtensionFileFilter"
+        ],
+        "com.newrelic.agent.instrumentation.TracerFactoryPointCut": [
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.Struts2ActionPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.JasperCompilerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.MethodInvokerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.SpringPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.AbstractPortletPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.glassfish.Glassfish4StartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.AbstractSolrPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.XmlRpcPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.RuntimeExecPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.net.PosterOutputStreamPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.DataSourcePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandlerMethodInvoker3PointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.ConcurrentCallablePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayTemplateLoaderPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.TransactionHolderDispatcherPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.faces.PhasePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.amazon.AbstractJetS3tPointCut",
+          "com.newrelic.agent.tracers.ExternalComponentPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayContinuationPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.ConnectionPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.BaseScalaTemplatePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.MathCSConcurrentPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.XWork2ResultPC",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.CreateInvokerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.AnormResultSetParsePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.PromiseTimeoutPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.cxf.CXFPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.net.HttpInputStreamPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.amazon.AmazonS3ConectionPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.cxf.ClientProxyPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayControllerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.AbstractPreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.PathMapperPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.HouseKeeperThreadPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.jruby.NR_ONLY_JRubyTracerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.QuartzJobPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.cxf.CXFInvokerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.SqlStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.StrutsActionPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.jersey.JerseyResourcePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayDispatcherPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.ClassMethodNameFormatPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.QuartzSystemPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaFuturePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.faces.LifecyclePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.net.HttpURLConnectionPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyDispatcherPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.ProcessPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandlerInterceptorPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.SqlDriverPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.StrutsActionConfigMatcherPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.SpringDispatcherPointCut",
+          "com.newrelic.agent.errors.AbstractExceptionHandlerPointCut"
+        ],
+        "com.newrelic.agent.database.DefaultDatabaseStatementParser$StatementFactory": [
+          "com.newrelic.agent.database.DefaultDatabaseStatementParser$SelectVariableStatementFactory",
+          "com.newrelic.agent.database.DefaultDatabaseStatementParser$InnerSelectStatementFactory",
+          "com.newrelic.agent.database.DefaultDatabaseStatementParser$DefaultStatementFactory"
+        ],
+        "java.io.Closeable": [
+          "com.newrelic.agent.samplers.SamplerServiceImpl$2",
+          "com.newrelic.agent.config.JarResource"
+        ],
+        "com.newrelic.api.agent.TracedMethod": [
+          "com.newrelic.agent.bridge.TracedMethod",
+          "com.newrelic.api.agent.NoOpAgent$1"
+        ],
+        "com.newrelic.agent.extension.ExtensionParsers$ExtensionParser": [
+          "com.newrelic.agent.extension.ExtensionParsers$2",
+          "com.newrelic.agent.extension.ExtensionParsers$3"
+        ],
+        "com.newrelic.agent.tracers.AbstractTracerFactory": [
+          "com.newrelic.agent.instrumentation.yaml.CustomTracerFactory",
+          "com.newrelic.agent.instrumentation.pointcuts.database.CreatePreparedStatementTracerFactory",
+          "com.newrelic.agent.tracers.IgnoreTransactionTracerFactory",
+          "com.newrelic.agent.instrumentation.PointCut$1",
+          "com.newrelic.agent.tracers.jasper.GeneratorVisitBodyTracerFactory",
+          "com.newrelic.agent.tracers.jasper.GeneratorVisitTracerFactory",
+          "com.newrelic.agent.tracers.servlet.ServletAsyncTransactionStateImpl$AsyncTracerFactory",
+          "com.newrelic.agent.instrumentation.pointcuts.amazon.AmazonS3ConectionPointCut$BasicTracerFactory"
+        ],
+        "java.io.OutputStreamWriter": [
+          "com.newrelic.agent.transport.DataSenderWriter"
+        ],
+        "java.lang.Cloneable": [
+          "com.newrelic.agent.environment.Environment",
+          "com.newrelic.agent.stats.StatsBase",
+          "com.newrelic.agent.service.module.Jar"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.database.ConnectionFactory": [
+          "com.newrelic.agent.instrumentation.pointcuts.database.SqlDriverPointCut$DriverConnectionFactory",
+          "com.newrelic.agent.instrumentation.pointcuts.database.DataSourcePointCut$AConnectionFactory"
+        ],
+        "com.newrelic.agent.jmx.create.JmxGet": [
+          "com.newrelic.agent.jmx.create.JmxMultiMBeanGet",
+          "com.newrelic.agent.jmx.create.JmxSingleMBeanGet"
+        ],
+        "com.newrelic.agent.config.TransactionTracerConfig": [
+          "com.newrelic.agent.config.TransactionTracerConfigImpl"
+        ],
+        "com.newrelic.agent.service.NoopService": [
+          "com.newrelic.agent.samplers.NoopSamplerService"
+        ],
+        "com.newrelic.agent.jmx.create.JmxObject": [
+          "com.newrelic.agent.jmx.create.JmxInvoke",
+          "com.newrelic.agent.jmx.create.JmxGet"
+        ],
+        "com.newrelic.agent.jmx.create.JmxMetricModifier": [
+          "com.newrelic.agent.jmx.values.KafkaConsumerJmxValues$1",
+          "com.newrelic.agent.jmx.values.KafkaProducerJmxValues$1"
+        ],
+        "java.lang.Exception": [
+          "com.newrelic.agent.config.ConfigurationException",
+          "com.newrelic.agent.util.JSONException",
+          "com.newrelic.agent.deadlock.DeadlockException",
+          "com.newrelic.agent.instrumentation.methodmatchers.InvalidMethodDescriptor",
+          "com.newrelic.agent.MaintenanceError",
+          "com.newrelic.agent.extension.util.XmlException",
+          "com.newrelic.agent.transport.HttpError",
+          "com.newrelic.agent.TracerFactoryException",
+          "com.newrelic.agent.transaction.UnmodifiableTransactionNameException",
+          "com.newrelic.agent.extension.jaxb.UnmarshalException",
+          "com.newrelic.agent.jmx.UnknownStatsTypeException",
+          "com.newrelic.agent.ServerCommandException",
+          "com.newrelic.agent.config.LabelsConfigImpl$LabelParseException",
+          "com.newrelic.agent.IgnoreSilentlyException",
+          "com.newrelic.agent.MetricDataException",
+          "com.newrelic.agent.commands.CommandException",
+          "com.newrelic.agent.LicenseException"
+        ],
+        "java.lang.RuntimeException": [
+          "com.newrelic.agent.tracers.RetryException",
+          "com.newrelic.agent.tracers.SkipTracerException",
+          "com.newrelic.agent.instrumentation.StopProcessingException",
+          "com.newrelic.agent.stats.InvalidStatsException",
+          "com.newrelic.agent.instrumentation.weaver.SkipTransformException"
+        ],
+        "com.newrelic.agent.tracers.IOTracer": [
+          "com.newrelic.agent.instrumentation.pointcuts.net.SocketInputStreamPointCut$SocketInputStreamTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.net.HttpURLConnectionTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.net.PosterOutputStreamPointCut$HttpOutputStreamTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.net.HttpInputStreamPointCut$HttpInputStreamTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.XmlRpcPointCut$XmlRpcTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.HttpCommonsTracer"
+        ],
+        "com.newrelic.agent.profile.ProfilingTaskController": [
+          "com.newrelic.agent.profile.XrayCpuTimeController",
+          "com.newrelic.agent.profile.AbstractController"
+        ],
+        "com.newrelic.bootstrap.EmbeddedJarFiles": [
+          "com.newrelic.bootstrap.EmbeddedJarFilesImpl"
+        ],
+        "java.lang.Enum": [
+          "com.newrelic.agent.bridge.datastore.DatastoreVendor",
+          "com.newrelic.agent.service.ServiceState",
+          "com.newrelic.api.agent.HeaderType",
+          "com.newrelic.agent.jmx.metrics.EjbPoolJmxMetricGenerator",
+          "com.newrelic.agent.TransactionErrorPriority",
+          "com.newrelic.agent.jmx.metrics.JtaJmxMetricGenerator",
+          "com.newrelic.agent.jmx.metrics.JmxAction",
+          "com.newrelic.agent.jmx.metrics.DataSourceJmxMetricGenerator",
+          "com.newrelic.agent.install.SelfInstaller$OS",
+          "com.newrelic.agent.jmx.metrics.JMXMetricType",
+          "com.newrelic.agent.stats.ApdexPerfZone",
+          "com.newrelic.agent.install.AppServerIdentifier$AppServerType",
+          "com.newrelic.agent.jmx.metrics.EjbTransactionJmxMetricGenerator",
+          "com.newrelic.api.agent.ApplicationNamePriority",
+          "com.newrelic.api.agent.TransactionNamePriority",
+          "com.newrelic.agent.jmx.metrics.KafkaMetricGenerator",
+          "com.newrelic.agent.extension.ExtensionFileTypes",
+          "com.newrelic.agent.instrumentation.NonUrlClassLoaders",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayTransactionStateImpl$State",
+          "com.newrelic.agent.jmx.JmxType",
+          "com.newrelic.agent.database.DatabaseVendor",
+          "com.newrelic.agent.service.ServiceTiming$Type",
+          "com.newrelic.agent.database.RecordSql",
+          "com.newrelic.agent.tracers.servlet.ServletAsyncTransactionStateImpl$State",
+          "com.newrelic.agent.instrumentation.InstrumentationType",
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator",
+          "com.newrelic.agent.profile.ThreadType$BasicThreadType",
+          "com.newrelic.api.agent.weaver.MatchType",
+          "com.newrelic.agent.logging.LogbackLevel",
+          "com.newrelic.agent.bridge.TransactionNamePriority",
+          "com.newrelic.agent.command.XmlInstrumentOptions"
+        ],
+        "com.newrelic.agent.CrossProcessTransactionState": [
+          "com.newrelic.agent.CrossProcessTransactionStateImpl",
+          "com.newrelic.agent.DummyTransaction$DummyCrossProcessState"
+        ],
+        "com.newrelic.api.agent.MetricAggregator": [
+          "com.newrelic.api.agent.NoOpAgent$5",
+          "com.newrelic.agent.bridge.NoOpMetricAggregator",
+          "com.newrelic.agent.stats.AbstractMetricAggregator"
+        ],
+        "com.newrelic.agent.instrumentation.PointCut": [
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyPortPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaAbstractPromiseCompletePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.tomcat.PrepareResponsePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpRequestBuilderPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.SolrCorePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.ParameterizedPreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.Play2RequestPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.glassfish.Glassfish2StartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.TransactionHolderInitPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.jboss.Jboss7StartupPointCut",
+          "com.newrelic.agent.instrumentation.DefaultPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.jboss.Jboss56StartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.tomcat.TomcatStartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.resin.ResinStartupPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpClientRequestPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.TaggingInvokerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.akka.AkkaPromiseCompletePointCut",
+          "com.newrelic.agent.instrumentation.TracerFactoryPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.jetty.JettyStartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.CreatePreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.tomcat.FinishResponsePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.glassfish.Glassfish3StartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.weblogic.WeblogicStartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.akka.AkkaTransactionHolderInitPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyCompletePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.MySQLCreatePreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.Play2RoutingPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.ClearPreparedStatementParametersPointCut"
+        ],
+        "com.newrelic.agent.extension.ConfigurationConstruct": [
+          "com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor$ConstructExactClassMatcher",
+          "com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor$ConstructOrMethodMatcher",
+          "com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor$ConstructNotClassMatcher",
+          "com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor$ConstructAllMethodsMatcher",
+          "com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor$ConstructStaticMethodMatcher",
+          "com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor$ConstructExactMethodMatcher",
+          "com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor$ConstructChildClassMatcher",
+          "com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor$ConstructClassMethodNameFormatDescriptor",
+          "com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor$ConstructOrClassMatcher",
+          "com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor$ConstructInstanceMethodMatcher",
+          "com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor$ConstructAndClassMatcher",
+          "com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor$ConstructInterfaceMatcher"
+        ],
+        "com.newrelic.agent.config.SystemPropertyProvider$SystemProps": [
+          "com.newrelic.agent.config.SystemPropertyProvider$SystemProps$2",
+          "com.newrelic.agent.config.SystemPropertyProvider$SystemProps$1"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.database.ExplainPlanExecutor": [
+          "com.newrelic.agent.instrumentation.pointcuts.database.DefaultExplainPlanExecutor"
+        ],
+        "com.newrelic.api.agent.InboundHeaders": [
+          "com.newrelic.agent.tracers.AbstractCrossProcessTracer",
+          "com.newrelic.api.agent.Request",
+          "com.newrelic.agent.CrossProcessTransactionStateImpl$1",
+          "com.newrelic.agent.DeobfuscatedInboundHeaders"
+        ],
+        "com.newrelic.agent.tracers.MethodExitTracerNoSkip": [
+          "com.newrelic.agent.tracers.jasper.GeneratorVisitBodyTracerFactory$1",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaFuturePointCut$1",
+          "com.newrelic.agent.tracers.MethodExitTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayTransactionStateImpl$1",
+          "com.newrelic.agent.tracers.IgnoreTransactionTracerFactory$1",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.PromiseTimeoutPointCut$1"
+        ],
+        "com.newrelic.agent.tracers.ExternalComponentPointCut": [
+          "com.newrelic.agent.instrumentation.pointcuts.net.SocketInputStreamPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.HttpCommonsPointCut"
+        ],
+        "com.google.common.collect.ForwardingMultimap": [
+          "com.newrelic.agent.util.collect.NRMultimaps$2"
+        ],
+        "java.lang.Throwable": [
+          "com.newrelic.agent.errors.ErrorService$ReportableError"
+        ],
+        "com.newrelic.agent.tracers.TracerFactory": [
+          "com.newrelic.agent.instrumentation.TracerFactoryPointCut",
+          "com.newrelic.agent.tracers.AbstractTracerFactory"
+        ],
+        "com.newrelic.agent.bridge.Agent": [
+          "com.newrelic.agent.bridge.NoOpAgent",
+          "com.newrelic.agent.AgentImpl"
+        ],
+        "java.io.BufferedInputStream": [
+          "com.newrelic.agent.util.asm.ClassResolvers$1$1"
+        ],
+        "java.util.concurrent.Executor": [
+          "com.newrelic.agent.util.SynchronousExecutor"
+        ],
+        "com.google.common.base.Supplier": [
+          "com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher$1",
+          "com.newrelic.agent.instrumentation.context.InstrumentationContext$1",
+          "com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher$ClassMethods$1",
+          "com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcherBuilder$1",
+          "com.newrelic.agent.util.asm.AnnotationDetails$1"
+        ],
+        "com.newrelic.agent.instrumentation.classmatchers.ClassMatcher": [
+          "com.newrelic.agent.instrumentation.classmatchers.NotMatcher",
+          "com.newrelic.agent.instrumentation.classmatchers.ChildClassMatcher",
+          "com.newrelic.agent.instrumentation.classmatchers.OrClassMatcher$StringOrClassMatcher",
+          "com.newrelic.agent.instrumentation.classmatchers.InterfaceMatcher",
+          "com.newrelic.agent.instrumentation.classmatchers.NoMatchMatcher",
+          "com.newrelic.agent.instrumentation.classmatchers.ManyClassMatcher",
+          "com.newrelic.agent.instrumentation.classmatchers.AllClassesMatcher",
+          "com.newrelic.agent.instrumentation.classmatchers.ExactClassMatcher"
+        ],
+        "com.newrelic.agent.bridge.Instrumentation": [
+          "com.newrelic.agent.instrumentation.InstrumentationImpl",
+          "com.newrelic.agent.bridge.NoOpInstrumentation"
+        ],
+        "com.newrelic.agent.bridge.WebResponse": [
+          "com.newrelic.agent.Transaction$3",
+          "com.newrelic.agent.dispatchers.WebRequestDispatcher",
+          "com.newrelic.agent.bridge.NoOpWebResponse"
+        ],
+        "javax.management.StandardMBean": [
+          "com.newrelic.agent.jmx.BaseMBean"
+        ],
+        "com.newrelic.org.objectweb.asm.commons.MethodCallInlinerAdapter": [
+          "com.newrelic.agent.instrumentation.weaver.ClassWeaver$MethodMerger$2",
+          "com.newrelic.agent.instrumentation.weaver.ClassWeaver$ConstructorMerger$1",
+          "com.newrelic.agent.instrumentation.weaver.ClassWeaver$MethodMerger$1"
+        ],
+        "com.newrelic.agent.tracers.AbstractCrossProcessTracer": [
+          "com.newrelic.agent.instrumentation.pointcuts.net.HttpURLConnectionTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpClientTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.HttpCommonsTracer"
+        ],
+        "com.newrelic.agent.jmx.AbstractStatsAttributeProcessor": [
+          "com.newrelic.agent.jmx.WebSphereStatsAttributeProcessor",
+          "com.newrelic.agent.jmx.J2EEStatsAttributeProcessor"
+        ],
+        "org.json.simple.JSONStreamAware": [
+          "com.newrelic.agent.config.LabelsConfigImpl$1",
+          "com.newrelic.agent.util.JSONException",
+          "com.newrelic.agent.sql.SqlTraceImpl",
+          "com.newrelic.agent.metric.MetricName",
+          "com.newrelic.agent.environment.Environment",
+          "com.newrelic.agent.config.LabelsConfigImpl",
+          "com.newrelic.agent.stats.StatsBase",
+          "com.newrelic.agent.profile.ProfileSegment",
+          "com.newrelic.agent.profile.IProfile",
+          "com.newrelic.agent.transport.InitialSizedJsonArray",
+          "com.newrelic.agent.trace.TransactionTrace",
+          "com.newrelic.agent.errors.TracedError",
+          "com.newrelic.agent.profile.ThreadType",
+          "com.newrelic.agent.profile.ProfiledMethod",
+          "com.newrelic.agent.MetricData",
+          "com.newrelic.agent.profile.ProfileTree",
+          "com.newrelic.agent.errors.ExceptionHandlerSignature",
+          "com.newrelic.agent.profile.KeyTransactionProfile",
+          "com.newrelic.agent.service.module.Jar",
+          "com.newrelic.agent.service.analytics.AnalyticsEvent",
+          "com.newrelic.agent.trace.TransactionSegment"
+        ],
+        "com.newrelic.agent.dispatchers.DefaultDispatcher": [
+          "com.newrelic.agent.dispatchers.WebRequestDispatcher",
+          "com.newrelic.agent.dispatchers.AsyncDispatcher",
+          "com.newrelic.agent.dispatchers.OtherDispatcher"
+        ],
+        "com.newrelic.agent.bridge.CrossProcessState": [
+          "com.newrelic.agent.CrossProcessTransactionState",
+          "com.newrelic.agent.bridge.NoOpCrossProcessState"
+        ],
+        "com.newrelic.agent.util.asm.BytecodeGenProxyBuilder$LoaderMarker": [
+          "com.newrelic.agent.util.asm.BytecodeGenProxyBuilder$VariableLoaderImpl$1"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.database.DataSourcePointCut$AConnectionFactory": [
+          "com.newrelic.agent.instrumentation.pointcuts.database.DataSourcePointCut$NoArgsDataSourceConnectionFactory",
+          "com.newrelic.agent.instrumentation.pointcuts.database.DataSourcePointCut$DataSourceConnectionFactory"
+        ],
+        "com.newrelic.agent.stats.AbstractStats": [
+          "com.newrelic.agent.stats.StatsImpl",
+          "com.newrelic.agent.stats.ResponseTimeStatsImpl",
+          "com.newrelic.agent.service.analytics.TransactionEventsService$NoCallCountStats"
+        ],
+        "java.security.PrivilegedExceptionAction": [
+          "com.newrelic.agent.util.asm.ClassStructure$4",
+          "com.newrelic.agent.bridge.reflect.ClassReflection$6",
+          "com.newrelic.agent.bridge.reflect.ClassReflection$2",
+          "com.newrelic.agent.util.asm.ClassStructure$5",
+          "com.newrelic.agent.bridge.reflect.ClassReflection$3",
+          "com.newrelic.agent.bridge.reflect.ClassReflection$5",
+          "com.newrelic.agent.bridge.reflect.ClassReflection$4"
+        ],
+        "com.newrelic.agent.RPMServiceManager": [
+          "com.newrelic.agent.RPMServiceManagerImpl"
+        ],
+        "com.newrelic.agent.jmx.metrics.JmxMetric": [
+          "com.newrelic.agent.jmx.metrics.SimpleJmxMetric",
+          "com.newrelic.agent.jmx.metrics.MonotonicallyIncreasingJmxMetric"
+        ],
+        "com.newrelic.agent.util.InstrumentationWrapper": [
+          "com.newrelic.agent.instrumentation.ExtensionInstrumentation",
+          "com.newrelic.agent.InstrumentationProxy"
+        ],
+        "org.objectweb.asm.tree.FieldNode": [
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$4"
+        ],
+        "com.newrelic.agent.samplers.AbstractCPUSampler": [
+          "com.newrelic.agent.samplers.CPUHarvester",
+          "com.newrelic.agent.samplers.ProcStatCPUSampler"
+        ],
+        "com.newrelic.agent.jmx.metrics.JtaJmxMetricGenerator": [
+          "com.newrelic.agent.jmx.metrics.JtaJmxMetricGenerator$4",
+          "com.newrelic.agent.jmx.metrics.JtaJmxMetricGenerator$3",
+          "com.newrelic.agent.jmx.metrics.JtaJmxMetricGenerator$2",
+          "com.newrelic.agent.jmx.metrics.JtaJmxMetricGenerator$1",
+          "com.newrelic.agent.jmx.metrics.JtaJmxMetricGenerator$5"
+        ],
+        "java.lang.instrument.Instrumentation": [
+          "com.newrelic.agent.instrumentation.verifier.mocks.MockInstrumentation",
+          "com.newrelic.agent.util.InstrumentationWrapper"
+        ],
+        "com.newrelic.agent.TransactionApiImpl": [
+          "com.newrelic.agent.BoundTransactionApiImpl"
+        ],
+        "com.newrelic.agent.service.analytics.AnalyticsEvent": [
+          "com.newrelic.agent.service.analytics.CustomInsightsEvent",
+          "com.newrelic.agent.service.analytics.TransactionEvent"
+        ],
+        "com.newrelic.agent.tracers.jasper.Node": [
+          "com.newrelic.agent.tracers.jasper.JasperClassFactory$NodeImpl"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.database.AbstractPreparedStatementPointCut": [
+          "com.newrelic.agent.instrumentation.pointcuts.database.JTDSPreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.GenericPreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.OraclePreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.PostgresStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.MySQLPreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.SQLServerPreparedStatementPointCut"
+        ],
+        "org.objectweb.asm.MethodVisitor": [
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$15",
+          "com.newrelic.agent.instrumentation.spring.SpringAnnotationVisitor$2$2",
+          "com.newrelic.agent.instrumentation.weaver.MergeMethodVisitor$1",
+          "com.newrelic.agent.util.asm.ClassStructure$1$1",
+          "com.newrelic.agent.instrumentation.context.CurrentTransactionRewriter$2$1",
+          "com.newrelic.agent.instrumentation.context.InstrumentationContext$2$1",
+          "com.newrelic.org.objectweb.asm.commons.MethodCallInlinerAdapter$MergeFrameAdapter",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$2",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$13$1",
+          "com.newrelic.agent.instrumentation.context.InstrumentationContextManager$3$2$1",
+          "com.newrelic.agent.instrumentation.webservices.RestAnnotationVisitor$4$2",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$1$1",
+          "com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher$ClassMethods$2",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$12$1",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationPackage$GatherClassMethodMatchers$1",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$3",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$11$1",
+          "com.newrelic.agent.profile.MethodLineNumberMatcher$LineNumberClassVisitor$1",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$14$1",
+          "com.newrelic.agent.util.ClassUtils$1$1",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$TraceAnnotationVisitor",
+          "com.newrelic.agent.instrumentation.context.TraceMatchVisitor$1$1",
+          "com.newrelic.agent.instrumentation.weaver.ReferencesVisitor$1"
+        ],
+        "com.newrelic.agent.tracers.ExternalComponentTracer": [
+          "com.newrelic.agent.instrumentation.pointcuts.net.SocketInputStreamPointCut$SocketInputStreamTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.net.PosterOutputStreamPointCut$HttpOutputStreamTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.net.HttpInputStreamPointCut$HttpInputStreamTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.XmlRpcPointCut$XmlRpcTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.net.HttpURLConnectionPointCut$2"
+        ],
+        "java.io.IOException": [
+          "com.newrelic.agent.util.asm.BenignClassReadException",
+          "com.newrelic.agent.util.asm.MissingResourceException"
+        ],
+        "com.newrelic.agent.service.analytics.InsightsService": [
+          "com.newrelic.agent.service.analytics.InsightsServiceImpl"
+        ],
+        "com.newrelic.agent.transport.IDataSenderFactory": [
+          "com.newrelic.agent.transport.DataSenderFactory$DefaultDataSenderFactory"
+        ],
+        "com.newrelic.agent.tracers.AbstractExternalComponentTracer": [
+          "com.newrelic.agent.tracers.AbstractCrossProcessTracer",
+          "com.newrelic.agent.tracers.ExternalComponentTracer"
+        ],
+        "com.newrelic.agent.TransactionErrorPriority": [
+          "com.newrelic.agent.TransactionErrorPriority$1",
+          "com.newrelic.agent.TransactionErrorPriority$3",
+          "com.newrelic.agent.TransactionErrorPriority$2"
+        ],
+        "com.newrelic.api.agent.Response": [
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.DelegatingNettyHttpResponse",
+          "com.newrelic.agent.instrumentation.api.DefaultApiImplementations$DefaultResponse",
+          "com.newrelic.agent.Transaction$5",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayDispatcherPointCut$DelegatingPlayHttpResponse"
+        ],
+        "com.newrelic.agent.samplers.SamplerService": [
+          "com.newrelic.agent.samplers.NoopSamplerService",
+          "com.newrelic.agent.samplers.SamplerServiceImpl"
+        ],
+        "com.google.common.base.Predicate": [
+          "com.newrelic.agent.attributes.DestinationPredicate",
+          "com.newrelic.agent.extension.ExtensionService$1",
+          "com.newrelic.agent.instrumentation.weaver.Verifier$2"
+        ],
+        "org.apache.commons.logging.Log": [
+          "com.newrelic.agent.logging.ApacheCommonsAdaptingLogFactory$LogAdapter"
+        ],
+        "java.util.concurrent.ScheduledExecutorService": [
+          "com.newrelic.agent.util.SafeWrappers$2"
+        ],
+        "com.newrelic.agent.browser.BrowserService": [
+          "com.newrelic.agent.browser.BrowserServiceImpl"
+        ],
+        "com.newrelic.agent.config.JmxConfig": [
+          "com.newrelic.agent.config.JmxConfigImpl"
+        ],
+        "com.newrelic.agent.jmx.BaseMBean": [
+          "com.newrelic.agent.jmx.AgentMBeanImpl"
+        ],
+        "com.newrelic.agent.instrumentation.AbstractClassTransformer": [
+          "com.newrelic.agent.instrumentation.InterfaceMixinClassTransformer"
+        ],
+        "java.util.ArrayList": [
+          "com.newrelic.org.apache.commons.collections.ArrayStack"
+        ],
+        "com.newrelic.agent.config.CrossProcessConfig": [
+          "com.newrelic.agent.config.CrossProcessConfigImpl"
+        ],
+        "com.newrelic.agent.commands.Command": [
+          "com.newrelic.agent.commands.AbstractCommand",
+          "com.newrelic.agent.commands.PingCommand"
+        ],
+        "com.newrelic.agent.ServerCommandException": [
+          "com.newrelic.agent.InternalLimitExceeded",
+          "com.newrelic.agent.ForceRestartException",
+          "com.newrelic.agent.ForceDisconnectException"
+        ],
+        "org.objectweb.asm.commons.Remapper": [
+          "com.newrelic.agent.instrumentation.weaver.ClassWeaver$1",
+          "com.newrelic.agent.extension.DependencyRemapper"
+        ],
+        "com.newrelic.agent.config.ErrorCollectorConfig": [
+          "com.newrelic.agent.config.ErrorCollectorConfigImpl"
+        ],
+        "com.newrelic.agent.instrumentation.classmatchers.ClassAndMethodMatcher": [
+          "com.newrelic.agent.instrumentation.classmatchers.TraceClassAndMethodMatcher",
+          "com.newrelic.agent.instrumentation.PointCut",
+          "com.newrelic.agent.instrumentation.classmatchers.DefaultClassAndMethodMatcher"
+        ],
+        "com.newrelic.agent.instrumentation.tracing.DelegatingTraceDetails": [
+          "com.newrelic.agent.instrumentation.tracing.Annotation$2",
+          "com.newrelic.agent.instrumentation.custom.ExtensionClassAndMethodMatcher$1"
+        ],
+        "com.newrelic.agent.util.asm.ClassResolver": [
+          "com.newrelic.agent.util.asm.ClassResolvers$1",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationPackage",
+          "com.newrelic.agent.util.asm.ClassResolvers$3",
+          "com.newrelic.agent.util.asm.ClassResolvers$2",
+          "com.newrelic.agent.util.asm.ClassResolvers$4"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.amazon.AmazonS3ConectionPointCut$BasicTracerFactory": [
+          "com.newrelic.agent.instrumentation.pointcuts.amazon.AmazonS3ConectionPointCut$BucketTracerFactory"
+        ],
+        "com.newrelic.agent.profile.IProfile": [
+          "com.newrelic.agent.profile.Profile",
+          "com.newrelic.agent.profile.KeyTransactionProfile"
+        ],
+        "org.objectweb.asm.commons.RemappingMethodAdapter": [
+          "com.newrelic.org.objectweb.asm.commons.MethodCallInlinerAdapter$InliningAdapter"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.MethodInvokerPointCut": [
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandleInternalInvokerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandlerMethodInvokerPointCut"
+        ],
+        "com.newrelic.agent.Transaction": [
+          "com.newrelic.agent.DummyTransaction"
+        ],
+        "com.newrelic.agent.instrumentation.AbstractTracingMethodAdapter": [
+          "com.newrelic.agent.instrumentation.ReflectionStyleClassMethodAdapter",
+          "com.newrelic.agent.instrumentation.InvocationHandlerTracingMethodAdapter"
+        ],
+        "com.newrelic.agent.bridge.PublicApi": [
+          "com.newrelic.api.agent.NewRelicApiImplementation",
+          "com.newrelic.agent.bridge.NoOpPublicApi"
+        ],
+        "com.newrelic.agent.database.DatabaseVendor": [
+          "com.newrelic.agent.database.DatabaseVendor$1",
+          "com.newrelic.agent.database.DatabaseVendor$2",
+          "com.newrelic.agent.database.DatabaseVendor$3"
+        ],
+        "com.newrelic.agent.jmx.metrics.EjbTransactionJmxMetricGenerator": [
+          "com.newrelic.agent.jmx.metrics.EjbTransactionJmxMetricGenerator$1",
+          "com.newrelic.agent.jmx.metrics.EjbTransactionJmxMetricGenerator$2",
+          "com.newrelic.agent.jmx.metrics.EjbTransactionJmxMetricGenerator$4",
+          "com.newrelic.agent.jmx.metrics.EjbTransactionJmxMetricGenerator$3"
+        ],
+        "com.newrelic.agent.attributes.AttributesNode": [
+          "com.newrelic.agent.attributes.RootConfigAttributesNode"
+        ],
+        "com.newrelic.agent.util.BootstrapLoader": [
+          "com.newrelic.agent.util.BootstrapLoader$BootstrapLoaderImpl",
+          "com.newrelic.agent.util.BootstrapLoader$IBMBootstrapLoader",
+          "com.newrelic.agent.util.BootstrapLoader$1"
+        ],
+        "com.newrelic.agent.application.AbstractApplicationNamingPolicy": [
+          "com.newrelic.agent.application.HigherPriorityApplicationNamingPolicy",
+          "com.newrelic.agent.application.SameOrHigherPriorityApplicationNamingPolicy"
+        ],
+        "com.newrelic.agent.tracers.MethodExitTracer": [
+          "com.newrelic.agent.instrumentation.pointcuts.net.HttpURLConnectionPointCut$1",
+          "com.newrelic.agent.instrumentation.pointcuts.container.glassfish.Glassfish4StartUpPointCut$1",
+          "com.newrelic.agent.instrumentation.pointcuts.database.CreatePreparedStatementTracerFactory$CreatePreparedStatementTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.StrutsActionConfigMatcherPointCut$StrutsActionConfigMatcherTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.PathMapperPointCut$PathMapperTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.JmxConfigurationPointCut$1",
+          "com.newrelic.agent.instrumentation.pointcuts.database.SqlDriverPointCut$ConnectionErrorTracer"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.amazon.AbstractJetS3tPointCut": [
+          "com.newrelic.agent.instrumentation.pointcuts.amazon.JetS3tBucketPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.amazon.JetS3tPointCut"
+        ],
+        "com.newrelic.agent.errors.TracedError": [
+          "com.newrelic.agent.errors.ThrowableError",
+          "com.newrelic.agent.errors.DeadlockTraceError",
+          "com.newrelic.agent.errors.HttpTracedError"
+        ],
+        "com.google.common.base.Function": [
+          "com.newrelic.agent.instrumentation.webservices.RestAnnotationVisitor$3"
+        ],
+        "com.newrelic.agent.logging.IAgentLogManager": [
+          "com.newrelic.agent.logging.LogbackLogManager"
+        ],
+        "com.newrelic.agent.stats.StatsWork": [
+          "com.newrelic.agent.stats.RecordResponseTimeMetric",
+          "com.newrelic.agent.transaction.MergeStatsEngineResolvingScope",
+          "com.newrelic.agent.stats.MergeStatsEngine",
+          "com.newrelic.agent.stats.RecordMetric",
+          "com.newrelic.agent.stats.IncrementCounter",
+          "com.newrelic.agent.api.AgentAPI$1"
+        ],
+        "com.newrelic.agent.instrumentation.tracing.TraceDetails": [
+          "com.newrelic.agent.instrumentation.tracing.DelegatingTraceDetails",
+          "com.newrelic.agent.instrumentation.tracing.TraceDetailsBuilder$DefaultTraceDetails"
+        ],
+        "ch.qos.logback.classic.PatternLayout": [
+          "com.newrelic.agent.logging.CustomPatternLogbackLayout"
+        ],
+        "com.newrelic.agent.extension.jaxb.UnmarshallerFactory$Setter": [
+          "com.newrelic.agent.extension.jaxb.UnmarshallerFactory$AttributeSetter",
+          "com.newrelic.agent.extension.jaxb.UnmarshallerFactory$4",
+          "com.newrelic.agent.extension.jaxb.UnmarshallerFactory$ChildSetter",
+          "com.newrelic.agent.extension.jaxb.UnmarshallerFactory$3"
+        ],
+        "com.newrelic.agent.config.ThreadProfilerConfig": [
+          "com.newrelic.agent.config.ThreadProfilerConfigImpl"
+        ],
+        "com.newrelic.agent.transaction.TransactionCache": [
+          "com.newrelic.agent.DummyTransaction$DummyTransactionCache"
+        ],
+        "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator": [
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator$3",
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator$8",
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator$11",
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator$2",
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator$12",
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator$9",
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator$1",
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator$13",
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator$7",
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator$6",
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator$5",
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator$4",
+          "com.newrelic.agent.jmx.metrics.ServerJmxMetricGenerator$10"
+        ],
+        "com.newrelic.agent.stats.StatsEngine": [
+          "com.newrelic.agent.stats.StatsEngineImpl"
+        ],
+        "com.newrelic.agent.TransactionListener": [
+          "com.newrelic.agent.service.analytics.TransactionEventsService",
+          "com.newrelic.agent.errors.ErrorService$MyTransactionListener",
+          "com.newrelic.agent.service.analytics.InsightsServiceImpl$3",
+          "com.newrelic.agent.trace.TransactionTraceService",
+          "com.newrelic.agent.sql.SqlTraceServiceImpl",
+          "com.newrelic.agent.profile.KeyTransactionProfile"
+        ],
+        "ch.qos.logback.classic.pattern.ClassicConverter": [
+          "com.newrelic.agent.logging.ThreadIdLogbackConverter",
+          "com.newrelic.agent.logging.ProcessIdLogbackConverter",
+          "com.newrelic.agent.logging.MarkerLevelConverter"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaTry": [
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaSuccess",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaFailure"
+        ],
+        "com.newrelic.agent.stats.AbstractMetricAggregator": [
+          "com.newrelic.agent.Transaction$2",
+          "com.newrelic.agent.DummyTransaction$1",
+          "com.newrelic.agent.service.StatsServiceMetricAggregator"
+        ],
+        "com.newrelic.agent.profile.ProfilerControl": [
+          "com.newrelic.agent.profile.ProfilerService"
+        ],
+        "com.newrelic.agent.reinstrument.RemoteInstrumentationService": [
+          "com.newrelic.agent.reinstrument.RemoteInstrumentationServiceImpl"
+        ],
+        "com.newrelic.agent.jmx.metrics.JmxFrameworkValues": [
+          "com.newrelic.agent.jmx.values.JettyJmxMetrics",
+          "com.newrelic.agent.jmx.values.SolrJmxValues",
+          "com.newrelic.agent.jmx.values.WeblogicJmxValues",
+          "com.newrelic.agent.jmx.values.Jboss56JmxValues",
+          "com.newrelic.agent.jmx.values.KafkaProducerJmxValues",
+          "com.newrelic.agent.jmx.values.KafkaConsumerJmxValues",
+          "com.newrelic.agent.jmx.values.WebSphereJmxValues",
+          "com.newrelic.agent.jmx.values.TomcatJmxValues",
+          "com.newrelic.agent.jmx.values.ResinJmxValues",
+          "com.newrelic.agent.jmx.values.Glassfish2JmxValues",
+          "com.newrelic.agent.jmx.values.GlassfishJmxValues",
+          "com.newrelic.agent.jmx.values.JavaLangJmxMetrics",
+          "com.newrelic.agent.jmx.values.Jboss7UpJmxValues",
+          "com.newrelic.agent.jmx.values.WebSphere7JmxValues"
+        ],
+        "java.util.concurrent.ThreadFactory": [
+          "com.newrelic.agent.util.DefaultThreadFactory"
+        ],
+        "com.newrelic.agent.stats.ResponseTimeStats": [
+          "com.newrelic.agent.stats.ResponseTimeStatsImpl"
+        ],
+        "com.newrelic.agent.sql.SqlTracerAggregator": [
+          "com.newrelic.agent.sql.SqlTracerAggregatorImpl"
+        ],
+        "com.newrelic.agent.browser.IBrowserConfig": [
+          "com.newrelic.agent.browser.BrowserConfig"
+        ],
+        "com.newrelic.api.agent.Request": [
+          "com.newrelic.agent.instrumentation.api.DefaultApiImplementations$DefaultRequest",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayDispatcherPointCut$DelegatingPlayHttpRequest",
+          "com.newrelic.agent.Transaction$4",
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.DelegatingNettyHttpRequest"
+        ],
+        "com.newrelic.agent.HarvestService": [
+          "com.newrelic.agent.HarvestServiceImpl"
+        ],
+        "java.lang.Error": [
+          "com.newrelic.agent.util.AgentError"
+        ],
+        "java.util.Iterator": [
+          "com.newrelic.agent.service.analytics.FixedSizeArrayList$1"
+        ],
+        "com.newrelic.agent.stats.StatsBase": [
+          "com.newrelic.agent.stats.ApdexStats",
+          "com.newrelic.agent.stats.AbstractStats$1",
+          "com.newrelic.agent.stats.CountStats"
+        ],
+        "com.newrelic.api.agent.Transaction": [
+          "com.newrelic.agent.bridge.Transaction",
+          "com.newrelic.api.agent.NoOpAgent$2"
+        ],
+        "com.newrelic.agent.sql.SqlTraceService": [
+          "com.newrelic.agent.sql.SqlTraceServiceImpl"
+        ],
+        "java.security.PrivilegedAction": [
+          "com.newrelic.agent.bridge.reflect.ClassReflection$1",
+          "com.newrelic.agent.logging.LogbackLogger$1"
+        ],
+        "com.newrelic.agent.bridge.StatusCodePolicy": [
+          "com.newrelic.agent.dispatchers.WebRequestDispatcher$2",
+          "com.newrelic.agent.dispatchers.WebRequestDispatcher$3",
+          "com.newrelic.agent.dispatchers.WebRequestDispatcher$1"
+        ],
+        "com.newrelic.agent.profile.ThreadType": [
+          "com.newrelic.agent.profile.ThreadType$BasicThreadType"
+        ],
+        "com.newrelic.agent.stats.StatsService": [
+          "com.newrelic.agent.instrumentation.verifier.mocks.MockStatsService",
+          "com.newrelic.agent.service.ServiceManagerImpl$InitialStatsService",
+          "com.newrelic.agent.stats.StatsServiceImpl"
+        ],
+        "com.newrelic.agent.config.BaseConfig": [
+          "com.newrelic.agent.config.ErrorCollectorConfigImpl",
+          "com.newrelic.agent.browser.BrowserConfig",
+          "com.newrelic.agent.config.JarCollectorConfigImpl",
+          "com.newrelic.agent.config.ClassTransformerConfigImpl",
+          "com.newrelic.agent.config.ThreadProfilerConfigImpl",
+          "com.newrelic.agent.config.StripExceptionConfigImpl",
+          "com.newrelic.agent.config.BrowserMonitoringConfigImpl",
+          "com.newrelic.agent.config.CircuitBreakerConfig",
+          "com.newrelic.agent.config.ReinstrumentConfigImpl",
+          "com.newrelic.agent.config.JmxConfigImpl",
+          "com.newrelic.agent.config.TransactionTracerConfigImpl",
+          "com.newrelic.agent.config.SqlTraceConfigImpl",
+          "com.newrelic.agent.config.CrossProcessConfigImpl",
+          "com.newrelic.agent.config.AgentConfigImpl"
+        ],
+        "org.objectweb.asm.commons.GeneratorAdapter": [
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$5",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$10$1",
+          "com.newrelic.agent.instrumentation.weaver.FixLoadClassMethodAdapter",
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor$6"
+        ],
+        "com.newrelic.agent.TransactionState": [
+          "com.newrelic.agent.DummyTransaction$DummyTransactionState",
+          "com.newrelic.agent.TransactionStateImpl"
+        ],
+        "com.newrelic.agent.config.KeyTransactionConfig": [
+          "com.newrelic.agent.config.KeyTransactionConfigImpl"
+        ],
+        "com.newrelic.agent.instrumentation.weaver.ClassStructureResolver": [
+          "com.newrelic.agent.instrumentation.weaver.AgentClassStructureResolver"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.database.DefaultExplainPlanExecutor": [
+          "com.newrelic.agent.instrumentation.pointcuts.database.PreparedStatementExplainPlanExecutor"
+        ],
+        "com.newrelic.agent.xray.IXRaySessionService": [
+          "com.newrelic.agent.xray.XRaySessionService"
+        ],
+        "com.newrelic.agent.command.XmlInstrumentOptions": [
+          "com.newrelic.agent.command.XmlInstrumentOptions$1",
+          "com.newrelic.agent.command.XmlInstrumentOptions$2"
+        ],
+        "com.newrelic.agent.instrumentation.weaver.WeavedClassInfo": [
+          "com.newrelic.agent.instrumentation.weaver.InstrumentationClassVisitor"
+        ],
+        "com.newrelic.agent.extension.Extension": [
+          "com.newrelic.agent.extension.YamlExtension",
+          "com.newrelic.agent.extension.XmlExtension"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.scala.Either": [
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaLeft",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaRight"
+        ],
+        "com.newrelic.agent.tracers.DatabaseTracer": [
+          "com.newrelic.agent.instrumentation.pointcuts.database.CreatePreparedStatementTracerFactory$CreatePreparedStatementTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.database.SqlStatementTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.database.SqlDriverPointCut$ConnectionErrorTracer",
+          "com.newrelic.agent.instrumentation.pointcuts.database.DataSourcePointCut$ConnectionTracer"
+        ],
+        "com.newrelic.agent.stats.SimpleStatsEngine": [
+          "com.newrelic.agent.DummyTransaction$DummySimpleStatsEngine"
+        ],
+        "com.newrelic.api.agent.Insights": [
+          "com.newrelic.agent.bridge.NoOpInsights",
+          "com.newrelic.api.agent.NoOpAgent$6",
+          "com.newrelic.agent.service.analytics.InsightsServiceImpl$TransactionInsights",
+          "com.newrelic.agent.DummyTransaction$DummyInsights",
+          "com.newrelic.agent.service.analytics.InsightsService"
+        ],
+        "com.newrelic.agent.service.analytics.FixedSizeArrayList": [
+          "com.newrelic.agent.service.analytics.ReserviorSampledArrayList"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.scala.TransactionHolderDispatcherPointCut": [
+          "com.newrelic.agent.instrumentation.pointcuts.akka.AkkaTransactionHolderDispatcherPointCut"
+        ],
+        "com.newrelic.agent.ITransaction": [
+          "com.newrelic.agent.Transaction"
+        ],
+        "com.newrelic.agent.samplers.MetricSampler": [
+          "com.newrelic.agent.samplers.MemorySampler",
+          "com.newrelic.agent.samplers.ThreadSampler"
+        ],
+        "com.newrelic.agent.normalization.NormalizationRule$ReplacementFormatter": [
+          "com.newrelic.agent.normalization.NormalizationRule$IgnoreReplacementFormatter",
+          "com.newrelic.agent.normalization.NormalizationRule$FancyReplacementFormatter"
+        ],
+        "com.newrelic.agent.sql.SqlTracerListener": [
+          "com.newrelic.agent.sql.DefaultSqlTracerListener",
+          "com.newrelic.agent.sql.NopSqlTracerListener"
+        ],
+        "com.newrelic.agent.util.AgentError": [
+          "com.newrelic.agent.instrumentation.weaver.InvalidReferenceException",
+          "com.newrelic.agent.instrumentation.weaver.IllegalInstructionException"
+        ],
+        "java.net.URLClassLoader": [
+          "com.newrelic.agent.instrumentation.verifier.VerificationClassLoader"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.database.StatementData": [
+          "com.newrelic.agent.instrumentation.pointcuts.database.DefaultStatementData"
+        ],
+        "com.newrelic.agent.service.ServiceManager": [
+          "com.newrelic.agent.instrumentation.verifier.mocks.MockServiceManager",
+          "com.newrelic.agent.service.ServiceManagerImpl"
+        ],
+        "com.newrelic.agent.transaction.PriorityTransactionName": [
+          "com.newrelic.agent.transaction.PriorityTransactionName$1"
+        ],
+        "com.newrelic.agent.tracers.EntryInvocationHandler": [
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyPortPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaAbstractPromiseCompletePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.tomcat.PrepareResponsePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpRequestBuilderPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.SolrCorePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.ParameterizedPreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.Play2RequestPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.glassfish.Glassfish2StartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.TransactionHolderInitPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.jboss.Jboss7StartupPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.jboss.Jboss56StartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.tomcat.TomcatStartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.resin.ResinStartupPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpClientRequestPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.TaggingInvokerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.akka.AkkaPromiseCompletePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.jetty.JettyStartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.tomcat.FinishResponsePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.glassfish.Glassfish3StartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.weblogic.WeblogicStartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.akka.AkkaTransactionHolderInitPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyCompletePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.Play2RoutingPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.ClearPreparedStatementParametersPointCut"
+        ],
+        "com.newrelic.agent.sql.SqlTrace": [
+          "com.newrelic.agent.sql.SqlTraceImpl"
+        ],
+        "org.xml.sax.ErrorHandler": [
+          "com.newrelic.agent.extension.dom.ExtensionDomParser$1",
+          "com.newrelic.agent.extension.dom.ExtensionDomParser$2"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.TransactionHolder": [
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyTransactionHolder",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.TransactionHolderDispatcherPointCut$1",
+          "com.newrelic.agent.instrumentation.pointcuts.akka.AkkaTransactionHolder",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaTransactionHolder"
+        ],
+        "com.newrelic.agent.config.SqlTraceConfig": [
+          "com.newrelic.agent.config.SqlTraceConfigImpl"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.solr.AbstractSolrPointCut": [
+          "com.newrelic.agent.instrumentation.pointcuts.solr.JmxConfigurationPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.SolrRequestHandlerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.SolrServerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.HttpCommComponentPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.SearchComponentPointCut"
+        ],
+        "com.newrelic.agent.tracers.jasper.GenerateVisitor": [
+          "com.newrelic.agent.tracers.jasper.JasperClassFactory$GenerateVisitorImpl"
+        ],
+        "com.newrelic.agent.stats.ResponseTimeStatsImpl": [
+          "com.newrelic.agent.DummyTransaction$DummyResponseTimeStats"
+        ],
+        "com.newrelic.api.agent.OutboundHeaders": [
+          "com.newrelic.agent.instrumentation.pointcuts.net.HttpURLConnectionPointCut$OutboundHeadersWrapper",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.HttpMethodBasePointCut$OutboundHeadersWrapper",
+          "com.newrelic.agent.OutboundHeadersMap",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpRequestBuilderPointCut$OutboundHeadersWrapper",
+          "com.newrelic.api.agent.Response"
+        ],
+        "com.newrelic.agent.tracers.AsyncRootTracer": [
+          "com.newrelic.agent.instrumentation.pointcuts.scala.TransactionHolderDispatcherPointCut$2"
+        ],
+        "com.newrelic.agent.tracers.jasper.RUMState": [
+          "com.newrelic.agent.tracers.jasper.AbstractRUMState"
+        ],
+        "org.objectweb.asm.ClassWriter": [
+          "com.newrelic.agent.util.asm.PatchedClassWriter",
+          "com.newrelic.agent.instrumentation.AgentClassWriter"
+        ]
+      },
+      "TypeAnnotationsScanner": {
+        "com.newrelic.agent.instrumentation.pointcuts.InterfaceMixin": [
+          "com.newrelic.agent.instrumentation.pointcuts.solr.SolrServerPointCut$SolrParams",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaTracerHolder",
+          "com.newrelic.agent.instrumentation.pointcuts.akka.AkkaTracerHolder",
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyDispatcherPointCut$HttpRequestDecoder",
+          "com.newrelic.agent.instrumentation.pointcuts.database.CreatePreparedStatementTracerFactory$DelegatingPreparedStatement",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpClientRequestPointCut$JavaAsyncHandler",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayDispatcherPointCut$PlayHttpResponse",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayDispatcherPointCut$PlayScopeParams",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.Protocol",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpClientTracer$Response",
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyTransactionHolder",
+          "com.newrelic.agent.instrumentation.pointcuts.amazon.StorageService",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.HttpMethodBasePointCut$HttpConnection",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.TransactionHolderInitPointCut$CallbackRunnable",
+          "com.newrelic.agent.instrumentation.pointcuts.database.DelegatingConnection",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.HttpMethodBase",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpClientTracer$WSResponse",
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyHttpResponse",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.HandlerDef",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayDispatcherPointCut$PlayHttpCookie",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaSuccess",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaLeft",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpClientRequestPointCut$ObjectRef",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.ModelAndView",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaRight",
+          "com.newrelic.agent.instrumentation.pointcuts.container.jetty.MultiException",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.ActionProxy",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.HttpCommonsPointCut$StatusLine",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaTry",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.TransactionHolderDispatcherPointCut$ScalaPromiseCompletingRunnable",
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyHttpRequest",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.Header",
+          "com.newrelic.agent.instrumentation.pointcuts.akka.AkkaTransactionHolderDispatcherPointCut$AkkaPromiseCompletingRunnable",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpClientRequestPointCut$AsyncHandler",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayDispatcherPointCut$PlayHttpHeader",
+          "com.newrelic.agent.instrumentation.pointcuts.database.DelegatingConnection$PoolGuardConnectionWrapper",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.URI",
+          "com.newrelic.agent.instrumentation.pointcuts.akka.AkkaTransactionHolderDispatcherPointCut$ActorCell",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayDispatcherPointCut$PlayHttpRequest",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.NameValuePair",
+          "com.newrelic.agent.instrumentation.pointcuts.akka.AkkaTransactionHolder",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaTransactionHolder",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpClientRequestPointCut$Request",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.Play2RequestPointCut$AnyContentAsFormUrlEncoded",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.TaggingInvoker",
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyHttpResponse$HttpResponseStatus",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaFailure",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.ActionInvocation"
+        ],
+        "javax.xml.bind.annotation.XmlSchema": [
+          "com.newrelic.agent.extension.beans.package-info"
+        ],
+        "java.lang.annotation.Target": [
+          "com.newrelic.agent.instrumentation.pointcuts.LoadOnBootstrap",
+          "com.newrelic.agent.instrumentation.weaver.WeaveInstrumentation",
+          "com.newrelic.agent.instrumentation.pointcuts.InterfaceMapper",
+          "com.newrelic.agent.instrumentation.weaver.WeavedMethod",
+          "com.newrelic.agent.instrumentation.context.ModifiedClassloader",
+          "com.newrelic.agent.instrumentation.pointcuts.InterfaceMixin",
+          "com.newrelic.api.agent.weaver.CatchAndLog",
+          "com.newrelic.agent.instrumentation.pointcuts.MethodMapper",
+          "com.newrelic.api.agent.weaver.SkipIfPresent",
+          "com.newrelic.api.agent.Trace",
+          "com.newrelic.api.agent.weaver.NewField",
+          "com.newrelic.agent.instrumentation.InstrumentedMethod",
+          "com.newrelic.api.agent.weaver.Weave",
+          "com.newrelic.agent.instrumentation.InstrumentedClass",
+          "com.newrelic.agent.jmx.metrics.JmxInit",
+          "com.newrelic.agent.instrumentation.pointcuts.FieldAccessor",
+          "com.newrelic.agent.instrumentation.pointcuts.PointCut"
+        ],
+        "java.lang.annotation.Retention": [
+          "com.newrelic.agent.instrumentation.pointcuts.LoadOnBootstrap",
+          "com.newrelic.agent.instrumentation.weaver.WeaveInstrumentation",
+          "com.newrelic.agent.instrumentation.pointcuts.InterfaceMapper",
+          "com.newrelic.agent.instrumentation.weaver.WeavedMethod",
+          "com.newrelic.agent.instrumentation.context.ModifiedClassloader",
+          "com.newrelic.agent.instrumentation.pointcuts.InterfaceMixin",
+          "com.newrelic.api.agent.weaver.CatchAndLog",
+          "com.newrelic.agent.instrumentation.pointcuts.MethodMapper",
+          "com.newrelic.api.agent.weaver.SkipIfPresent",
+          "com.newrelic.api.agent.Trace",
+          "com.newrelic.api.agent.weaver.NewField",
+          "com.newrelic.agent.instrumentation.InstrumentedMethod",
+          "com.newrelic.api.agent.weaver.Weave",
+          "com.newrelic.agent.instrumentation.InstrumentedClass",
+          "com.newrelic.agent.jmx.metrics.JmxInit",
+          "com.newrelic.agent.instrumentation.pointcuts.FieldAccessor",
+          "com.newrelic.agent.instrumentation.pointcuts.PointCut"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.PointCut": [
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyPortPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaAbstractPromiseCompletePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.Struts2ActionPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.JasperCompilerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.tomcat.PrepareResponsePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpRequestBuilderPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.SolrCorePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.SpringPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.ParameterizedPreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.glassfish.Glassfish4StartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.Play2RequestPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.glassfish.Glassfish2StartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.XmlRpcPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.JTDSPreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.RuntimeExecPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.JmxConfigurationPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandlerMethodInvoker3PointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.DataSourcePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.RenderPortletPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.GenericPreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.net.PosterOutputStreamPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.TransactionHolderInitPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.jboss.Jboss7StartupPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.ConcurrentCallablePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.jboss.Jboss56StartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.SolrRequestHandlerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayTemplateLoaderPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.OraclePreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.TransactionHolderDispatcherPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.tomcat.TomcatStartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.resin.ResinStartupPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayContinuationPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpClientRequestPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.ConnectionPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.BaseScalaTemplatePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.MathCSConcurrentPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.XWork2ResultPC",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.TaggingInvokerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.CreateInvokerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.AnormResultSetParsePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.PromiseTimeoutPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.SpringExceptionHandlerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandleInternalInvokerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.akka.AkkaPromiseCompletePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.cxf.ClientProxyPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.PostgresStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.cxf.CXFPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.net.HttpInputStreamPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.amazon.AmazonS3ConectionPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayControllerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.MySQLPreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandlerMethodInvokerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.PathMapperPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.HouseKeeperThreadPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.amazon.JetS3tBucketPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.net.SocketInputStreamPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.jruby.NR_ONLY_JRubyTracerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.QuartzJobPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.jetty.JettyStartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.cxf.CXFInvokerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.SqlStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.CreatePreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.StrutsActionPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.HttpMethodBasePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.tomcat.FinishResponsePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.jersey.JerseyResourcePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.ProcessActionPortletPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.QuartzSystemPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.akka.AkkaTransactionHolderInitPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.SolrServerPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.ScalaFuturePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.amazon.JetS3tPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play.PlayDispatcherPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.weblogic.WeblogicStartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.HttpCommComponentPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.glassfish.Glassfish3StartUpPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.ProcessPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyCompletePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.faces.LifecyclePointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.solr.SearchComponentPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.net.HttpURLConnectionPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyDispatcherPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.akka.AkkaTransactionHolderDispatcherPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandlerInterceptorPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.struts.StrutsActionConfigMatcherPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.SpringDispatcherPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.MySQLCreatePreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.SQLServerPreparedStatementPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.Play2RoutingPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.SqlDriverPointCut",
+          "com.newrelic.agent.instrumentation.pointcuts.database.ClearPreparedStatementParametersPointCut"
+        ],
+        "javax.xml.bind.annotation.XmlAccessorType": [
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation",
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation$Pointcut",
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation$Pointcut$NameTransaction",
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation$Pointcut$Method$Parameters$Type",
+          "com.newrelic.agent.extension.beans.Extension",
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation$Pointcut$ClassName",
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation$Pointcut$Method",
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation$Pointcut$Method$Parameters"
+        ],
+        "javax.xml.bind.annotation.XmlRegistry": [
+          "com.newrelic.agent.extension.beans.ObjectFactory"
+        ],
+        "java.lang.Deprecated": [
+          "com.newrelic.agent.api.AgentAPI"
+        ],
+        "javax.xml.bind.annotation.XmlType": [
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation",
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation$Pointcut",
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation$Pointcut$NameTransaction",
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation$Pointcut$Method$Parameters$Type",
+          "com.newrelic.agent.extension.beans.Extension",
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation$Pointcut$ClassName",
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation$Pointcut$Method",
+          "com.newrelic.agent.extension.beans.Extension$Instrumentation$Pointcut$Method$Parameters"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.LoadOnBootstrap": [
+          "com.newrelic.agent.instrumentation.pointcuts.LoadOnBootstrap",
+          "com.newrelic.agent.instrumentation.pointcuts.InterfaceMapper",
+          "com.newrelic.agent.instrumentation.pointcuts.InterfaceMixin",
+          "com.newrelic.agent.instrumentation.pointcuts.MethodMapper",
+          "com.newrelic.agent.instrumentation.pointcuts.TransactionHolder",
+          "com.newrelic.agent.instrumentation.pointcuts.scala.Either",
+          "com.newrelic.agent.instrumentation.pointcuts.FieldAccessor"
+        ],
+        "javax.xml.bind.annotation.XmlRootElement": [
+          "com.newrelic.agent.extension.beans.Extension"
+        ],
+        "com.newrelic.agent.instrumentation.pointcuts.InterfaceMapper": [
+          "com.newrelic.agent.instrumentation.pointcuts.container.netty.NettyDispatcherPointCut$ChannelHandlerContext",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.Play2RequestPointCut$Request",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.HttpCommonsPointCut$BasicHttpResponseExtension",
+          "com.newrelic.agent.instrumentation.pointcuts.play2.Play2RequestPointCut$RequestHeader",
+          "com.newrelic.agent.instrumentation.pointcuts.asynchttp.AsyncHttpRequestBuilderPointCut$RequestBuilder",
+          "com.newrelic.agent.instrumentation.pointcuts.commons.HttpMethodExtension",
+          "com.newrelic.agent.instrumentation.pointcuts.frameworks.spring.HandlerMethod"
+        ],
+        "com.newrelic.agent.jmx.metrics.JmxInit": [
+          "com.newrelic.agent.jmx.values.JavaLangJmxMetrics"
+        ]
+      }
+    }
+  }
+}
