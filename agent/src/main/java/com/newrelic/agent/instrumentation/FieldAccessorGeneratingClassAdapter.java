@@ -71,7 +71,7 @@ public class FieldAccessorGeneratingClassAdapter extends ClassVisitor {
                 if (!fieldAccessor.existingField()) {
                     fieldDesc = new Object[2];
                     fieldDesc[0] = returnType;
-                    fieldDesc[1] = Integer.valueOf(fieldAccessor.volatileAccess() ? 'Â' : 130);
+                    fieldDesc[1] = Integer.valueOf(fieldAccessor.volatileAccess() ? 194 : 130);
 
                     fields.put(fieldName, fieldDesc);
                 } else if (!allFields.containsKey(fieldName)) {

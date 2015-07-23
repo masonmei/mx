@@ -7,30 +7,30 @@ import com.newrelic.agent.metric.MetricIdRegistry;
 import com.newrelic.agent.metric.MetricName;
 import com.newrelic.agent.normalization.Normalizer;
 
-public abstract interface StatsEngine {
-    public abstract Stats getStats(String paramString);
+public interface StatsEngine {
+    Stats getStats(String paramString);
 
-    public abstract Stats getStats(MetricName paramMetricName);
+    Stats getStats(MetricName paramMetricName);
 
-    public abstract void recordEmptyStats(String paramString);
+    void recordEmptyStats(String paramString);
 
-    public abstract void recordEmptyStats(MetricName paramMetricName);
+    void recordEmptyStats(MetricName paramMetricName);
 
-    public abstract ResponseTimeStats getResponseTimeStats(String paramString);
+    ResponseTimeStats getResponseTimeStats(String paramString);
 
-    public abstract ResponseTimeStats getResponseTimeStats(MetricName paramMetricName);
+    ResponseTimeStats getResponseTimeStats(MetricName paramMetricName);
 
-    public abstract ApdexStats getApdexStats(MetricName paramMetricName);
+    ApdexStats getApdexStats(MetricName paramMetricName);
 
-    public abstract List<MetricName> getMetricNames();
+    List<MetricName> getMetricNames();
 
-    public abstract void clear();
+    void clear();
 
-    public abstract List<MetricData> getMetricData(Normalizer paramNormalizer, MetricIdRegistry paramMetricIdRegistry);
+    List<MetricData> getMetricData(Normalizer paramNormalizer, MetricIdRegistry paramMetricIdRegistry);
 
-    public abstract void mergeStats(StatsEngine paramStatsEngine);
+    void mergeStats(StatsEngine paramStatsEngine);
 
-    public abstract void mergeStatsResolvingScope(TransactionStats paramTransactionStats, String paramString);
+    void mergeStatsResolvingScope(TransactionStats paramTransactionStats, String paramString);
 
-    public abstract int getSize();
+    int getSize();
 }

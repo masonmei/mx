@@ -157,7 +157,7 @@ public class TransactionSegment implements JSONStreamAware {
         }
 
         if ((uri != null) && (uri.length() > 0)) {
-            params.put("uri", uri);
+            params.put(URI_PARAM_NAME, uri);
         }
 
         JSONArray.writeJSONString(Arrays.asList(new Object[] {Long.valueOf(entryTimestamp), Long.valueOf(exitTimestamp),
@@ -196,7 +196,7 @@ public class TransactionSegment implements JSONStreamAware {
             if (preStackTraces.size() == postParentRemovalTrace.size()) {
                 params.put("backtrace", postParentRemovalTrace);
             } else {
-                params.put("partialtrace", postParentRemovalTrace);
+                params.put(PARTIAL_TRACE, postParentRemovalTrace);
             }
         }
     }

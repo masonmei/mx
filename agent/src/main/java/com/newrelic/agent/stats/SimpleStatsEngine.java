@@ -21,7 +21,7 @@ public class SimpleStatsEngine {
     private final Map<String, StatsBase> stats;
 
     public SimpleStatsEngine() {
-        this(32);
+        this(DEFAULT_CAPACITY);
     }
 
     public SimpleStatsEngine(int capacity) {
@@ -164,7 +164,7 @@ public class SimpleStatsEngine {
         }
 
         ResponseTimeStatsImpl other = null;
-        float threshold = totalTime * 0.02F;
+        float threshold = totalTime * SCOPED_METRIC_THRESHOLD;
         Set<String> remove = new HashSet();
         for (Entry<String, StatsBase> entry : this.stats.entrySet()) {
             ResponseTimeStatsImpl statsObj = (ResponseTimeStatsImpl) entry.getValue();

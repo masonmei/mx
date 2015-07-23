@@ -18,7 +18,7 @@ public class SyntheticsTransactionSampler implements ITransactionSampler {
 
     public boolean noticeTransaction(TransactionData td) {
         if (td.isSyntheticTransaction()) {
-            if (pendingCount.get() < 20) {
+            if (pendingCount.get() < MAX_SYNTHETIC_TRANSACTION_PER_HARVEST) {
                 pendingCount.incrementAndGet();
                 pending.add(td);
                 String msg = MessageFormat.format("Sampled Synthetics Transaction: {0}", new Object[] {td});

@@ -230,7 +230,7 @@ public class TransactionTraceService extends AbstractService implements HarvestL
         ServiceFactory.getTransactionService().addTransactionListener(this);
         ServiceFactory.getHarvestService().addHarvestListener(this);
         ServiceFactory.getXRaySessionService().addListener(this);
-        RandomTransactionSampler.startSampler(5);
+        RandomTransactionSampler.startSampler(INITIAL_TRACE_LIMIT);
     }
 
     protected void doStop() {

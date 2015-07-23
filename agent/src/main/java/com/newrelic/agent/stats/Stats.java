@@ -1,5 +1,5 @@
 package com.newrelic.agent.stats;
 
-public abstract interface Stats extends CountStats {
-    public abstract void recordDataPoint(float paramFloat);
+public interface Stats extends CountStats {
+    void recordDataPoint(float paramFloat);
 }

@@ -1,13 +1,13 @@
 package com.newrelic.agent.stats;
 
-public abstract interface ApdexStats extends StatsBase {
-    public abstract void recordApdexFrustrated();
+public interface ApdexStats extends StatsBase {
+    void recordApdexFrustrated();
 
-    public abstract void recordApdexResponseTime(long paramLong1, long paramLong2);
+    void recordApdexResponseTime(long paramLong1, long paramLong2);
 
-    public abstract int getApdexSatisfying();
+    int getApdexSatisfying();
 
-    public abstract int getApdexTolerating();
+    int getApdexTolerating();
 
-    public abstract int getApdexFrustrating();
+    int getApdexFrustrating();
 }

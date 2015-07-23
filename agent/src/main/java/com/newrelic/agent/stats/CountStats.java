@@ -1,21 +1,21 @@
 package com.newrelic.agent.stats;
 
-public abstract interface CountStats extends StatsBase {
-    public abstract void incrementCallCount();
+public interface CountStats extends StatsBase {
+    void incrementCallCount();
 
-    public abstract void incrementCallCount(int paramInt);
+    void incrementCallCount(int paramInt);
 
-    public abstract int getCallCount();
+    int getCallCount();
 
-    public abstract void setCallCount(int paramInt);
+    void setCallCount(int paramInt);
 
-    public abstract float getTotal();
+    float getTotal();
 
-    public abstract float getTotalExclusiveTime();
+    float getTotalExclusiveTime();
 
-    public abstract float getMinCallTime();
+    float getMinCallTime();
 
-    public abstract float getMaxCallTime();
+    float getMaxCallTime();
 
-    public abstract double getSumOfSquares();
+    double getSumOfSquares();
 }

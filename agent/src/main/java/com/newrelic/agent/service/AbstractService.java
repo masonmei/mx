@@ -86,12 +86,12 @@ public abstract class AbstractService implements Service {
         }
 
         private boolean isStartedOrStarting() {
-            ServiceState state = (ServiceState) serviceState.get();
+            ServiceState state = serviceState.get();
             return (state == ServiceState.STARTED) || (state == ServiceState.STARTING);
         }
 
         private boolean isStoppedOrStopping() {
-            ServiceState state = (ServiceState) serviceState.get();
+            ServiceState state = serviceState.get();
             return (state == ServiceState.STOPPED) || (state == ServiceState.STOPPING);
         }
 

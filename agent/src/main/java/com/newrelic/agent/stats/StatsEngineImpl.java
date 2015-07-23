@@ -28,7 +28,7 @@ public class StatsEngineImpl implements StatsEngine {
     private final Map<String, SimpleStatsEngine> scopedStats;
 
     public StatsEngineImpl() {
-        this(140);
+        this(DEFAULT_CAPACITY);
     }
 
     public StatsEngineImpl(int capacity) {
@@ -40,7 +40,7 @@ public class StatsEngineImpl implements StatsEngine {
         if (metricIdRegistry.getSize() == 0) {
             return result;
         } else {
-            int hashMapSize = (int) ((float) result.size() / 0.75F) + 1;
+            int hashMapSize = (int) ((float) result.size() / HASH_SET_LOAD_FACTOR) + 1;
             HashMap data = new HashMap(hashMapSize);
             Iterator i$ = result.iterator();
 
@@ -90,7 +90,7 @@ public class StatsEngineImpl implements StatsEngine {
         if (metricName.isScoped()) {
             SimpleStatsEngine statsEngine = (SimpleStatsEngine) this.scopedStats.get(metricName.getScope());
             if (statsEngine == null) {
-                statsEngine = new SimpleStatsEngine(32);
+                statsEngine = new SimpleStatsEngine(DEFAULT_SCOPED_CAPACITY);
                 this.scopedStats.put(metricName.getScope(), statsEngine);
             }
 
@@ -198,7 +198,8 @@ public class StatsEngineImpl implements StatsEngine {
     }
 
     public List<MetricData> getMetricData(Normalizer metricNormalizer, MetricIdRegistry metricIdRegistry) {
-        ArrayList result = new ArrayList(this.unscopedStats.getStatsMap().size() + this.scopedStats.size() * 32 * 2);
+        ArrayList result = new ArrayList(this.unscopedStats.getStatsMap().size()
+                                                 + this.scopedStats.size() * DEFAULT_SCOPED_CAPACITY * DOUBLE);
         Iterator i$ = this.scopedStats.entrySet().iterator();
 
         while (i$.hasNext()) {
@@ -214,7 +215,7 @@ public class StatsEngineImpl implements StatsEngine {
 
     private List<MetricData> createUnscopedCopies(Normalizer metricNormalizer, MetricIdRegistry metricIdRegistry,
                                                   List<MetricData> scopedMetrics) {
-        int size = (int) ((double) scopedMetrics.size() / 0.75D) + 2;
+        int size = (int) ((double) scopedMetrics.size() / 0.75D) + DOUBLE;
         HashMap allUnscopedMetrics = new HashMap(size);
         ArrayList results = new ArrayList(scopedMetrics.size());
         Iterator i$ = scopedMetrics.iterator();
