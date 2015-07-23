@@ -14,7 +14,8 @@ import com.google.common.cache.LoadingCache;
 
 public class EmbeddedJarFilesImpl implements EmbeddedJarFiles {
     public static final EmbeddedJarFiles INSTANCE = new EmbeddedJarFilesImpl();
-    private static final String[] INTERNAL_JAR_FILE_NAMES = {"agent-bridge", "newrelic-api", "newrelic-weaver-api"};
+//    private static final String[] INTERNAL_JAR_FILE_NAMES = {"agent-bridge", "newrelic-api", "newrelic-weaver-api"};
+    private static final String[] INTERNAL_JAR_FILE_NAMES = {"agent-bridge-1.0", "agent-api-1.0", "weaver-api-1.0"};
     private final LoadingCache<String, File> embeddedAgentJarFiles =
             CacheBuilder.newBuilder().build(new CacheLoader<String, File>() {
                 public File load(String jarNameWithoutExtension) throws IOException {

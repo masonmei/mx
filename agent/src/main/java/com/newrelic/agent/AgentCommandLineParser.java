@@ -65,8 +65,8 @@ class AgentCommandLineParser {
     private static Options combineOptions(Collection<Options> optionsList) {
         Options newOptions = new Options();
         for (Options options : optionsList) {
-            for (Option option : options.getOptions()) {
-                newOptions.addOption(option);
+            for (Object option : options.getOptions()) {
+                newOptions.addOption((Option) option);
             }
         }
         return newOptions;
