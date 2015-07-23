@@ -127,7 +127,7 @@ public class BootstrapAgent {
 
             BootstrapLoader.load(inst);
             clazz = ClassLoader.getSystemClassLoader().loadClass(AGENT_CLASS_NAME);
-            Method premain = clazz.getDeclaredMethod("premain", new Class[] {String.class, Instrumentation.class});
+            Method premain = clazz.getDeclaredMethod("premain", String[].class, Instrumentation.class);
             premain.invoke(null, new Object[] {agentArgs, inst});
         } catch (Throwable t) {
             System.err.println(MessageFormat.format("Error bootstrapping New Relic agent: {0}", new Object[] {t}));
