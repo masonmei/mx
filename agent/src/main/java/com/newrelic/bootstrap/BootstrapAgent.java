@@ -66,12 +66,13 @@ public class BootstrapAgent {
 
     public static void main(String[] args) {
         try {
-            Collection urls = BootstrapLoader.getJarURLs();
-            urls.add(getAgentJarUrl());
-
-            ClassLoader classLoader = new URLClassLoader((URL[]) urls.toArray(new URL[0]), null);
+//            Collection urls = BootstrapLoader.getJarURLs();
+//            urls.add(getAgentJarUrl());
+//
+//            ClassLoader classLoader = new URLClassLoader((URL[]) urls.toArray(new URL[0]), null);
+            ClassLoader classLoader = BootstrapAgent.class.getClassLoader();
             Class agentClass = classLoader.loadClass(AGENT_CLASS_NAME);
-            Method main = agentClass.getDeclaredMethod("main", new Class[] {String.class});
+            Method main = agentClass.getDeclaredMethod("main",  String[].class);
             main.invoke(null, new Object[] {args});
         } catch (Throwable t) {
             System.err.println(MessageFormat.format("Error invoking the New Relic command: {0}", new Object[] {t}));
