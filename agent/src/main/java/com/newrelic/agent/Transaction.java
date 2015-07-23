@@ -1238,7 +1238,7 @@ public class Transaction implements ITransaction {
                 if (this.dispatcher == null) {
                     ExitTracer tracer = AgentBridge.instrumentation
                                                 .createTracer((Object) null, REQUEST_INITIALIZED_CLASS_SIGNATURE_ID,
-                                                                     (String) null, 14);
+                                                                     (String) null, REQUEST_TRACER_FLAGS);
                     if (tracer != null) {
                         if (response == null) {
                             response = DUMMY_RESPONSE;
@@ -1539,8 +1539,8 @@ public class Transaction implements ITransaction {
 
     private final void threadAssertion() {
         if (Agent.LOG.isFinestEnabled() && !Thread.holdsLock(this.lock)) {
-            Agent.LOG.log(Level.FINEST, "Thread assertion failed!",
-                                 (new Exception("Thread assertion failed!")).fillInStackTrace());
+            Agent.LOG.log(Level.FINEST, THREAD_ASSERTION_FAILURE,
+                                 (new Exception(THREAD_ASSERTION_FAILURE)).fillInStackTrace());
         }
 
     }

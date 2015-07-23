@@ -16,7 +16,7 @@ public enum TransactionNamePriority {
     CUSTOM_HIGH,
     FROZEN;
 
-    public static TransactionNamePriority convert(TransactionNamePriority priority) {
+    public static TransactionNamePriority convert(com.newrelic.api.agent.TransactionNamePriority priority) {
         switch (priority.ordinal()) {
             case 1:
                 return CUSTOM_HIGH;

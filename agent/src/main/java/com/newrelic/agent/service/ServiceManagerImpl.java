@@ -7,7 +7,6 @@ package com.newrelic.agent.service;
 
 import java.util.Collections;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
@@ -66,8 +65,6 @@ import com.newrelic.agent.utilization.UtilizationService;
 import com.newrelic.agent.xray.IXRaySessionService;
 import com.newrelic.agent.xray.XRaySessionService;
 import com.newrelic.api.agent.MetricAggregator;
-import com.sun.org.apache.xpath.internal.operations.Bool;
-import com.sun.tools.corba.se.idl.constExpr.BooleanNot;
 
 public class ServiceManagerImpl extends AbstractService implements ServiceManager {
     private final Map<String, Service> services = new HashMap();
