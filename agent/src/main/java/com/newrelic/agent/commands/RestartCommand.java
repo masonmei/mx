@@ -9,7 +9,7 @@ public class RestartCommand extends AbstractCommand {
     public static final String COMMAND_NAME = "restart";
 
     public RestartCommand() {
-        super("restart");
+        super(COMMAND_NAME);
     }
 
     public Map process(IRPMService rpmService, Map arguments) throws CommandException {

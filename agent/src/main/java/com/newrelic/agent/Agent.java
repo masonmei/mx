@@ -179,7 +179,7 @@ public final class Agent extends AbstractService implements IAgent {
                         .put("Total Memory", Long.valueOf(Runtime.getRuntime().totalMemory()))
                         .put("Max Memory", Long.valueOf(Runtime.getRuntime().maxMemory())).build();
 
-        LOG.log(Level.FINE, "Premain environment info: {0}", new Object[] {environmentInfo.toString()});
+        LOG.log(Level.FINE, "Premain environment info: {0}", environmentInfo);
     }
 
     protected void doStart() {
@@ -188,7 +188,7 @@ public final class Agent extends AbstractService implements IAgent {
         AgentLogManager.configureLogger(config);
 
         logHostIp();
-        LOG.info(MessageFormat.format("New Relic Agent v{0} is initializing...", new Object[] {getVersion()}));
+        LOG.info(MessageFormat.format("New Relic Agent v{0} is initializing...", getVersion()));
 
         enabled = config.isAgentEnabled();
         if (!enabled) {

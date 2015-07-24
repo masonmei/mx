@@ -28,6 +28,7 @@ import com.google.common.collect.Lists;
 import com.google.common.collect.Maps;
 import com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
+import com.newrelic.agent.bridge.AgentBridge;
 import com.newrelic.agent.config.AgentJarHelper;
 import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher;
 import com.newrelic.agent.instrumentation.context.ClassMatchVisitorFactory;
@@ -55,7 +56,7 @@ public class ClassWeaverService {
     }
 
     public InstrumentationPackage getInstrumentationPackage(String implementationTitle) {
-        return (InstrumentationPackage) instrumentationPackageNames.get(implementationTitle);
+        return instrumentationPackageNames.get(implementationTitle);
     }
 
     public void removeInstrumentationPackage(InstrumentationPackage instrumentationPackage) {
@@ -71,9 +72,10 @@ public class ClassWeaverService {
     }
 
     public Runnable registerInstrumentation() {
-        com.newrelic.agent.bridge.AgentBridge.objectFieldManager = new ObjectFieldManagerImpl();
+        AgentBridge.objectFieldManager = new ObjectFieldManagerImpl();
 
-        Collection jarFileNames = AgentJarHelper.findAgentJarFileNames(Pattern.compile("instrumentation\\/(.*).jar"));
+        Collection<String> jarFileNames =
+                AgentJarHelper.findAgentJarFileNames(Pattern.compile("instrumentation\\/(.*).jar"));
         if (jarFileNames.isEmpty()) {
             Agent.LOG.error("No instrumentation packages were found in the agent.");
         } else {
@@ -84,7 +86,7 @@ public class ClassWeaverService {
     }
 
     private void addInternalInstrumentationPackagesInParallel(Collection<String> jarFileNames) {
-        int partitions = jarFileNames.size() < 8 ? jarFileNames.size() : 8;
+        int partitions = jarFileNames.size() < PARTITONS ? jarFileNames.size() : PARTITONS;
         List<Set<String>> instrumentationPartitions = partitionInstrumentationJars(jarFileNames, partitions);
 
         final CountDownLatch executorCountDown = new CountDownLatch(partitions);

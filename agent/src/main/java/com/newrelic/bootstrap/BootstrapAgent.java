@@ -15,7 +15,8 @@ public class BootstrapAgent {
     public static final String AGENT_CLASS_NAME = "com.newrelic.agent.Agent";
     public static final String NEW_RELIC_BOOTSTRAP_CLASSPATH = "newrelic.bootstrap_classpath";
     public static final ClassLoader AGENT_CLASSLOADER = BootstrapAgent.class.getClassLoader();
-    private static final String NEW_RELIC_JAR_FILE = "newrelic.jar";
+    private static final String NEW_RELIC_JAR_FILE = "newrelic-jar-with-dependencies.jar";
+//    private static final String NEW_RELIC_JAR_FILE = "newrelic.jar";
     private static final String WS_SERVER_JAR = "ws-server.jar";
     private static final String WS_LOG_MANAGER = "com.ibm.ws.kernel.boot.logging.WsLogManager";
     private static final String IBM_VENDOR = "IBM";
@@ -66,11 +67,11 @@ public class BootstrapAgent {
 
     public static void main(String[] args) {
         try {
-//            Collection urls = BootstrapLoader.getJarURLs();
-//            urls.add(getAgentJarUrl());
+            Collection urls = BootstrapLoader.getJarURLs();
+            urls.add(getAgentJarUrl());
 //
-//            ClassLoader classLoader = new URLClassLoader((URL[]) urls.toArray(new URL[0]), null);
-            ClassLoader classLoader = BootstrapAgent.class.getClassLoader();
+            ClassLoader classLoader = new URLClassLoader((URL[]) urls.toArray(new URL[0]), null);
+//            ClassLoader classLoader = BootstrapAgent.class.getClassLoader();
             Class agentClass = classLoader.loadClass(AGENT_CLASS_NAME);
             Method main = agentClass.getDeclaredMethod("main",  String[].class);
             main.invoke(null, new Object[] {args});

@@ -30,20 +30,16 @@ public class ClassResolvers {
 
     public static ClassResolver getEmbeddedJarsClassResolver() {
         ArrayList resolvers = Lists.newArrayList();
-        String[] arr$ = EmbeddedJarFilesImpl.INSTANCE.getEmbeddedAgentJarFileNames();
-        int len$ = arr$.length;
-
-        for (int i$ = 0; i$ < len$; ++i$) {
-            String name = arr$[i$];
-
+        String[] embeddedAgentJarFileNames = EmbeddedJarFilesImpl.INSTANCE.getEmbeddedAgentJarFileNames();
+        for (String name : embeddedAgentJarFileNames) {
             try {
                 resolvers.add(getJarClassResolver(EmbeddedJarFilesImpl.INSTANCE.getJarFileInAgent(name)));
-            } catch (IOException var6) {
-                Agent.LOG.log(Level.SEVERE, var6, "Unable to load {0} : {1}", new Object[] {name, var6.getMessage()});
+            } catch (IOException e) {
+                Agent.LOG.log(Level.SEVERE, e, "Unable to load {0} : {1}", name, e.getMessage());
             }
         }
 
-        return getMultiResolver((Collection) resolvers);
+        return getMultiResolver(resolvers);
     }
 
     public static ClassResolver getJarClassResolver(final File jarFile) throws IOException {

@@ -17,25 +17,24 @@ public class InstrumentUpdateCommand extends AbstractCommand {
     private final RemoteInstrumentationService service;
 
     public InstrumentUpdateCommand(RemoteInstrumentationService pService) {
-        super("instrumentation_update");
+        super(COMMAND_NAME);
         service = pService;
     }
 
     private static void warnIfArgsLeft(Map pArguments) {
         if (pArguments.size() > 0) {
             Agent.LOG.warning(MessageFormat.format("The instrumentation_update command did not recognize the following "
-                                                           + "arguments: {0}",
-                                                          new Object[] {pArguments.keySet().toString()}));
+                                                           + "arguments: {0}", pArguments.keySet().toString()));
         }
     }
 
     protected static String getXmlFromMaps(Map pArguments) {
-        Object instrumentationWorkObject = pArguments.remove("instrumentation");
+        Object instrumentationWorkObject = pArguments.remove(ARG_NAME);
         warnIfArgsLeft(pArguments);
         if (instrumentationWorkObject != null) {
             if ((instrumentationWorkObject instanceof Map)) {
                 Map instrumentWorkMap = (Map) instrumentationWorkObject;
-                Object config = instrumentWorkMap.get("config");
+                Object config = instrumentWorkMap.get(ARG_VALUE_MAP_NAME);
                 return getXml(config);
             }
             Agent.LOG.log(Level.INFO, "The agent instrumentation object is not a Map. The XML will not be processed.");
@@ -55,11 +54,10 @@ public class InstrumentUpdateCommand extends AbstractCommand {
             }
             Agent.LOG.info(MessageFormat
                                    .format("The property {0} was empty meaning no instrumentation update will occur.",
-                                                  new Object[] {"config"}));
+                                                  ARG_VALUE_MAP_NAME));
         } else {
-            Agent.LOG.log(Level.INFO,
-                                 "The agent instrumentation XML is null. The instrumentation XML will not be "
-                                         + "processed.");
+            Agent.LOG.log(Level.INFO, "The agent instrumentation XML is null. The instrumentation XML will not be "
+                                              + "processed.");
         }
 
         return null;
@@ -70,7 +68,7 @@ public class InstrumentUpdateCommand extends AbstractCommand {
 
         if ((pArguments == null) || (pArguments.size() == 0)) {
             Agent.LOG.warning(MessageFormat.format("The instrumentation_update command must have atleast one argument "
-                                                           + "called {0}", new Object[] {"instrumentation"}));
+                                                           + "called {0}", ARG_NAME));
 
             throw new CommandException("The instrumentation_update command expected 1 argument.");
         }

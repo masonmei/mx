@@ -4,6 +4,6 @@ import org.objectweb.asm.commons.Method;
 
 import com.newrelic.agent.instrumentation.tracing.TraceDetails;
 
-public abstract interface TraceDetailsList {
-    public abstract void addTrace(Method paramMethod, TraceDetails paramTraceDetails);
+public interface TraceDetailsList {
+    void addTrace(Method paramMethod, TraceDetails paramTraceDetails);
 }

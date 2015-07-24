@@ -12,7 +12,7 @@ public class ShutdownCommand extends AbstractCommand {
     private final IAgent agent;
 
     public ShutdownCommand(IAgent agent) {
-        super("shutdown");
+        super(COMMAND_NAME);
         this.agent = agent;
     }
 

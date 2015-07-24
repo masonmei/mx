@@ -1,9 +1,15 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
 package com.newrelic.agent.instrumentation.context;
 
 import java.security.ProtectionDomain;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Collections;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -24,7 +30,7 @@ import com.google.common.collect.Multimaps;
 import com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.PointCut;
-import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher;
+import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher.Match;
 import com.newrelic.agent.instrumentation.tracing.TraceDetails;
 import com.newrelic.agent.util.asm.BenignClassReadException;
 import com.newrelic.agent.util.asm.ClassResolver;
@@ -43,7 +49,7 @@ public class InstrumentationContext implements TraceDetailsList {
     private Map<Method, PointCut> oldReflectionStyleInstrumentationMethods;
     private Map<Method, PointCut> oldInvokerStyleInstrumentationMethods;
     private TraceInformation tracedInfo;
-    private Map<ClassMatchVisitorFactory, OptimizedClassMatcher.Match> matches;
+    private Map<ClassMatchVisitorFactory, Match> matches;
     private Map<Method, Method> bridgeMethods;
     private List<ClassResolver> classResolvers;
     private boolean generated;
@@ -56,313 +62,343 @@ public class InstrumentationContext implements TraceDetailsList {
     }
 
     public static Set<Class<?>> getMatchingClasses(final Collection<ClassMatchVisitorFactory> matchers,
-                                                   Class<?>[] classes) {
-        final Set matchingClasses = Sets.newConcurrentHashSet();
-        if ((classes == null) || (classes.length == 0)) {
+                                                   Class<?>... classes) {
+        final Set<Class<?>> matchingClasses = Sets.newConcurrentHashSet();
+        if (classes != null && classes.length != 0) {
+            double partitions = classes.length < 8 ? classes.length : 8.0D;
+            int estimatedPerPartition = (int) Math.ceil((double) classes.length / partitions);
+
+            List<List<Class<?>>> partitionsClasses = Lists.partition(Arrays.asList(classes), estimatedPerPartition);
+            final CountDownLatch countDownLatch = new CountDownLatch(partitionsClasses.size());
+            Iterator<List<Class<?>>> partitionIterator = partitionsClasses.iterator();
+
+            while (partitionIterator.hasNext()) {
+                final List<Class<?>> partitionClasses = partitionIterator.next();
+                Runnable matchingRunnable = new Runnable() {
+                    public void run() {
+                        Iterator<Class<?>> classIterator = partitionClasses.iterator();
+                        while (classIterator.hasNext()) {
+                            Class<?> clazz = classIterator.next();
+                            if (InstrumentationContext.isMatch(matchers, clazz)) {
+                                matchingClasses.add(clazz);
+                            }
+                        }
+
+                        countDownLatch.countDown();
+                    }
+                };
+                (new Thread(matchingRunnable)).start();
+            }
+
+            try {
+                countDownLatch.await();
+            } catch (InterruptedException var11) {
+                Agent.LOG.log(Level.INFO, "Failed to wait for matching classes");
+                Agent.LOG.log(Level.FINER, var11, "Interrupted during class matching", new Object[0]);
+            }
+
+            return matchingClasses;
+        } else {
             return matchingClasses;
         }
-
-        double partitions = classes.length < 8 ? classes.length : 8.0D;
-        int estimatedPerPartition = (int) Math.ceil(classes.length / partitions);
-        List<List<Class<?>>> partitionsClasses = Lists.partition(Arrays.asList(classes), estimatedPerPartition);
-
-        final CountDownLatch countDownLatch = new CountDownLatch(partitionsClasses.size());
-        for (final List<Class<?>> partitionClasses : partitionsClasses) {
-            Runnable matchingRunnable = new Runnable() {
-                public void run() {
-                    for (Class clazz : partitionClasses) {
-                        if (InstrumentationContext.isMatch(matchers, clazz)) {
-                            matchingClasses.add(clazz);
-                        }
-                    }
-                    countDownLatch.countDown();
-                }
-            };
-            new Thread(matchingRunnable).start();
-        }
-        try {
-            countDownLatch.await();
-        } catch (InterruptedException e) {
-            Agent.LOG.log(Level.INFO, "Failed to wait for matching classes");
-            Agent.LOG.log(Level.FINER, e, "Interrupted during class matching", new Object[0]);
-        }
-
-        return matchingClasses;
     }
 
     private static boolean isMatch(Collection<ClassMatchVisitorFactory> matchers, Class<?> clazz) {
         if (clazz.isArray()) {
             return false;
-        }
-        if ((clazz.getName().startsWith("com.newrelic.api.agent")) || (clazz.getName().startsWith("com.newrelic.agent"
-                                                                                                          + ".bridge"))) {
-            return false;
-        }
-        ClassLoader loader = clazz.getClassLoader();
-        if (loader == null) {
-            loader = ClassLoader.getSystemClassLoader();
-        }
-        InstrumentationContext context = new InstrumentationContext(null, null, null);
-        try {
-            ClassReader reader = Utils.readClass(clazz);
-            context.match(loader, clazz, reader, matchers);
-            return !context.getMatches().isEmpty();
-        } catch (BenignClassReadException ex) {
-            return false;
-        } catch (Exception ex) {
-            if ((clazz.getName().startsWith("com.newrelic")) || (clazz.getName().startsWith("weave."))) {
-                return false;
+        } else if (!clazz.getName().startsWith("com.newrelic.api.agent") && !clazz.getName()
+                                                                                     .startsWith("com.newrelic.agent"
+                                                                                                         + ".bridge")) {
+            ClassLoader loader = clazz.getClassLoader();
+            if (loader == null) {
+                loader = ClassLoader.getSystemClassLoader();
             }
-            Agent.LOG.log(Level.FINER, "Unable to read {0}", new Object[] {clazz.getName()});
-            Agent.LOG.log(Level.FINEST, ex, "Unable to read {0}", new Object[] {clazz.getName()});
+
+            InstrumentationContext context = new InstrumentationContext(null, null, null);
+
+            try {
+                ClassReader ex = Utils.readClass(clazz);
+                context.match(loader, clazz, ex, matchers);
+                return !context.getMatches().isEmpty();
+            } catch (BenignClassReadException var5) {
+                return false;
+            } catch (Exception exception) {
+                if (!clazz.getName().startsWith("com.newrelic") && !clazz.getName().startsWith("weave.")) {
+                    Agent.LOG.log(Level.FINER, "Unable to read {0}", clazz.getName());
+                    Agent.LOG.log(Level.FINEST, exception, "Unable to read {0}", clazz.getName());
+                    return false;
+                } else {
+                    return false;
+                }
+            }
+        } else {
+            return false;
         }
-        return false;
     }
 
     public Class<?> getClassBeingRedefined() {
-        return classBeingRedefined;
+        return this.classBeingRedefined;
     }
 
     public ProtectionDomain getProtectionDomain() {
-        return protectionDomain;
+        return this.protectionDomain;
     }
 
     public void markAsModified() {
-        modified = true;
+        this.modified = true;
     }
 
     public boolean isModified() {
-        return modified;
+        return this.modified;
     }
 
     public TraceInformation getTraceInformation() {
-        return tracedInfo == null ? EMPTY_TRACE_INFO : tracedInfo;
+        return this.tracedInfo == null ? EMPTY_TRACE_INFO : this.tracedInfo;
     }
 
     public boolean isTracerMatch() {
-        return (tracedInfo != null) && (tracedInfo.isMatch());
+        return this.tracedInfo != null && this.tracedInfo.isMatch();
     }
 
     public void addWeavedMethod(Method method, String instrumentationTitle) {
-        if (weavedMethods == null) {
-            weavedMethods = Multimaps.newSetMultimap(Maps.<Object, Collection<String>>newHashMap(), new Supplier() {
-                public Set<String> get() {
-                    return Sets.newHashSet();
-                }
-            });
+        if (this.weavedMethods == null) {
+            this.weavedMethods =
+                    Multimaps.newSetMultimap(Maps.<Method, Collection<String>>newHashMap(), new Supplier() {
+                        public Set<String> get() {
+                            return Sets.newHashSet();
+                        }
+                    });
         }
-        weavedMethods.put(method, instrumentationTitle);
-        modified = true;
+
+        this.weavedMethods.put(method, instrumentationTitle);
+        this.modified = true;
     }
 
     public void printBytecode() {
-        print = true;
+        this.print = true;
     }
 
     public PointCut getOldStylePointCut(Method method) {
-        PointCut pc = (PointCut) getOldInvokerStyleInstrumentationMethods().get(method);
+        PointCut pc = (PointCut) this.getOldInvokerStyleInstrumentationMethods().get(method);
         if (null == pc) {
-            pc = (PointCut) getOldReflectionStyleInstrumentationMethods().get(method);
+            pc = (PointCut) this.getOldReflectionStyleInstrumentationMethods().get(method);
         }
+
         return pc;
     }
 
     private Map<Method, PointCut> getOldInvokerStyleInstrumentationMethods() {
-        return oldInvokerStyleInstrumentationMethods == null ? Collections.EMPTY_MAP
-                       : oldInvokerStyleInstrumentationMethods;
+        return this.oldInvokerStyleInstrumentationMethods == null ? Collections.<Method, PointCut>emptyMap()
+                       : this.oldInvokerStyleInstrumentationMethods;
     }
 
     private Map<Method, PointCut> getOldReflectionStyleInstrumentationMethods() {
-        return oldReflectionStyleInstrumentationMethods == null ? Collections.EMPTY_MAP
-                       : oldReflectionStyleInstrumentationMethods;
+        return this.oldReflectionStyleInstrumentationMethods == null ? Collections.<Method, PointCut>emptyMap()
+                       : this.oldReflectionStyleInstrumentationMethods;
     }
 
     public Set<Method> getWeavedMethods() {
-        return weavedMethods == null ? Collections.EMPTY_SET : weavedMethods.keySet();
+        return this.weavedMethods == null ? Collections.<Method>emptySet() : this.weavedMethods.keySet();
     }
 
     public Set<Method> getTimedMethods() {
-        return timedMethods == null ? Collections.EMPTY_SET : timedMethods;
+        return this.timedMethods == null ? Collections.<Method>emptySet() : this.timedMethods;
     }
 
     public Collection<String> getMergeInstrumentationPackages(Method method) {
-        return weavedMethods == null ? Collections.emptySet() : (Collection) weavedMethods.asMap().get(method);
+        return (Collection) (this.weavedMethods == null ? Collections.emptySet()
+                                     : (Collection) this.weavedMethods.asMap().get(method));
     }
 
     public boolean isModified(Method method) {
-        return (getTimedMethods().contains(method)) || (getWeavedMethods().contains(method));
+        return this.getTimedMethods().contains(method) || this.getWeavedMethods().contains(method);
     }
 
-    public void addTimedMethods(Method[] methods) {
-        if (timedMethods == null) {
-            timedMethods = Sets.newHashSet();
+    public void addTimedMethods(Method... methods) {
+        if (this.timedMethods == null) {
+            this.timedMethods = Sets.newHashSet();
         }
-        Collections.addAll(timedMethods, methods);
-        modified = true;
+
+        Collections.addAll(this.timedMethods, methods);
+        this.modified = true;
     }
 
     public void addOldReflectionStyleInstrumentationMethod(Method method, PointCut pointCut) {
-        if (oldReflectionStyleInstrumentationMethods == null) {
-            oldReflectionStyleInstrumentationMethods = Maps.newHashMap();
+        if (this.oldReflectionStyleInstrumentationMethods == null) {
+            this.oldReflectionStyleInstrumentationMethods = Maps.newHashMap();
         }
-        oldReflectionStyleInstrumentationMethods.put(method, pointCut);
-        modified = true;
+
+        this.oldReflectionStyleInstrumentationMethods.put(method, pointCut);
+        this.modified = true;
     }
 
     public void addOldInvokerStyleInstrumentationMethod(Method method, PointCut pointCut) {
-        if (oldInvokerStyleInstrumentationMethods == null) {
-            oldInvokerStyleInstrumentationMethods = Maps.newHashMap();
+        if (this.oldInvokerStyleInstrumentationMethods == null) {
+            this.oldInvokerStyleInstrumentationMethods = Maps.newHashMap();
         }
-        oldInvokerStyleInstrumentationMethods.put(method, pointCut);
-        modified = true;
+
+        this.oldInvokerStyleInstrumentationMethods.put(method, pointCut);
+        this.modified = true;
     }
 
-    public Map<ClassMatchVisitorFactory, OptimizedClassMatcher.Match> getMatches() {
-        return matches == null ? Collections.EMPTY_MAP : matches;
+    public Map<ClassMatchVisitorFactory, Match> getMatches() {
+        return this.matches == null ? Collections.<ClassMatchVisitorFactory, Match>emptyMap() : this.matches;
     }
 
     byte[] processTransformBytes(byte[] originalBytes, byte[] newBytes) {
         if (null != newBytes) {
-            markAsModified();
+            this.markAsModified();
             return newBytes;
+        } else {
+            return originalBytes;
         }
-        return originalBytes;
     }
 
     public void putTraceAnnotation(Method method, TraceDetails traceDetails) {
-        if (tracedInfo == null) {
-            tracedInfo = new TraceInformation();
+        if (this.tracedInfo == null) {
+            this.tracedInfo = new TraceInformation();
         }
-        tracedInfo.putTraceAnnotation(method, traceDetails);
+
+        this.tracedInfo.putTraceAnnotation(method, traceDetails);
     }
 
     public void addIgnoreApdexMethod(String methodName, String methodDesc) {
-        if (tracedInfo == null) {
-            tracedInfo = new TraceInformation();
+        if (this.tracedInfo == null) {
+            this.tracedInfo = new TraceInformation();
         }
-        tracedInfo.addIgnoreApdexMethod(methodName, methodDesc);
+
+        this.tracedInfo.addIgnoreApdexMethod(methodName, methodDesc);
     }
 
     public void addIgnoreTransactionMethod(String methodName, String methodDesc) {
-        if (tracedInfo == null) {
-            tracedInfo = new TraceInformation();
+        if (this.tracedInfo == null) {
+            this.tracedInfo = new TraceInformation();
         }
-        tracedInfo.addIgnoreTransactionMethod(methodName, methodDesc);
+
+        this.tracedInfo.addIgnoreTransactionMethod(methodName, methodDesc);
     }
 
     public void addIgnoreTransactionMethod(Method m) {
-        if (tracedInfo == null) {
-            tracedInfo = new TraceInformation();
+        if (this.tracedInfo == null) {
+            this.tracedInfo = new TraceInformation();
         }
-        tracedInfo.addIgnoreTransactionMethod(m);
+
+        this.tracedInfo.addIgnoreTransactionMethod(m);
     }
 
-    public void putMatch(ClassMatchVisitorFactory matcher, OptimizedClassMatcher.Match match) {
-        if (matches == null) {
-            matches = Maps.newHashMap();
+    public void putMatch(ClassMatchVisitorFactory matcher, Match match) {
+        if (this.matches == null) {
+            this.matches = Maps.newHashMap();
         }
-        matches.put(matcher, match);
+
+        this.matches.put(matcher, match);
     }
 
     public void addTracedMethods(Map<Method, TraceDetails> tracedMethods) {
-        if (tracedInfo == null) {
-            tracedInfo = new TraceInformation();
+        if (this.tracedInfo == null) {
+            this.tracedInfo = new TraceInformation();
         }
-        tracedInfo.pullAll(tracedMethods);
+
+        this.tracedInfo.pullAll(tracedMethods);
     }
 
     public void addTrace(Method method, TraceDetails traceDetails) {
-        if (tracedInfo == null) {
-            tracedInfo = new TraceInformation();
+        if (this.tracedInfo == null) {
+            this.tracedInfo = new TraceInformation();
         }
-        tracedInfo.putTraceAnnotation(method, traceDetails);
+
+        this.tracedInfo.putTraceAnnotation(method, traceDetails);
     }
 
     public void match(ClassLoader loader, Class<?> classBeingRedefined, ClassReader reader,
                       Collection<ClassMatchVisitorFactory> classVisitorFactories) {
         ClassVisitor visitor = null;
-        for (ClassMatchVisitorFactory factory : classVisitorFactories) {
+        Iterator<ClassMatchVisitorFactory> iterator = classVisitorFactories.iterator();
+
+        while (iterator.hasNext()) {
+            ClassMatchVisitorFactory factory = iterator.next();
             ClassVisitor nextVisitor = factory.newClassMatchVisitor(loader, classBeingRedefined, reader, visitor, this);
             if (nextVisitor != null) {
                 visitor = nextVisitor;
             }
         }
+
         if (visitor != null) {
             reader.accept(visitor, 1);
-            if (bridgeMethods != null) {
-                resolveBridgeMethods(reader);
+            if (this.bridgeMethods != null) {
+                this.resolveBridgeMethods(reader);
             } else {
-                bridgeMethods = ImmutableMap.of();
+                this.bridgeMethods = ImmutableMap.of();
             }
         }
+
     }
 
     private void resolveBridgeMethods(ClassReader reader) {
-        ClassVisitor visitor = new ClassVisitor(Agent.ASM_LEVEL) {
+        ClassVisitor visitor = new ClassVisitor(327680) {
             public MethodVisitor visitMethod(int access, String name, String desc, String signature,
                                              String[] exceptions) {
                 final Method method = new Method(name, desc);
-                if (bridgeMethods.containsKey(method)) {
-                    return new MethodVisitor(Agent.ASM_LEVEL) {
-                        public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
-                            bridgeMethods.put(method, new Method(name, desc));
-                            super.visitMethodInsn(opcode, owner, name, desc, itf);
-                        }
-
-                    };
-                }
-
-                return null;
+                return InstrumentationContext.this.bridgeMethods.containsKey(method) ? new MethodVisitor(327680) {
+                    public void visitMethodInsn(int opcode, String owner, String name, String desc, boolean itf) {
+                        InstrumentationContext.this.bridgeMethods.put(method, new Method(name, desc));
+                        super.visitMethodInsn(opcode, owner, name, desc, itf);
+                    }
+                } : null;
             }
         };
         reader.accept(visitor, 6);
     }
 
     public void addBridgeMethod(Method method) {
-        if (bridgeMethods == null) {
-            bridgeMethods = Maps.newHashMap();
+        if (this.bridgeMethods == null) {
+            this.bridgeMethods = Maps.newHashMap();
         }
-        bridgeMethods.put(method, method);
+
+        this.bridgeMethods.put(method, method);
     }
 
     public Map<Method, Method> getBridgeMethods() {
-        return bridgeMethods;
+        return this.bridgeMethods;
     }
 
     public boolean isUsingLegacyInstrumentation() {
-        return (null != oldInvokerStyleInstrumentationMethods) || (null != oldReflectionStyleInstrumentationMethods);
+        return null != this.oldInvokerStyleInstrumentationMethods
+                       || null != this.oldReflectionStyleInstrumentationMethods;
     }
 
     public boolean hasModifiedClassStructure() {
-        return null != oldInvokerStyleInstrumentationMethods;
+        return null != this.oldInvokerStyleInstrumentationMethods;
     }
 
     public void addClassResolver(ClassResolver classResolver) {
-        if (classResolvers == null) {
-            classResolvers = Lists.newArrayList();
+        if (this.classResolvers == null) {
+            this.classResolvers = Lists.newArrayList();
         }
-        classResolvers.add(classResolver);
+
+        this.classResolvers.add(classResolver);
     }
 
     public ClassResolver getClassResolver(ClassLoader loader) {
         ClassResolver classResolver = ClassResolvers.getClassLoaderResolver(loader);
-        if (classResolvers != null) {
-            classResolvers.add(classResolver);
-            classResolver = ClassResolvers.getMultiResolver(classResolvers);
+        if (this.classResolvers != null) {
+            this.classResolvers.add(classResolver);
+            classResolver = ClassResolvers.getMultiResolver(this.classResolvers);
         }
+
         return classResolver;
     }
 
     public byte[] getOriginalClassBytes() {
-        return bytes;
+        return this.bytes;
     }
 
     public boolean isGenerated() {
-        return generated;
+        return this.generated;
     }
 
     public void setGenerated(boolean isGenerated) {
-        generated = isGenerated;
+        this.generated = isGenerated;
     }
 
     public void setSourceAttribute(boolean hasSource) {
@@ -370,6 +406,6 @@ public class InstrumentationContext implements TraceDetailsList {
     }
 
     public boolean hasSourceAttribute() {
-        return hasSource;
+        return this.hasSource;
     }
 }

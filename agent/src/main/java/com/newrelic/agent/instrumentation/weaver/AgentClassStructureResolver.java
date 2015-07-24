@@ -1,3 +1,8 @@
+//
+// Source code recreated from a .class file by IntelliJ IDEA
+// (powered by Fernflower decompiler)
+//
+
 package com.newrelic.agent.instrumentation.weaver;
 
 import java.io.IOException;
@@ -22,17 +27,19 @@ public class AgentClassStructureResolver extends ClassStructureResolver {
         this.embeddedClassResolver = embeddedClassResolver;
     }
 
-    public ClassStructure getClassStructure(Logger logger, ClassLoader loader, String internalName, int flags)
-            throws IOException {
-        InputStream classResource = embeddedClassResolver.getClassResource(internalName);
-        if (classResource != null) {
+    public ClassStructure getClassStructure(Logger logger, ClassLoader loader, String internalName, int flags) throws IOException {
+        InputStream classResource = this.embeddedClassResolver.getClassResource(internalName);
+        if(classResource != null) {
+            ClassStructure var6;
             try {
-                return ClassStructure.getClassStructure(new ClassReader(classResource), flags);
+                var6 = ClassStructure.getClassStructure(new ClassReader(classResource), flags);
             } finally {
                 classResource.close();
             }
-        }
 
-        return super.getClassStructure(logger, loader, internalName, flags);
+            return var6;
+        } else {
+            return super.getClassStructure(logger, loader, internalName, flags);
+        }
     }
 }

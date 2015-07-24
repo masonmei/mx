@@ -37,7 +37,7 @@ public class CommandParser extends AbstractService implements HarvestListener {
         try {
             commands = rpmService.getAgentCommands();
         } catch (Exception e) {
-            getLogger().log(Level.FINE, "Unable to get agent commands - {0}", new Object[] {e.toString()});
+            getLogger().log(Level.FINE, "Unable to get agent commands - {0}", e.toString());
             getLogger().log(Level.FINEST, e, e.toString(), new Object[0]);
             return;
         }
@@ -47,7 +47,7 @@ public class CommandParser extends AbstractService implements HarvestListener {
             rpmService.sendCommandResults(commandResults);
         } catch (Exception e) {
             String msg = MessageFormat.format("Unable to send agent command feedback.  Command results: {0}",
-                                                     new Object[] {commandResults.toString()});
+                                                     commandResults.toString());
 
             getLogger().fine(msg);
         }
@@ -57,8 +57,8 @@ public class CommandParser extends AbstractService implements HarvestListener {
     }
 
     Command getCommand(String name) throws UnknownCommand {
-        Agent.LOG.finer(MessageFormat.format("Process command \"{0}\"", new Object[] {name}));
-        Command c = (Command) commands.get(name);
+        Agent.LOG.finer(MessageFormat.format("Process command \"{0}\"", name));
+        Command c = commands.get(name);
         if (c == null) {
             throw new UnknownCommand("Unknown command " + name);
         }
@@ -81,14 +81,13 @@ public class CommandParser extends AbstractService implements HarvestListener {
                         }
                         Command command = getCommand(name);
                         Object returnValue = command.process(rpmService, args);
-                        results.put(Long.valueOf(((Number) id).longValue()), returnValue);
-                        getLogger().finer(MessageFormat.format("Agent command \"{0}\" return value: {1}",
-                                                                      new Object[] {name, returnValue}));
+                        results.put(((Number) id).longValue(), returnValue);
+                        getLogger().finer(MessageFormat.format("Agent command \"{0}\" return value: {1}", name,
+                                                                      returnValue));
                     } catch (Exception e) {
-                        getLogger().severe(MessageFormat.format("Unable to parse command : {0}",
-                                                                       new Object[] {e.toString()}));
-                        getLogger().fine(MessageFormat.format("Unable to parse command", new Object[] {e}));
-                        results.put(Long.valueOf(((Number) id).longValue()), new JSONException(e));
+                        getLogger().severe(MessageFormat.format("Unable to parse command : {0}", e.toString()));
+                        getLogger().fine(MessageFormat.format("Unable to parse command", e));
+                        results.put(((Number) id).longValue(), new JSONException(e));
                     }
                 } else {
                     invalidCommand(rpmService, count, "Invalid command id " + id, agentCommand);
@@ -113,10 +112,10 @@ public class CommandParser extends AbstractService implements HarvestListener {
 
     private void setEnabled(AgentConfig agentConfig) {
         try {
-            Map props = (Map) agentConfig.getProperty("command_parser");
+            Map props = agentConfig.getProperty("command_parser");
             if (props != null) {
                 Boolean enabled = (Boolean) props.get("enabled");
-                this.enabled = ((enabled != null) && (enabled.booleanValue()));
+                this.enabled = ((enabled != null) && (enabled));
             }
         } catch (Throwable t) {
             getLogger().log(Level.SEVERE, "Unable to parse the command_parser section in newrelic.yml");

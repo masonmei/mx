@@ -257,10 +257,7 @@ public class InstrumentationContextManager {
             public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
                                     ProtectionDomain protectionDomain, byte[] classfileBuffer)
                     throws IllegalClassFormatException {
-                if ((className.startsWith("com/newrelic/agent/deps/org/objectweb/asm")) || (className
-                                                                                                    .startsWith
-                                                                                                             ("com/newrelic/deps"))
-                            || (className.startsWith("com/newrelic/agent/tracers/"))) {
+                if (className.startsWith("org/objectweb/asm") || (className.startsWith("com/newrelic/agent/tracers/"))) {
                     return null;
                 }
                 if ((initialized[0]) && (className.startsWith("com/newrelic/"))) {

@@ -13,14 +13,16 @@ import com.google.common.cache.CacheLoader;
 import com.google.common.cache.LoadingCache;
 
 public class EmbeddedJarFilesImpl implements EmbeddedJarFiles {
-    public static final EmbeddedJarFiles INSTANCE = new EmbeddedJarFilesImpl();
-//    private static final String[] INTERNAL_JAR_FILE_NAMES = {"agent-bridge", "newrelic-api", "newrelic-weaver-api"};
-    private static final String[] INTERNAL_JAR_FILE_NAMES = {"agent-bridge-1.0", "agent-api-1.0", "weaver-api-1.0"};
+    //    private static final String[] INTERNAL_JAR_FILE_NAMES = {"agent-bridge", "newrelic-api",
+    // "newrelic-weaver-api"};
+    private static final String[] INTERNAL_JAR_FILE_NAMES =
+            new String[] {"agent-bridge-1.0", "agent-api-1.0", "weaver-api-1.0"};
+    public static final EmbeddedJarFiles INSTANCE = new EmbeddedJarFilesImpl(INTERNAL_JAR_FILE_NAMES);
     private final LoadingCache<String, File> embeddedAgentJarFiles =
             CacheBuilder.newBuilder().build(new CacheLoader<String, File>() {
                 public File load(String jarNameWithoutExtension) throws IOException {
-                    InputStream jarStream =
-                            ClassLoader.getSystemClassLoader().getResourceAsStream(jarNameWithoutExtension + ".jar");
+                    InputStream jarStream = ClassLoader.getSystemClassLoader().getResourceAsStream
+                                                                                       (jarNameWithoutExtension + ".jar");
 
                     if (jarStream == null) {
                         throw new FileNotFoundException(jarNameWithoutExtension + ".jar");

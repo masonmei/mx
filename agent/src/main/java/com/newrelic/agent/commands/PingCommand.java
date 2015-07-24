@@ -13,6 +13,6 @@ public class PingCommand implements Command {
     }
 
     public String getName() {
-        return "ping";
+        return COMMAND_NAME;
     }
 }

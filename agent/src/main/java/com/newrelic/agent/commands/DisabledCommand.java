@@ -12,7 +12,7 @@ public final class DisabledCommand extends AbstractCommand {
     private final String errorMessage;
 
     public DisabledCommand(String name) {
-        this(name, MessageFormat.format("Command \"{0}\" is disabled", new Object[] {name}));
+        this(name, MessageFormat.format("Command \"{0}\" is disabled", name));
     }
 
     public DisabledCommand(String name, String errorMessage) {

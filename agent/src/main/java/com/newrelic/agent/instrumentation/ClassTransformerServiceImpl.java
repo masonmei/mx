@@ -137,7 +137,7 @@ public class ClassTransformerServiceImpl extends AbstractService implements Clas
 
         contextManager.addContextClassTransformer(classTransformer.getMatcher(), classTransformer);
         for (PointCut pc : classTransformer.getPointcuts()) {
-            Agent.LOG.log(Level.FINEST, "pointcut {0} active", new Object[] {pc});
+            Agent.LOG.log(Level.FINEST, "pointcut {0} active", pc);
             pc.noticeTransformerStarted(classTransformer);
         }
 
@@ -182,7 +182,7 @@ public class ClassTransformerServiceImpl extends AbstractService implements Clas
     }
 
     private void retransformMatchingClasses() {
-        Set matchers = (Set) retransformClassMatchers.getAndSet(createRetransformClassMatcherList());
+        Set<ClassMatchVisitorFactory> matchers = retransformClassMatchers.getAndSet(createRetransformClassMatcherList());
 
         if (!matchers.isEmpty()) {
             retransformMatchingClassesImmediately(matchers);
@@ -190,17 +190,17 @@ public class ClassTransformerServiceImpl extends AbstractService implements Clas
     }
 
     public void retransformMatchingClasses(Collection<ClassMatchVisitorFactory> matchers) {
-        ((Set) retransformClassMatchers.get()).addAll(matchers);
+        retransformClassMatchers.get().addAll(matchers);
     }
 
     public void retransformMatchingClassesImmediately(Collection<ClassMatchVisitorFactory> matchers) {
         InstrumentationProxy instrumentation = ServiceFactory.getAgent().getInstrumentation();
-        Set classesToRetransform =
-                InstrumentationContext.getMatchingClasses(matchers, instrumentation.getAllLoadedClasses());
+        Class<?>[] allLoadedClasses = instrumentation.getAllLoadedClasses();
+        Set<Class<?>> classesToRetransform = InstrumentationContext.getMatchingClasses(matchers, allLoadedClasses);
 
         if (!classesToRetransform.isEmpty()) {
             try {
-                instrumentation.retransformClasses((Class[]) classesToRetransform.toArray(new Class[0]));
+                instrumentation.retransformClasses(classesToRetransform.toArray(new Class[0]));
             } catch (UnmodifiableClassException e) {
                 logger.log(Level.FINER, "Error retransforming classes: " + classesToRetransform, e);
             }

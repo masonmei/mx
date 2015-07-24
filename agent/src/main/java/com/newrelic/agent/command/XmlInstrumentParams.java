@@ -13,17 +13,17 @@ public class XmlInstrumentParams {
         if (!filePath.exists()) {
             throw new IllegalArgumentException(MessageFormat
                                                        .format("The file specified with the tag {0} does not exist.",
-                                                                      new Object[] {tagName}));
+                                                                      tagName));
         }
         if (!filePath.isFile()) {
             throw new IllegalArgumentException(MessageFormat
                                                        .format("The file specified with the tag {0} must be a file "
-                                                                       + "and is not.", new Object[] {tagName}));
+                                                                       + "and is not.", tagName));
         }
         if (!filePath.canRead()) {
             throw new IllegalArgumentException(MessageFormat
                                                        .format("The file specified with the tag {0} must be readable "
-                                                                       + "and is not.", new Object[] {tagName}));
+                                                                       + "and is not.", tagName));
         }
     }
 
@@ -49,18 +49,18 @@ public class XmlInstrumentParams {
             if (toReturn != null) {
                 toReturn = toReturn.trim();
             } else {
-                throw new IllegalArgumentException(MessageFormat.format("One {0}, and only one {0}, must be set.",
-                                                                               new Object[] {tagName}));
+                throw new IllegalArgumentException(MessageFormat
+                                                           .format("One {0}, and only one {0}, must be set.", tagName));
             }
         } else {
-            throw new IllegalArgumentException(MessageFormat.format("One {0}, and only one {0}, must be set.",
-                                                                           new Object[] {tagName}));
+            throw new IllegalArgumentException(MessageFormat
+                                                       .format("One {0}, and only one {0}, must be set.", tagName));
         }
         return toReturn;
     }
 
     private String verifyOneOrNone(String[] value, String tagName) {
-        String toReturn = null;
+        String toReturn;
         if (value == null) {
             return null;
         }
@@ -71,8 +71,8 @@ public class XmlInstrumentParams {
             }
             toReturn = toReturn.trim();
         } else {
-            throw new IllegalArgumentException(MessageFormat.format("One {0}, and only one {0}, must be set.",
-                                                                           new Object[] {tagName}));
+            throw new IllegalArgumentException(MessageFormat
+                                                       .format("One {0}, and only one {0}, must be set.", tagName));
         }
         return toReturn;
     }
