@@ -186,41 +186,38 @@ public class AgentConfigImpl extends BaseConfig implements AgentConfig {
     private AgentConfigImpl(Map<String, Object> props) {
         super(props, SYSTEM_PROPERTY_ROOT);
 
-        highSecurity = (getProperty(HIGH_SECURITY, Boolean.valueOf(false))).booleanValue();
+        highSecurity = getProperty(HIGH_SECURITY, DEFAULT_HIGH_SECURITY);
         isSSL = initSsl(highSecurity, props);
         isApdexTSet = (getProperty(APDEX_T) != null);
         apdexTInMillis = ((long) (getDoubleProperty(APDEX_T, DEFAULT_APDEX_T) * 1000.0D));
         debug = Boolean.getBoolean(DEBUG);
-        enabled = (((getProperty(THREAD_PROFILER_ENABLED, Boolean.valueOf(true))).booleanValue())
-                           && ((getProperty(AGENT_ENABLED, Boolean.valueOf(true))).booleanValue()));
+        enabled = ((getProperty(THREAD_PROFILER_ENABLED, DEFAULT_ENABLED)) && (getProperty(AGENT_ENABLED,
+                                                                                                  DEFAULT_ENABLED)));
         licenseKey = (getProperty(LICENSE_KEY));
         host = (getProperty(HOST, DEFAULT_HOST));
-        ignoreJars = new ArrayList(getUniqueStrings("ignore_jars", ","));
+        ignoreJars = new ArrayList<String>(getUniqueStrings(IGNORE_JARS, ","));
         logLevel = initLogLevel();
-        logDaily = (getProperty(LOG_DAILY, Boolean.valueOf(false))).booleanValue();
+        logDaily = getProperty(LOG_DAILY, DEFAULT_LOG_DAILY);
         port = getIntProperty(PORT, isSSL ? DEFAULT_SSL_PORT : DEFAULT_PORT);
         proxyHost = (getProperty(PROXY_HOST, DEFAULT_PROXY_HOST));
-        proxyPort = Integer.valueOf(getIntProperty(PROXY_PORT, DEFAULT_PROXY_PORT));
+        proxyPort = getIntProperty(PROXY_PORT, DEFAULT_PROXY_PORT);
         proxyUser = (getProperty(PROXY_USER));
         proxyPass = (getProperty(PROXY_PASS));
-        appNames = new ArrayList(getUniqueStrings(APP_NAME, ";"));
+        appNames = new ArrayList<String>(getUniqueStrings(APP_NAME, ";"));
         appName = getFirstString(APP_NAME, ";");
-        cpuSamplingEnabled = (getProperty(CPU_SAMPLING_ENABLED, Boolean.valueOf(true))).booleanValue();
-        autoAppNamingEnabled = (getProperty(ENABLE_AUTO_APP_NAMING, Boolean.valueOf(false))).booleanValue();
+        cpuSamplingEnabled = getProperty(CPU_SAMPLING_ENABLED, DEFAULT_CPU_SAMPLING_ENABLED);
+        autoAppNamingEnabled = getProperty(ENABLE_AUTO_APP_NAMING, DEFAULT_ENABLE_AUTO_APP_NAMING);
         autoTransactionNamingEnabled =
-                (getProperty(ENABLE_AUTO_TRANSACTION_NAMING, Boolean.valueOf(true))).booleanValue();
+                getProperty(ENABLE_AUTO_TRANSACTION_NAMING, DEFAULT_ENABLE_AUTO_TRANSACTION_NAMING);
 
         transactionSizeLimit = (getIntProperty(TRANSACTION_SIZE_LIMIT, DEFAULT_TRANSACTION_SIZE_LIMIT) * 1024);
-        sessionCountTrackingEnabled =
-                (getProperty(ENABLE_SESSION_COUNT_TRACKING, Boolean.valueOf(false))).booleanValue();
-        reportSqlParserErrors = (getProperty(REPORT_SQL_PARSER_ERRORS, Boolean.valueOf(false))).booleanValue();
-        auditMode =
-                (((getProperty(TRACE_DATA_CALLS, Boolean.valueOf(false))).booleanValue()) || ((getProperty(AUDIT_MODE,
-                                                                                                                  Boolean.valueOf(false)))
-                                                                                                      .booleanValue()));
+        sessionCountTrackingEnabled = getProperty(ENABLE_SESSION_COUNT_TRACKING, DEFAULT_ENABLE_SESSION_COUNT_TRACKING);
+        reportSqlParserErrors = getProperty(REPORT_SQL_PARSER_ERRORS, DEFAULT_REPORT_SQL_PARSER_ERRORS);
+        auditMode = ((getProperty(TRACE_DATA_CALLS, DEFAULT_TRACE_DATA_CALLS)) || (getProperty(AUDIT_MODE,
+                                                                                                      DEFAULT_AUDIT_MODE)));
 
-        waitForRPMConnect = (getProperty(WAIT_FOR_RPM_CONNECT, Boolean.valueOf(true))).booleanValue();
-        startupTimingEnabled = (getProperty(STARTUP_TIMING, Boolean.valueOf(true))).booleanValue();
+        waitForRPMConnect = getProperty(WAIT_FOR_RPM_CONNECT, DEFAULT_WAIT_FOR_RPM_CONNECT);
+        startupTimingEnabled = getProperty(STARTUP_TIMING, DEFAULT_STARTUP_TIMING);
         transactionTracerConfig = initTransactionTracerConfig(apdexTInMillis, highSecurity);
         requestTransactionTracerConfig =
                 transactionTracerConfig.createRequestTransactionTracerConfig(apdexTInMillis, highSecurity);
@@ -241,11 +238,11 @@ public class AgentConfigImpl extends BaseConfig implements AgentConfig {
         jarCollectorConfig = initJarCollectorConfig();
         reinstrumentConfig = initReinstrumentConfig();
         circuitBreakerConfig = initCircuitBreakerConfig();
-        sendJvmProps = getProperty(SEND_JVM_PROPERY, Boolean.valueOf(true));
-        usePrivateSSL = getProperty(USE_PRIVATE_SSL, Boolean.valueOf(false));
-        xRaySessionsEnabled = getProperty(XRAY_SESSIONS_ENABLED, Boolean.valueOf(true));
-        trimStats = getProperty(TRIM_STATS, Boolean.valueOf(true));
-        platformInformationEnabled = getProperty(PLATFORM_INFORMATION_ENABLED, true);
+        sendJvmProps = getProperty(SEND_JVM_PROPERY, DEFAULT_ENABLED);
+        usePrivateSSL = getProperty(USE_PRIVATE_SSL, DEFAULT_USE_PRIVATE_SSL);
+        xRaySessionsEnabled = getProperty(XRAY_SESSIONS_ENABLED, DEFAULT_XRAY_SESSIONS_ENABLED);
+        trimStats = getProperty(TRIM_STATS, DEFAULT_TRIM_STATS);
+        platformInformationEnabled = getProperty(PLATFORM_INFORMATION_ENABLED, DEFAULT_PLATFORM_INFORMATION_ENABLED);
         ibmWorkaroundEnabled = getProperty(IBM_WORKAROUND, IBM_WORKAROUND_DEFAULT);
 
         instrumentationConfig = new BaseConfig(nestedProps("instrumentation"), "newrelic.config.instrumentation");
@@ -286,7 +283,7 @@ public class AgentConfigImpl extends BaseConfig implements AgentConfig {
             ssl = true;
             props.put(IS_SSL, Boolean.TRUE);
         } else {
-            ssl = (getProperty(IS_SSL, Boolean.valueOf(true))).booleanValue();
+            ssl = getProperty(IS_SSL, DEFAULT_IS_SSL);
         }
         return ssl;
     }
@@ -325,7 +322,7 @@ public class AgentConfigImpl extends BaseConfig implements AgentConfig {
         try {
             return (T) value;
         } catch (ClassCastException ccx) {
-            Agent.LOG.log(Level.FINE, "Using default value \"{0}\" for \"{1}\"", new Object[] {defaultValue, path});
+            Agent.LOG.log(Level.FINE, "Using default value \"{0}\" for \"{1}\"", defaultValue, path);
         }
         return defaultValue;
     }
@@ -401,7 +398,7 @@ public class AgentConfigImpl extends BaseConfig implements AgentConfig {
     }
 
     private ClassTransformerConfig initClassTransformerConfig() {
-        boolean customTracingEnabled = (getProperty(ENABLE_CUSTOM_TRACING, Boolean.valueOf(true))).booleanValue();
+        boolean customTracingEnabled = getProperty(ENABLE_CUSTOM_TRACING, DEFAULT_ENABLE_CUSTOM_TRACING);
         Map props = nestedProps(CLASS_TRANSFORMER);
         return ClassTransformerConfigImpl.createClassTransformerConfig(props, customTracingEnabled);
     }
@@ -464,7 +461,7 @@ public class AgentConfigImpl extends BaseConfig implements AgentConfig {
     }
 
     public int getApiPort() {
-        return (getProperty(API_PORT, Integer.valueOf(isSSL ? DEFAULT_SSL_PORT : DEFAULT_PORT))).intValue();
+        return getProperty(API_PORT, isSSL ? DEFAULT_SSL_PORT : DEFAULT_PORT);
     }
 
     public boolean isSSL() {
@@ -504,7 +501,7 @@ public class AgentConfigImpl extends BaseConfig implements AgentConfig {
     }
 
     public boolean isSendDataOnExit() {
-        return (getProperty(SEND_DATA_ON_EXIT, Boolean.valueOf(false))).booleanValue();
+        return getProperty(SEND_DATA_ON_EXIT, DEFAULT_SEND_DATA_ON_EXIT);
     }
 
     public long getSendDataOnExitThresholdInMillis() {
@@ -529,11 +526,11 @@ public class AgentConfigImpl extends BaseConfig implements AgentConfig {
     }
 
     public boolean isSyncStartup() {
-        return (getProperty(SYNC_STARTUP, Boolean.valueOf(false))).booleanValue();
+        return getProperty(SYNC_STARTUP, DEFAULT_SYNC_STARTUP);
     }
 
     public boolean isSendEnvironmentInfo() {
-        return (getProperty(SEND_ENVIRONMENT_INFO, Boolean.valueOf(true))).booleanValue();
+        return getProperty(SEND_ENVIRONMENT_INFO, DEFAULT_SEND_ENVIRONMENT_INFO);
     }
 
     public boolean isLoggingToStdOut() {
@@ -542,7 +539,7 @@ public class AgentConfigImpl extends BaseConfig implements AgentConfig {
     }
 
     public int getLogFileCount() {
-        return getIntProperty(LOG_FILE_COUNT, 1);
+        return getIntProperty(LOG_FILE_COUNT, DEFAULT_LOG_FILE_COUNT);
     }
 
     public String getLogFileName() {
@@ -558,7 +555,7 @@ public class AgentConfigImpl extends BaseConfig implements AgentConfig {
     }
 
     public int getLogLimit() {
-        return getIntProperty(LOG_LIMIT, 0);
+        return getIntProperty(LOG_LIMIT, DEFAULT_LOG_LIMIT);
     }
 
     public TransactionTracerConfig getTransactionTracerConfig() {

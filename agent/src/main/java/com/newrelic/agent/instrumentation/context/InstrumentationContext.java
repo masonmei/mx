@@ -179,9 +179,9 @@ public class InstrumentationContext implements TraceDetailsList {
     }
 
     public PointCut getOldStylePointCut(Method method) {
-        PointCut pc = (PointCut) this.getOldInvokerStyleInstrumentationMethods().get(method);
+        PointCut pc = this.getOldInvokerStyleInstrumentationMethods().get(method);
         if (null == pc) {
-            pc = (PointCut) this.getOldReflectionStyleInstrumentationMethods().get(method);
+            pc = this.getOldReflectionStyleInstrumentationMethods().get(method);
         }
 
         return pc;
@@ -206,8 +206,8 @@ public class InstrumentationContext implements TraceDetailsList {
     }
 
     public Collection<String> getMergeInstrumentationPackages(Method method) {
-        return (Collection) (this.weavedMethods == null ? Collections.emptySet()
-                                     : (Collection) this.weavedMethods.asMap().get(method));
+        return (this.weavedMethods == null ? Collections.<String>emptySet()
+                        : this.weavedMethods.<Method, Collection<String>>asMap().get(method));
     }
 
     public boolean isModified(Method method) {
