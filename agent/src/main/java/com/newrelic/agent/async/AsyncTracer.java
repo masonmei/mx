@@ -101,7 +101,7 @@ public class AsyncTracer extends AbstractTracer {
             }
         } catch (Throwable t) {
             String msg = MessageFormat.format("An error occurred finishing tracer for class {0} : {1}",
-                                                     new Object[] {classMethodSignature.getClassName(), t.toString()});
+                                                     classMethodSignature.getClassName(), t.toString());
 
             Agent.LOG.severe(msg);
             Agent.LOG.log(Level.FINER, msg, t);
@@ -116,7 +116,7 @@ public class AsyncTracer extends AbstractTracer {
             recordMetrics(getTransaction().getTransactionActivity().getTransactionStats());
         } catch (Throwable t) {
             String msg = MessageFormat.format("An error occurred recording tracer metrics for class {0} : {1}",
-                                                     new Object[] {classMethodSignature.getClassName(), t.toString()});
+                                                     classMethodSignature.getClassName(), t.toString());
 
             Agent.LOG.severe(msg);
             Agent.LOG.log(Level.FINER, msg, t);
@@ -128,7 +128,7 @@ public class AsyncTracer extends AbstractTracer {
         } catch (Throwable t) {
             String msg = MessageFormat
                                  .format("An error occurred calling Transaction.tracerFinished() for class {0} : {1}",
-                                                new Object[] {classMethodSignature.getClassName(), t.toString()});
+                                                classMethodSignature.getClassName(), t.toString());
 
             Agent.LOG.severe(msg);
             Agent.LOG.log(Level.FINER, msg, t);

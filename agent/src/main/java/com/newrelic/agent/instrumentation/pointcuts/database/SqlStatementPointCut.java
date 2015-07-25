@@ -33,18 +33,18 @@ public class SqlStatementPointCut extends TracerFactoryPointCut {
     static final String EXECUTE_QUERY_METHOD_NAME = "executeQuery";
     private static final String EXECUTE_QUERY_METHOD_DESC = "(Ljava/lang/String;)Ljava/sql/ResultSet;";
     private static final MethodMatcher METHOD_MATCHER = OrMethodMatcher
-                                                                .getMethodMatcher(new MethodMatcher[] {new ExactMethodMatcher("execute",
+                                                                .getMethodMatcher(new MethodMatcher[] {new ExactMethodMatcher(EXECUTE_METHOD_NAME,
                                                                                                                                      new String[] {"(Ljava/lang/String;)Z",
                                                                                                                                                           "(Ljava/lang/String;I)Z",
                                                                                                                                                           "(Ljava/lang/String;[I)Z",
                                                                                                                                                           "(Ljava/lang/String;[Ljava/lang/String;)Z"}),
-                                                                                                              new ExactMethodMatcher("executeUpdate",
+                                                                                                              new ExactMethodMatcher(EXECUTE_UPDATE_METHOD_NAME,
                                                                                                                                             new String[] {"(Ljava/lang/String;)I",
                                                                                                                                                                  "(Ljava/lang/String;I)I",
                                                                                                                                                                  "(Ljava/lang/String;[I)I",
                                                                                                                                                                  "(Ljava/lang/String;[Ljava/lang/String;)I"}),
-                                                                                                              new ExactMethodMatcher("executeQuery",
-                                                                                                                                            "(Ljava/lang/String;)Ljava/sql/ResultSet;")});
+                                                                                                              new ExactMethodMatcher(EXECUTE_QUERY_METHOD_NAME,
+                                                                                                                                            EXECUTE_QUERY_METHOD_DESC)});
 
     public SqlStatementPointCut(ClassTransformer classTransformer) {
         this(ServiceFactory.getConfigService().getDefaultAgentConfig());
@@ -57,10 +57,10 @@ public class SqlStatementPointCut extends TracerFactoryPointCut {
     private static ClassMatcher getClassMatcher(AgentConfig agentConfig) {
         Collection matchers = new ArrayList(2);
         if (agentConfig.isGenericJDBCSupportEnabled()) {
-            matchers.add(new InterfaceMatcher("java/sql/Statement"));
+            matchers.add(new InterfaceMatcher(SQL_STATEMENT_CLASS));
         }
         if (agentConfig.getJDBCSupport().contains("mysql")) {
-            matchers.add(new ExactClassMatcher("com/mysql/jdbc/Statement"));
+            matchers.add(new ExactClassMatcher(MYSQL_STATEMENT_CLASS));
         }
 
         return OrClassMatcher.getClassMatcher(matchers);
@@ -73,7 +73,7 @@ public class SqlStatementPointCut extends TracerFactoryPointCut {
                 if (Agent.LOG.isLoggable(Level.FINEST)) {
                     String msg = MessageFormat
                                          .format("Skipping sql statement because last tracer is a SqlStatementTracer: {0}",
-                                                        new Object[] {statement.getClass().getName()});
+                                                        statement.getClass().getName());
 
                     Agent.LOG.finest(msg);
                 }
@@ -84,8 +84,7 @@ public class SqlStatementPointCut extends TracerFactoryPointCut {
                                                     (String) args[0]);
 
             if (Agent.LOG.isLoggable(Level.FINEST)) {
-                String msg = MessageFormat.format("Created SqlStatementTracer for: {0}",
-                                                         new Object[] {statement.getClass().getName()});
+                String msg = MessageFormat.format("Created SqlStatementTracer for: {0}", statement.getClass().getName());
                 Agent.LOG.finest(msg);
             }
             return new SqlStatementTracer(transaction, sig, statement, stmtWrapper);

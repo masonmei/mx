@@ -186,7 +186,7 @@ public class TransactionActivity {
     private TransactionActivity(Transaction tx) {
         transaction = tx;
         TransactionTraceService ttService = ServiceFactory.getTransactionTraceService();
-        tracers = (ttService.isEnabled() ? new ArrayList(128) : null);
+        tracers = (ttService.isEnabled() ? new ArrayList<Tracer>(128) : null);
         transactionStats = new TransactionStats();
         transactionCache = new TransactionCache();
 
@@ -232,7 +232,7 @@ public class TransactionActivity {
     }
 
     public static TransactionActivity get() {
-        TransactionActivity result = (TransactionActivity) activityHolder.get();
+        TransactionActivity result = activityHolder.get();
         return result;
     }
 
@@ -298,7 +298,7 @@ public class TransactionActivity {
             lastTracer = tracer;
             addTracer(tracer);
         } else if (Agent.LOG.isFinestEnabled()) {
-            Agent.LOG.log(Level.FINEST, "tracerStarted: {0} cannot be added: no parent pointer", new Object[] {tracer});
+            Agent.LOG.log(Level.FINEST, "tracerStarted: {0} cannot be added: no parent pointer", tracer);
         }
 
         return tracer;
@@ -318,8 +318,8 @@ public class TransactionActivity {
     }
 
     private void failed(TransactionActivity activity, Tracer tracer, int opcode) {
-        Agent.LOG.log(Level.SEVERE, "Inconsistent state!  tracer != last tracer for {0} ({1} != {2})",
-                             new Object[] {this, tracer, lastTracer});
+        Agent.LOG.log(Level.SEVERE, "Inconsistent state!  tracer != last tracer for {0} ({1} != {2})", this, tracer,
+                             lastTracer);
         try {
             transaction.activityFailed(this, opcode);
         } finally {

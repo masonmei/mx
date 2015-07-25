@@ -59,7 +59,7 @@ public class DefaultTracer extends AbstractTracer {
 
     public DefaultTracer(Transaction transaction, ClassMethodSignature sig, Object object,
                          MetricNameFormat metricNameFormatter) {
-        this(transaction, sig, object, metricNameFormatter, 6);
+        this(transaction, sig, object, metricNameFormatter, DEFAULT_TRACER_FLAGS);
     }
 
     public DefaultTracer(Transaction transaction, ClassMethodSignature sig, Object object) {
@@ -96,7 +96,7 @@ public class DefaultTracer extends AbstractTracer {
             doFinish(throwable);
         } catch (Throwable t) {
             String msg = MessageFormat.format("An error occurred finishing tracer for class {0} : {1}",
-                                                     new Object[] {classMethodSignature.getClassName(), t});
+                                                     classMethodSignature.getClassName(), t);
 
             if (Agent.LOG.isLoggable(Level.FINER)) {
                 Agent.LOG.log(Level.WARNING, msg, t);
@@ -126,9 +126,8 @@ public class DefaultTracer extends AbstractTracer {
         duration = Math.max(0L, System.nanoTime() - getStartTime());
         exclusiveDuration += duration;
         if ((exclusiveDuration < 0L) || (exclusiveDuration > duration)) {
-            String msg = MessageFormat.format("Invalid exclusive time {0} for tracer {1}",
-                                                     new Object[] {Long.valueOf(exclusiveDuration),
-                                                                          getClass().getName()});
+            String msg = MessageFormat.format("Invalid exclusive time {0} for tracer {1}", exclusiveDuration,
+                                                     getClass().getName());
 
             Agent.LOG.severe(msg);
             exclusiveDuration = duration;
@@ -142,8 +141,7 @@ public class DefaultTracer extends AbstractTracer {
                 }
             } catch (Throwable t) {
                 String msg = MessageFormat.format("An error occurred finishing tracer for class {0} : {1}",
-                                                         new Object[] {classMethodSignature.getClassName(),
-                                                                              t.toString()});
+                                                         classMethodSignature.getClassName(), t.toString());
 
                 Agent.LOG.severe(msg);
                 Agent.LOG.log(Level.FINER, msg, t);
@@ -153,8 +151,7 @@ public class DefaultTracer extends AbstractTracer {
             } catch (Throwable t) {
                 if (Agent.LOG.isFinestEnabled()) {
                     String msg = MessageFormat.format("An error occurred getting stack trace for class {0} : {1}",
-                                                             new Object[] {classMethodSignature.getClassName(),
-                                                                                  t.toString()});
+                                                             classMethodSignature.getClassName(), t.toString());
 
                     Agent.LOG.log(Level.FINEST, msg, t);
                 }
@@ -224,7 +221,7 @@ public class DefaultTracer extends AbstractTracer {
     }
 
     public void storeStackTrace() {
-        setAttribute("backtrace", Thread.currentThread().getStackTrace());
+        setAttribute(BACKTRACE_PARAMETER_NAME, Thread.currentThread().getStackTrace());
     }
 
     public void setAttribute(String key, Object value) {

@@ -218,7 +218,8 @@ public class Transaction implements ITransaction {
 
     protected Transaction() {
         this.appNameAndConfig =
-                new AtomicReference(new Transaction.AppNameAndConfig(PriorityApplicationName.NONE, (AgentConfig) null));
+                new AtomicReference<AppNameAndConfig>(new Transaction.AppNameAndConfig(PriorityApplicationName.NONE,
+                                                                                              null));
         this.transactionState = new TransactionStateImpl();
         this.initialActivity = null;
         this.connectionCache = null;
@@ -227,25 +228,23 @@ public class Transaction implements ITransaction {
         this.metricAggregator = new AbstractMetricAggregator() {
             protected void doRecordResponseTimeMetric(String name, long totalTime, long exclusiveTime,
                                                       TimeUnit timeUnit) {
-                Transaction.this.getTransactionActivity().getTransactionStats().getUnscopedStats()
-                        .getResponseTimeStats(name).recordResponseTime(totalTime, exclusiveTime, timeUnit);
+                getTransactionActivity().getTransactionStats().getUnscopedStats().getResponseTimeStats(name)
+                        .recordResponseTime(totalTime, exclusiveTime, timeUnit);
             }
 
             protected void doRecordMetric(String name, float value) {
-                Transaction.this.getTransactionActivity().getTransactionStats().getUnscopedStats().getStats(name)
-                        .recordDataPoint(value);
+                getTransactionActivity().getTransactionStats().getUnscopedStats().getStats(name).recordDataPoint(value);
             }
 
             protected void doIncrementCounter(String name, int count) {
-                Transaction.this.getTransactionActivity().getTransactionStats().getUnscopedStats().getStats(name)
+                getTransactionActivity().getTransactionStats().getUnscopedStats().getStats(name)
                         .incrementCallCount(count);
             }
         };
         this.requestStateChangeLock = new Object();
-        Agent.LOG.log(Level.FINE, "create Transaction {0}", new Object[] {this});
+        Agent.LOG.log(Level.FINE, "create Transaction {0}", this);
         if (Agent.LOG.isFinestEnabled() && Agent.isDebugEnabled()) {
-            Agent.LOG.log(Level.FINEST, "backtrace: {0}",
-                                 new Object[] {Arrays.toString(Thread.currentThread().getStackTrace())});
+            Agent.LOG.log(Level.FINEST, "backtrace: {0}", Arrays.toString(Thread.currentThread().getStackTrace()));
         }
 
         AgentConfig defaultConfig = ServiceFactory.getConfigService().getDefaultAgentConfig();
@@ -253,8 +252,7 @@ public class Transaction implements ITransaction {
         this.guid = TransactionGuidFactory.generateGuid();
         this.autoAppNamingEnabled = defaultConfig.isAutoAppNamingEnabled();
         this.transactionNamingEnabled = this.initializeTransactionNamingEnabled(defaultConfig);
-        this.ignoreErrorPriority =
-                ((Boolean) defaultConfig.getValue("error_collector.ignoreErrorPriority", Boolean.TRUE)).booleanValue();
+        this.ignoreErrorPriority = defaultConfig.getValue("error_collector.ignoreErrorPriority", Boolean.TRUE);
         TransactionTraceService ttService = ServiceFactory.getTransactionTraceService();
         this.ttEnabled = ttService.isEnabled();
         this.counts = new TransactionCounts(defaultConfig);
@@ -311,7 +309,7 @@ public class Transaction implements ITransaction {
     }
 
     static Transaction getTransaction(boolean createIfNotExists) {
-        Transaction tx = (Transaction) transactionHolder.get();
+        Transaction tx = transactionHolder.get();
         if (tx == null && createIfNotExists && !(Thread.currentThread() instanceof AgentThread)) {
             if (ServiceFactory.getServiceManager().getCircuitBreakerService().isTripped()) {
                 return getOrCreateDummyTransaction();
@@ -321,10 +319,10 @@ public class Transaction implements ITransaction {
                 tx = new Transaction();
                 tx.postConstruct();
                 ServiceFactory.getTransactionService().addTransaction(tx);
-                tx.legacyState.boundThreads.add(Long.valueOf(Thread.currentThread().getId()));
+                tx.legacyState.boundThreads.add(Thread.currentThread().getId());
                 transactionHolder.set(tx);
             } catch (RuntimeException var3) {
-                Agent.LOG.log(Level.FINEST, var3, "while creating Transaction", new Object[0]);
+                Agent.LOG.log(Level.FINEST, var3, "while creating Transaction");
                 TransactionActivity.clear();
                 throw var3;
             }
@@ -347,15 +345,15 @@ public class Transaction implements ITransaction {
 
     private static String stripLeadingForwardSlash(String appName) {
         String FORWARD_SLASH = "/";
-        return appName.length() > 1 && appName.startsWith("/") ? appName.substring(1, appName.length()) : appName;
+        return appName.length() > 1 && appName.startsWith(FORWARD_SLASH) ? appName.substring(1, appName.length())
+                       : appName;
     }
 
     private void postConstruct() {
         TransactionActivity txa = TransactionActivity.create(this, this.nextActivityId.getAndIncrement());
         txa.setContext(txa);
         this.initialActivity = txa;
-        this.legacyState.boundThreads.add(Long.valueOf(Thread.currentThread().getId()));
-        Object var2 = this.lock;
+        this.legacyState.boundThreads.add(Thread.currentThread().getId());
         synchronized(this.lock) {
             this.runningChildren.put(txa.getContext(), txa);
         }
@@ -392,10 +390,10 @@ public class Transaction implements ITransaction {
     }
 
     public AgentConfig getAgentConfig() {
-        AgentConfig config = null;
+        AgentConfig config;
 
         do {
-            Transaction.AppNameAndConfig nc = (Transaction.AppNameAndConfig) this.appNameAndConfig.get();
+            Transaction.AppNameAndConfig nc = this.appNameAndConfig.get();
             config = nc.config;
             if (config == null) {
                 config = ServiceFactory.getConfigService().getAgentConfig(nc.name.getName());
@@ -488,7 +486,7 @@ public class Transaction implements ITransaction {
                 if (Agent.LOG.isFinestEnabled()) {
                     Agent.LOG.finest(MessageFormat
                                              .format("Unable to set the transaction name to \"{0}\" - no transaction",
-                                                            new Object[] {name}));
+                                                            name));
                 }
 
                 return false;
@@ -506,7 +504,6 @@ public class Transaction implements ITransaction {
     }
 
     public void freezeTransactionName() {
-        Object var1 = this.lock;
         synchronized(this.lock) {
             if (!this.priorityTransactionName.isFrozen()) {
                 this.dispatcher.setTransactionName();
@@ -542,25 +539,21 @@ public class Transaction implements ITransaction {
 
     public boolean conditionalSetPriorityTransactionName(TransactionNamingPolicy policy, String name, String category,
                                                          com.newrelic.agent.bridge.TransactionNamePriority priority) {
-        Object var5 = this.lock;
         synchronized(this.lock) {
             if (policy.canSetTransactionName(this, priority)) {
-                Agent.LOG.log(Level.FINER, "Setting transaction name to \"{0}\" for transaction {1}",
-                                     new Object[] {name, this});
+                Agent.LOG.log(Level.FINER, "Setting transaction name to \"{0}\" for transaction {1}", name, this);
                 return this.setPriorityTransactionNameLocked(policy.getPriorityTransactionName(this, name, category,
                                                                                                       priority));
             } else {
-                Agent.LOG.log(Level.FINER,
-                                     "Not setting the transaction name to  \"{0}\" for transaction {1}: a higher "
-                                             + "priority name is already in place. Current transaction name is {2}",
-                                     new Object[] {name, this, this.getTransactionName()});
+                Agent.LOG.log(Level.FINER, "Not setting the transaction name to  \"{0}\" for transaction {1}: a higher "
+                                                   + "priority name is already in place. Current transaction name is "
+                                                   + "{2}", name, this, this.getTransactionName());
                 return false;
             }
         }
     }
 
     public boolean setPriorityTransactionName(PriorityTransactionName ptn) {
-        Object var2 = this.lock;
         synchronized(this.lock) {
             return this.setPriorityTransactionNameLocked(ptn);
         }
@@ -580,7 +573,6 @@ public class Transaction implements ITransaction {
     }
 
     public SqlTracerListener getSqlTracerListener() {
-        Object var1 = this.lock;
         synchronized(this.lock) {
             if (this.sqlTracerListener == null) {
                 String appName = this.getApplicationName();
@@ -597,7 +589,6 @@ public class Transaction implements ITransaction {
 
     public ConnectionCache getConnectionCache() {
         if (this.connectionCache == null) {
-            Object var1 = this.lock;
             synchronized(this.lock) {
                 if (this.connectionCache == null) {
                     this.connectionCache = new ConnectionCache();
@@ -613,14 +604,12 @@ public class Transaction implements ITransaction {
     }
 
     public boolean isFinished() {
-        Object var1 = this.lock;
         synchronized(this.lock) {
             return this.isStarted() && this.runningChildren.isEmpty() && this.contextToTracer.isEmpty();
         }
     }
 
     public boolean isInProgress() {
-        Object var1 = this.lock;
         synchronized(this.lock) {
             return this.isStarted() && (!this.runningChildren.isEmpty() || !this.contextToTracer.isEmpty());
         }
@@ -631,7 +620,7 @@ public class Transaction implements ITransaction {
     }
 
     public void setDispatcher(Dispatcher dispatcher) {
-        Agent.LOG.log(Level.FINER, "Set dispatcher {0} for transaction {1}", new Object[] {dispatcher, this});
+        Agent.LOG.log(Level.FINER, "Set dispatcher {0} for transaction {1}", dispatcher, this);
         this.dispatcher = dispatcher;
     }
 
@@ -675,13 +664,13 @@ public class Transaction implements ITransaction {
     }
 
     void activityStarted(TransactionActivity activity) {
-        Agent.LOG.log(Level.FINER, "activity {0} starting", new Object[] {activity});
+        Agent.LOG.log(Level.FINER, "activity {0} starting", activity);
         this.startTransactionIfBeginning(activity.getRootTracer());
     }
 
     public void startTransactionIfBeginning(Tracer tracer) {
         if (tracer instanceof TransactionActivityInitiator) {
-            Agent.LOG.log(Level.FINER, "Starting transaction {0}", new Object[] {this});
+            Agent.LOG.log(Level.FINER, "Starting transaction {0}", this);
             this.captureWallClockStartTime();
             if (ServiceFactory.getTransactionTraceService().isEnabled()) {
                 AgentConfig defaultConfig = ServiceFactory.getConfigService().getDefaultAgentConfig();
@@ -697,7 +686,7 @@ public class Transaction implements ITransaction {
 
             if (this.transactionTime == null) {
                 this.transactionTime = new TransactionTimer(tracer.getStartTime());
-                Agent.LOG.log(Level.FINER, "Set timer for transaction {0}", new Object[] {this});
+                Agent.LOG.log(Level.FINER, "Set timer for transaction {0}", this);
             }
 
             if (this.dispatcher == null) {
@@ -720,7 +709,7 @@ public class Transaction implements ITransaction {
             if (this.isAsyncTransaction()) {
                 if (Agent.LOG.isLoggable(Level.FINEST)) {
                     String transactionStats1 =
-                            MessageFormat.format("Async transaction {1} finished {0}", new Object[] {requestURI, this});
+                            MessageFormat.format("Async transaction {1} finished {0}", requestURI, this);
                     Agent.LOG.finest(transactionStats1);
                 }
 
@@ -732,26 +721,22 @@ public class Transaction implements ITransaction {
                 this.dispatcher.transactionFinished(txName, transactionStats);
                 if (Agent.LOG.isFinerEnabled()) {
                     Agent.LOG.log(Level.FINER, "Transaction {2} finished {0}ms {1}",
-                                         new Object[] {Long.valueOf(this.transactionTime
-                                                                            .getResponseTimeInMilliseconds()),
-                                                              requestURI, this});
+                                         this.transactionTime.getResponseTimeInMilliseconds(), requestURI, this);
                 }
 
                 if (ServiceFactory.getServiceManager().isStarted()) {
                     if (Agent.LOG.isFinerEnabled()) {
-                        Agent.LOG
-                                .log(Level.FINER, "Transaction name for {0} is {1}", new Object[] {requestURI, txName});
+                        Agent.LOG.log(Level.FINER, "Transaction name for {0} is {1}", requestURI, txName);
                         if (this.isAutoAppNamingEnabled()) {
-                            Agent.LOG.log(Level.FINER, "Application name for {0} is {1}",
-                                                 new Object[] {txName, rpmService.getApplicationName()});
+                            Agent.LOG.log(Level.FINER, "Application name for {0} is {1}", txName,
+                                                 rpmService.getApplicationName());
                         }
                     }
 
                     TransactionTracerConfig ttConfig = this.getTransactionTracerConfig();
                     TransactionCounts rootCounts = this.getTransactionCounts();
                     if (rootCounts.isOverTracerSegmentLimit()) {
-                        this.getIntrinsicAttributes()
-                                .put("segment_clamp", Integer.valueOf(rootCounts.getSegmentCount()));
+                        this.getIntrinsicAttributes().put("segment_clamp", rootCounts.getSegmentCount());
                     }
 
                     if (rootCounts.isOverTransactionSize()) {
@@ -760,12 +745,12 @@ public class Transaction implements ITransaction {
 
                     int count = rootCounts.getStackTraceCount();
                     if (count >= ttConfig.getMaxStackTraces()) {
-                        this.getIntrinsicAttributes().put("stack_trace_clamp", Integer.valueOf(count));
+                        this.getIntrinsicAttributes().put("stack_trace_clamp", count);
                     }
 
                     count = rootCounts.getExplainPlanCount();
                     if (count >= ttConfig.getMaxExplainPlans()) {
-                        this.getIntrinsicAttributes().put("explain_plan_clamp", Integer.valueOf(count));
+                        this.getIntrinsicAttributes().put("explain_plan_clamp", count);
                     }
 
                     String referrerGuid;
@@ -788,7 +773,7 @@ public class Transaction implements ITransaction {
 
                     if (this.isSynthetic()) {
                         Agent.LOG.log(Level.FINEST, "Completing Synthetics transaction for monitor {0}",
-                                             new Object[] {this.getInboundHeaderState().getSyntheticsMonitorId()});
+                                             this.getInboundHeaderState().getSyntheticsMonitorId());
                         this.getIntrinsicAttributes()
                                 .put("synthetics_resource_id", this.getInboundHeaderState().getSyntheticsResourceId());
                         this.getIntrinsicAttributes()
@@ -797,8 +782,7 @@ public class Transaction implements ITransaction {
                                 .put("synthetics_job_id", this.getInboundHeaderState().getSyntheticsJobId());
                     }
 
-                    String displayHost1 =
-                            (String) this.getAgentConfig().getValue("process_host.display_name", (Object) null);
+                    String displayHost1 = (String) this.getAgentConfig().getValue("process_host.display_name", null);
                     if (displayHost1 != null) {
                         this.getAgentAttributes().put("host.displayName", displayHost1);
                     }
@@ -815,7 +799,7 @@ public class Transaction implements ITransaction {
                 }
             }
         } else {
-            Agent.LOG.log(Level.FINE, "Ignoring transaction {0}", new Object[] {this});
+            Agent.LOG.log(Level.FINE, "Ignoring transaction {0}", this);
         }
     }
 
@@ -853,8 +837,7 @@ public class Transaction implements ITransaction {
                 if (Agent.LOG.isFinestEnabled()) {
                     Map tracerAtts = rootTracer1.getAttributes();
                     if (tracerAtts != null && !tracerAtts.isEmpty()) {
-                        Agent.LOG.log(Level.FINEST, "Tracer Attributes for {0} are {1}",
-                                             new Object[] {rootTracer1, tracerAtts});
+                        Agent.LOG.log(Level.FINEST, "Tracer Attributes for {0} are {1}", rootTracer1, tracerAtts);
                     }
                 }
             }
@@ -870,7 +853,7 @@ public class Transaction implements ITransaction {
         }
 
         if (totalCpuTime > 0L) {
-            this.getIntrinsicAttributes().put("cpu_time", Long.valueOf(totalCpuTime));
+            this.getIntrinsicAttributes().put("cpu_time", totalCpuTime);
         }
 
         return transactionStats;
@@ -880,7 +863,7 @@ public class Transaction implements ITransaction {
         Object val = this.getIntrinsicAttributes().remove("cpu_time");
         long totalCpuTime;
         if (val != null && val instanceof Long) {
-            totalCpuTime = ((Long) val).longValue();
+            totalCpuTime = (Long) val;
         } else {
             totalCpuTime = 0L;
         }
@@ -889,7 +872,7 @@ public class Transaction implements ITransaction {
             totalCpuTime += time;
         }
 
-        this.getIntrinsicAttributes().put("cpu_time", Long.valueOf(totalCpuTime));
+        this.getIntrinsicAttributes().put("cpu_time", totalCpuTime);
     }
 
     public void recordFinalGCTime(TransactionStats stats) {
@@ -899,10 +882,10 @@ public class Transaction implements ITransaction {
             if (totalGCTime == null && this.startGCTimeInMillis > -1L) {
                 long gcTime = getGCTime();
                 if (gcTime != this.startGCTimeInMillis) {
-                    totalGCTime = Long.valueOf(gcTime - this.startGCTimeInMillis);
+                    totalGCTime = gcTime - this.startGCTimeInMillis;
                     this.getIntrinsicAttributes().put("gc_time", totalGCTime);
                     stats.getUnscopedStats().getResponseTimeStats("GC/cumulative")
-                            .recordResponseTime(totalGCTime.longValue(), TimeUnit.MILLISECONDS);
+                            .recordResponseTime(totalGCTime, TimeUnit.MILLISECONDS);
                 }
             }
         }
@@ -916,28 +899,25 @@ public class Transaction implements ITransaction {
         }
 
         if (this.isTransactionTraceEnabled()) {
-            Iterator i$ = this.timedOutKeys.entrySet().iterator();
-
-            while (i$.hasNext()) {
-                Entry current = (Entry) i$.next();
-                Object val = ((Tracer) current.getValue()).getAttribute("unstarted_async_activity");
-                Object keys;
+            for (Entry<Object, Tracer> current : timedOutKeys.entrySet()) {
+                Object val = (current.getValue()).getAttribute("unstarted_async_activity");
+                Map<String, Integer> keys;
                 if (val == null) {
                     keys = Maps.newHashMap();
                 } else {
-                    keys = (Map) val;
+                    keys = (Map<String, Integer>) val;
                 }
 
                 String classType = current.getKey().getClass().toString();
-                Integer count = (Integer) ((Map) keys).get(classType);
+                Integer count = (keys).get(classType);
                 if (count == null) {
-                    count = Integer.valueOf(1);
+                    count = 1;
                 } else {
-                    count = Integer.valueOf(count.intValue() + 1);
+                    count += 1;
                 }
 
-                ((Map) keys).put(classType, count);
-                ((Tracer) current.getValue()).setAttribute("unstarted_async_activity", keys);
+                keys.put(classType, count);
+                (current.getValue()).setAttribute("unstarted_async_activity", keys);
             }
         }
 
@@ -977,7 +957,6 @@ public class Transaction implements ITransaction {
 
     public void provideRawHeaders(InboundHeaders headers) {
         if (headers != null) {
-            Object var2 = this.lock;
             synchronized(this.lock) {
                 this.providedHeaders = headers;
             }
@@ -987,7 +966,6 @@ public class Transaction implements ITransaction {
 
     public InboundHeaderState getInboundHeaderState() {
         Transaction tx = this.getRootTransaction();
-        Object var2 = tx.lock;
         synchronized(tx.lock) {
             if (tx.inboundHeaderState == null) {
                 InboundHeaders requestHeaders = getRequestHeaders(tx);
@@ -999,7 +977,7 @@ public class Transaction implements ITransaction {
                     tx.inboundHeaderState = new InboundHeaderState(tx, requestHeaders);
                 } catch (RuntimeException var6) {
                     Agent.LOG.log(Level.FINEST, "Unable to parse inbound headers", var6);
-                    tx.inboundHeaderState = new InboundHeaderState(tx, (InboundHeaders) null);
+                    tx.inboundHeaderState = new InboundHeaderState(tx, null);
                 }
             }
 
@@ -1016,7 +994,6 @@ public class Transaction implements ITransaction {
      */
     @Deprecated
     public String getNormalizedUri() {
-        Object var1 = this.lock;
         synchronized(this.lock) {
             return this.normalizedUri;
         }
@@ -1027,7 +1004,6 @@ public class Transaction implements ITransaction {
      */
     @Deprecated
     public void setNormalizedUri(String normalizedUri) {
-        Object var2 = this.lock;
         synchronized(this.lock) {
             if (normalizedUri != null && normalizedUri.length() != 0) {
                 TransactionNamingPolicy policy =
@@ -1038,8 +1014,7 @@ public class Transaction implements ITransaction {
                                                                                                      .TransactionNamePriority.CUSTOM_HIGH)) {
                     String msg = MessageFormat
                                          .format("Setting transaction name to normalized URI \"{0}\" for transaction "
-                                                         + "{1}",
-                                                        new Object[] {normalizedUri, this});
+                                                         + "{1}", normalizedUri, this);
                     Agent.LOG.finer(msg);
                 }
 
@@ -1072,22 +1047,20 @@ public class Transaction implements ITransaction {
                 if (Agent.LOG.isFinerEnabled()) {
                     Agent.LOG.log(Level.FINER,
                                          "Non-API call to setThrowable from asynchronous activity ignored: {0} with "
-                                                 + "priority {1}",
-                                         new Object[] {throwable, priority});
+                                                 + "priority {1}", throwable, priority);
                 }
 
             } else {
                 if (Agent.LOG.isFinerEnabled() && !this.ignoreErrorPriority) {
                     Agent.LOG.log(Level.FINER,
                                          "Attempting to set throwable in transaction: {0} having priority {1} with "
-                                                 + "priority {2}",
-                                         new Object[] {throwable.getClass().getName(), this.throwablePriority,
-                                                              priority});
+                                                 + "priority {2}", throwable.getClass().getName(),
+                                         this.throwablePriority, priority);
                 }
 
                 if (this.ignoreErrorPriority || priority.updateCurrentPriority(this.throwablePriority)) {
-                    Agent.LOG.log(Level.FINER, "Set throwable {0} in transaction {1}",
-                                         new Object[] {throwable.getClass().getName(), this});
+                    Agent.LOG.log(Level.FINER, "Set throwable {0} in transaction {1}", throwable.getClass().getName(),
+                                         this);
                     this.throwable = throwable;
                 }
 
@@ -1101,7 +1074,6 @@ public class Transaction implements ITransaction {
 
     public void setIgnore(boolean ignore) {
         if (this.dispatcher != null) {
-            Object var2 = this.lock;
             synchronized(this.lock) {
                 this.ignore = ignore;
                 Iterator i$ = this.runningChildren.values().iterator();
@@ -1216,7 +1188,7 @@ public class Transaction implements ITransaction {
     }
 
     public void setWebResponse(Response response) {
-        NewRelic.getAgent().getLogger().log(Level.FINEST, "setWebResponse invoked", new Object[0]);
+        NewRelic.getAgent().getLogger().log(Level.FINEST, "setWebResponse invoked");
         if (this.dispatcher instanceof WebRequestDispatcher) {
             this.dispatcher.setResponse(response);
         }
@@ -1237,8 +1209,8 @@ public class Transaction implements ITransaction {
             if (!this.isFinished()) {
                 if (this.dispatcher == null) {
                     ExitTracer tracer = AgentBridge.instrumentation
-                                                .createTracer((Object) null, REQUEST_INITIALIZED_CLASS_SIGNATURE_ID,
-                                                                     (String) null, REQUEST_TRACER_FLAGS);
+                                                .createTracer(null, REQUEST_INITIALIZED_CLASS_SIGNATURE_ID, null,
+                                                                     REQUEST_TRACER_FLAGS);
                     if (tracer != null) {
                         if (response == null) {
                             response = DUMMY_RESPONSE;
@@ -1256,16 +1228,15 @@ public class Transaction implements ITransaction {
 
     public void requestDestroyed() {
         Agent.LOG.log(Level.FINEST, "Request destroyed");
-        Object var1 = this.requestStateChangeLock;
         synchronized(this.requestStateChangeLock) {
             if (this.isInProgress()) {
                 Tracer rootTracer = this.getTransactionActivity().getRootTracer();
                 Tracer lastTracer = this.getTransactionActivity().getLastTracer();
                 if (lastTracer != null && rootTracer == lastTracer) {
-                    lastTracer.finish(177, (Object) null);
+                    lastTracer.finish(177, null);
                 } else {
-                    Agent.LOG.log(Level.FINER, "Inconsistent state!  tracer != last tracer for {0} ({1} != {2})",
-                                         new Object[] {this, rootTracer, lastTracer});
+                    Agent.LOG.log(Level.FINER, "Inconsistent state!  tracer != last tracer for {0} ({1} != {2})", this,
+                                         rootTracer, lastTracer);
                 }
 
             }
@@ -1303,7 +1274,7 @@ public class Transaction implements ITransaction {
     private void setPriorityApplicationName(PriorityApplicationName pan) {
         if (pan != null && !pan.equals(this.getPriorityApplicationName())) {
             Agent.LOG.log(Level.FINE, "Set application name to {0}", new Object[] {pan.getName()});
-            this.appNameAndConfig.set(new Transaction.AppNameAndConfig(pan, (AgentConfig) null));
+            this.appNameAndConfig.set(new Transaction.AppNameAndConfig(pan, null));
         }
     }
 
@@ -1315,7 +1286,6 @@ public class Transaction implements ITransaction {
         if (appName != null && appName.length() != 0) {
             Object policy = override ? SameOrHigherPriorityApplicationNamingPolicy.getInstance()
                                     : HigherPriorityApplicationNamingPolicy.getInstance();
-            Object var5 = this.lock;
             synchronized(this.lock) {
                 if (((ApplicationNamingPolicy) policy).canSetApplicationName(this, priority)) {
                     String name = stripLeadingForwardSlash(appName);
@@ -1337,24 +1307,20 @@ public class Transaction implements ITransaction {
 
     public boolean registerAsyncActivity(Object activityContext) {
         boolean result = false;
-        Object var3 = this.lock;
         synchronized(this.lock) {
             if (this.isInProgress()) {
                 Tracer t = this.getTransactionActivity().getLastTracer();
                 if (t == null) {
                     Agent.LOG.log(Level.FINE,
                                          "Parent tracer not found. Not registering async activity context {0} with "
-                                                 + "transaction {1}",
-                                         new Object[] {activityContext, this});
+                                                 + "transaction {1}", activityContext, this);
                 } else if (!ServiceFactory.getAsyncTxService().putIfAbsent(activityContext, this)) {
-                    Agent.LOG.log(Level.FINER,
-                                         "Key already in use. Not registering async activity context {0} with "
-                                                 + "transaction {1}",
-                                         new Object[] {activityContext, this});
+                    Agent.LOG.log(Level.FINER, "Key already in use. Not registering async activity context {0} with "
+                                                       + "transaction {1}", activityContext, this);
                 } else {
                     this.contextToTracer.put(activityContext, t);
                     Agent.LOG.log(Level.FINER, "Registering async activity context {0} with transaction {1}",
-                                         new Object[] {activityContext, this});
+                                         activityContext, this);
                     result = true;
                 }
             }
@@ -1372,10 +1338,10 @@ public class Transaction implements ITransaction {
                 if (transaction == null) {
                     Agent.LOG.log(Level.FINER,
                                          "startAsyncActivity(): there is no transaction associated with context {0}",
-                                         new Object[] {activityContext});
+                                         activityContext);
                 } else if (transaction == this) {
                     Agent.LOG.log(Level.FINER, "Transaction started in current running transaction {0} for context {1}",
-                                         new Object[] {transaction, activityContext});
+                                         transaction, activityContext);
                     this.contextToTracer.remove(activityContext);
                     if (this.isIgnore()) {
                         this.getTransactionActivity().setOwningTransactionIsIgnored(this.isIgnore());
@@ -1385,9 +1351,8 @@ public class Transaction implements ITransaction {
                     this.migrate(transaction, activityContext);
                     Agent.LOG.log(Level.FINER,
                                          "startAsyncActivity(): activity {0} (context {1}) unbound from transaction "
-                                                 + "{2} and bound to {3}",
-                                         new Object[] {this.getTransactionActivity(), activityContext, this,
-                                                              transaction});
+                                                 + "{2} and bound to {3}", this.getTransactionActivity(),
+                                         activityContext, this, transaction);
                 }
             } else {
                 Agent.LOG.log(Level.FINER, "startAsyncActivity must be called within a transaction.");
@@ -1398,9 +1363,8 @@ public class Transaction implements ITransaction {
     }
 
     public void timeoutAsyncActivity(Object activityContext) {
-        Object var2 = this.lock;
         synchronized(this.lock) {
-            Tracer tracer = (Tracer) this.contextToTracer.remove(activityContext);
+            Tracer tracer = this.contextToTracer.remove(activityContext);
             if (tracer != null) {
                 this.timedOutKeys.put(activityContext, tracer);
                 this.checkFinishTransaction();
@@ -1412,26 +1376,24 @@ public class Transaction implements ITransaction {
     public boolean ignoreAsyncActivity(Object activityContext) {
         String baseMessage = "ignoreAsyncActivity({0}): {1}";
         boolean result = true;
-        Object var4 = this.lock;
         synchronized(this.lock) {
-            String detailMessage = null;
+            String detailMessage;
             Transaction tx = ServiceFactory.getAsyncTxService().extractIfPresent(activityContext);
             if (tx != null) {
-                Tracer txa = (Tracer) tx.contextToTracer.remove(activityContext);
+                Tracer txa = tx.contextToTracer.remove(activityContext);
                 if (txa == null) {
-                    Agent.LOG.log(Level.FINER, "ignoreAsyncActivity({0}): {1}",
-                                         new Object[] {activityContext, "tracer not found"});
+                    Agent.LOG.log(Level.FINER, baseMessage, activityContext, "tracer not found");
                 }
 
                 detailMessage = "pending activity ignored.";
             } else {
                 TransactionActivity txa1;
                 if (this.runningChildren.containsKey(activityContext)) {
-                    txa1 = (TransactionActivity) this.runningChildren.remove(activityContext);
+                    txa1 = this.runningChildren.remove(activityContext);
                     txa1.setToIgnore();
                     detailMessage = "running activity ignored.";
                 } else if (this.finishedChildren.containsKey(activityContext)) {
-                    txa1 = (TransactionActivity) this.finishedChildren.remove(activityContext);
+                    txa1 = this.finishedChildren.remove(activityContext);
                     txa1.setToIgnore();
                     detailMessage = "finished activity ignored.";
                 } else {
@@ -1440,7 +1402,7 @@ public class Transaction implements ITransaction {
                 }
             }
 
-            Agent.LOG.log(Level.FINE, "ignoreAsyncActivity({0}): {1}", new Object[] {activityContext, detailMessage});
+            Agent.LOG.log(Level.FINE, "ignoreAsyncActivity({0}): {1}", activityContext, detailMessage);
             this.checkFinishTransaction();
             return result;
         }
@@ -1454,11 +1416,11 @@ public class Transaction implements ITransaction {
         if (this != newTrans) {
             TransactionActivity activity = this.getTransactionActivity();
             activity.setOwningTransactionIsIgnored(newTrans.isIgnore());
-            Tracer tracer = (Tracer) newTrans.contextToTracer.remove(context);
+            Tracer tracer = newTrans.contextToTracer.remove(context);
             activity.startAsyncActivity(context, newTrans, this.nextActivityId.getAndIncrement(), tracer);
             newTrans.runningChildren.put(context, activity);
             transactionHolder.set(newTrans);
-            newTrans.legacyState.boundThreads.add(Long.valueOf(Thread.currentThread().getId()));
+            newTrans.legacyState.boundThreads.add(Thread.currentThread().getId());
             PriorityApplicationName pan = this.getPriorityApplicationName();
             if (pan != PriorityApplicationName.NONE) {
                 newTrans.setApplicationName(pan.getPriority(), pan.getName(), true);
@@ -1466,7 +1428,7 @@ public class Transaction implements ITransaction {
 
             PriorityTransactionName ptn = this.getPriorityTransactionName();
             if (ptn != PriorityTransactionName.NONE) {
-                newTrans.setTransactionName(ptn.getPriority(), true, ptn.getCategory(), new String[] {ptn.getName()});
+                newTrans.setTransactionName(ptn.getPriority(), true, ptn.getCategory(), ptn.getName());
             }
 
             newTrans.getInternalParameters().putAll(this.getInternalParameters());
@@ -1479,23 +1441,21 @@ public class Transaction implements ITransaction {
     }
 
     public Set<TransactionActivity> getFinishedChildren() {
-        Object var1 = this.lock;
         synchronized(this.lock) {
-            return new HashSet(this.finishedChildren.values());
+            return new HashSet<TransactionActivity>(this.finishedChildren.values());
         }
     }
 
     public void activityFinished(TransactionActivity activity, Tracer tracer, int opcode) {
         Agent.LOG.log(Level.FINER, "Activity {0} with context {1} finished with opcode {2} in transaction {3}.",
-                             new Object[] {activity, activity.getContext(), Integer.valueOf(opcode), this});
-        Object var4 = this.lock;
+                             activity, activity.getContext(), opcode, this);
         synchronized(this.lock) {
             try {
                 Object context = activity.getContext();
                 if (this.runningChildren.remove(context) == null) {
                     Agent.LOG.log(Level.FINE,
                                          "The completing activity {0} was not in the running list for transaction {1}",
-                                         new Object[] {activity, this});
+                                         activity, this);
                 } else {
                     this.finishedChildren.put(context, activity);
                 }
@@ -1510,9 +1470,7 @@ public class Transaction implements ITransaction {
     }
 
     public void activityFailed(TransactionActivity activity, int opcode) {
-        Agent.LOG.log(Level.FINER, "activity {0} FAILED with opcode {1}",
-                             new Object[] {activity, Integer.valueOf(opcode)});
-        Object var3 = this.lock;
+        Agent.LOG.log(Level.FINER, "activity {0} FAILED with opcode {1}", activity, opcode);
         synchronized(this.lock) {
             try {
                 this.runningChildren.remove(activity.getContext());
