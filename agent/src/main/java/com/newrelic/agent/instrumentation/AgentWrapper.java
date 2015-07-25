@@ -54,7 +54,7 @@ public class AgentWrapper implements InvocationHandler {
     }
 
     public Object invoke(Object proxy, Method method, Object[] args) {
-        if ("CLASSLOADER" == proxy) {
+        if (CLASSLOADER_KEY == proxy) {
             return Agent.getClassLoader();
         }
         if (!agent.isEnabled()) {
@@ -65,8 +65,7 @@ public class AgentWrapper implements InvocationHandler {
                 return createInvocationHandler(proxy, args);
             }
             if ((proxy instanceof Integer)) {
-                PointCutInvocationHandler invocationHandler =
-                        tracerService.getInvocationHandler(((Integer) proxy).intValue());
+                PointCutInvocationHandler invocationHandler = tracerService.getInvocationHandler((Integer) proxy);
                 return invoke(invocationHandler, (String) args[0], (String) args[1], (String) args[2], args[3],
                                      (Object[]) args[4]);
             }
@@ -80,12 +79,12 @@ public class AgentWrapper implements InvocationHandler {
     }
 
     private Object createInvocationHandler(Object proxy, Object[] args) {
-        boolean ignoreTransaction = ((Boolean) args[4]).booleanValue();
+        boolean ignoreTransaction = (Boolean) args[4];
         if (ignoreTransaction) {
             return IgnoreTransactionHandler.IGNORE_TRANSACTION_INVOCATION_HANDLER;
         }
-        return classTransformer.evaluate((Class) proxy, tracerService, args[0], args[1], args[2],
-                                                ((Boolean) args[3]).booleanValue(), args);
+        return classTransformer
+                       .evaluate((Class) proxy, tracerService, args[0], args[1], args[2], (Boolean) args[3], args);
     }
 
     private static class IgnoreTransactionHandler implements InvocationHandler {

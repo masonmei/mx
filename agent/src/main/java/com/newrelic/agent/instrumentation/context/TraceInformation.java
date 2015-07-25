@@ -6,7 +6,6 @@
 package com.newrelic.agent.instrumentation.context;
 
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -29,18 +28,16 @@ public class TraceInformation {
     }
 
     public Map<Method, TraceDetails> getTraceAnnotations() {
-        return this.traces == null ? Collections.EMPTY_MAP : Collections.unmodifiableMap(this.traces);
+        return this.traces == null ? Collections.<Method, TraceDetails>emptyMap()
+                       : Collections.unmodifiableMap(this.traces);
     }
 
     void pullAll(Map<Method, TraceDetails> tracedMethods) {
         if (this.traces == null) {
             this.traces = Maps.newHashMap(tracedMethods);
         } else {
-            Iterator i$ = tracedMethods.entrySet().iterator();
-
-            while (i$.hasNext()) {
-                Entry entry = (Entry) i$.next();
-                this.putTraceAnnotation((Method) entry.getKey(), (TraceDetails) entry.getValue());
+            for (Entry<Method, TraceDetails> entry : tracedMethods.entrySet()) {
+                this.putTraceAnnotation(entry.getKey(), entry.getValue());
             }
         }
 
@@ -50,10 +47,10 @@ public class TraceInformation {
         if (this.traces == null) {
             this.traces = Maps.newHashMap();
         } else {
-            TraceDetails existing = (TraceDetails) this.traces.get(method);
+            TraceDetails existing = this.traces.get(method);
             if (existing != null) {
-                Agent.LOG.log(Level.FINEST, "Merging trace details {0} and {1} for method {2}",
-                                     new Object[] {existing, trace, method});
+                Agent.LOG
+                        .log(Level.FINEST, "Merging trace details {0} and {1} for method {2}", existing, trace, method);
                 trace = TraceDetailsBuilder.merge(existing, trace);
             }
         }
@@ -62,11 +59,11 @@ public class TraceInformation {
     }
 
     public Set<Method> getIgnoreApdexMethods() {
-        return this.ignoreApdexMethods == null ? Collections.EMPTY_SET : this.ignoreApdexMethods;
+        return this.ignoreApdexMethods == null ? Collections.<Method>emptySet() : this.ignoreApdexMethods;
     }
 
     public Set<Method> getIgnoreTransactionMethods() {
-        return this.ignoreTransactionMethods == null ? Collections.EMPTY_SET : this.ignoreTransactionMethods;
+        return this.ignoreTransactionMethods == null ? Collections.<Method>emptySet() : this.ignoreTransactionMethods;
     }
 
     public void addIgnoreApdexMethod(String methodName, String methodDesc) {

@@ -8,6 +8,7 @@ import java.lang.instrument.Instrumentation;
 import java.security.ProtectionDomain;
 import java.text.MessageFormat;
 import java.util.Collection;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -163,7 +164,8 @@ public class InstrumentationContextManager {
 
                 public MethodVisitor visitMethod(int access, String name, String desc, String signature,
                                                  String[] exceptions) {
-                    return new MethodVisitor(Agent.ASM_LEVEL, super.visitMethod(access, name, desc, signature, exceptions)) {
+                    return new MethodVisitor(Agent.ASM_LEVEL,
+                                                    super.visitMethod(access, name, desc, signature, exceptions)) {
                         public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
                             if (InstrumentationContextManager.ANNOTATIONS_TO_REMOVE.contains(desc)) {
                                 return null;
@@ -205,33 +207,29 @@ public class InstrumentationContextManager {
         matchVisitors.put(new GeneratedClassDetector(), NO_OP_TRANSFORMER);
 
         AgentConfig agentConfig = ServiceFactory.getConfigService().getDefaultAgentConfig();
-        if (((Boolean) agentConfig.getValue("instrumentation.web_services.enabled", Boolean.valueOf(true)))
-                    .booleanValue()) {
+        if (agentConfig.getValue("instrumentation.web_services.enabled", true)) {
             matchVisitors.put(new WebServiceVisitor(), NO_OP_TRANSFORMER);
         }
 
-        if (((Boolean) agentConfig.getValue("instrumentation.rest_annotations.enabled", Boolean.valueOf(true)))
-                    .booleanValue()) {
+        if (agentConfig.getValue("instrumentation.rest_annotations.enabled", true)) {
             RestAnnotationVisitor rest = new RestAnnotationVisitor();
             matchVisitors.put(rest.getClassMatchVisitorFactory(), NO_OP_TRANSFORMER);
             interfaceMatchVisitors.put(rest.getInterfaceMatchVisitorFactory(this), NO_OP_TRANSFORMER);
         }
 
-        if (((Boolean) agentConfig.getValue("instrumentation.spring_annotations.enabled", Boolean.valueOf(true)))
-                    .booleanValue()) {
+        if (agentConfig.getValue("instrumentation.spring_annotations.enabled", true)) {
             SpringAnnotationVisitor rest = new SpringAnnotationVisitor();
             matchVisitors.put(rest.getClassMatchVisitorFactory(), NO_OP_TRANSFORMER);
         }
 
-        if (((Boolean) agentConfig.getValue("instrumentation.servlet_annotations.enabled", Boolean.valueOf(true)))
-                    .booleanValue()) {
+        if (agentConfig.getValue("instrumentation.servlet_annotations.enabled", true)) {
             matchVisitors.put(new ServletAnnotationVisitor(), NO_OP_TRANSFORMER);
         }
 
         Config instrumentationConfig = agentConfig.getClassTransformerConfig()
                                                .getInstrumentationConfig("com.newrelic.instrumentation.ejb-3.0");
 
-        if (((Boolean) instrumentationConfig.getProperty("enabled", Boolean.valueOf(true))).booleanValue()) {
+        if (instrumentationConfig.getProperty("enabled", true)) {
             matchVisitors.put(new EJBAnnotationVisitor(), NO_OP_TRANSFORMER);
         }
 
@@ -250,91 +248,112 @@ public class InstrumentationContextManager {
         final TraceClassTransformer traceTransformer = new TraceClassTransformer();
         Runnable loadWeavedInstrumentation = manager.classWeaverService.registerInstrumentation();
 
-        final boolean[] initialized = {false};
+        final boolean[] initialized = new boolean[] {false};
 
         ClassLoaderClassTransformer classLoaderTransformer = new ClassLoaderClassTransformer(manager);
         ClassFileTransformer transformer = new ClassFileTransformer() {
             public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
                                     ProtectionDomain protectionDomain, byte[] classfileBuffer)
                     throws IllegalClassFormatException {
-                if (className.startsWith("org/objectweb/asm") || (className.startsWith("com/newrelic/agent/tracers/"))) {
-                    return null;
-                }
-                if ((initialized[0]) && (className.startsWith("com/newrelic/"))) {
-                    return null;
-                }
-                if (loader == null) {
-                    if (!bootstrapClassloaderEnabled) {
+                if (!className.startsWith("com/newrelic/agent/deps/org/objectweb/asm") && !className
+                                                                                                   .startsWith
+                                                                                                            ("ch/qos/logback")
+                            && !className.startsWith("com/google") && !className.startsWith("javassist") && !className
+                                                                                                                     .startsWith("org/apache")
+                            && !className.startsWith("org/json/simple") && !className.startsWith("org/objectweb/asm")
+                            && !className.startsWith("org/reflections") && !className.startsWith("org/sl4j")
+                            && !className.startsWith("org/yaml/snakeyaml") && !className
+                                                                                       .startsWith
+                                                                                                ("com/newrelic/agent/tracers/")) {
+                    if (!initialized[0] && className.startsWith("com/newrelic/")) {
                         return null;
-                    }
-                    loader = ClassLoader.getSystemClassLoader();
-                }
-
-                ClassReader reader = new ClassReader(classfileBuffer);
-                if ((0x2200 & reader.getAccess()) != 0) {
-                    manager.applyInterfaceVisitors(loader, classBeingRedefined, reader);
-                    return null;
-                }
-                if (NewClassMarker.isNewWeaveClass(reader)) {
-                    return null;
-                }
-
-                if (Utils.isJdkProxy(reader)) {
-                    Agent.LOG.finest(MessageFormat.format("Instrumentation skipped by ''JDK proxy'' rule: {0}",
-                                                                 new Object[] {className}));
-                    return null;
-                }
-
-                InstrumentationContext context =
-                        new InstrumentationContext(classfileBuffer, classBeingRedefined, protectionDomain);
-
-                context.match(loader, classBeingRedefined, reader, manager.matchVisitors.keySet());
-
-                if (context.isGenerated()) {
-                    if (context.hasSourceAttribute()) {
-                        Agent.LOG.finest(MessageFormat.format("Instrumentation skipped by ''generated'' rule: {0}",
-                                                                     new Object[] {className}));
                     } else {
-                        Agent.LOG.finest(MessageFormat.format("Instrumentation skipped by ''no source'' rule: {0}",
-                                                                     new Object[] {className}));
+                        if (loader == null) {
+                            if (!bootstrapClassloaderEnabled) {
+                                return null;
+                            }
+
+                            loader = ClassLoader.getSystemClassLoader();
+                        }
+
+                        ClassReader reader = new ClassReader(classfileBuffer);
+                        if ((8704 & reader.getAccess()) != 0) {
+                            manager.applyInterfaceVisitors(loader, classBeingRedefined, reader);
+                            return null;
+                        } else if (NewClassMarker.isNewWeaveClass(reader)) {
+                            return null;
+                        } else if (Utils.isJdkProxy(reader)) {
+                            Agent.LOG.finest(MessageFormat
+                                                     .format("Instrumentation skipped by \'\'JDK proxy\'\' rule: {0}",
+                                                                    className));
+                            return null;
+                        } else {
+                            InstrumentationContext context =
+                                    new InstrumentationContext(classfileBuffer, classBeingRedefined, protectionDomain);
+                            context.match(loader, classBeingRedefined, reader, manager.matchVisitors.keySet());
+                            if (context.isGenerated()) {
+                                if (context.hasSourceAttribute()) {
+                                    Agent.LOG.finest(MessageFormat
+                                                             .format("Instrumentation skipped by \'\'generated\'\' "
+                                                                             + "rule: {0}", className));
+                                } else {
+                                    Agent.LOG.finest(MessageFormat
+                                                             .format("Instrumentation skipped by \'\'no source\'\' "
+                                                                             + "rule: {0}", className));
+                                }
+
+                                return null;
+                            } else if (!context.getMatches().isEmpty() && InstrumentationContextManager
+                                                                                  .skipClass(reader)) {
+                                Agent.LOG.finest(MessageFormat
+                                                         .format("Instrumentation skipped by \'\'class name\'\' rule:"
+                                                                         + " {0}", className));
+                                return null;
+                            } else {
+                                Iterator<Entry<ClassMatchVisitorFactory, OptimizedClassMatcher.Match>> iterator =
+                                        context.getMatches().entrySet().iterator();
+
+                                while (true) {
+                                    while (iterator.hasNext()) {
+                                        Entry<ClassMatchVisitorFactory, OptimizedClassMatcher.Match> entry =
+                                                iterator.next();
+                                        ContextClassTransformer transformer = manager.matchVisitors.get(entry.getKey());
+                                        if (transformer != null
+                                                    && transformer != InstrumentationContextManager.NO_OP_TRANSFORMER) {
+                                            byte[] bytes1 = transformer
+                                                                    .transform(loader, className, classBeingRedefined,
+                                                                                      protectionDomain, classfileBuffer,
+                                                                                      context, entry.getValue());
+                                            classfileBuffer = context.processTransformBytes(classfileBuffer, bytes1);
+                                        } else {
+                                            Agent.LOG.fine("Unable to find a class transformer to process match "
+                                                                   + entry.getValue());
+                                        }
+                                    }
+
+                                    if (context.isTracerMatch()) {
+                                        byte[] bytes2 = traceTransformer
+                                                                .transform(loader, className, classBeingRedefined,
+                                                                                  protectionDomain, classfileBuffer,
+                                                                                  context, null);
+                                        classfileBuffer = context.processTransformBytes(classfileBuffer, bytes2);
+                                    }
+
+                                    if (context.isModified()) {
+                                        return manager.FinishClassTransformer
+                                                       .transform(loader, className, classBeingRedefined,
+                                                                         protectionDomain, classfileBuffer, context,
+                                                                         null);
+                                    }
+
+                                    return null;
+                                }
+                            }
+                        }
                     }
+                } else {
                     return null;
                 }
-
-                if ((!context.getMatches().isEmpty()) && (InstrumentationContextManager.skipClass(reader))) {
-                    Agent.LOG.finest(MessageFormat.format("Instrumentation skipped by ''class name'' rule: {0}",
-                                                                 new Object[] {className}));
-                    return null;
-                }
-
-                for (Entry entry : context.getMatches().entrySet()) {
-                    ContextClassTransformer transformer =
-                            (ContextClassTransformer) manager.matchVisitors.get(entry.getKey());
-                    if ((transformer != null) && (transformer != InstrumentationContextManager.NO_OP_TRANSFORMER)) {
-                        byte[] bytes = transformer.transform(loader, className, classBeingRedefined, protectionDomain,
-                                                                    classfileBuffer, context,
-                                                                    (OptimizedClassMatcher.Match) entry.getValue());
-
-                        classfileBuffer = context.processTransformBytes(classfileBuffer, bytes);
-                    } else {
-                        Agent.LOG.fine("Unable to find a class transformer to process match " + entry.getValue());
-                    }
-                }
-
-                if (context.isTracerMatch()) {
-                    byte[] bytes = traceTransformer.transform(loader, className, classBeingRedefined, protectionDomain,
-                                                                     classfileBuffer, context, null);
-
-                    classfileBuffer = context.processTransformBytes(classfileBuffer, bytes);
-                }
-
-                if (context.isModified()) {
-                    return manager.FinishClassTransformer
-                                   .transform(loader, className, classBeingRedefined, protectionDomain, classfileBuffer,
-                                                     context, null);
-                }
-
-                return null;
             }
         };
         instrumentation.addTransformer(transformer, true);
@@ -399,15 +418,14 @@ public class InstrumentationContextManager {
 
                 Method method = new Method(name, desc);
                 if ((context.isModified(method)) && (loader != null)) {
-                    TraceDetails traceDetails =
-                            (TraceDetails) context.getTraceInformation().getTraceAnnotations().get(method);
+                    TraceDetails traceDetails = context.getTraceInformation().getTraceAnnotations().get(method);
                     boolean dispatcher = false;
                     if (traceDetails != null) {
                         dispatcher = traceDetails.dispatcher();
                     }
 
                     AnnotationVisitor av = mv.visitAnnotation(Type.getDescriptor(InstrumentedMethod.class), true);
-                    av.visit("dispatcher", Boolean.valueOf(dispatcher));
+                    av.visit("dispatcher", dispatcher);
                     List<String> instrumentationNames = Lists.newArrayList();
                     List<InstrumentationType> instrumentationTypes = Lists.newArrayList();
                     Level logLevel = Level.FINER;

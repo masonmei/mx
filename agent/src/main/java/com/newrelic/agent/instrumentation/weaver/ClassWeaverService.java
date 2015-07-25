@@ -30,6 +30,7 @@ import com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.AgentBridge;
 import com.newrelic.agent.config.AgentJarHelper;
+import com.newrelic.agent.extension.ExtensionService;
 import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher;
 import com.newrelic.agent.instrumentation.context.ClassMatchVisitorFactory;
 import com.newrelic.agent.instrumentation.context.InstrumentationContext;
@@ -82,7 +83,8 @@ public class ClassWeaverService {
             Agent.LOG.fine("Loading " + jarFileNames.size() + " instrumentation packages.");
         }
         addInternalInstrumentationPackagesInParallel(jarFileNames);
-        return reloadInstrumentationPackages(ServiceFactory.getExtensionService().getWeaveExtensions(), true);
+        ExtensionService extensionService = ServiceFactory.getExtensionService();
+        return reloadInstrumentationPackages(extensionService.getWeaveExtensions(), true);
     }
 
     private void addInternalInstrumentationPackagesInParallel(Collection<String> jarFileNames) {
@@ -93,8 +95,7 @@ public class ClassWeaverService {
         for (final Set instrumentationJars : instrumentationPartitions) {
             Runnable instrumentationRunnable = new Runnable() {
                 public void run() {
-                    internalInstrumentationPackages
-                            .addAll(ClassWeaverService.this.getInternalInstrumentationPackages(instrumentationJars));
+                    internalInstrumentationPackages.addAll(getInternalInstrumentationPackages(instrumentationJars));
                     executorCountDown.countDown();
                 }
             };
@@ -109,15 +110,15 @@ public class ClassWeaverService {
     }
 
     private List<Set<String>> partitionInstrumentationJars(Collection<String> jarFileNames, int partitions) {
-        List instrumentationPartitions = new ArrayList(partitions);
+        List<Set<String>> instrumentationPartitions = new ArrayList<Set<String>>(partitions);
 
         for (int i = 0; i < partitions; i++) {
-            instrumentationPartitions.add(new HashSet());
+            instrumentationPartitions.add(new HashSet<String>());
         }
 
         int index = 0;
         for (String jarFileName : jarFileNames) {
-            ((Set) instrumentationPartitions.get(index++ % partitions)).add(jarFileName);
+            instrumentationPartitions.get(index++ % partitions).add(jarFileName);
         }
 
         return instrumentationPartitions;
@@ -129,20 +130,20 @@ public class ClassWeaverService {
 
     private Runnable reloadInstrumentationPackages(Collection<File> weaveExtensions,
                                                    boolean retransformInternalInstrumentationPackageMatches) {
-        Collection unloadedMatchers = Sets.newHashSet();
-        final Set toClose = Sets.newHashSet(instrumentationPackages);
+        Collection<ClassMatchVisitorFactory> unloadedMatchers = Sets.newHashSet();
+        final Set<InstrumentationPackage> toClose = Sets.newHashSet(instrumentationPackages);
 
         for (InstrumentationPackage ip : instrumentationPackages) {
             unloadedMatchers.add(ip.getMatcher());
             removeInstrumentationPackage(ip);
         }
-        Collection loadedMatchers = Sets.newHashSet();
+        Collection<ClassMatchVisitorFactory> loadedMatchers = Sets.newHashSet();
         instrumentationPackages.clear();
         instrumentationPackages.addAll(getInstrumentationPackages(weaveExtensions));
         loadedMatchers.addAll(buildTransformers(retransformInternalInstrumentationPackageMatches));
 
         if (!retransformInternalInstrumentationPackageMatches) {
-            Collection existingClasses = Lists.newLinkedList();
+            Collection<ClassDefinition> existingClasses = Lists.newLinkedList();
             for (InstrumentationPackage ip : instrumentationPackages) {
                 for (Iterator iterator = toClose.iterator(); iterator.hasNext(); ) {
                     InstrumentationPackage oldIp = (InstrumentationPackage) iterator.next();
@@ -165,7 +166,7 @@ public class ClassWeaverService {
                                                          .isRedefineClassesSupported())) {
                 try {
                     ServiceFactory.getAgent().getInstrumentation()
-                            .redefineClasses((ClassDefinition[]) existingClasses.toArray(new ClassDefinition[0]));
+                            .redefineClasses(existingClasses.toArray(new ClassDefinition[existingClasses.size()]));
                 } catch (Exception e) {
                     if (!Agent.LOG.isFinestEnabled()) {
                         Agent.LOG.fine("Error redefining classes: " + e.getMessage());
@@ -183,14 +184,14 @@ public class ClassWeaverService {
             public void run() {
                 ServiceFactory.getClassTransformerService().retransformMatchingClassesImmediately(matchers);
                 InstrumentationPackage ip;
-                for (Iterator i$ = toClose.iterator(); i$.hasNext(); ) {
-                    ip = (InstrumentationPackage) i$.next();
+                for (InstrumentationPackage aToClose : toClose) {
+                    ip = aToClose;
                     for (Closeable closeable : ip.getCloseables()) {
                         try {
                             closeable.close();
                         } catch (IOException e) {
                             Agent.LOG.log(Level.FINE, e, "Error closing InstrumentationPackage {0} closeable {1}",
-                                                 new Object[] {ip.implementationTitle, closeable});
+                                                 ip.implementationTitle, closeable);
                         }
                     }
                 }
@@ -216,7 +217,7 @@ public class ClassWeaverService {
                     .debug("Registered " + transformer.instrumentationPackage.getImplementationTitle());
         }
 
-        Collection matchers = Sets.newHashSet();
+        Collection<ClassMatchVisitorFactory> matchers = Sets.newHashSet();
         if (retransformInternalInstrumentationPackageMatches) {
             for (WeavingClassTransformer transformer : transformers) {
                 matchers.add(transformer.instrumentationPackage.getMatcher());
@@ -230,7 +231,7 @@ public class ClassWeaverService {
     }
 
     private List<WeavingClassTransformer> createTransformers(Set<InstrumentationPackage> instrumentationPackages) {
-        List transformers = Lists.newLinkedList();
+        List<WeavingClassTransformer> transformers = Lists.newLinkedList();
         for (InstrumentationPackage instrumentationPackage : instrumentationPackages) {
             try {
                 WeavingClassTransformer transformer =
@@ -253,7 +254,7 @@ public class ClassWeaverService {
     }
 
     private Set<InstrumentationPackage> getInstrumentationPackages(Collection<File> weaveExtensions) {
-        Set instrumentationPackages = Sets.newHashSet();
+        Set<InstrumentationPackage> instrumentationPackages = Sets.newHashSet();
         for (File file : weaveExtensions) {
             if (!file.exists()) {
                 Agent.LOG.error("Unable to find instrumentation jar: " + file.getAbsolutePath());
@@ -276,7 +277,7 @@ public class ClassWeaverService {
     }
 
     private Set<InstrumentationPackage> getInternalInstrumentationPackages(Collection<String> jarFileNames) {
-        Set instrumentationPackages = Sets.newHashSet();
+        Set<InstrumentationPackage> instrumentationPackages = Sets.newHashSet();
         for (String name : jarFileNames) {
             URL instrumentationUrl = BootstrapAgent.class.getResource('/' + name);
             if (instrumentationUrl == null) {
@@ -371,7 +372,7 @@ public class ClassWeaverService {
         InstrumentationPackage instrumentationPackage = getInstrumentationPackage(implementationTitle);
         if (instrumentationPackage != null) {
             String internalClassName = className.replace('.', '/');
-            byte[] bytes = (byte[]) instrumentationPackage.getClassBytes().get(internalClassName);
+            byte[] bytes = instrumentationPackage.getClassBytes().get(internalClassName);
             if (bytes != null) {
                 ClassAppender.getSystemClassAppender().appendClasses(classLoader, instrumentationPackage.newClasses,
                                                                             instrumentationPackage.newClassLoadOrder);
@@ -380,18 +381,17 @@ public class ClassWeaverService {
                         .fine("Unable to find " + className + " in instrumentation package " + implementationTitle);
             }
         } else {
-            Agent.LOG.log(Level.FINE, "Unable to find instrumentation package {0} for class {1}.",
-                                 new Object[] {implementationTitle, className});
+            Agent.LOG.log(Level.FINE, "Unable to find instrumentation package {0} for class {1}.", implementationTitle,
+                                 className);
         }
     }
 
     public ClassReader getClassReader(Class<?> theClass) throws BenignClassReadException {
-        WeaveInstrumentation weaveInstrumentation =
-                (WeaveInstrumentation) theClass.getAnnotation(WeaveInstrumentation.class);
+        WeaveInstrumentation weaveInstrumentation = theClass.getAnnotation(WeaveInstrumentation.class);
         if (weaveInstrumentation != null) {
             InstrumentationPackage instrumentationPackage =
-                    (InstrumentationPackage) instrumentationPackageNames.get(weaveInstrumentation.title());
-            byte[] bytes = (byte[]) instrumentationPackage.getClassBytes().get(Type.getInternalName(theClass));
+                    instrumentationPackageNames.get(weaveInstrumentation.title());
+            byte[] bytes = instrumentationPackage.getClassBytes().get(Type.getInternalName(theClass));
             if (bytes != null) {
                 return new ClassReader(bytes);
             }
@@ -404,11 +404,10 @@ public class ClassWeaverService {
     }
 
     public void registerInstrumentationCloseable(String instrumentationName, Closeable closeable) {
-        InstrumentationPackage instrumentationPackage =
-                (InstrumentationPackage) instrumentationPackageNames.get(instrumentationName);
+        InstrumentationPackage instrumentationPackage = instrumentationPackageNames.get(instrumentationName);
         if (instrumentationPackage == null) {
             Agent.LOG.log(Level.INFO, "Unable to register closeable {1} for missing instrumentationPackage {0}",
-                                 new Object[] {instrumentationName, closeable});
+                                 instrumentationName, closeable);
 
             return;
         }

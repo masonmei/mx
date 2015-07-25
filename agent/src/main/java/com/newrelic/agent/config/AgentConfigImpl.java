@@ -190,7 +190,7 @@ public class AgentConfigImpl extends BaseConfig implements AgentConfig {
         isSSL = initSsl(highSecurity, props);
         isApdexTSet = (getProperty(APDEX_T) != null);
         apdexTInMillis = ((long) (getDoubleProperty(APDEX_T, DEFAULT_APDEX_T) * 1000.0D));
-        debug = Boolean.getBoolean(DEBUG);
+        debug = true;
         enabled = ((getProperty(THREAD_PROFILER_ENABLED, DEFAULT_ENABLED)) && (getProperty(AGENT_ENABLED,
                                                                                                   DEFAULT_ENABLED)));
         licenseKey = (getProperty(LICENSE_KEY));

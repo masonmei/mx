@@ -9,13 +9,11 @@ import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
@@ -44,44 +42,38 @@ import com.newrelic.agent.util.DefaultThreadFactory;
 
 public class ClassTransformerServiceImpl extends AbstractService implements ClassTransformerService {
     private final boolean isEnabled;
-    private final List<ClassFileTransformer> classTransformers = Collections.synchronizedList(new ArrayList());
+    private final List<ClassFileTransformer> classTransformers =
+            Collections.synchronizedList(new ArrayList<ClassFileTransformer>());
     private final long shutdownTime;
     private final InstrumentationImpl instrumentation;
     private final ScheduledExecutorService executor;
     private final Instrumentation extensionInstrumentation;
     private final AtomicReference<Set<ClassMatchVisitorFactory>> retransformClassMatchers =
-            new AtomicReference(createRetransformClassMatcherList());
+            new AtomicReference<Set<ClassMatchVisitorFactory>>(createRetransformClassMatcherList());
     private volatile ClassTransformer classTransformer;
     private volatile ClassRetransformer localRetransformer;
     private volatile ClassRetransformer remoteRetransformer;
     private InstrumentationContextManager contextManager;
-    private TraceMatchTransformer traceMatchTransformer;
+    private ClassTransformerServiceImpl.TraceMatchTransformer traceMatchTransformer;
 
     public ClassTransformerServiceImpl(InstrumentationProxy instrumentationProxy) throws Exception {
         super(ClassTransformerServiceImpl.class.getSimpleName());
-
-        extensionInstrumentation = new ExtensionInstrumentation(instrumentationProxy);
-
-        instrumentation = new InstrumentationImpl(logger);
-        AgentBridge.instrumentation = instrumentation;
-
-        ThreadFactory factory = new DefaultThreadFactory("New Relic Retransformer", true);
-        executor = Executors.newSingleThreadScheduledExecutor(factory);
-
+        this.extensionInstrumentation = new ExtensionInstrumentation(instrumentationProxy);
+        this.instrumentation = new InstrumentationImpl(this.logger);
+        AgentBridge.instrumentation = this.instrumentation;
+        DefaultThreadFactory factory = new DefaultThreadFactory("New Relic Retransformer", true);
+        this.executor = Executors.newSingleThreadScheduledExecutor(factory);
         AgentConfig config = ServiceFactory.getConfigService().getDefaultAgentConfig();
-        isEnabled = config.getClassTransformerConfig().isEnabled();
+        this.isEnabled = config.getClassTransformerConfig().isEnabled();
         long shutdownDelayInNanos = config.getClassTransformerConfig().getShutdownDelayInNanos();
         if (shutdownDelayInNanos > 0L) {
-            shutdownTime = (System.nanoTime() + shutdownDelayInNanos);
+            this.shutdownTime = System.nanoTime() + shutdownDelayInNanos;
             String msg = MessageFormat
                                  .format("The Class Transformer Service will stop instrumenting classes after {0} secs",
-                                                new Object[] {Long.valueOf(TimeUnit.SECONDS
-                                                                                   .convert(shutdownDelayInNanos,
-                                                                                                   TimeUnit.NANOSECONDS))});
-
-            getLogger().info(msg);
+                                                TimeUnit.SECONDS.convert(shutdownDelayInNanos, TimeUnit.NANOSECONDS));
+            this.getLogger().info(msg);
         } else {
-            shutdownTime = 9223372036854775807L;
+            this.shutdownTime = Long.MAX_VALUE;
         }
     }
 
@@ -102,18 +94,18 @@ public class ClassTransformerServiceImpl extends AbstractService implements Clas
         }
         executor.schedule(new Runnable() {
             public void run() {
-                ClassTransformerServiceImpl.this.retransformMatchingClasses();
+                retransformMatchingClasses();
             }
         }, getRetransformPeriodInSeconds(), TimeUnit.SECONDS);
     }
 
     private long getRetransformPeriodInSeconds() {
-        return ((Long) ServiceFactory.getConfigService().getDefaultAgentConfig()
-                               .getValue("class_transformer.retransformation_period", Long.valueOf(10L))).longValue();
+        return ServiceFactory.getConfigService().getDefaultAgentConfig()
+                       .getValue("class_transformer.retransformation_period", 10L);
     }
 
     public void checkShutdown() {
-        if ((shutdownTime == 9223372036854775807L) || (isStopped())) {
+        if ((shutdownTime == Long.MAX_VALUE) || (isStopped())) {
             return;
         }
 
@@ -123,7 +115,7 @@ public class ClassTransformerServiceImpl extends AbstractService implements Clas
                 getLogger().info("Stopping Class Transformer Service based on configured shutdown_delay");
                 stop();
             } catch (Exception e) {
-                String msg = MessageFormat.format("Failed to stop Class Transformer Service: {0}", new Object[] {e});
+                String msg = MessageFormat.format("Failed to stop Class Transformer Service: {0}", e);
                 getLogger().error(msg);
             }
         }
@@ -149,32 +141,36 @@ public class ClassTransformerServiceImpl extends AbstractService implements Clas
         traceMatchTransformer = new TraceMatchTransformer(contextManager);
 
         StartableClassFileTransformer[] startableClassTransformers =
-                {new InterfaceMixinClassTransformer(classTransformer.getClassReaderFlags()),
-                        new JDBCClassTransformer(classTransformer), new ConnectionClassTransformer(classTransformer)};
+                new StartableClassFileTransformer[] {
+                    new InterfaceMixinClassTransformer(classTransformer.getClassReaderFlags()),
+                    new JDBCClassTransformer(classTransformer),
+                    new ConnectionClassTransformer(classTransformer)
+                };
 
         for (StartableClassFileTransformer transformer : startableClassTransformers) {
             transformer.start(instrProxy, retransformSupported);
             classTransformers.add(transformer);
         }
-        for (StartableClassFileTransformer transformer : InterfaceImplementationClassTransformer
-                                                                 .getClassTransformers(classTransformer)) {
+        StartableClassFileTransformer[] classTransformers =
+                InterfaceImplementationClassTransformer.getClassTransformers(classTransformer);
+        for (StartableClassFileTransformer transformer : classTransformers) {
             transformer.start(instrProxy, retransformSupported);
-            classTransformers.add(transformer);
+            this.classTransformers.add(transformer);
         }
         return classTransformer;
     }
 
     private boolean isRetransformationSupported(InstrumentationProxy instrProxy) {
         AgentConfig config = ServiceFactory.getConfigService().getDefaultAgentConfig();
-        Boolean enableClassRetransformation = (Boolean) config.getProperty("enable_class_retransformation");
+        Boolean enableClassRetransformation = config.getProperty("enable_class_retransformation");
         if (enableClassRetransformation != null) {
-            return enableClassRetransformation.booleanValue();
+            return enableClassRetransformation;
         }
         try {
             return instrProxy.isRetransformClassesSupported();
         } catch (Exception e) {
             String msg = MessageFormat.format("Unexpected error asking current JVM configuration if it supports "
-                                                      + "retransformation of classes: {0}", new Object[] {e});
+                                                      + "retransformation of classes: {0}", e);
 
             getLogger().warning(msg);
         }
@@ -182,7 +178,8 @@ public class ClassTransformerServiceImpl extends AbstractService implements Clas
     }
 
     private void retransformMatchingClasses() {
-        Set<ClassMatchVisitorFactory> matchers = retransformClassMatchers.getAndSet(createRetransformClassMatcherList());
+        Set<ClassMatchVisitorFactory> matchers =
+                retransformClassMatchers.getAndSet(createRetransformClassMatcherList());
 
         if (!matchers.isEmpty()) {
             retransformMatchingClassesImmediately(matchers);
@@ -196,14 +193,12 @@ public class ClassTransformerServiceImpl extends AbstractService implements Clas
     public void retransformMatchingClassesImmediately(Collection<ClassMatchVisitorFactory> matchers) {
         InstrumentationProxy instrumentation = ServiceFactory.getAgent().getInstrumentation();
         Class<?>[] allLoadedClasses = instrumentation.getAllLoadedClasses();
-        for (Class<?> allLoadedClass : allLoadedClasses) {
-            System.out.println(allLoadedClass);
-        }
         Set<Class<?>> classesToRetransform = InstrumentationContext.getMatchingClasses(matchers, allLoadedClasses);
 
         if (!classesToRetransform.isEmpty()) {
             try {
-                instrumentation.retransformClasses(classesToRetransform.toArray(new Class[0]));
+                instrumentation
+                        .retransformClasses(classesToRetransform.toArray(new Class<?>[classesToRetransform.size()]));
             } catch (UnmodifiableClassException e) {
                 logger.log(Level.FINER, "Error retransforming classes: " + classesToRetransform, e);
             }
@@ -263,15 +258,12 @@ public class ClassTransformerServiceImpl extends AbstractService implements Clas
                                 ProtectionDomain protectionDomain, byte[] classfileBuffer,
                                 InstrumentationContext context, OptimizedClassMatcher.Match match)
                 throws IllegalClassFormatException {
-            Method method;
-            for (Iterator i$ = match.getMethods().iterator(); i$.hasNext(); ) {
-                method = (Method) i$.next();
+            for (Method method : match.getMethods()) {
                 for (ClassAndMethodMatcher matcher : match.getClassMatches().keySet()) {
                     if (matcher.getMethodMatcher().matches(-1, method.getName(), method.getDescriptor(),
                                                                   match.getMethodAnnotations(method))) {
                         context.putTraceAnnotation(method, TraceDetailsBuilder.newBuilder()
-                                                                   .setMetricPrefix((String) matchersPrefix
-                                                                                                     .get(matcher))
+                                                                   .setMetricPrefix(matchersPrefix.get(matcher))
                                                                    .build());
                     }
                 }
@@ -280,10 +272,7 @@ public class ClassTransformerServiceImpl extends AbstractService implements Clas
         }
 
         public boolean addTraceMatcher(ClassAndMethodMatcher matcher, String metricPrefix) {
-            if (!matchersPrefix.containsKey(matcher)) {
-                return addMatchVisitor(matcher, metricPrefix);
-            }
-            return false;
+            return !matchersPrefix.containsKey(matcher) && addMatchVisitor(matcher, metricPrefix);
         }
 
         private synchronized boolean addMatchVisitor(ClassAndMethodMatcher matcher, String metricPrefix) {

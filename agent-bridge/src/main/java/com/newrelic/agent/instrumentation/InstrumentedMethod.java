@@ -8,7 +8,7 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface InstrumentedMethod {
-    boolean dispatcher();
+    boolean dispatcher() default false;
 
     InstrumentationType[] instrumentationTypes();
 

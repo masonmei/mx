@@ -24,13 +24,13 @@ class ClassMetadata {
         classLoader = (loader == null ? ClassLoader.getSystemClassLoader() : loader);
         this.type = Type.getObjectType(type);
         cr = getClassReader(type, classLoader);
-        modifiers = cr.readUnsignedShort(cr.header + 0);
+        modifiers = cr.readUnsignedShort(cr.header + HEADER_MODIFIERS_OFFSET);
 
         char[] buf = new char[2048];
-        int cpSuperIndex = cr.getItem(cr.readUnsignedShort(cr.header + 4));
+        int cpSuperIndex = cr.getItem(cr.readUnsignedShort(cr.header + HEADER_SUPER_CLASS_CONSTANT_POOL_OFFSET));
         superClass = (cpSuperIndex == 0 ? null : cr.readUTF8(cpSuperIndex, buf));
-        interfaces = new String[cr.readUnsignedShort(cr.header + 6)];
-        int nextInterface = cr.header + 8;
+        interfaces = new String[cr.readUnsignedShort(cr.header + HEADER_NUM_INTERFACES_OFFSET)];
+        int nextInterface = cr.header + HEADER_INITIAL_INTERFACE_OFFSET;
         for (int i = 0; i < interfaces.length; i++) {
             interfaces[i] = cr.readClass(nextInterface, buf);
             nextInterface += 2;

@@ -9,22 +9,22 @@ import com.newrelic.agent.instrumentation.context.InstrumentationContextManager;
 import com.newrelic.agent.instrumentation.custom.ClassRetransformer;
 import com.newrelic.agent.service.Service;
 
-public abstract interface ClassTransformerService extends Service {
-    public abstract ClassTransformer getClassTransformer();
+public interface ClassTransformerService extends Service {
+    ClassTransformer getClassTransformer();
 
-    public abstract ClassRetransformer getLocalRetransformer();
+    ClassRetransformer getLocalRetransformer();
 
-    public abstract ClassRetransformer getRemoteRetransformer();
+    ClassRetransformer getRemoteRetransformer();
 
-    public abstract void checkShutdown();
+    void checkShutdown();
 
-    public abstract InstrumentationContextManager getContextManager();
+    InstrumentationContextManager getContextManager();
 
-    public abstract boolean addTraceMatcher(ClassAndMethodMatcher paramClassAndMethodMatcher, String paramString);
+    boolean addTraceMatcher(ClassAndMethodMatcher paramClassAndMethodMatcher, String paramString);
 
-    public abstract void retransformMatchingClasses(Collection<ClassMatchVisitorFactory> paramCollection);
+    void retransformMatchingClasses(Collection<ClassMatchVisitorFactory> paramCollection);
 
-    public abstract void retransformMatchingClassesImmediately(Collection<ClassMatchVisitorFactory> paramCollection);
+    void retransformMatchingClassesImmediately(Collection<ClassMatchVisitorFactory> paramCollection);
 
-    public abstract Instrumentation getExtensionInstrumentation();
+    Instrumentation getExtensionInstrumentation();
 }

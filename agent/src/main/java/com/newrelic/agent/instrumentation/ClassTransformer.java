@@ -22,7 +22,6 @@ import com.newrelic.agent.InstrumentationProxy;
 import com.newrelic.agent.TracerService;
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.errors.ErrorService;
-import com.newrelic.agent.instrumentation.classmatchers.ClassAndMethodMatcher;
 import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher;
 import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcherBuilder;
 import com.newrelic.agent.instrumentation.context.ClassMatchVisitorFactory;
@@ -57,15 +56,15 @@ public class ClassTransformer implements ContextClassTransformer {
         classreaderFlags = instrumentation.getClassReaderFlags();
         retransformSupported = pRetransformSupported;
 
-        List pcs = new LinkedList(findEnabledPointCuts());
+        List<PointCut> pcs = new LinkedList(findEnabledPointCuts());
         pcs.addAll(ErrorService.getEnabledErrorHandlerPointCuts());
 
         Collections.sort(pcs);
         pointcuts = Collections.unmodifiableCollection(pcs);
 
         setPointcutProperties();
-        matcher = OptimizedClassMatcherBuilder.newBuilder()
-                          .addClassMethodMatcher((ClassAndMethodMatcher[]) pointcuts.toArray(new PointCut[0])).build();
+        matcher = OptimizedClassMatcherBuilder.newBuilder().addClassMethodMatcher(pointcuts.toArray(new PointCut[0]))
+                          .build();
     }
 
     public static boolean isInstrumented(Class<?> clazz) {

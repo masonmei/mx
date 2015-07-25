@@ -35,10 +35,8 @@ class ExtensionInstrumentation extends InstrumentationWrapper {
     }
 
     public boolean removeTransformer(ClassFileTransformer transformer) {
-        if (!this.transformer.removeTransformer(transformer)) {
-            return retransformingTransformer.removeTransformer(transformer);
-        }
-        return false;
+        return !this.transformer.removeTransformer(transformer) && retransformingTransformer
+                                                                           .removeTransformer(transformer);
     }
 
     private static final class MultiClassFileTransformer implements ClassFileTransformer {
@@ -58,10 +56,10 @@ class ExtensionInstrumentation extends InstrumentationWrapper {
                         classfileBuffer = newBytes;
                     }
                 } catch (Throwable t) {
-                    Agent.LOG.log(Level.FINE, "An error occurred transforming class {0} : {1}",
-                                         new Object[] {className, t.getMessage()});
+                    Agent.LOG.log(Level.FINE, "An error occurred transforming class {0} : {1}", className,
+                                         t.getMessage());
 
-                    Agent.LOG.log(Level.FINEST, t, t.getMessage(), new Object[0]);
+                    Agent.LOG.log(Level.FINEST, t, t.getMessage());
                 }
 
             }

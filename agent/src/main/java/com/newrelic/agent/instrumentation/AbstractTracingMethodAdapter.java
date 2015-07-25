@@ -35,7 +35,7 @@ abstract class AbstractTracingMethodAdapter extends AdviceAdapter {
     }
 
     protected void systemOutPrint(String message) {
-        systemPrint(message, false);
+        systemPrint(message, sDebugTracers);
     }
 
     protected void systemPrint(String message, boolean error) {
@@ -45,8 +45,8 @@ abstract class AbstractTracingMethodAdapter extends AdviceAdapter {
     }
 
     protected void onMethodEnter() {
-        int methodIndex = genericClassAdapter.addInstrumentedMethod(this);
-        if (genericClassAdapter.canModifyClassStructure()) {
+        int methodIndex = getGenericClassAdapter().addInstrumentedMethod(this);
+        if (getGenericClassAdapter().canModifyClassStructure()) {
             setInvocationFieldIndex(methodIndex);
         }
 
@@ -61,7 +61,7 @@ abstract class AbstractTracingMethodAdapter extends AdviceAdapter {
             Label endLabel = new Label();
             Label exceptionLabel = new Label();
 
-            mv.visitTryCatchBlock(startLabel, endLabel, exceptionLabel, "java/lang/Throwable");
+            mv.visitTryCatchBlock(startLabel, endLabel, exceptionLabel, JAVA_LANG_THROWABLE);
             mv.visitLabel(startLabel);
             loadGetTracerArguments();
             invokeGetTracer();
@@ -72,10 +72,10 @@ abstract class AbstractTracingMethodAdapter extends AdviceAdapter {
             goTo(doneLabel);
             mv.visitLabel(exceptionLabel);
             if (Agent.LOG.isLoggable(Level.FINER)) {
-                mv.visitMethodInsn(182, "java/lang/Throwable", "printStackTrace", "()V", false);
+                mv.visitMethodInsn(182, JAVA_LANG_THROWABLE, "printStackTrace", "()V", sDebugTracers);
                 systemPrint(MessageFormat.format("An error occurred creating a tracer for {0}.{1}{2}",
-                                                        new Object[] {genericClassAdapter.className, methodName,
-                                                                             methodDesc}), true);
+                                                        getGenericClassAdapter().className, methodName, methodDesc),
+                                   true);
             } else {
                 int exceptionVar = newLocal(Type.getType(Throwable.class));
                 visitVarInsn(58, exceptionVar);
@@ -83,8 +83,8 @@ abstract class AbstractTracingMethodAdapter extends AdviceAdapter {
             mv.visitLabel(doneLabel);
         } catch (Throwable e) {
             Agent.LOG.severe(MessageFormat.format("An error occurred transforming {0}.{1}{2} : {3}",
-                                                         new Object[] {genericClassAdapter.className, methodName,
-                                                                              methodDesc, e.toString()}));
+                                                         getGenericClassAdapter().className, methodName, methodDesc,
+                                                         e.toString()));
 
             throw new RuntimeException(e);
         }
@@ -103,7 +103,7 @@ abstract class AbstractTracingMethodAdapter extends AdviceAdapter {
     }
 
     protected final void invokeGetTracer() {
-        methodBuilder.invokeInvocationHandlerInterface(false);
+        methodBuilder.invokeInvocationHandlerInterface(sDebugTracers);
     }
 
     protected abstract void loadGetTracerArguments();
@@ -119,7 +119,7 @@ abstract class AbstractTracingMethodAdapter extends AdviceAdapter {
 
     public void visitMaxs(int maxStack, int maxLocals) {
         Label endFinallyLabel = new Label();
-        super.visitTryCatchBlock(startFinallyLabel, endFinallyLabel, endFinallyLabel, "java/lang/Throwable");
+        super.visitTryCatchBlock(startFinallyLabel, endFinallyLabel, endFinallyLabel, JAVA_LANG_THROWABLE);
         super.visitLabel(endFinallyLabel);
         onFinally(191);
         super.visitInsn(191);
@@ -165,16 +165,16 @@ abstract class AbstractTracingMethodAdapter extends AdviceAdapter {
     }
 
     protected final void invokeTraceFinish(int opcode, Object loadReturnValue) {
-        methodBuilder.loadSuccessful().loadArray(Object.class, new Object[] {Integer.valueOf(opcode), loadReturnValue})
+        methodBuilder.loadSuccessful().loadArray(Object.class, opcode, loadReturnValue)
                 .invokeInvocationHandlerInterface(true);
     }
 
     protected final void invokeTraceFinishWithThrowable(final int exceptionVar) {
-        methodBuilder.loadUnsuccessful().loadArray(Object.class, new Object[] {new Runnable() {
+        methodBuilder.loadUnsuccessful().loadArray(Object.class, new Runnable() {
             public void run() {
                 visitVarInsn(25, exceptionVar);
             }
-        }}).invokeInvocationHandlerInterface(true);
+        }).invokeInvocationHandlerInterface(true);
     }
 
     private final class StoreReturnValueAndReload implements Runnable {

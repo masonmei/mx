@@ -1,0 +1,4 @@
+Manifest-Version: 1.0
+Implementation-Title: New Relic Weaver API
+Implementation-Version: 3.18.0
+

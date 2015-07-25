@@ -18,10 +18,10 @@ import com.newrelic.agent.logging.IAgentLogger;
 
 public class ClassNameFilter {
     private static final String EXCLUDES_FILE = "/META-INF/excludes";
-    private final List<Pattern> excludePatterns = new LinkedList();
-    private final List<Pattern> includePatterns = new LinkedList();
+    private final List<Pattern> excludePatterns = new LinkedList<Pattern>();
+    private final List<Pattern> includePatterns = new LinkedList<Pattern>();
     private final IAgentLogger logger;
-    private volatile Set<String> includeClasses = new HashSet();
+    private volatile Set<String> includeClasses = new HashSet<String>();
 
     public ClassNameFilter(IAgentLogger logger) {
         this.logger = logger;
@@ -66,7 +66,7 @@ public class ClassNameFilter {
     }
 
     public void addExcludeFileClassFilters() {
-        InputStream iStream = getClass().getResourceAsStream("/META-INF/excludes");
+        InputStream iStream = getClass().getResourceAsStream(EXCLUDES_FILE);
         BufferedReader reader = new BufferedReader(new InputStreamReader(iStream));
         List<String> excludeList = new LinkedList<String>();
         try {
@@ -79,7 +79,7 @@ public class ClassNameFilter {
         } catch (IOException ex) {
             logger.severe(MessageFormat
                                   .format("Unable to read the class excludes file at {0} found within the New Relic "
-                                                  + "jar.", new Object[] {"/META-INF/excludes"}));
+                                                  + "jar.", EXCLUDES_FILE));
         } finally {
             try {
                 iStream.close();
@@ -140,7 +140,7 @@ public class ClassNameFilter {
         try {
             return Pattern.compile(regex);
         } catch (Exception e) {
-            logger.severe(MessageFormat.format("Unable to compile pattern: {0}", new Object[] {regex}));
+            logger.severe(MessageFormat.format("Unable to compile pattern: {0}", regex));
         }
         return null;
     }
@@ -150,7 +150,7 @@ public class ClassNameFilter {
     }
 
     public void addClassMatcherIncludes(Collection<ClassMatcher> classMatchers) {
-        Set classNames = new HashSet();
+        Set<String> classNames = new HashSet<String>();
         classNames.addAll(includeClasses);
 
         for (ClassMatcher classMatcher : classMatchers) {

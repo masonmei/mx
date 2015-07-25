@@ -3,144 +3,144 @@ package com.newrelic.agent.config;
 import java.util.List;
 import java.util.Set;
 
-public abstract interface AgentConfig extends com.newrelic.api.agent.Config {
-    public abstract boolean isAgentEnabled();
+public interface AgentConfig extends com.newrelic.api.agent.Config {
+    boolean isAgentEnabled();
 
-    public abstract String getLicenseKey();
+    String getLicenseKey();
 
-    public abstract String getApplicationName();
+    String getApplicationName();
 
-    public abstract List<String> getApplicationNames();
+    List<String> getApplicationNames();
 
-    public abstract boolean isAutoAppNamingEnabled();
+    boolean isAutoAppNamingEnabled();
 
-    public abstract boolean isAutoTransactionNamingEnabled();
+    boolean isAutoTransactionNamingEnabled();
 
-    public abstract long getApdexTInMillis();
+    long getApdexTInMillis();
 
-    public abstract long getApdexTInMillis(String paramString);
+    long getApdexTInMillis(String paramString);
 
-    public abstract boolean isApdexTSet();
+    boolean isApdexTSet();
 
-    public abstract boolean isApdexTSet(String paramString);
+    boolean isApdexTSet(String paramString);
 
-    public abstract String getHost();
+    String getHost();
 
-    public abstract int getTransactionSizeLimit();
+    int getTransactionSizeLimit();
 
-    public abstract boolean isSyncStartup();
+    boolean isSyncStartup();
 
-    public abstract boolean waitForRPMConnect();
+    boolean waitForRPMConnect();
 
-    public abstract TransactionTracerConfig getTransactionTracerConfig();
+    TransactionTracerConfig getTransactionTracerConfig();
 
-    public abstract ClassTransformerConfig getClassTransformerConfig();
+    ClassTransformerConfig getClassTransformerConfig();
 
-    public abstract BrowserMonitoringConfig getBrowserMonitoringConfig();
+    BrowserMonitoringConfig getBrowserMonitoringConfig();
 
-    public abstract TransactionTracerConfig getRequestTransactionTracerConfig();
+    TransactionTracerConfig getRequestTransactionTracerConfig();
 
-    public abstract TransactionTracerConfig getBackgroundTransactionTracerConfig();
+    TransactionTracerConfig getBackgroundTransactionTracerConfig();
 
-    public abstract ErrorCollectorConfig getErrorCollectorConfig();
+    ErrorCollectorConfig getErrorCollectorConfig();
 
-    public abstract ThreadProfilerConfig getThreadProfilerConfig();
+    ThreadProfilerConfig getThreadProfilerConfig();
 
-    public abstract SqlTraceConfig getSqlTraceConfig();
+    SqlTraceConfig getSqlTraceConfig();
 
-    public abstract JmxConfig getJmxConfig();
+    JmxConfig getJmxConfig();
 
-    public abstract JarCollectorConfig getJarCollectorConfig();
+    JarCollectorConfig getJarCollectorConfig();
 
-    public abstract ReinstrumentConfig getReinstrumentConfig();
+    ReinstrumentConfig getReinstrumentConfig();
 
-    public abstract CrossProcessConfig getCrossProcessConfig();
+    CrossProcessConfig getCrossProcessConfig();
 
-    public abstract boolean isSessionCountTrackingEnabled();
+    boolean isSessionCountTrackingEnabled();
 
-    public abstract String getLanguage();
+    String getLanguage();
 
-    public abstract <T> T getProperty(String paramString);
+    <T> T getProperty(String paramString);
 
-    public abstract <T> T getProperty(String paramString, T paramT);
+    <T> T getProperty(String paramString, T paramT);
 
-    public abstract int getPort();
+    int getPort();
 
-    public abstract boolean isSSL();
+    boolean isSSL();
 
-    public abstract boolean isAuditMode();
+    boolean isAuditMode();
 
-    public abstract String getProxyHost();
+    String getProxyHost();
 
-    public abstract Integer getProxyPort();
+    Integer getProxyPort();
 
-    public abstract String getProxyPassword();
+    String getProxyPassword();
 
-    public abstract String getProxyUser();
+    String getProxyUser();
 
-    public abstract boolean isSendEnvironmentInfo();
+    boolean isSendEnvironmentInfo();
 
-    public abstract String getApiHost();
+    String getApiHost();
 
-    public abstract int getApiPort();
+    int getApiPort();
 
-    public abstract boolean isDebugEnabled();
+    boolean isDebugEnabled();
 
-    public abstract boolean isReportSqlParserErrors();
+    boolean isReportSqlParserErrors();
 
-    public abstract boolean isLoggingToStdOut();
+    boolean isLoggingToStdOut();
 
-    public abstract String getLogFileName();
+    String getLogFileName();
 
-    public abstract String getLogFilePath();
+    String getLogFilePath();
 
-    public abstract String getLogLevel();
+    String getLogLevel();
 
-    public abstract List<String> getIgnoreJars();
+    List<String> getIgnoreJars();
 
-    public abstract int getLogLimit();
+    int getLogLimit();
 
-    public abstract int getLogFileCount();
+    int getLogFileCount();
 
-    public abstract boolean isLogDaily();
+    boolean isLogDaily();
 
-    public abstract boolean isSendDataOnExit();
+    boolean isSendDataOnExit();
 
-    public abstract long getSendDataOnExitThresholdInMillis();
+    long getSendDataOnExitThresholdInMillis();
 
-    public abstract boolean isCpuSamplingEnabled();
+    boolean isCpuSamplingEnabled();
 
-    public abstract boolean isSendJvmProps();
+    boolean isSendJvmProps();
 
-    public abstract boolean isUsePrivateSSL();
+    boolean isUsePrivateSSL();
 
-    public abstract boolean isXraySessionEnabled();
+    boolean isXraySessionEnabled();
 
-    public abstract boolean isTrimStats();
+    boolean isTrimStats();
 
-    public abstract boolean isPlatformInformationEnabled();
+    boolean isPlatformInformationEnabled();
 
-    public abstract Set<String> getJDBCSupport();
+    Set<String> getJDBCSupport();
 
-    public abstract boolean isGenericJDBCSupportEnabled();
+    boolean isGenericJDBCSupportEnabled();
 
-    public abstract int getMaxStackTraceLines();
+    int getMaxStackTraceLines();
 
-    public abstract Config getInstrumentationConfig();
+    Config getInstrumentationConfig();
 
-    public abstract int getMaxUserParameters();
+    int getMaxUserParameters();
 
-    public abstract int getMaxUserParameterSize();
+    int getMaxUserParameterSize();
 
-    public abstract boolean isHighSecurity();
+    boolean isHighSecurity();
 
-    public abstract boolean getIbmWorkaroundEnabled();
+    boolean getIbmWorkaroundEnabled();
 
-    public abstract LabelsConfig getLabelsConfig();
+    LabelsConfig getLabelsConfig();
 
-    public abstract boolean isStartupTimingEnabled();
+    boolean isStartupTimingEnabled();
 
-    public abstract CircuitBreakerConfig getCircuitBreakerConfig();
+    CircuitBreakerConfig getCircuitBreakerConfig();
 
-    public abstract StripExceptionConfig getStripExceptionConfig();
+    StripExceptionConfig getStripExceptionConfig();
 }

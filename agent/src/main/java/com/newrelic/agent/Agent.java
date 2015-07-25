@@ -90,8 +90,8 @@ public final class Agent extends AbstractService implements IAgent {
         if (jvmName.contains("Oracle JRockit")) {
             String msg = MessageFormat
                                  .format("New Relic agent {0} does not support the Oracle JRockit JVM. Please use a 2"
-                                                 + ".21.x or earlier version of the agent. JVM  is: {1}.",
-                                                getVersion(), jvmName);
+                                                 + ".21.x or earlier version of the agent. JVM  is: {1}.", getVersion(),
+                                                jvmName);
 
             LOG.error(msg);
         }
@@ -100,7 +100,8 @@ public final class Agent extends AbstractService implements IAgent {
             ServiceManager serviceManager = new ServiceManagerImpl(agent);
             ServiceFactory.setServiceManager(serviceManager);
 
-            if (ConfigInstaller.isLicenseKeyEmpty(serviceManager.getConfigService().getDefaultAgentConfig().getLicenseKey())) {
+            if (ConfigInstaller
+                        .isLicenseKeyEmpty(serviceManager.getConfigService().getDefaultAgentConfig().getLicenseKey())) {
                 LOG.error("license_key is empty in the config. Not starting New Relic Agent.");
                 return;
             }
@@ -112,7 +113,7 @@ public final class Agent extends AbstractService implements IAgent {
 
             serviceManager.start();
 
-            LOG.info(MessageFormat.format("New Relic Agent v{0} has started", new Object[] {getVersion()}));
+            LOG.info(MessageFormat.format("New Relic Agent v{0} has started", getVersion()));
 
             if (BootstrapAgent.isBootstrapClasspathFlagSet()) {
                 LOG.info("The newrelic.bootstrap_classpath system property is deprecated.");
@@ -128,7 +129,7 @@ public final class Agent extends AbstractService implements IAgent {
                 recordPremainTime(serviceManager.getStatsService());
             }
         } catch (Throwable t) {
-            String msg = MessageFormat.format("Unable to start New Relic agent: {0}", new Object[] {t});
+            String msg = MessageFormat.format("Unable to start New Relic agent: {0}", t);
             try {
                 LOG.log(Level.SEVERE, msg, t);
             } catch (Throwable t2) {

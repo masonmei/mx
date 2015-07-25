@@ -79,62 +79,64 @@ public abstract class AbstractImplementationClassTransformer implements Startabl
         boolean isLoggable = false;
         if (classBeingRedefined != null) {
             return null;
-        }
-        if ((loader == null) && (Agent.class.getClassLoader() != null)) {
+        } else if (loader == null && Agent.class.getClassLoader() != null) {
             return null;
-        }
-        ClassReader cr = new ClassReader(classfileBuffer);
-        if (InstrumentationUtils.isInterface(cr)) {
-            return null;
-        }
-        if (skipClassMatcher.isMatch(loader, cr)) {
-            return null;
-        }
-        boolean matches = classMatcher.isMatch(loader, cr);
-        try {
-            if (!matches) {
-                if (!isGenericInterfaceSupportEnabled()) {
-                    return null;
-                }
-                if (excludeClass(className)) {
-                    return null;
-                }
-
-                if (!matches(cr, originalInterface)) {
-                    return null;
-                }
-            }
-
-            if (!InstrumentationUtils.isAbleToResolveAgent(loader, className)) {
-                if (Agent.LOG.isLoggable(Level.FINER)) {
-                    String msg = MessageFormat
-                                         .format("Not instrumenting {0}: class loader unable to load agent classes",
-                                                        new Object[] {className});
-
-                    Agent.LOG.log(Level.FINER, msg);
-                }
+        } else {
+            ClassReader cr = new ClassReader(classfileBuffer);
+            if (InstrumentationUtils.isInterface(cr)) {
                 return null;
-            }
-            if ("org/eclipse/jetty/server/Request".equals(className)) {
-                className.hashCode();
-            }
-            byte[] classBytesWithUID =
-                    InstrumentationUtils.generateClassBytesWithSerialVersionUID(cr, classreaderFlags, loader);
+            } else if (this.skipClassMatcher.isMatch(loader, cr)) {
+                return null;
+            } else {
+                boolean matches = this.classMatcher.isMatch(loader, cr);
 
-            ClassReader crWithUID = new ClassReader(classBytesWithUID);
-            ClassWriter cwWithUID = InstrumentationUtils.getClassWriter(crWithUID, loader);
-            cr.accept(createClassVisitor(crWithUID, cwWithUID, className, loader), classreaderFlags);
+                String msg;
+                try {
+                    if (!matches) {
+                        if (!this.isGenericInterfaceSupportEnabled()) {
+                            return null;
+                        }
 
-            return cwWithUID.toByteArray();
-        } catch (StopProcessingException e) {
-            String msg = MessageFormat.format("Instrumentation aborted for {0} - {1} ", new Object[] {className, e});
-            Agent.LOG.finer(msg);
-            return null;
-        } catch (Throwable t) {
-            String msg = MessageFormat.format("Instrumentation error for {0} - {1} ", new Object[] {className, t});
-            Agent.LOG.finer(msg);
+                        if (this.excludeClass(className)) {
+                            return null;
+                        }
+
+                        if (!this.matches(cr, this.originalInterface)) {
+                            return null;
+                        }
+                    }
+
+                    if (!InstrumentationUtils.isAbleToResolveAgent(loader, className)) {
+                        if (Agent.LOG.isLoggable(Level.FINER)) {
+                            String t1 = MessageFormat.format("Not instrumenting {0}: class loader unable to load agent "
+                                                                     + "classes", className);
+                            Agent.LOG.log(Level.FINER, t1);
+                        }
+
+                        return null;
+                    } else {
+                        if ("org/eclipse/jetty/server/Request".equals(className)) {
+                            className.hashCode();
+                        }
+
+                        byte[] t = InstrumentationUtils
+                                           .generateClassBytesWithSerialVersionUID(cr, this.classreaderFlags, loader);
+                        ClassReader msg1 = new ClassReader(t);
+                        ClassWriter cwWithUID = InstrumentationUtils.getClassWriter(msg1, loader);
+                        cr.accept(this.createClassVisitor(msg1, cwWithUID, className, loader), this.classreaderFlags);
+                        return cwWithUID.toByteArray();
+                    }
+                } catch (StopProcessingException var12) {
+                    msg = MessageFormat.format("Instrumentation aborted for {0} - {1} ", className, var12);
+                    Agent.LOG.finer(msg);
+                    return null;
+                } catch (Throwable var13) {
+                    msg = MessageFormat.format("Instrumentation error for {0} - {1} ", className, var13);
+                    Agent.LOG.finer(msg);
+                    return null;
+                }
+            }
         }
-        return null;
     }
 
     protected boolean excludeClass(String className) {

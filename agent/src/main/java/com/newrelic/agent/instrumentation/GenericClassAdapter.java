@@ -32,7 +32,8 @@ public class GenericClassAdapter extends ClassVisitor {
     protected final String className;
     final Class<?> classBeingRedefined;
     private final ClassLoader classLoader;
-    private final List<AbstractTracingMethodAdapter> instrumentedMethods = new ArrayList();
+    private final List<AbstractTracingMethodAdapter> instrumentedMethods =
+            new ArrayList<AbstractTracingMethodAdapter>();
     private final Collection<PointCut> matches;
     private final InstrumentationContext context;
     private int version;
@@ -64,7 +65,7 @@ public class GenericClassAdapter extends ClassVisitor {
 
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
         Object mv = super.visitMethod(access, name, desc, signature, exceptions);
-        if (this.canModifyClassStructure() && "<clinit>".equals(name)) {
+        if (this.canModifyClassStructure() && CLINIT_METHOD_NAME.equals(name)) {
             GenericClassAdapter.InitMethodAdapter mv1 =
                     new GenericClassAdapter.InitMethodAdapter((MethodVisitor) mv, access, name, desc);
             this.processedClassInitMethod = true;
@@ -77,7 +78,7 @@ public class GenericClassAdapter extends ClassVisitor {
                 return (MethodVisitor) mv;
             } else {
                 Method method = new Method(name, desc);
-                this.context.addTimedMethods(new Method[] {method});
+                this.context.addTimedMethods(method);
                 if (this.canModifyClassStructure()) {
                     this.context.addOldInvokerStyleInstrumentationMethod(method, pointCut);
                     mv = new InvocationHandlerTracingMethodAdapter(this, (MethodVisitor) mv, access, method);
@@ -85,10 +86,8 @@ public class GenericClassAdapter extends ClassVisitor {
                     PointCutInvocationHandler pointCutInvocationHandler = pointCut.getPointCutInvocationHandler();
                     int id = ServiceFactory.getTracerService().getInvocationHandlerId(pointCutInvocationHandler);
                     if (id == -1) {
-                        Agent.LOG.log(Level.FINE,
-                                             "Unable to find invocation handler for method: {0} in class: {1}. "
-                                                     + "Skipping instrumentation.",
-                                             new Object[] {name, this.className});
+                        Agent.LOG.log(Level.FINE, "Unable to find invocation handler for method: {0} in class: {1}. "
+                                                          + "Skipping instrumentation.", name, this.className);
                     } else {
                         this.context.addOldReflectionStyleInstrumentationMethod(method, pointCut);
                         mv = new ReflectionStyleClassMethodAdapter(this, (MethodVisitor) mv, access, method, id);
@@ -139,7 +138,7 @@ public class GenericClassAdapter extends ClassVisitor {
             return false;
         } else {
             try {
-                this.classBeingRedefined.getDeclaredMethod("__nr__initClass", new Class[0]);
+                this.classBeingRedefined.getDeclaredMethod(INIT_CLASS_METHOD_NAME, new Class[0]);
                 return true;
             } catch (Exception var2) {
                 return false;
@@ -161,8 +160,9 @@ public class GenericClassAdapter extends ClassVisitor {
     }
 
     private void createClassInitMethod() {
-        MethodVisitor mv = this.cv.visitMethod(8, "<clinit>", "()V", (String) null, (String[]) null);
-        GenericClassAdapter.InitMethodAdapter mv1 = new GenericClassAdapter.InitMethodAdapter(mv, 8, "<clinit>", "()V");
+        MethodVisitor mv = this.cv.visitMethod(8, CLINIT_METHOD_NAME, NO_ARG_VOID_DESC, null, null);
+        GenericClassAdapter.InitMethodAdapter mv1 =
+                new GenericClassAdapter.InitMethodAdapter(mv, 8, CLINIT_METHOD_NAME, NO_ARG_VOID_DESC);
         mv1.visitCode();
         mv1.visitInsn(177);
         mv1.visitMaxs(0, 0);
@@ -170,8 +170,9 @@ public class GenericClassAdapter extends ClassVisitor {
     }
 
     private void createNRClassInitMethod() {
-        MethodVisitor mv = this.cv.visitMethod(8, "__nr__initClass", "()V", (String) null, (String[]) null);
-        GenericClassAdapter.InitMethod mv1 = new GenericClassAdapter.InitMethod(mv, 8, "__nr__initClass", "()V");
+        MethodVisitor mv = this.cv.visitMethod(8, INIT_CLASS_METHOD_NAME, NO_ARG_VOID_DESC, null, null);
+        GenericClassAdapter.InitMethod mv1 =
+                new GenericClassAdapter.InitMethod(mv, 8, INIT_CLASS_METHOD_NAME, NO_ARG_VOID_DESC);
         mv1.visitCode();
         mv1.visitInsn(177);
         mv1.visitMaxs(0, 0);
@@ -236,11 +237,10 @@ public class GenericClassAdapter extends ClassVisitor {
             this.mv.visitVarInsn(25, invocationHandlerVar);
             this.mv.visitVarInsn(25, classVar);
             this.visitInsn(1);
-            ArrayList arguments = new ArrayList(Arrays.asList(new Object[] {GenericClassAdapter.this.className,
-                                                                                   methodAdapter.methodName,
-                                                                                   methodAdapter.getMethodDescriptor(),
-                                                                                   Boolean.valueOf(false),
-                                                                                   Boolean.valueOf(false)}));
+            ArrayList<Object> arguments =
+                    new ArrayList<Object>(Arrays.asList(GenericClassAdapter.this.className, methodAdapter.methodName,
+                                                       methodAdapter.getMethodDescriptor(), Boolean.valueOf(false),
+                                                       Boolean.valueOf(false)));
             (new MethodBuilder(this, this.methodAccess))
                     .loadArray(Object.class, arguments.toArray(new Object[arguments.size()]))
                     .invokeInvocationHandlerInterface(false);
@@ -255,7 +255,8 @@ public class GenericClassAdapter extends ClassVisitor {
         }
 
         protected void onMethodEnter() {
-            this.mv.visitMethodInsn(184, GenericClassAdapter.this.className, "__nr__initClass", "()V", false);
+            this.mv.visitMethodInsn(184, GenericClassAdapter.this.className, INIT_CLASS_METHOD_NAME, NO_ARG_VOID_DESC,
+                                           false);
         }
     }
 }

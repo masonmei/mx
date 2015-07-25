@@ -283,7 +283,7 @@ class ClassWeaver extends ClassVisitor {
                 adapter.visitVarInsn(25, 0);
 
                 adapter.loadArgs();
-                adapter.visitMethodInsn(182, "____INLINE_ME____", newCode.name, method.getDescriptor(), false);
+                adapter.visitMethodInsn(182, MAGIC_KEY_FOR_CONSTRUCTOR_INLINE, newCode.name, method.getDescriptor(), false);
 
                 adapter.goTo(end);
 
@@ -308,7 +308,7 @@ class ClassWeaver extends ClassVisitor {
 
             mv = new MethodCallInlinerAdapter(className, access, name, desc, mv, false) {
                 protected InlinedMethod mustInline(String owner, String name, String desc) {
-                    if ("____INLINE_ME____".equals(owner)) {
+                    if (MAGIC_KEY_FOR_CONSTRUCTOR_INLINE.equals(owner)) {
                         instrumentationPackage.getLogger().finer("Inline constructor " + name);
                         return new InlinedMethod(newCode, ClassWeaver.NO_OP_REMAPPER);
                     }

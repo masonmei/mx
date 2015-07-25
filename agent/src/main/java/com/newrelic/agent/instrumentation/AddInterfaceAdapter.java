@@ -26,16 +26,15 @@ public class AddInterfaceAdapter extends ClassVisitor {
 
     public void visitEnd() {
         if (Agent.LOG.isFinerEnabled()) {
-            String msg = MessageFormat.format("Appended {0} to {1}",
-                                                     new Object[] {type.getName(), className.replace('/', '.')});
+            String msg = MessageFormat.format("Appended {0} to {1}", type.getName(), className.replace('/', '.'));
             Agent.LOG.finer(msg);
         }
         super.visitEnd();
     }
 
     private String[] addInterface(String[] interfaces) {
-        Set list = new HashSet(Arrays.asList(interfaces));
+        Set<String> list = new HashSet<String>(Arrays.asList(interfaces));
         list.add(Type.getType(type).getInternalName());
-        return (String[]) list.toArray(new String[list.size()]);
+        return list.toArray(new String[list.size()]);
     }
 }

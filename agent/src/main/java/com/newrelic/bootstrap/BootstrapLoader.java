@@ -32,12 +32,9 @@ import com.newrelic.agent.util.Streams;
 import com.newrelic.agent.util.asm.ClassStructure;
 
 public class BootstrapLoader {
-//    public static final String AGENT_BRIDGE_JAR_NAME = "agent-bridge";
     public static final String AGENT_BRIDGE_JAR_NAME = "agent-bridge-1.0";
-//    public static final String API_JAR_NAME = "newrelic-api";
     public static final String API_JAR_NAME = "agent-api-1.0";
     public static final String WEAVER_API_JAR_NAME = "weaver-api-1.0";
-//    public static final String WEAVER_API_JAR_NAME = "newrelic-weaver-api";
     private static final String NEWRELIC_BOOTSTRAP = "newrelic-bootstrap";
     private static final String NEWRELIC_API_INTERNAL_CLASS_NAME = "com/newrelic/api/agent/NewRelic";
 
