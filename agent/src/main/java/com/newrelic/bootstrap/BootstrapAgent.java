@@ -16,7 +16,7 @@ public class BootstrapAgent {
     public static final String NEW_RELIC_BOOTSTRAP_CLASSPATH = "newrelic.bootstrap_classpath";
     public static final ClassLoader AGENT_CLASSLOADER = BootstrapAgent.class.getClassLoader();
     private static final String NEW_RELIC_JAR_FILE = "newrelic-jar-with-dependencies.jar";
-//    private static final String NEW_RELIC_JAR_FILE = "newrelic.jar";
+    //    private static final String NEW_RELIC_JAR_FILE = "newrelic.jar";
     private static final String WS_SERVER_JAR = "ws-server.jar";
     private static final String WS_LOG_MANAGER = "com.ibm.ws.kernel.boot.logging.WsLogManager";
     private static final String IBM_VENDOR = "IBM";
@@ -67,16 +67,14 @@ public class BootstrapAgent {
 
     public static void main(String[] args) {
         try {
-            Collection urls = BootstrapLoader.getJarURLs();
+            Collection<URL> urls = BootstrapLoader.getJarURLs();
             urls.add(getAgentJarUrl());
-//
-            ClassLoader classLoader = new URLClassLoader((URL[]) urls.toArray(new URL[0]), null);
-//            ClassLoader classLoader = BootstrapAgent.class.getClassLoader();
-            Class agentClass = classLoader.loadClass(AGENT_CLASS_NAME);
-            Method main = agentClass.getDeclaredMethod("main",  String[].class);
-            main.invoke(null, new Object[] {args});
+            ClassLoader classLoader = new URLClassLoader(urls.toArray(new URL[urls.size()]), null);
+            Class<?> agentClass = classLoader.loadClass(AGENT_CLASS_NAME);
+            Method main = agentClass.getDeclaredMethod("main", String[].class);
+            main.invoke(null, args);
         } catch (Throwable t) {
-            System.err.println(MessageFormat.format("Error invoking the New Relic command: {0}", new Object[] {t}));
+            System.err.println(MessageFormat.format("Error invoking the New Relic command: {0}", t));
             t.printStackTrace();
         }
     }
@@ -86,8 +84,7 @@ public class BootstrapAgent {
         if (javaVersion.startsWith("1.5")) {
             String msg = MessageFormat
                                  .format("Java version is: {0}.  This version of the New Relic Agent does not support"
-                                                 + " Java 1.5.  Please use a 2.21.x or earlier version.",
-                                                new Object[] {javaVersion});
+                                                 + " Java 1.5.  Please use a 2.21.x or earlier version.", javaVersion);
 
             System.err.println("----------");
             System.err.println(msg);
@@ -106,8 +103,7 @@ public class BootstrapAgent {
             if ((javaClassPath != null) && (javaClassPath.contains(WS_SERVER_JAR)) &&
                         (System.getProperty("java.util.logging.manager") == null)) {
                 try {
-                    Class.forName(WS_LOG_MANAGER, false,
-                                         ClassLoader.getSystemClassLoader());
+                    Class.forName(WS_LOG_MANAGER, false, ClassLoader.getSystemClassLoader());
 
                     System.setProperty("java.util.logging.manager", WS_LOG_MANAGER);
                 } catch (Exception e) {

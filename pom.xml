@@ -13,7 +13,6 @@
         <module>agent-api</module>
         <module>weaver-api</module>
         <module>agent</module>
-        <module>agent-testing</module>
     </modules>
 
 
