@@ -43,7 +43,7 @@ public abstract class AbstractService implements Service {
 
     public final void start() throws Exception {
         if (state.beginStart()) {
-            getLogger().fine(MessageFormat.format("Starting service {0}", new Object[] {name}));
+            getLogger().fine(MessageFormat.format("Starting service {0}", name));
             ServiceTiming.addServiceStart(name);
             doStart();
             state.endStart();
@@ -54,7 +54,7 @@ public abstract class AbstractService implements Service {
 
     public final void stop() throws Exception {
         if (state.beginStop()) {
-            getLogger().fine(MessageFormat.format("Stopping service {0}", new Object[] {name}));
+            getLogger().fine(MessageFormat.format("Stopping service {0}", name));
             doStop();
             state.endStop();
         }

@@ -64,30 +64,6 @@
                     </archive>
                 </configuration>
             </plugin>
-
-            <plugin>
-                <groupId>org.codehaus.mojo</groupId>
-                <artifactId>exec-maven-plugin</artifactId>
-                <executions>
-                    <execution>
-                        <id>demo-instrument</id>
-                        <goals>
-                            <goal>exec</goal>
-                        </goals>
-                    </execution>
-                </executions>
-                <configuration>
-                    <executable>java</executable>
-                    <arguments>
-                        <argument>
-                            -javaagent:${project.build.directory}${file.separator}${project.build.finalName}.jar
-                        </argument>
-                        <argument>-cp</argument>
-                        <classpath/>
-                        <argument>example.instrument.MyMainClass</argument>
-                    </arguments>
-                </configuration>
-            </plugin>
         </plugins>
     </build>
 
@@ -183,7 +159,6 @@
         </dependency>
 
 
-
         <dependency>
             <groupId>com.googlecode.json-simple</groupId>
             <artifactId>json-simple</artifactId>
@@ -207,8 +182,6 @@
             <artifactId>gson</artifactId>
             <version>2.3.1</version>
         </dependency>
-
-
 
 
     </dependencies>

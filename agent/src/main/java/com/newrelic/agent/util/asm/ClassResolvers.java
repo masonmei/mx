@@ -29,7 +29,7 @@ public class ClassResolvers {
     }
 
     public static ClassResolver getEmbeddedJarsClassResolver() {
-        ArrayList resolvers = Lists.newArrayList();
+        ArrayList<ClassResolver> resolvers = Lists.newArrayList();
         String[] embeddedAgentJarFileNames = EmbeddedJarFilesImpl.INSTANCE.getEmbeddedAgentJarFileNames();
         for (String name : embeddedAgentJarFileNames) {
             try {
@@ -94,17 +94,14 @@ public class ClassResolvers {
     public static ClassResolver getMultiResolver(final ClassResolver... resolvers) {
         return new ClassResolver() {
             public InputStream getClassResource(String internalClassName) throws IOException {
-                ClassResolver[] arr$ = resolvers;
-                int len$ = arr$.length;
-
-                for (int i$ = 0; i$ < len$; ++i$) {
-                    ClassResolver resolver = arr$[i$];
-                    InputStream classResource = resolver.getClassResource(internalClassName);
-                    if (classResource != null) {
-                        return classResource;
+                if (resolvers != null) {
+                    for (ClassResolver resolver : resolvers) {
+                        InputStream classResource = resolver.getClassResource(internalClassName);
+                        if (classResource != null) {
+                            return classResource;
+                        }
                     }
                 }
-
                 return null;
             }
         };
@@ -113,19 +110,16 @@ public class ClassResolvers {
     public static ClassResolver getMultiResolver(final Collection<ClassResolver> resolvers) {
         return new ClassResolver() {
             public InputStream getClassResource(String internalClassName) throws IOException {
-                Iterator i$ = resolvers.iterator();
-
-                InputStream classResource;
-                do {
-                    if (!i$.hasNext()) {
-                        return null;
+                if(resolvers != null){
+                    for (ClassResolver resolver : resolvers) {
+                        InputStream classResource = resolver.getClassResource(internalClassName);
+                        if(classResource != null){
+                            return classResource;
+                        }
                     }
+                }
 
-                    ClassResolver resolver = (ClassResolver) i$.next();
-                    classResource = resolver.getClassResource(internalClassName);
-                } while (classResource == null);
-
-                return classResource;
+                return null;
             }
         };
     }

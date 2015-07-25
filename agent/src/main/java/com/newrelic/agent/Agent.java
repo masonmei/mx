@@ -91,7 +91,7 @@ public final class Agent extends AbstractService implements IAgent {
             String msg = MessageFormat
                                  .format("New Relic agent {0} does not support the Oracle JRockit JVM. Please use a 2"
                                                  + ".21.x or earlier version of the agent. JVM  is: {1}.",
-                                                new Object[] {getVersion(), jvmName});
+                                                getVersion(), jvmName);
 
             LOG.error(msg);
         }
