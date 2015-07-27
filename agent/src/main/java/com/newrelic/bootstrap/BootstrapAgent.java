@@ -116,8 +116,6 @@ public class BootstrapAgent {
     }
 
     static void startAgent(String agentArgs, Instrumentation inst) {
-        Properties properties = System.getProperties();
-
         Class clazz;
         if (isBootstrapClasspathFlagSet()) {
             clazz = BootstrapLoader.class;

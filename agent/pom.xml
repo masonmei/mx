@@ -154,10 +154,16 @@
             <version>1.7.2</version>
         </dependency>
 
+        <!--<dependency>-->
+        <!--<groupId>org.yaml</groupId>-->
+        <!--<artifactId>snakeyaml</artifactId>-->
+        <!--<version>1.5</version>-->
+        <!--</dependency>-->
+
         <dependency>
             <groupId>org.yaml</groupId>
             <artifactId>snakeyaml</artifactId>
-            <version>1.5</version>
+            <version>1.4</version>
         </dependency>
 
 
@@ -183,6 +189,25 @@
             <groupId>com.google.code.gson</groupId>
             <artifactId>gson</artifactId>
             <version>2.3.1</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-core</artifactId>
+            <version>8.0.24</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-logging-juli</artifactId>
+            <version>8.0.24</version>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>org.apache.tomcat.embed</groupId>
+            <artifactId>tomcat-embed-logging-log4j</artifactId>
+            <version>8.0.24</version>
+            <scope>test</scope>
         </dependency>
 
 

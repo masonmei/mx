@@ -36,7 +36,7 @@ import com.newrelic.agent.util.Streams;
 public class JarExtension {
     private final ClassLoader classloader;
     private final File file;
-    private final Map<String, Extension> extensions = new HashMap();
+    private final Map<String, Extension> extensions = new HashMap<String, Extension>();
 
     private JarExtension(IAgentLogger logger, ExtensionParsers extensionParsers, File file, ClassLoader classLoader,
                          boolean custom) throws IOException {
@@ -46,7 +46,7 @@ public class JarExtension {
 
         logger.fine(MessageFormat
                             .format(!custom ? "Loading built-in agent extensions" : "Loading extension jar \"{0}\"",
-                                           new Object[] {file.getAbsolutePath()}));
+                                           file.getAbsolutePath()));
 
         Collection<JarEntry> entries = getExtensions(jarFile);
         for (JarEntry entry : entries) {
@@ -60,14 +60,13 @@ public class JarExtension {
 
                         addExtension(extension);
                     } catch (Exception ex) {
-                        logger.severe(MessageFormat.format("Invalid extension file {0} : {1}",
-                                                                  new Object[] {entry.getName(), ex.toString()}));
+                        logger.severe(MessageFormat.format("Invalid extension file {0} : {1}", entry.getName(),
+                                                                  ex.toString()));
 
                         logger.log(Level.FINER, ex.toString(), ex);
                     }
                 } else {
-                    logger.fine(MessageFormat.format("Unable to load extension resource \"{0}\"",
-                                                            new Object[] {entry.getName()}));
+                    logger.fine(MessageFormat.format("Unable to load extension resource \"{0}\"", entry.getName()));
                 }
             } finally {
                 if (iStream != null) {
@@ -87,8 +86,7 @@ public class JarExtension {
         try {
             agentClass = getAgentClass(jar.getManifest());
             if (null != agentClass) {
-                logger.log(Level.FINE, "Detected agentmain class {0} in {1}",
-                                  new Object[] {agentClass, file.getAbsolutePath()});
+                logger.log(Level.FINE, "Detected agentmain class {0} in {1}", agentClass, file.getAbsolutePath());
 
                 byte[] newBytes = ExtensionRewriter.rewrite(jar);
                 if (null != newBytes) {
@@ -118,8 +116,9 @@ public class JarExtension {
     }
 
     private static Collection<JarEntry> getExtensions(JarFile file) {
-        List list = new ArrayList();
+        List<JarEntry> list = new ArrayList<JarEntry>();
         Pattern pattern = Pattern.compile("^META-INF/extensions/(.*).(yml|xml)$");
+
         for (Enumeration entries = file.entries(); entries.hasMoreElements(); ) {
             JarEntry entry = (JarEntry) entries.nextElement();
             String name = entry.getName();
@@ -184,7 +183,7 @@ public class JarExtension {
             try {
                 jarFile = new JarFile(file);
 
-                Collection classes = new ArrayList();
+                Collection<String> classes = new ArrayList<String>();
                 Enumeration entries = jarFile.entries();
                 JarEntry entry;
                 while (entries.hasMoreElements()) {
@@ -233,8 +232,7 @@ public class JarExtension {
         } finally {
             out.close();
         }
-        logger.log(Level.FINER, "Rewriting {0} as {1}",
-                          new Object[] {original.getAbsolutePath(), file.getAbsolutePath()});
+        logger.log(Level.FINER, "Rewriting {0} as {1}", original.getAbsolutePath(), file.getAbsolutePath());
 
         return file;
     }
@@ -251,7 +249,7 @@ public class JarExtension {
     }
 
     void addExtension(Extension extension) {
-        Extension existing = (Extension) extensions.get(extension.getName());
+        Extension existing = extensions.get(extension.getName());
         if ((existing == null) || (existing.getVersionNumber() < extension.getVersionNumber())) {
             extensions.put(extension.getName(), extension);
         }
@@ -271,7 +269,7 @@ public class JarExtension {
             return Collections.emptyList();
         }
 
-        Collection classes = Lists.newArrayList();
+        Collection<Class<?>> classes = Lists.newArrayList();
         for (String fileName : classNames) {
             int index = fileName.indexOf(".class");
             fileName = fileName.substring(0, index);
@@ -294,24 +292,23 @@ public class JarExtension {
 
     private void invokeMainMethod(IAgentLogger logger, String agentClass) {
         try {
-            Class clazz = classloader.loadClass(agentClass);
-            logger.log(Level.FINE, "Invoking {0}.premain method", new Object[] {agentClass});
-            Method method = clazz.getDeclaredMethod("premain", new Class[] {String.class, Instrumentation.class});
+            Class<?> clazz = classloader.loadClass(agentClass);
+            logger.log(Level.FINE, "Invoking {0}.premain method", agentClass);
+            Method method = clazz.getDeclaredMethod("premain", String.class, Instrumentation.class);
             String agentArgs = "";
-            method.invoke(null, new Object[] {agentArgs, ServiceFactory.getClassTransformerService()
-                                                                 .getExtensionInstrumentation()});
+            method.invoke(null, agentArgs, ServiceFactory.getClassTransformerService().getExtensionInstrumentation());
         } catch (ClassNotFoundException e) {
-            logger.log(Level.INFO, "Unable to load {0}", new Object[] {agentClass});
-            logger.log(Level.FINEST, e, e.getMessage(), new Object[0]);
+            logger.log(Level.INFO, "Unable to load {0}", agentClass);
+            logger.log(Level.FINEST, e, e.getMessage());
         } catch (NoSuchMethodException e) {
-            logger.log(Level.INFO, "{0} has no premain method", new Object[] {agentClass});
-            logger.log(Level.FINEST, e, e.getMessage(), new Object[0]);
+            logger.log(Level.INFO, "{0} has no premain method", agentClass);
+            logger.log(Level.FINEST, e, e.getMessage());
         } catch (SecurityException e) {
-            logger.log(Level.INFO, "Unable to load {0}", new Object[] {agentClass});
-            logger.log(Level.FINEST, e, e.getMessage(), new Object[0]);
+            logger.log(Level.INFO, "Unable to load {0}", agentClass);
+            logger.log(Level.FINEST, e, e.getMessage());
         } catch (Exception e) {
-            logger.log(Level.INFO, "Unable to invoke {0}.premain", new Object[] {agentClass});
-            logger.log(Level.FINEST, e, e.getMessage(), new Object[0]);
+            logger.log(Level.INFO, "Unable to invoke {0}.premain", agentClass);
+            logger.log(Level.FINEST, e, e.getMessage());
         }
     }
 }
