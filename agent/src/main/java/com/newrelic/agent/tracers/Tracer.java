@@ -8,50 +8,50 @@ import com.newrelic.agent.config.TransactionTracerConfig;
 import com.newrelic.agent.database.SqlObfuscator;
 import com.newrelic.agent.trace.TransactionSegment;
 
-public abstract interface Tracer extends InvocationHandler, TimedItem, ExitTracer {
-    public abstract long getStartTime();
+public interface Tracer extends InvocationHandler, TimedItem, ExitTracer {
+    long getStartTime();
 
-    public abstract long getStartTimeInMilliseconds();
+    long getStartTimeInMilliseconds();
 
-    public abstract long getEndTime();
+    long getEndTime();
 
-    public abstract long getEndTimeInMilliseconds();
+    long getEndTimeInMilliseconds();
 
-    public abstract long getExclusiveDuration();
+    long getExclusiveDuration();
 
-    public abstract long getRunningDurationInNanos();
+    long getRunningDurationInNanos();
 
-    public abstract String getMetricName();
+    String getMetricName();
 
-    public abstract String getTransactionSegmentName();
+    String getTransactionSegmentName();
 
-    public abstract String getTransactionSegmentUri();
+    String getTransactionSegmentUri();
 
-    public abstract Map<String, Object> getAttributes();
+    Map<String, Object> getAttributes();
 
-    public abstract void setAttribute(String paramString, Object paramObject);
+    void setAttribute(String paramString, Object paramObject);
 
-    public abstract Object getAttribute(String paramString);
+    Object getAttribute(String paramString);
 
-    public abstract void childTracerFinished(Tracer paramTracer);
+    void childTracerFinished(Tracer paramTracer);
 
-    public abstract Tracer getParentTracer();
+    Tracer getParentTracer();
 
-    public abstract void setParentTracer(Tracer paramTracer);
+    void setParentTracer(Tracer paramTracer);
 
-    public abstract boolean isParent();
+    boolean isParent();
 
-    public abstract boolean isMetricProducer();
+    boolean isMetricProducer();
 
-    public abstract ClassMethodSignature getClassMethodSignature();
+    ClassMethodSignature getClassMethodSignature();
 
-    public abstract boolean isTransactionSegment();
+    boolean isTransactionSegment();
 
-    public abstract boolean isChildHasStackTrace();
+    boolean isChildHasStackTrace();
 
-    public abstract TransactionSegment getTransactionSegment(TransactionTracerConfig paramTransactionTracerConfig,
-                                                             SqlObfuscator paramSqlObfuscator, long paramLong,
-                                                             TransactionSegment paramTransactionSegment);
+    TransactionSegment getTransactionSegment(TransactionTracerConfig paramTransactionTracerConfig,
+                                             SqlObfuscator paramSqlObfuscator, long paramLong,
+                                             TransactionSegment paramTransactionSegment);
 
-    public abstract boolean isLeaf();
+    boolean isLeaf();
 }

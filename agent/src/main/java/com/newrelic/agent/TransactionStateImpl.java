@@ -59,10 +59,10 @@ public class TransactionStateImpl implements TransactionState {
 
         if ((tracer != null) && (Agent.LOG.isLoggable(Level.FINER))) {
             if (tracer == tx.getRootTracer()) {
-                Agent.LOG.log(Level.FINER, "Transaction started {0}", new Object[] {tx});
+                Agent.LOG.log(Level.FINER, "Transaction started {0}", tx);
             }
-            Agent.LOG.log(Level.FINER, "Tracer ({3}) Started: {0}.{1}{2}",
-                                 new Object[] {sig.getClassName(), sig.getMethodName(), sig.getMethodDesc(), tracer});
+            Agent.LOG.log(Level.FINER, "Tracer ({3}) Started: {0}.{1}{2}", sig.getClassName(), sig.getMethodName(), sig.getMethodDesc(),
+                                 tracer);
         }
 
         return tracer;

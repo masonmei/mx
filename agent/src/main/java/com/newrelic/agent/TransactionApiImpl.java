@@ -45,12 +45,12 @@ public class TransactionApiImpl implements com.newrelic.agent.bridge.Transaction
     public boolean setTransactionName(com.newrelic.api.agent.TransactionNamePriority namePriority, boolean override,
                                       String category, String[] parts) {
         Transaction tx = getTransaction();
-        return tx != null ? tx.setTransactionName(namePriority, override, category, parts) : false;
+        return tx != null && tx.setTransactionName(namePriority, override, category, parts);
     }
 
     public boolean isTransactionNameSet() {
         Transaction tx = getTransaction();
-        return tx != null ? tx.isTransactionNameSet() : false;
+        return tx != null && tx.isTransactionNameSet();
     }
 
     public com.newrelic.api.agent.TracedMethod getLastTracer() {
@@ -86,7 +86,7 @@ public class TransactionApiImpl implements com.newrelic.agent.bridge.Transaction
     public boolean setTransactionName(com.newrelic.agent.bridge.TransactionNamePriority namePriority, boolean override,
                                       String category, String[] parts) {
         Transaction tx = getTransaction();
-        return tx != null ? tx.setTransactionName(namePriority, override, category, parts) : false;
+        return tx != null && tx.setTransactionName(namePriority, override, category, parts);
     }
 
     public void beforeSendResponseHeaders() {
@@ -98,7 +98,7 @@ public class TransactionApiImpl implements com.newrelic.agent.bridge.Transaction
 
     public boolean isStarted() {
         Transaction tx = getTransaction();
-        return tx != null ? tx.isStarted() : false;
+        return tx != null && tx.isStarted();
     }
 
     public void setApplicationName(ApplicationNamePriority priority, String appName) {
@@ -110,17 +110,17 @@ public class TransactionApiImpl implements com.newrelic.agent.bridge.Transaction
 
     public boolean isAutoAppNamingEnabled() {
         Transaction tx = getTransaction();
-        return tx != null ? tx.isAutoAppNamingEnabled() : false;
+        return tx != null && tx.isAutoAppNamingEnabled();
     }
 
     public boolean isWebRequestSet() {
         Transaction tx = getTransaction();
-        return tx != null ? tx.isWebRequestSet() : false;
+        return tx != null && tx.isWebRequestSet();
     }
 
     public boolean isWebResponseSet() {
         Transaction tx = getTransaction();
-        return tx != null ? tx.isWebResponseSet() : false;
+        return tx != null && tx.isWebResponseSet();
     }
 
     public void setWebRequest(Request request) {
@@ -151,10 +151,7 @@ public class TransactionApiImpl implements com.newrelic.agent.bridge.Transaction
 
     public boolean isWebTransaction() {
         Transaction tx = getTransaction();
-        if (tx != null) {
-            return tx.isWebTransaction();
-        }
-        return false;
+        return tx != null && tx.isWebTransaction();
     }
 
     public void requestInitialized(Request request, Response response) {

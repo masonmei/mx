@@ -11,7 +11,6 @@ import java.text.MessageFormat;
 import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -88,7 +87,7 @@ public class Transaction implements ITransaction {
 
     static {
         REQUEST_INITIALIZED_CLASS_SIGNATURE_ID = ClassMethodSignatures.get().add(REQUEST_INITIALIZED_CLASS_SIGNATURE);
-        transactionHolder = new ThreadLocal() {
+        transactionHolder = new ThreadLocal<Transaction>() {
             public void remove() {
                 ServiceFactory.getTransactionService().removeTransaction();
                 super.remove();
@@ -179,12 +178,13 @@ public class Transaction implements ITransaction {
     private final boolean autoAppNamingEnabled;
     private final boolean transactionNamingEnabled;
     private final boolean ignoreErrorPriority;
-    private final AtomicReference<TransactionErrorPriority> throwablePriority = new AtomicReference();
+    private final AtomicReference<TransactionErrorPriority> throwablePriority =
+            new AtomicReference<TransactionErrorPriority>();
     private final Object lock = new Object();
     private final Map<Object, TransactionActivity> runningChildren;
     private final Map<Object, TransactionActivity> finishedChildren;
     private final AtomicInteger nextActivityId = new AtomicInteger(0);
-    private final AtomicReference<Transaction.AppNameAndConfig> appNameAndConfig;
+    private final AtomicReference<AppNameAndConfig> appNameAndConfig;
     private final Map<String, Object> internalParameters;
     private final Map<String, Map<String, String>> prefixedAgentAttributes;
     private final Map<String, Object> agentAttributes;
@@ -218,8 +218,7 @@ public class Transaction implements ITransaction {
 
     protected Transaction() {
         this.appNameAndConfig =
-                new AtomicReference<AppNameAndConfig>(new Transaction.AppNameAndConfig(PriorityApplicationName.NONE,
-                                                                                              null));
+                new AtomicReference<AppNameAndConfig>(new AppNameAndConfig(PriorityApplicationName.NONE, null));
         this.transactionState = new TransactionStateImpl();
         this.initialActivity = null;
         this.connectionCache = null;
@@ -228,16 +227,17 @@ public class Transaction implements ITransaction {
         this.metricAggregator = new AbstractMetricAggregator() {
             protected void doRecordResponseTimeMetric(String name, long totalTime, long exclusiveTime,
                                                       TimeUnit timeUnit) {
-                getTransactionActivity().getTransactionStats().getUnscopedStats().getResponseTimeStats(name)
-                        .recordResponseTime(totalTime, exclusiveTime, timeUnit);
+                Transaction.this.getTransactionActivity().getTransactionStats().getUnscopedStats()
+                        .getResponseTimeStats(name).recordResponseTime(totalTime, exclusiveTime, timeUnit);
             }
 
             protected void doRecordMetric(String name, float value) {
-                getTransactionActivity().getTransactionStats().getUnscopedStats().getStats(name).recordDataPoint(value);
+                Transaction.this.getTransactionActivity().getTransactionStats().getUnscopedStats().getStats(name)
+                        .recordDataPoint(value);
             }
 
             protected void doIncrementCounter(String name, int count) {
-                getTransactionActivity().getTransactionStats().getUnscopedStats().getStats(name)
+                Transaction.this.getTransactionActivity().getTransactionStats().getUnscopedStats().getStats(name)
                         .incrementCallCount(count);
             }
         };
@@ -256,27 +256,25 @@ public class Transaction implements ITransaction {
         TransactionTraceService ttService = ServiceFactory.getTransactionTraceService();
         this.ttEnabled = ttService.isEnabled();
         this.counts = new TransactionCounts(defaultConfig);
-        MapMaker factory = (new MapMaker()).initialCapacity(8).concurrencyLevel(4);
-        this.internalParameters = new LazyMapImpl(factory);
-        this.prefixedAgentAttributes = new LazyMapImpl(factory);
-        this.agentAttributes = new LazyMapImpl(factory);
-        this.intrinsicAttributes = new LazyMapImpl(factory);
-        this.userAttributes = new LazyMapImpl(factory);
-        this.errorAttributes = new LazyMapImpl(factory);
+        MapMaker factory = new MapMaker().initialCapacity(8).concurrencyLevel(4);
+        this.internalParameters = new LazyMapImpl<String, Object>(factory);
+        this.prefixedAgentAttributes = new LazyMapImpl<String, Map<String, String>>(factory);
+        this.agentAttributes = new LazyMapImpl<String, Object>(factory);
+        this.intrinsicAttributes = new LazyMapImpl<String, Object>(factory);
+        this.userAttributes = new LazyMapImpl<String, Object>(factory);
+        this.errorAttributes = new LazyMapImpl<String, String>(factory);
         this.insights = ServiceFactory.getServiceManager().getInsights().getTransactionInsights(defaultConfig);
-        this.contextToTracer = new LazyMapImpl((new MapMaker()).initialCapacity(25).concurrencyLevel(16));
-        this.timedOutKeys = new LazyMapImpl(factory);
-        this.runningChildren = new LazyMapImpl(factory);
-        this.finishedChildren = new LazyMapImpl(factory);
+        this.contextToTracer = new LazyMapImpl<Object, Tracer>(new MapMaker().initialCapacity(25).concurrencyLevel(16));
+        this.timedOutKeys = new LazyMapImpl<Object, Tracer>(factory);
+        this.runningChildren = new LazyMapImpl<Object, TransactionActivity>(factory);
+        this.finishedChildren = new LazyMapImpl<Object, TransactionActivity>(factory);
     }
 
     private static long getGCTime() {
         long gcTime = 0L;
 
-        GarbageCollectorMXBean gcBean;
-        for (Iterator i$ = ManagementFactory.getGarbageCollectorMXBeans().iterator(); i$.hasNext();
-             gcTime += gcBean.getCollectionTime()) {
-            gcBean = (GarbageCollectorMXBean) i$.next();
+        for (GarbageCollectorMXBean gcBean : ManagementFactory.getGarbageCollectorMXBeans()) {
+            gcTime += gcBean.getCollectionTime();
         }
 
         return gcTime;
@@ -289,7 +287,7 @@ public class Transaction implements ITransaction {
     }
 
     public static void clearTransaction() {
-        Transaction tx = (Transaction) transactionHolder.get();
+        Transaction tx = transactionHolder.get();
         if (tx != null) {
             tx.legacyState.boundThreads.remove(Long.valueOf(Thread.currentThread().getId()));
         }
@@ -303,7 +301,7 @@ public class Transaction implements ITransaction {
     }
 
     public static void setTransaction(Transaction tx) {
-        tx.legacyState.boundThreads.add(Long.valueOf(Thread.currentThread().getId()));
+        tx.legacyState.boundThreads.add(Thread.currentThread().getId());
         TransactionActivity.set(tx.initialActivity);
         transactionHolder.set(tx);
     }
@@ -345,8 +343,7 @@ public class Transaction implements ITransaction {
 
     private static String stripLeadingForwardSlash(String appName) {
         String FORWARD_SLASH = "/";
-        return appName.length() > 1 && appName.startsWith(FORWARD_SLASH) ? appName.substring(1, appName.length())
-                       : appName;
+        return appName.length() > 1 && appName.startsWith(FORWARD_SLASH) ? appName.substring(1, appName.length()) : appName;
     }
 
     private void postConstruct() {
@@ -485,8 +482,7 @@ public class Transaction implements ITransaction {
             if (this.dispatcher == null) {
                 if (Agent.LOG.isFinestEnabled()) {
                     Agent.LOG.finest(MessageFormat
-                                             .format("Unable to set the transaction name to \"{0}\" - no transaction",
-                                                            name));
+                                             .format("Unable to set the transaction name to \"{0}\" - no transaction", name));
                 }
 
                 return false;
@@ -545,9 +541,10 @@ public class Transaction implements ITransaction {
                 return this.setPriorityTransactionNameLocked(policy.getPriorityTransactionName(this, name, category,
                                                                                                       priority));
             } else {
-                Agent.LOG.log(Level.FINER, "Not setting the transaction name to  \"{0}\" for transaction {1}: a higher "
-                                                   + "priority name is already in place. Current transaction name is "
-                                                   + "{2}", name, this, this.getTransactionName());
+                Agent.LOG.log(Level.FINER,
+                                     "Not setting the transaction name to  \"{0}\" for transaction {1}: a higher "
+                                             + "priority name is already in place. Current transaction name is {2}",
+                                     name, this, this.getTransactionName());
                 return false;
             }
         }
@@ -782,7 +779,7 @@ public class Transaction implements ITransaction {
                                 .put("synthetics_job_id", this.getInboundHeaderState().getSyntheticsJobId());
                     }
 
-                    String displayHost1 = (String) this.getAgentConfig().getValue("process_host.display_name", null);
+                    String displayHost1 = this.getAgentConfig().getValue("process_host.display_name", null);
                     if (displayHost1 != null) {
                         this.getAgentAttributes().put("host.displayName", displayHost1);
                     }
@@ -808,9 +805,9 @@ public class Transaction implements ITransaction {
         long totalCpuTime;
         if (this.isTransactionTraceEnabled() && this.getRunningDurationInNanos() > this.getTransactionTracerConfig()
                                                                                            .getTransactionThresholdInNanos()) {
-            Object i$ = this.getIntrinsicAttributes().remove("cpu_time");
-            if (i$ != null && i$ instanceof Long) {
-                totalCpuTime = ((Long) i$).longValue();
+            Object cpuTime = this.getIntrinsicAttributes().remove("cpu_time");
+            if (cpuTime != null && cpuTime instanceof Long) {
+                totalCpuTime = (Long) cpuTime;
             } else {
                 totalCpuTime = 0L;
             }
@@ -818,10 +815,7 @@ public class Transaction implements ITransaction {
             totalCpuTime = -1L;
         }
 
-        Iterator i$1 = this.getFinishedChildren().iterator();
-
-        while (i$1.hasNext()) {
-            TransactionActivity kid = (TransactionActivity) i$1.next();
+        for (TransactionActivity kid : getFinishedChildren()) {
             if (transactionStats == null) {
                 transactionStats = kid.getTransactionStats();
             } else {
@@ -900,7 +894,7 @@ public class Transaction implements ITransaction {
 
         if (this.isTransactionTraceEnabled()) {
             for (Entry<Object, Tracer> current : timedOutKeys.entrySet()) {
-                Object val = (current.getValue()).getAttribute("unstarted_async_activity");
+                Object val = current.getValue().getAttribute("unstarted_async_activity");
                 Map<String, Integer> keys;
                 if (val == null) {
                     keys = Maps.newHashMap();
@@ -909,15 +903,15 @@ public class Transaction implements ITransaction {
                 }
 
                 String classType = current.getKey().getClass().toString();
-                Integer count = (keys).get(classType);
+                Integer count = keys.get(classType);
                 if (count == null) {
                     count = 1;
                 } else {
-                    count += 1;
+                    count = count + 1;
                 }
 
                 keys.put(classType, count);
-                (current.getValue()).setAttribute("unstarted_async_activity", keys);
+                current.getValue().setAttribute("unstarted_async_activity", keys);
             }
         }
 
@@ -1008,13 +1002,11 @@ public class Transaction implements ITransaction {
             if (normalizedUri != null && normalizedUri.length() != 0) {
                 TransactionNamingPolicy policy =
                         TransactionNamingPolicy.getSameOrHigherPriorityTransactionNamingPolicy();
-                if (Agent.LOG.isLoggable(Level.FINER) && policy.canSetTransactionName(this,
-                                                                                             com.newrelic.agent
-                                                                                                     .bridge
-                                                                                                     .TransactionNamePriority.CUSTOM_HIGH)) {
+                if (Agent.LOG.isLoggable(Level.FINER) && policy.canSetTransactionName(this, com.newrelic.agent.bridge.TransactionNamePriority.CUSTOM_HIGH)) {
                     String msg = MessageFormat
                                          .format("Setting transaction name to normalized URI \"{0}\" for transaction "
-                                                         + "{1}", normalizedUri, this);
+                                                         + "{1}",
+                                                        normalizedUri, this);
                     Agent.LOG.finer(msg);
                 }
 
@@ -1047,15 +1039,16 @@ public class Transaction implements ITransaction {
                 if (Agent.LOG.isFinerEnabled()) {
                     Agent.LOG.log(Level.FINER,
                                          "Non-API call to setThrowable from asynchronous activity ignored: {0} with "
-                                                 + "priority {1}", throwable, priority);
+                                                 + "priority {1}",
+                                         throwable, priority);
                 }
 
             } else {
                 if (Agent.LOG.isFinerEnabled() && !this.ignoreErrorPriority) {
                     Agent.LOG.log(Level.FINER,
                                          "Attempting to set throwable in transaction: {0} having priority {1} with "
-                                                 + "priority {2}", throwable.getClass().getName(),
-                                         this.throwablePriority, priority);
+                                                 + "priority {2}",
+                                         throwable.getClass().getName(), this.throwablePriority, priority);
                 }
 
                 if (this.ignoreErrorPriority || priority.updateCurrentPriority(this.throwablePriority)) {
@@ -1076,19 +1069,13 @@ public class Transaction implements ITransaction {
         if (this.dispatcher != null) {
             synchronized(this.lock) {
                 this.ignore = ignore;
-                Iterator i$ = this.runningChildren.values().iterator();
 
-                TransactionActivity finishedChild;
-                while (i$.hasNext()) {
-                    finishedChild = (TransactionActivity) i$.next();
-                    finishedChild.setOwningTransactionIsIgnored(true);
+                for (TransactionActivity transactionActivity : runningChildren.values()) {
+                    transactionActivity.setOwningTransactionIsIgnored(true);
                 }
 
-                i$ = this.finishedChildren.values().iterator();
-
-                while (i$.hasNext()) {
-                    finishedChild = (TransactionActivity) i$.next();
-                    finishedChild.setOwningTransactionIsIgnored(true);
+                for (TransactionActivity transactionActivity : this.finishedChildren.values()) {
+                    transactionActivity.setOwningTransactionIsIgnored(true);
                 }
             }
         } else {
@@ -1119,7 +1106,6 @@ public class Transaction implements ITransaction {
     }
 
     public DatabaseStatementParser getDatabaseStatementParser() {
-        Object var1 = this.lock;
         synchronized(this.lock) {
             if (this.databaseStatementParser == null) {
                 this.databaseStatementParser = this.createDatabaseStatementParser();
@@ -1134,7 +1120,6 @@ public class Transaction implements ITransaction {
     }
 
     public BrowserTransactionState getBrowserTransactionState() {
-        Object var1 = this.lock;
         synchronized(this.lock) {
             if (this.browserTransactionState == null) {
                 this.browserTransactionState = BrowserTransactionStateImpl.create(this);
@@ -1203,8 +1188,7 @@ public class Transaction implements ITransaction {
     }
 
     public void requestInitialized(Request request, Response response) {
-        Agent.LOG.log(Level.FINEST, "Request initialized: {0}", new Object[] {request.getRequestURI()});
-        Object var3 = this.requestStateChangeLock;
+        Agent.LOG.log(Level.FINEST, "Request initialized: {0}", request.getRequestURI());
         synchronized(this.requestStateChangeLock) {
             if (!this.isFinished()) {
                 if (this.dispatcher == null) {
@@ -1244,17 +1228,15 @@ public class Transaction implements ITransaction {
     }
 
     public boolean isWebRequestSet() {
-        return this.dispatcher instanceof WebRequestDispatcher ? !DUMMY_REQUEST.equals(this.dispatcher.getRequest())
-                       : false;
+        return this.dispatcher instanceof WebRequestDispatcher && !DUMMY_REQUEST.equals(this.dispatcher.getRequest());
     }
 
     public boolean isWebResponseSet() {
-        return this.dispatcher instanceof WebRequestDispatcher ? !DUMMY_RESPONSE.equals(this.dispatcher.getResponse())
-                       : false;
+        return this.dispatcher instanceof WebRequestDispatcher && !DUMMY_RESPONSE.equals(this.dispatcher.getResponse());
     }
 
     public void setWebRequest(Request request) {
-        NewRelic.getAgent().getLogger().log(Level.FINEST, "setWebRequest invoked", new Object[0]);
+        NewRelic.getAgent().getLogger().log(Level.FINEST, "setWebRequest invoked");
         if (!(this.dispatcher instanceof WebRequestDispatcher)) {
             this.setDispatcher(new WebRequestDispatcher(request, DUMMY_RESPONSE, getTransaction()));
         } else {
@@ -1268,12 +1250,12 @@ public class Transaction implements ITransaction {
     }
 
     public PriorityApplicationName getPriorityApplicationName() {
-        return ((Transaction.AppNameAndConfig) this.appNameAndConfig.get()).name;
+        return this.appNameAndConfig.get().name;
     }
 
     private void setPriorityApplicationName(PriorityApplicationName pan) {
         if (pan != null && !pan.equals(this.getPriorityApplicationName())) {
-            Agent.LOG.log(Level.FINE, "Set application name to {0}", new Object[] {pan.getName()});
+            Agent.LOG.log(Level.FINE, "Set application name to {0}", pan.getName());
             this.appNameAndConfig.set(new Transaction.AppNameAndConfig(pan, null));
         }
     }
@@ -1315,12 +1297,12 @@ public class Transaction implements ITransaction {
                                          "Parent tracer not found. Not registering async activity context {0} with "
                                                  + "transaction {1}", activityContext, this);
                 } else if (!ServiceFactory.getAsyncTxService().putIfAbsent(activityContext, this)) {
-                    Agent.LOG.log(Level.FINER, "Key already in use. Not registering async activity context {0} with "
-                                                       + "transaction {1}", activityContext, this);
+                    Agent.LOG.log(Level.FINER,
+                                         "Key already in use. Not registering async activity context {0} with "
+                                                 + "transaction {1}", activityContext, this);
                 } else {
                     this.contextToTracer.put(activityContext, t);
-                    Agent.LOG.log(Level.FINER, "Registering async activity context {0} with transaction {1}",
-                                         activityContext, this);
+                    Agent.LOG.log(Level.FINER, "Registering async activity context {0} with transaction {1}", activityContext, this);
                     result = true;
                 }
             }
@@ -1331,7 +1313,6 @@ public class Transaction implements ITransaction {
 
     public boolean startAsyncActivity(Object activityContext) {
         boolean result = false;
-        Object var3 = this.lock;
         synchronized(this.lock) {
             if (this.isInProgress()) {
                 Transaction transaction = ServiceFactory.getAsyncTxService().extractIfPresent(activityContext);
@@ -1508,8 +1489,8 @@ public class Transaction implements ITransaction {
         String category = this.getPriorityTransactionName().getCategory();
         String prefix = this.getPriorityTransactionName().getPrefix();
         String txnNamePrefix = prefix + '/' + category + '/';
-        return fullName != null && fullName.startsWith(txnNamePrefix) ? fullName.substring(txnNamePrefix.length(),
-                                                                                                  fullName.length())
+        return fullName != null && fullName.startsWith(txnNamePrefix) ?
+                       fullName.substring(txnNamePrefix.length(), fullName.length())
                        : fullName;
     }
 
@@ -1519,7 +1500,7 @@ public class Transaction implements ITransaction {
 
         LegacyState() {
             MapMaker factory = (new MapMaker()).initialCapacity(8).concurrencyLevel(4);
-            this.boundThreads = Sets.newSetFromMap(new LazyMapImpl(factory));
+            this.boundThreads = Sets.newSetFromMap(new LazyMapImpl<Long, Boolean>(factory));
         }
     }
 

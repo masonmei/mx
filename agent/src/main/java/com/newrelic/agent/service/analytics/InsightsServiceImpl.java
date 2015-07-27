@@ -38,7 +38,7 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
                         }
                     });
     private final boolean enabled;
-    private final ConcurrentMap<String, Boolean> isEnabledForApp = new ConcurrentHashMap();
+    private final ConcurrentMap<String, Boolean> isEnabledForApp = new ConcurrentHashMap<String, Boolean>();
     protected final AgentConfigListener configListener = new AgentConfigListener() {
         public void configChanged(String appName, AgentConfig agentConfig) {
             isEnabledForApp.remove(appName);
@@ -46,7 +46,7 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
     };
     private final int maxSamplesStored;
     private final ConcurrentHashMap<String, ReserviorSampledArrayList<CustomInsightsEvent>> reservoirForApp =
-            new ConcurrentHashMap();
+            new ConcurrentHashMap<String, ReserviorSampledArrayList<CustomInsightsEvent>>();
     protected final HarvestListener harvestListener = new HarvestListener() {
         public void beforeHarvest(String appName, StatsEngine statsEngine) {
             harvest(appName, statsEngine);
@@ -67,7 +67,7 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
         AgentConfig config = ServiceFactory.getConfigService().getDefaultAgentConfig();
         maxSamplesStored = CustomInsightsEventsConfigUtils.getMaxSamplesStored(config);
         enabled = CustomInsightsEventsConfigUtils.isCustomInsightsEventsEnabled(config, maxSamplesStored);
-        isEnabledForApp.put(config.getApplicationName(), Boolean.valueOf(enabled));
+        isEnabledForApp.put(config.getApplicationName(), enabled);
     }
 
     private static Map<String, Object> copyAndInternStrings(Map<String, Object> attributes) {
@@ -84,7 +84,7 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
 
     private static String mapInternString(String value) {
         try {
-            return (String) stringCache.get(value);
+            return stringCache.get(value);
         } catch (ExecutionException e) {
         }
         return value;
@@ -113,10 +113,10 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
         if (!enabled) {
             if (ServiceFactory.getConfigService().getDefaultAgentConfig().isHighSecurity()) {
                 Agent.LOG.log(Level.FINER, "Event of type {0} not collected due to high security mode being enabled.",
-                                     new Object[] {eventType});
+                                     eventType);
             } else {
                 Agent.LOG.log(Level.FINER, "Event of type {0} not collected. custom_insights_events not enabled.",
-                                     new Object[] {eventType});
+                                     eventType);
             }
 
             return;
@@ -137,8 +137,7 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
         } else {
             Agent.LOG.log(Level.WARNING,
                                  "Custom event with invalid type of {0} was reported but ignored. Event types must "
-                                         + "match /^[a-zA-Z0-9:_ ]+$/ and be less than 256 chars.",
-                                 new Object[] {eventType});
+                                         + "match /^[a-zA-Z0-9:_ ]+$/ and be less than 256 chars.", eventType);
         }
     }
 
@@ -149,7 +148,7 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
             for (CustomInsightsEvent event : events) {
                 Integer slot = eventList.getSlot();
                 if (slot != null) {
-                    eventList.set(slot.intValue(), event);
+                    eventList.set(slot, event);
                 }
             }
         }
@@ -159,8 +158,8 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
         ReserviorSampledArrayList eventList = getReservoir(appName);
         Integer slot = eventList.getSlot();
         if (slot != null) {
-            eventList.set(slot.intValue(), event);
-            Agent.LOG.finest(MessageFormat.format("Added Custom Event of type {0}", new Object[] {event.type}));
+            eventList.set(slot, event);
+            Agent.LOG.finest(MessageFormat.format("Added Custom Event of type {0}", event.type));
         }
     }
 
@@ -168,19 +167,18 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
         ReserviorSampledArrayList eventList = getReservoir(appName);
         Integer slot = eventList.getSlot();
         if (slot != null) {
-            eventList.set(slot.intValue(),
-                                 new CustomInsightsEvent(mapInternString(eventType), System.currentTimeMillis(),
-                                                                copyAndInternStrings(attributes)));
+            eventList.set(slot, new CustomInsightsEvent(mapInternString(eventType), System.currentTimeMillis(),
+                                                               copyAndInternStrings(attributes)));
 
-            Agent.LOG.finest(MessageFormat.format("Added Custom Event of type {0}", new Object[] {eventType}));
+            Agent.LOG.finest(MessageFormat.format("Added Custom Event of type {0}", eventType));
         }
     }
 
     private ReserviorSampledArrayList<CustomInsightsEvent> getReservoir(String appName) {
-        ReserviorSampledArrayList result = (ReserviorSampledArrayList) reservoirForApp.get(appName);
+        ReserviorSampledArrayList<CustomInsightsEvent> result = reservoirForApp.get(appName);
         while (result == null) {
-            reservoirForApp.putIfAbsent(appName, new ReserviorSampledArrayList(maxSamplesStored));
-            result = (ReserviorSampledArrayList) reservoirForApp.get(appName);
+            reservoirForApp.putIfAbsent(appName, new ReserviorSampledArrayList<CustomInsightsEvent>(maxSamplesStored));
+            result = reservoirForApp.get(appName);
         }
         return result;
     }
@@ -191,8 +189,8 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
             return;
         }
 
-        ReserviorSampledArrayList reservoir = (ReserviorSampledArrayList) reservoirForApp.put(appName,
-                                                                                                     new ReserviorSampledArrayList(maxSamplesStored));
+        ReserviorSampledArrayList reservoir =
+                reservoirForApp.put(appName, new ReserviorSampledArrayList(maxSamplesStored));
 
         if ((reservoir != null) && (reservoir.size() > 0)) {
             try {
@@ -204,8 +202,7 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
 
                 if (reservoir.size() < reservoir.getNumberOfTries()) {
                     Agent.LOG.log(Level.WARNING, "Dropped {0} custom events out of {1}.",
-                                         new Object[] {Integer.valueOf(reservoir.getNumberOfTries() - reservoir.size()),
-                                                              Integer.valueOf(reservoir.getNumberOfTries())});
+                                         reservoir.getNumberOfTries() - reservoir.size(), reservoir.getNumberOfTries());
                 }
             } catch (Exception e) {
                 Agent.LOG.fine("Unable to send custom events. Unsent events will be included in the next harvest.");
@@ -217,15 +214,13 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
     }
 
     private boolean getIsEnabledForApp(AgentConfig config, String currentAppName) {
-        Boolean appEnabled = currentAppName == null ? null : (Boolean) isEnabledForApp.get(currentAppName);
+        Boolean appEnabled = currentAppName == null ? null : isEnabledForApp.get(currentAppName);
         if (appEnabled == null) {
-            appEnabled = Boolean.valueOf(CustomInsightsEventsConfigUtils.isCustomInsightsEventsEnabled(config,
-                                                                                                              CustomInsightsEventsConfigUtils
-                                                                                                                      .getMaxSamplesStored(config)));
+            appEnabled = CustomInsightsEventsConfigUtils.isCustomInsightsEventsEnabled(config, CustomInsightsEventsConfigUtils.getMaxSamplesStored(config));
 
             isEnabledForApp.put(currentAppName, appEnabled);
         }
-        return appEnabled.booleanValue();
+        return appEnabled;
     }
 
     public Insights getTransactionInsights(AgentConfig config) {
@@ -237,13 +232,13 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
 
         TransactionInsights(AgentConfig config) {
             int maxSamplesStored = CustomInsightsEventsConfigUtils.getMaxSamplesStored(config);
-            events = new LinkedBlockingQueue(maxSamplesStored);
+            events = new LinkedBlockingQueue<CustomInsightsEvent>(maxSamplesStored);
         }
 
         public void recordCustomEvent(String eventType, Map<String, Object> attributes) {
             if (ServiceFactory.getConfigService().getDefaultAgentConfig().isHighSecurity()) {
                 Agent.LOG.log(Level.FINER, "Event of type {0} not collected due to high security mode being enabled.",
-                                     new Object[] {eventType});
+                                     eventType);
 
                 return;
             }
@@ -254,8 +249,7 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
                                                                                    .copyAndInternStrings(attributes));
 
                 if (events.offer(event)) {
-                    Agent.LOG.finest(MessageFormat.format("Added Custom Event of type {0} in Transaction.",
-                                                                 new Object[] {eventType}));
+                    Agent.LOG.finest(MessageFormat.format("Added Custom Event of type {0} in Transaction.", eventType));
                 } else {
                     String applicationName = ServiceFactory.getRPMService().getApplicationName();
                     ServiceFactory.getServiceManager().getInsights().storeEvent(applicationName, event);
@@ -263,8 +257,7 @@ public class InsightsServiceImpl extends AbstractService implements InsightsServ
             } else {
                 Agent.LOG.log(Level.WARNING, "Custom event with invalid type of {0} was reported for a transaction but "
                                                      + "ignored. Event types must match /^[a-zA-Z0-9:_ ]+$/ and be "
-                                                     + "less than "
-                                                     + "256 chars.", new Object[] {eventType});
+                                                     + "less than " + "256 chars.", eventType);
             }
         }
     }

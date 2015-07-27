@@ -27,9 +27,9 @@ import com.newrelic.agent.transaction.TransactionCache;
 
 public class TransactionActivity {
     public static final int NOT_REPORTED = -1;
-    private static final ThreadLocal<TransactionActivity> activityHolder = new ThreadLocal() {
+    private static final ThreadLocal<TransactionActivity> activityHolder = new ThreadLocal<TransactionActivity>() {
         public TransactionActivity get() {
-            return (TransactionActivity) super.get();
+            return super.get();
         }
 
         public void set(TransactionActivity value) {
@@ -228,7 +228,7 @@ public class TransactionActivity {
 
     public static void set(TransactionActivity txa) {
         activityHolder.set(txa);
-        Agent.LOG.log(Level.FINEST, "TransactionActivity.set({0})", new Object[] {txa});
+        Agent.LOG.log(Level.FINEST, "TransactionActivity.set({0})", txa);
     }
 
     public static TransactionActivity get() {
@@ -240,7 +240,7 @@ public class TransactionActivity {
         TransactionActivity txa = new TransactionActivity(transaction);
         txa.activityId = id;
         activityHolder.set(txa);
-        Agent.LOG.log(Level.FINE, "created {0} for {1}", new Object[] {txa, transaction});
+        Agent.LOG.log(Level.FINE, "created {0} for {1}", txa, transaction);
         return txa;
     }
 
@@ -329,8 +329,8 @@ public class TransactionActivity {
 
     private void finished(Tracer tracer, int opcode) {
         if (Agent.LOG.isFinestEnabled()) {
-            Agent.LOG.log(Level.FINEST, "tracerFinished: {0} opcode: {1} in transactionActivity {2}",
-                                 new Object[] {tracer, Integer.valueOf(opcode), this});
+            Agent.LOG.log(Level.FINEST, "tracerFinished: {0} opcode: {1} in transactionActivity {2}", tracer, opcode,
+                                 this);
         }
         try {
             if (!activityIsIgnored) {
@@ -407,7 +407,7 @@ public class TransactionActivity {
 
             return tracer;
         } catch (Throwable t) {
-            Agent.LOG.log(Level.FINEST, t, "Error starting tracer", new Object[0]);
+            Agent.LOG.log(Level.FINEST, t, "Error starting tracer");
         }
         return null;
     }
@@ -433,8 +433,8 @@ public class TransactionActivity {
                 }
 
                 transactionStats.getScopedStats().getResponseTimeStats(metricName).recordResponseTimeInNanos(duration);
-                Agent.LOG.log(Level.FINEST, "Finished flyweight tracer {0} ({1}.{2}{3})",
-                                     new Object[] {metricName, className, methodName, methodDesc});
+                Agent.LOG.log(Level.FINEST, "Finished flyweight tracer {0} ({1}.{2}{3})", metricName, className,
+                                     methodName, methodDesc);
 
                 if (rollupMetricNames != null) {
                     SimpleStatsEngine unscopedStats = transactionStats.getUnscopedStats();
@@ -446,7 +446,7 @@ public class TransactionActivity {
                 parentTracer.childTracerFinished(duration);
             }
         } catch (Throwable t) {
-            Agent.LOG.log(Level.FINEST, t, "Error finishing tracer", new Object[0]);
+            Agent.LOG.log(Level.FINEST, t, "Error finishing tracer");
         }
     }
 
@@ -473,7 +473,7 @@ public class TransactionActivity {
         transaction.activityStarted(this);
 
         if ((tracer instanceof DefaultTracer)) {
-            ((DefaultTracer) rootTracer).setAttribute("exec_context", threadName);
+            rootTracer.setAttribute("exec_context", threadName);
         }
 
         getTransaction().getTransactionCounts().addTracer();

@@ -2,12 +2,12 @@ package com.newrelic.agent;
 
 import com.newrelic.agent.bridge.CrossProcessState;
 
-public abstract interface CrossProcessTransactionState extends CrossProcessState {
-    public abstract void writeResponseHeaders();
+public interface CrossProcessTransactionState extends CrossProcessState {
+    void writeResponseHeaders();
 
-    public abstract String getTripId();
+    String getTripId();
 
-    public abstract int generatePathHash();
+    int generatePathHash();
 
-    public abstract String getAlternatePathHashes();
+    String getAlternatePathHashes();
 }
