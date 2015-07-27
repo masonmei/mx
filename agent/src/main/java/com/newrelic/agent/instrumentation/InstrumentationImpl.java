@@ -42,7 +42,7 @@ import com.newrelic.api.agent.Logger;
 
 public class InstrumentationImpl implements Instrumentation {
     private final Logger logger;
-    private final InsertOnlyArray<Object> objectCache = new InsertOnlyArray(16);
+    private final InsertOnlyArray<Object> objectCache = new InsertOnlyArray<Object>(16);
 
     private final Set<Type> weaveClasses = Sets.newSetFromMap(Maps.<Type, Boolean>newConcurrentMap());
 
@@ -72,8 +72,7 @@ public class InstrumentationImpl implements Instrumentation {
             return transaction.getTransactionState()
                            .getTracer(transaction, tracerFactoryName, sig, invocationTarget, args);
         } catch (Throwable t) {
-            logger.log(Level.FINEST, t, "createTracer({0}, {1}, {2})",
-                              new Object[] {invocationTarget, Integer.valueOf(signatureId), metricName});
+            logger.log(Level.FINEST, t, "createTracer({0}, {1}, {2})", invocationTarget, signatureId, metricName);
         }
         return null;
     }
@@ -121,9 +120,7 @@ public class InstrumentationImpl implements Instrumentation {
             }
             return result;
         } catch (Throwable t) {
-            logger.log(Level.FINEST, t, "createTracer({0}, {1}, {2}, {3})",
-                              new Object[] {invocationTarget, Integer.valueOf(signatureId), metricName,
-                                                   Integer.valueOf(flags)});
+            logger.log(Level.FINEST, t, "createTracer({0}, {1}, {2}, {3})", invocationTarget, signatureId, metricName, flags);
         }
         return null;
     }
@@ -143,18 +140,16 @@ public class InstrumentationImpl implements Instrumentation {
             ClassMethodSignature sig = ClassMethodSignatures.get().get(signatureId);
             return transaction.getTransactionState().getTracer(transaction, invocationTarget, sig, metricName, flags);
         } catch (Throwable t) {
-            logger.log(Level.FINEST, t, "createTracer({0}, {1}, {2}, {3})",
-                              new Object[] {invocationTarget, Integer.valueOf(signatureId), metricName,
-                                                   Integer.valueOf(flags)});
+            logger.log(Level.FINEST, t, "createTracer({0}, {1}, {2}, {3})", invocationTarget, signatureId,
+                              metricName, flags);
         }
         return null;
     }
 
     public void noticeInstrumentationError(Throwable throwable, String libraryName) {
         if (Agent.LOG.isFinerEnabled()) {
-            logger.log(Level.FINER, "An error was thrown from instrumentation library ", new Object[] {libraryName});
-            logger.log(Level.FINEST, throwable, "An error was thrown from instrumentation library ",
-                              new Object[] {libraryName});
+            logger.log(Level.FINER, "An error was thrown from instrumentation library ", libraryName);
+            logger.log(Level.FINEST, throwable, "An error was thrown from instrumentation library ", libraryName);
         }
     }
 
@@ -190,7 +185,7 @@ public class InstrumentationImpl implements Instrumentation {
 
         boolean shouldRetransform = ServiceFactory.getClassTransformerService().addTraceMatcher(matcher, metricPrefix);
         if (shouldRetransform) {
-            logger.log(Level.FINE, "Retransforming {0} for instrumentation.", new Object[] {methodToInstrument});
+            logger.log(Level.FINE, "Retransforming {0} for instrumentation.", methodToInstrument);
             PeriodicRetransformer.INSTANCE.queueRetransform(declaringClass);
         }
     }
@@ -199,7 +194,7 @@ public class InstrumentationImpl implements Instrumentation {
         if (!classToRetransform.isAnnotationPresent(InstrumentedClass.class)) {
             retransformClass(classToRetransform);
         } else {
-            logger.log(Level.FINER, "Class ", new Object[] {classToRetransform, " already instrumented."});
+            logger.log(Level.FINER, "Class ", classToRetransform, " already instrumented.");
         }
     }
 
@@ -207,26 +202,21 @@ public class InstrumentationImpl implements Instrumentation {
         try {
             ServiceFactory.getAgent().getInstrumentation().retransformClasses(new Class[] {classToRetransform});
         } catch (UnmodifiableClassException e) {
-            logger.log(Level.FINE, "Unable to retransform class ",
-                              new Object[] {classToRetransform, " : ", e.getMessage()});
+            logger.log(Level.FINE, "Unable to retransform class ", classToRetransform, " : ", e.getMessage());
         }
     }
 
     public Class<?> loadClass(ClassLoader classLoader, Class<?> theClass) throws ClassNotFoundException {
-        logger.log(Level.FINE, "Loading class ",
-                          new Object[] {theClass.getName(), " using class loader ", classLoader.toString()});
+        logger.log(Level.FINE, "Loading class ", theClass.getName(), " using class loader ", classLoader.toString());
         try {
             return classLoader.loadClass(theClass.getName());
         } catch (ClassNotFoundException e) {
-            logger.log(Level.FINEST, "Unable to load",
-                              new Object[] {theClass.getName(), ".  Appending it to the classloader."});
+            logger.log(Level.FINEST, "Unable to load", theClass.getName(), ".  Appending it to the classloader.");
 
-            WeaveInstrumentation weaveInstrumentation =
-                    (WeaveInstrumentation) theClass.getAnnotation(WeaveInstrumentation.class);
+            WeaveInstrumentation weaveInstrumentation = theClass.getAnnotation(WeaveInstrumentation.class);
             if (weaveInstrumentation != null) {
-                logger.log(Level.FINE, theClass.getName(),
-                                  new Object[] {" is defined in ", weaveInstrumentation.title(), " version ",
-                                                       weaveInstrumentation.version()});
+                logger.log(Level.FINE, theClass.getName(), " is defined in ", weaveInstrumentation.title(), " version ",
+                                  weaveInstrumentation.version());
                 try {
                     ServiceFactory.getClassTransformerService().getContextManager().getClassWeaverService()
                             .loadClass(classLoader, weaveInstrumentation.title(), theClass.getName());
@@ -250,7 +240,7 @@ public class InstrumentationImpl implements Instrumentation {
                 return new TransactionApiImpl();
             }
         } catch (Throwable t) {
-            logger.log(Level.FINE, t, "Unable to get transaction, using no-op transaction instead", new Object[0]);
+            logger.log(Level.FINE, t, "Unable to get transaction, using no-op transaction instead");
         }
 
         return NoOpTransaction.INSTANCE;
