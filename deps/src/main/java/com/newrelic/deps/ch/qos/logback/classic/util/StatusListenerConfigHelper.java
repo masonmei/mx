@@ -1,0 +1,55 @@
+/**
+ * Logback: the reliable, generic, fast and flexible logging framework.
+ * Copyright (C) 1999-2011, QOS.ch. All rights reserved.
+ *
+ * This program and the accompanying materials are dual-licensed under
+ * either the terms of the Eclipse Public License v1.0 as published by
+ * the Eclipse Foundation
+ *
+ *   or (per the licensee's choosing)
+ *
+ * under the terms of the GNU Lesser General Public License version 2.1
+ * as published by the Free Software Foundation.
+ */
+package com.newrelic.deps.ch.qos.logback.classic.util;
+
+import com.newrelic.deps.ch.qos.logback.classic.LoggerContext;
+import com.newrelic.deps.ch.qos.logback.core.spi.ContextAware;
+import com.newrelic.deps.ch.qos.logback.core.spi.LifeCycle;
+import com.newrelic.deps.ch.qos.logback.core.status.OnConsoleStatusListener;
+import com.newrelic.deps.ch.qos.logback.core.status.StatusListener;
+import com.newrelic.deps.ch.qos.logback.core.util.OptionHelper;
+
+public class StatusListenerConfigHelper {
+
+  static void installIfAsked(LoggerContext loggerContext) {
+    String slClass = OptionHelper.getSystemProperty(
+        ContextInitializer.STATUS_LISTENER_CLASS);
+    if (!OptionHelper.isEmpty(slClass)) {
+      addStatusListener(loggerContext, slClass);
+    }
+  }
+
+  static void addStatusListener(LoggerContext loggerContext,
+      String listenerClass) {
+    StatusListener listener = null;
+    if (ContextInitializer.SYSOUT.equalsIgnoreCase(listenerClass)) {
+      listener = new OnConsoleStatusListener();
+    } else {
+      try {
+        listener = (StatusListener) OptionHelper.instantiateByClassName(
+            listenerClass, StatusListener.class, loggerContext);
+        if(listener instanceof ContextAware) // LOGBACK-767
+          ((ContextAware) listener).setContext(loggerContext);
+        if(listener instanceof LifeCycle)  // LOGBACK-767
+          ((LifeCycle) listener).start();
+      } catch (Exception e) {
+        // printing on the console is the best we can do
+        e.printStackTrace();
+      }
+    }
+    if (listener != null) {
+      loggerContext.getStatusManager().add(listener);
+    }
+  }
+}
