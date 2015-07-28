@@ -39,7 +39,7 @@ public class DelegatingNettyHttpRequest implements Request {
     private Map<String, String> getCookies() {
         if (this.cookies == null) {
             this.cookies = new HashMap();
-            List cookieHeaders = this.delegate.getHeaders("Cookie");
+            List cookieHeaders = this.delegate.getHeaders(COOKIE_HEADER_NAME);
             Iterator i$ = cookieHeaders.iterator();
 
             while (i$.hasNext()) {
@@ -90,9 +90,14 @@ public class DelegatingNettyHttpRequest implements Request {
     }
 
     public String[] getParameterValues(String name) {
-        return this.parameters == null ? null : (this.parameters.get(name) == null ? null
-                                                         : (String[]) ((List) this.parameters.get(name))
-                                                                              .toArray(new String[0]));
+        return this.parameters == null
+                       ? null
+                       : (this.parameters.get(name) == null
+                                  ? null
+                                  : (String[]) ((List) this.parameters.get(name))
+                                                                              .toArray(new String[((List) this.parameters
+                                                                                                                  .get(name))
+                                                                                                          .size()]));
     }
 
     public Object getAttribute(String name) {

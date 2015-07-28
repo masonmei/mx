@@ -45,22 +45,21 @@ public class DatabaseUtils {
     }
 
     public static DatastoreVendor getDatastoreVendor(DatabaseVendor databaseVendor) {
-        switch (databaseVendor.ordinal()) {
-            case 1:
+        switch (databaseVendor) {
+            case MYSQL:
                 return DatastoreVendor.MySQL;
-            case 2:
+            case ORACLE:
                 return DatastoreVendor.Oracle;
-            case 3:
+            case MICROSOFT:
                 return DatastoreVendor.MSSQL;
-            case 4:
+            case POSTGRES:
                 return DatastoreVendor.Postgres;
-            case 5:
+            case DB2:
                 return DatastoreVendor.IBMDB2;
-            case 6:
+            case DERBY:
                 return DatastoreVendor.Derby;
             default:
                 Agent.LOG.log(Level.FINEST, "ERROR: Unknown Database Vendor: {0}. Defaulting to JDBC.", databaseVendor);
-            case 7:
         }
         return DatastoreVendor.JDBC;
     }

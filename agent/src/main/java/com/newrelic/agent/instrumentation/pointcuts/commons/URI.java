@@ -2,13 +2,13 @@ package com.newrelic.agent.instrumentation.pointcuts.commons;
 
 import com.newrelic.agent.instrumentation.pointcuts.InterfaceMixin;
 
-@InterfaceMixin(originalClassName = {"com/newrelic/agent/deps/org/apache/commons/httpclient/URI"})
-public abstract interface URI {
-    public abstract String getScheme();
+@InterfaceMixin(originalClassName = {"org/apache/commons/httpclient/URI"})
+public interface URI {
+    String getScheme();
 
-    public abstract String getHost();
+    String getHost();
 
-    public abstract int getPort();
+    int getPort();
 
-    public abstract String getPath();
+    String getPath();
 }

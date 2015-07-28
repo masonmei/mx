@@ -20,14 +20,14 @@ public class CreatePreparedStatementTracerFactory extends AbstractTracerFactory 
             return new CreatePreparedStatementTracer(transaction, sig, connection, sql);
         }
         if (Agent.isDebugEnabled()) {
-            String msg = MessageFormat.format("Prepared statement sql was null: {0}", new Object[] {sig});
+            String msg = MessageFormat.format("Prepared statement sql was null: {0}", sig);
             Agent.LOG.finest(msg);
         }
         return null;
     }
 
-    @InterfaceMixin(originalClassName = {"com/newrelic/agent/deps/org/apache/commons/dbcp/DelegatingPreparedStatement"})
-    public static abstract interface DelegatingPreparedStatement {
+    @InterfaceMixin(originalClassName = {"org/apache/commons/dbcp/DelegatingPreparedStatement"})
+    public interface DelegatingPreparedStatement {
     }
 
     private class CreatePreparedStatementTracer extends MethodExitTracer implements DatabaseTracer {
@@ -48,7 +48,7 @@ public class CreatePreparedStatementTracerFactory extends AbstractTracerFactory 
             if ((statement instanceof DelegatingPreparedStatement)) {
                 if (isLoggable) {
                     String msg = MessageFormat.format("Skipping delegating prepared statement: {0}",
-                                                             new Object[] {statement.getClass().getName()});
+                                                             statement.getClass().getName());
 
                     Agent.LOG.finest(msg);
                 }
@@ -57,10 +57,9 @@ public class CreatePreparedStatementTracerFactory extends AbstractTracerFactory 
 
             if (!(statement instanceof PreparedStatementExtension)) {
                 if (isLoggable) {
-                    String msg = MessageFormat.format("{0} does not implement {1}",
-                                                             new Object[] {statement.getClass().getName(),
-                                                                                  PreparedStatementExtension.class
-                                                                                          .getName()});
+                    String msg = MessageFormat.format("{0} does not implement {1}", statement.getClass().getName(),
+                                                             PreparedStatementExtension.class
+                                                                     .getName());
 
                     Agent.LOG.finest(msg);
                 }

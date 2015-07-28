@@ -26,9 +26,9 @@ public class DefaultDatabaseStatementParser implements DatabaseStatementParser {
     private static final Pattern NR_HINT_PATTERN =
             Pattern.compile("\\s*/\\*\\s*nrhint\\s*:\\s*([^\\*]*)\\s*\\*/\\s*([^\\s]*).*", 32);
     private static final Pattern VALID_METRIC_NAME_MATCHER = Pattern.compile("[a-zA-z0-9.\\$]*");
-    private static final Pattern FROM_MATCHER = Pattern.compile("\\s+from\\s+", 34);
+    private static final Pattern FROM_MATCHER = Pattern.compile("\\s+from\\s+", PATTERN_SWITCHES);
     private static final Pattern SELECT_PATTERN =
-            Pattern.compile("^\\s*select.*?\\sfrom[\\s\\[]+([^\\]\\s,)(;]*).*", 34);
+            Pattern.compile("^\\s*select.*?\\sfrom[\\s\\[]+([^\\]\\s,)(;]*).*", PATTERN_SWITCHES);
     private final Set<String> knownOperations;
     private final List<DefaultDatabaseStatementParser.StatementFactory> statementFactories;
     private final boolean reportSqlParserErrors;
@@ -39,62 +39,24 @@ public class DefaultDatabaseStatementParser implements DatabaseStatementParser {
                 new DefaultDatabaseStatementParser.DefaultStatementFactory("select", SELECT_PATTERN, true);
         this.reportSqlParserErrors = agentConfig.isReportSqlParserErrors();
         this.statementFactories =
-                Arrays.asList(new DefaultDatabaseStatementParser.StatementFactory[] {new DefaultDatabaseStatementParser.InnerSelectStatementFactory(),
-                                                                                            new DefaultDatabaseStatementParser.DefaultStatementFactory("show",
-                                                                                                                                                              Pattern.compile("^\\s*show\\s+(.*)$",
-                                                                                                                                                                                     34),
-                                                                                                                                                              false) {
-                                                                                                protected boolean
-                                                                                                isValidModelName
-                                                                                                        (String name) {
-                                                                                                    return true;
-                                                                                                }
-                                                                                            },
-                                                                                            new DefaultDatabaseStatementParser.DefaultStatementFactory("insert",
-                                                                                                                                                              Pattern.compile("^\\s*insert(?:\\s+ignore)?\\s+into\\s+([^\\s(,;]*).*",
-                                                                                                                                                                                     34),
-                                                                                                                                                              true),
-                                                                                            new DefaultDatabaseStatementParser.DefaultStatementFactory("update",
-                                                                                                                                                              Pattern.compile("^\\s*update\\s+([^\\s,;]*).*",
-                                                                                                                                                                                     34),
-                                                                                                                                                              true),
-                                                                                            new DefaultDatabaseStatementParser.DefaultStatementFactory("delete",
-                                                                                                                                                              Pattern.compile("^\\s*delete\\s+from\\s+([^\\s,(;]*).*",
-                                                                                                                                                                                     34),
-                                                                                                                                                              true),
-                                                                                            new DefaultDatabaseStatementParser.DDLStatementFactory("create",
-                                                                                                                                                          Pattern.compile("^\\s*create\\s+procedure.*",
-                                                                                                                                                                                 34),
-                                                                                                                                                          "Procedure"),
-                                                                                            new DefaultDatabaseStatementParser.SelectVariableStatementFactory(),
-                                                                                            new DefaultDatabaseStatementParser.DDLStatementFactory("drop",
-                                                                                                                                                          Pattern.compile("^\\s*drop\\s+procedure.*",
-                                                                                                                                                                                 34),
-                                                                                                                                                          "Procedure"),
-                                                                                            new DefaultDatabaseStatementParser.DDLStatementFactory("create",
-                                                                                                                                                          Pattern.compile("^\\s*create\\s+table.*",
-                                                                                                                                                                                 34),
-                                                                                                                                                          "Table"),
-                                                                                            new DefaultDatabaseStatementParser.DDLStatementFactory("drop",
-                                                                                                                                                          Pattern.compile("^\\s*drop\\s+table.*",
-                                                                                                                                                                                 34),
-                                                                                                                                                          "Table"),
-                                                                                            new DefaultDatabaseStatementParser.DefaultStatementFactory("alter",
-                                                                                                                                                              Pattern.compile("^\\s*alter\\s+([^\\s]*).*",
-                                                                                                                                                                                     34),
-                                                                                                                                                              false),
-                                                                                            new DefaultDatabaseStatementParser.DefaultStatementFactory("call",
-                                                                                                                                                              Pattern.compile(".*call\\s+([^\\s(,]*).*",
-                                                                                                                                                                                     34),
-                                                                                                                                                              true),
-                                                                                            new DefaultDatabaseStatementParser.DefaultStatementFactory("exec",
-                                                                                                                                                              Pattern.compile(".*(?:exec|execute)\\s+([^\\s(,]*).*",
-                                                                                                                                                                                     34),
-                                                                                                                                                              true),
-                                                                                            new DefaultDatabaseStatementParser.DefaultStatementFactory("set",
-                                                                                                                                                              Pattern.compile("^\\s*set\\s+(.*)\\s*(as|=).*",
-                                                                                                                                                                                     34),
-                                                                                                                                                              false)});
+                Arrays.asList(new InnerSelectStatementFactory(),
+                                     new DefaultStatementFactory("show", Pattern.compile("^\\s*show\\s+(.*)$", PATTERN_SWITCHES), false) {
+                                         protected boolean isValidModelName(String name) {
+                                             return true;
+                                         }
+                                     },
+                                     new DefaultStatementFactory("insert", Pattern.compile("^\\s*insert(?:\\s+ignore)?\\s+into\\s+([^\\s(,;]*).*", PATTERN_SWITCHES), true),
+                                     new DefaultStatementFactory("update", Pattern.compile("^\\s*update\\s+([^\\s,;]*).*", PATTERN_SWITCHES), true),
+                                     new DefaultStatementFactory("delete", Pattern.compile("^\\s*delete\\s+from\\s+([^\\s,(;]*).*", PATTERN_SWITCHES), true),
+                                     new DDLStatementFactory("create", Pattern.compile("^\\s*create\\s+procedure.*", PATTERN_SWITCHES), "Procedure"),
+                                     new SelectVariableStatementFactory(),
+                                     new DDLStatementFactory("drop", Pattern.compile("^\\s*drop\\s+procedure.*", PATTERN_SWITCHES), "Procedure"),
+                                     new DDLStatementFactory("create", Pattern.compile("^\\s*create\\s+table.*", PATTERN_SWITCHES), "Table"),
+                                     new DDLStatementFactory("drop", Pattern.compile("^\\s*drop\\s+table.*", PATTERN_SWITCHES), "Table"),
+                                     new DefaultStatementFactory("alter", Pattern.compile("^\\s*alter\\s+([^\\s]*).*", PATTERN_SWITCHES), false),
+                                     new DefaultStatementFactory("call", Pattern.compile(".*call\\s+([^\\s(,]*).*", PATTERN_SWITCHES), true),
+                                     new DefaultStatementFactory("exec", Pattern.compile(".*(?:exec|execute)\\s+([^\\s(,]*).*", PATTERN_SWITCHES), true),
+                                     new DefaultStatementFactory("set", Pattern.compile("^\\s*set\\s+(.*)\\s*(as|=).*", PATTERN_SWITCHES), false));
         this.knownOperations = new HashSet();
         Iterator i$ = this.statementFactories.iterator();
 
@@ -158,8 +120,7 @@ public class DefaultDatabaseStatementParser implements DatabaseStatementParser {
 
             return parsedStatement;
         } catch (Throwable var5) {
-            Agent.LOG.fine(MessageFormat.format("Unable to parse sql \"{0}\" - {1}",
-                                                       new Object[] {statement, var5.toString()}));
+            Agent.LOG.fine(MessageFormat.format("Unable to parse sql \"{0}\" - {1}", statement, var5.toString()));
             Agent.LOG.log(Level.FINER, "SQL parsing error", var5);
             return UNPARSEABLE_STATEMENT;
         }
@@ -226,7 +187,7 @@ public class DefaultDatabaseStatementParser implements DatabaseStatementParser {
         private SelectVariableStatementFactory() {
             this.innerSelectStatement = new ParsedDatabaseStatement("INNER_SELECT", "select", false);
             this.statement = new ParsedDatabaseStatement("VARIABLE", "select", false);
-            this.pattern = Pattern.compile(".*select\\s+([^\\s,]*).*", 34);
+            this.pattern = Pattern.compile(".*select\\s+([^\\s,]*).*", PATTERN_SWITCHES);
         }
 
         public ParsedDatabaseStatement parseStatement(String statement) {
@@ -261,16 +222,15 @@ public class DefaultDatabaseStatementParser implements DatabaseStatementParser {
                 String model = matcher.groupCount() > 0 ? matcher.group(1).trim() : "unknown";
                 if (model.length() == 0) {
                     Agent.LOG.log(Level.FINE, MessageFormat.format("Parsed an empty model name for {0} statement : {1}",
-                                                                          new Object[] {this.key, statement}));
+                                                                          this.key, statement));
                     return null;
                 } else {
                     model = Strings.unquoteDatabaseName(model);
                     if (this.generateMetric && !this.isValidModelName(model)) {
                         if (DefaultDatabaseStatementParser.this.reportSqlParserErrors) {
                             Agent.LOG.log(Level.FINE, MessageFormat.format("Parsed an invalid model name {0} for {1} "
-                                                                                   + "statement : {2}",
-                                                                                  new Object[] {model, this.key,
-                                                                                                       statement}));
+                                                                                   + "statement : {2}", model, this.key,
+                                                                                  statement));
                         }
 
                         model = "ParseError";

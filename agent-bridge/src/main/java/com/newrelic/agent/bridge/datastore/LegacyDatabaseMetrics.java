@@ -14,17 +14,16 @@ public class LegacyDatabaseMetrics {
     public static final String OPERATION = "Database/{0}";
 
     public static void doDatabaseMetrics(Transaction tx, TracedMethod method, String table, String operation) {
-        method.setMetricName(new String[] {MessageFormat.format("Database/{0}/{1}", new Object[] {table, operation})});
+        method.setMetricName(MessageFormat.format(STATEMENT, table, operation));
 
-        method.addRollupMetricName(new String[] {MessageFormat
-                                                         .format("Database/{0}/{1}", new Object[] {table, operation})});
-        method.addRollupMetricName(new String[] {MessageFormat.format("Database/{0}", new Object[] {operation})});
+        method.addRollupMetricName(MessageFormat.format(STATEMENT, table, operation));
+        method.addRollupMetricName(MessageFormat.format(OPERATION, operation));
 
-        method.addRollupMetricName(new String[] {"Database/all"});
+        method.addRollupMetricName(ALL);
         if (tx.isWebTransaction()) {
-            method.addRollupMetricName(new String[] {"Database/allWeb"});
+            method.addRollupMetricName(ALL_WEB);
         } else {
-            method.addRollupMetricName(new String[] {"Database/allOther"});
+            method.addRollupMetricName(ALL_OTHER);
         }
     }
 }

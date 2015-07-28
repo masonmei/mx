@@ -18,7 +18,7 @@ public class Strings {
     }
 
     public static Collection<String> trim(Collection<String> strings) {
-        Collection trimmedList = new ArrayList(strings.size());
+        Collection<String> trimmedList = new ArrayList<String>(strings.size());
         for (String string : strings) {
             trimmedList.add(string.trim());
         }
@@ -67,9 +67,9 @@ public class Strings {
             length += s.length();
         }
         StringBuilder sb = new StringBuilder(length);
-        for (int i = 0; i < strings.length; i++) {
-            if (!strings[i].isEmpty()) {
-                sb.append(strings[i]);
+        for (String string : strings) {
+            if (!string.isEmpty()) {
+                sb.append(string);
             }
         }
         return sb.toString();
@@ -77,11 +77,11 @@ public class Strings {
 
     public static String[] split(String string, String delimiter) {
         StringTokenizer tokenizer = new StringTokenizer(string, delimiter);
-        List segments = new ArrayList(4);
+        List<String> segments = new ArrayList<String>(4);
         while (tokenizer.hasMoreTokens()) {
             segments.add(tokenizer.nextToken());
         }
-        return (String[]) segments.toArray(new String[segments.size()]);
+        return segments.toArray(new String[segments.size()]);
     }
 
     public static String unquote(String string) {
@@ -103,7 +103,7 @@ public class Strings {
     }
 
     public static String fixClassName(String className) {
-        return trimName(className, "com.newrelic.agent.deps.");
+        return trimName(className, NEWRELIC_DEPENDENCY_PACKAGE_PREFIX);
     }
 
     private static String trimName(String fullName, String prefix) {
@@ -115,7 +115,7 @@ public class Strings {
 
     public static String fixInternalClassName(String className) {
         className = className.replace('.', '/');
-        return trimName(className, "com/newrelic/agent/deps/");
+        return trimName(className, NEWRELIC_DEPENDENCY_INTERNAL_PACKAGE_PREFIX);
     }
 
     public static String getGlobPattern(String glob) {

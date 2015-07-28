@@ -10,7 +10,6 @@ import com.newrelic.agent.instrumentation.ClassTransformer;
 import com.newrelic.agent.instrumentation.InstrumentUtils;
 import com.newrelic.agent.instrumentation.classmatchers.ExactClassMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.ExactMethodMatcher;
-import com.newrelic.agent.instrumentation.methodmatchers.MethodMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.OrMethodMatcher;
 import com.newrelic.agent.instrumentation.pointcuts.InterfaceMixin;
 import com.newrelic.agent.instrumentation.pointcuts.PointCut;
@@ -25,10 +24,10 @@ import com.newrelic.api.agent.OutboundHeaders;
 @PointCut
 public class HttpMethodBasePointCut extends HttpCommonsPointCut {
     protected static final String HTTP_METHOD_BASE_CLASS_NAME_MATCH =
-            "com/newrelic/agent/deps/org/apache/commons/httpclient/HttpMethodBase";
+            "org/apache/commons/httpclient/HttpMethodBase";
     private static final int HOST_DELIMITER = 58;
     private static final String HTTPCONNECTION_CLASS_NAME =
-            "com/newrelic/agent/deps/org/apache/commons/httpclient/HttpConnection";
+            "org/apache/commons/httpclient/HttpConnection";
     private static final String GET_HOST_METHOD_NAME = "getHost";
     private static final String GET_HOST_METHOD_DESC = "()V";
     private static final String GET_PORT_METHOD_NAME = "getPort";
@@ -50,43 +49,30 @@ public class HttpMethodBasePointCut extends HttpCommonsPointCut {
     private final MethodCache getProtocolMethodCache;
 
     public HttpMethodBasePointCut(ClassTransformer classTransformer) {
-        super(HttpMethodBasePointCut.class,
-                     new ExactClassMatcher("com/newrelic/agent/deps/org/apache/commons/httpclient/HttpMethodBase"),
-                     OrMethodMatcher.getMethodMatcher(new MethodMatcher[] {new ExactMethodMatcher("execute",
-                                                                                                         "(Lorg/apache/commons/httpclient/HttpState;Lorg/apache/commons/httpclient/HttpConnection;)I"),
-                                                                                  new ExactMethodMatcher
-                                                                                          ("getResponseBody",
-                                                                                                                new String[] {"()[B",
-                                                                                                                                     "(I)[B"}),
-                                                                                  new ExactMethodMatcher
-                                                                                          ("releaseConnection",
-                                                                                                                "()V")}));
+        super(HttpMethodBasePointCut.class, new ExactClassMatcher(HTTP_METHOD_BASE_CLASS_NAME_MATCH),
+                     OrMethodMatcher.getMethodMatcher(new ExactMethodMatcher(EXECUTE_METHOD_NAME, EXECUTE_METHOD_DESC),
+                                                             new ExactMethodMatcher(GET_RESPONSE_BODY_NAME, new String[] {GET_RESPONSE_BODY_DESC_1, GET_RESPONSE_BODY_DESC_2}),
+                                                             new ExactMethodMatcher(RELEASE_CONNECTION_NAME, RELEASE_CONNECTION_DESC)));
 
         getHostMethodCache = ServiceFactory.getCacheService()
-                                     .getMethodCache
-                                              ("com/newrelic/agent/deps/org/apache/commons/httpclient/HttpConnection",
-                                                            "getHost", "()V");
+                                     .getMethodCache(HTTPCONNECTION_CLASS_NAME, GET_HOST_METHOD_NAME, GET_HOST_METHOD_DESC);
 
         getPortMethodCache = ServiceFactory.getCacheService()
-                                     .getMethodCache
-                                              ("com/newrelic/agent/deps/org/apache/commons/httpclient/HttpConnection",
-                                                            "getPort", "()I");
+                                     .getMethodCache(HTTPCONNECTION_CLASS_NAME, GET_PORT_METHOD_NAME, GET_PORT_METHOD_DESC);
 
         getProtocolMethodCache = ServiceFactory.getCacheService()
-                                         .getMethodCache
-                                                  ("com/newrelic/agent/deps/org/apache/commons/httpclient/HttpConnection",
-                                                                "getProtocol",
-                                                                "()Lorg/apache/commons/httpclient/protocol/Protocol;");
+                                         .getMethodCache(HTTPCONNECTION_CLASS_NAME, GET_PROTOCOL_METHOD_NAME,
+                                                                GET_PROTOCOL_METHOD_DESC);
     }
 
     protected Tracer getExternalTracer(Transaction transaction, ClassMethodSignature sig, Object httpMethod,
                                        Object[] args) {
-        String host = "Unknown";
+        String host = UNKNOWN_HOST_NAME;
         String methodName = "";
         String uri = "";
-        int port = -1;
+        int port = DEFAULT_PORT_VALUE;
         try {
-            if (sig.getMethodName() == "execute") {
+            if (sig.getMethodName() == EXECUTE_METHOD_NAME) {
                 Object httpConnection = args[1];
                 if (httpConnection != null) {
                     host = getHost(httpConnection);
@@ -112,26 +98,25 @@ public class HttpMethodBasePointCut extends HttpCommonsPointCut {
                             .processOutboundRequestHeaders(new OutboundHeadersWrapper(httpMethodBase));
                 }
 
-                return super.doGetTracer(transaction, sig, httpMethod, host, uri, "execute");
+                return super.doGetTracer(transaction, sig, httpMethod, host, uri, EXECUTE_METHOD_NAME);
             }
-            if ((sig.getMethodName() == "getResponseBody") || (sig.getMethodName() == "releaseConnection")) {
+            if ((sig.getMethodName() == GET_RESPONSE_BODY_NAME) || (sig.getMethodName() == RELEASE_CONNECTION_NAME)) {
                 Object header = ((HttpMethodExtension) httpMethod)._nr_getRequestHeader("host");
                 if (header != null) {
                     host = ((NameValuePair) header).getValue();
 
                     int index = host.indexOf(':');
-                    if (index > -1) {
+                    if (index > DEFAULT_PORT_VALUE) {
                         host = host.substring(0, index);
                     }
                 }
             }
 
-            if (sig != null) {
-                methodName = sig.getMethodName();
-            }
+            methodName = sig.getMethodName();
         } catch (Throwable t) {
-            String msg = MessageFormat.format("Instrumentation error invoking {0} in {1}: {2}",
-                                                     new Object[] {sig, getClass().getName(), t});
+            String msg = MessageFormat.format("Instrumentation error invoking {0} in {1}: {2}", sig, getClass()
+                                                                    .getName(),
+                                                     t);
 
             if (Agent.LOG.isLoggable(Level.FINEST)) {
                 Agent.LOG.log(Level.FINEST, msg, t);
@@ -150,12 +135,12 @@ public class HttpMethodBasePointCut extends HttpCommonsPointCut {
         }
 
         Method getHost = getHostMethodCache.getDeclaredMethod(httpConnection.getClass());
-        return (String) getHost.invoke(httpConnection, new Object[0]);
+        return (String) getHost.invoke(httpConnection);
     }
 
     private String getScheme(Object httpConnection) throws Exception {
         Method getProtocol = getProtocolMethodCache.getDeclaredMethod(httpConnection.getClass());
-        Object protocol = getProtocol.invoke(httpConnection, new Object[0]);
+        Object protocol = getProtocol.invoke(httpConnection);
         if ((protocol instanceof Protocol)) {
             return ((Protocol) protocol).getScheme();
         }
@@ -167,11 +152,11 @@ public class HttpMethodBasePointCut extends HttpCommonsPointCut {
             return ((HttpConnection) httpConnection).getPort();
         }
         Method getPort = getPortMethodCache.getDeclaredMethod(httpConnection.getClass());
-        Integer port = (Integer) getPort.invoke(httpConnection, new Object[0]);
+        Integer port = (Integer) getPort.invoke(httpConnection);
         if (port == null) {
-            return -1;
+            return DEFAULT_PORT_VALUE;
         }
-        return port.intValue();
+        return port;
     }
 
     private URI getUri(Object httpMethod) throws Exception {
@@ -182,11 +167,11 @@ public class HttpMethodBasePointCut extends HttpCommonsPointCut {
         return null;
     }
 
-    @InterfaceMixin(originalClassName = {"com/newrelic/agent/deps/org/apache/commons/httpclient/HttpConnection"})
-    public static abstract interface HttpConnection {
-        public abstract String getHost();
+    @InterfaceMixin(originalClassName = {HTTPCONNECTION_CLASS_NAME})
+    public interface HttpConnection {
+        String getHost();
 
-        public abstract int getPort();
+        int getPort();
     }
 
     private class OutboundHeadersWrapper implements OutboundHeaders {

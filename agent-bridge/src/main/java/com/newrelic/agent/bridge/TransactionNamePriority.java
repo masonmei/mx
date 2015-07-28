@@ -25,16 +25,16 @@ public enum TransactionNamePriority {
     }
 
     public static TransactionNamePriority convert(com.newrelic.api.agent.TransactionNamePriority priority) {
-        switch (priority.ordinal()) {
-            case 1:
+        switch (priority) {
+            case CUSTOM_HIGH:
                 return CUSTOM_HIGH;
-            case 2:
+            case CUSTOM_LOW:
                 return CUSTOM_LOW;
-            case 3:
+            case FRAMEWORK_HIGH:
                 return FRAMEWORK_HIGH;
-            case 4:
+            case FRAMEWORK_LOW:
                 return FRAMEWORK_LOW;
-            case 5:
+            case REQUEST_URI:
                 return REQUEST_URI;
             default:
                 throw new IllegalArgumentException("Unmapped TransactionNamePriority " + priority);

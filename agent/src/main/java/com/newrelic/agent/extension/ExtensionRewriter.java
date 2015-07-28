@@ -22,10 +22,8 @@ import com.google.common.collect.ImmutableSet;
 import com.newrelic.agent.util.Streams;
 
 public class ExtensionRewriter {
-    static final DependencyRemapper REMAPPER = new DependencyRemapper(ImmutableSet.of("com/newrelic/agent/deps/org"
-                                                                                              + "/objectweb/asm/",
-                                                                                             "com/newrelic/agent/deps/com/google/",
-                                                                                             "com/newrelic/agent/deps/org/apache/commons/"));
+    static final DependencyRemapper REMAPPER =
+            new DependencyRemapper(ImmutableSet.of("org/objectweb/asm/", "com/google/", "org/apache/commons/"));
 
     private ExtensionRewriter() {
     }

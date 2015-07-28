@@ -19,59 +19,66 @@ public class HeadersUtil {
     public static final int SYNTHETICS_MIN_VERSION = 1;
     public static final int SYNTHETICS_MAX_VERSION = 1;
     public static final int SYNTHETICS_VERSION_NONE = -1;
-    public static final Set<String> NEWRELIC_HEADERS = ImmutableSet.of("X-NewRelic-ID", "NewRelicID",
-                                                                              "X-NewRelic-Transaction",
-                                                                              "NewRelicTransaction",
-                                                                              "X-NewRelic-App-Data", "NewRelicAppData",
-                                                                              new String[] {"X-NewRelic-Synthetics",
-                                                                                                   "NewRelicSynthetics"});
+    public static final Set<String> NEWRELIC_HEADERS = ImmutableSet.of(NEWRELIC_ID_HEADER, NEWRELIC_ID_MESSAGE_HEADER,
+                                                                              NEWRELIC_TRANSACTION_HEADER,
+                                                                              NEWRELIC_TRANSACTION_MESSAGE_HEADER,
+                                                                              NEWRELIC_APP_DATA_HEADER,
+                                                                              NEWRELIC_APP_DATA_MESSAGE_HEADER,
+                                                                              NEWRELIC_SYNTHETICS_HEADER,
+                                                                              NEWRELIC_SYNTHETICS_MESSAGE_HEADER);
 
     private HeadersUtil() {
         throw new UnsupportedOperationException();
     }
 
     public static String getIdHeader(InboundHeaders headers) {
-        String key = getTypedHeaderKey(headers.getHeaderType(), "X-NewRelic-ID", "NewRelicID");
+        String key = getTypedHeaderKey(headers.getHeaderType(), NEWRELIC_ID_HEADER, NEWRELIC_ID_MESSAGE_HEADER);
         return key == null ? null : headers.getHeader(key);
     }
 
     public static String getTransactionHeader(InboundHeaders headers) {
-        String key = getTypedHeaderKey(headers.getHeaderType(), "X-NewRelic-Transaction", "NewRelicTransaction");
+        String key = getTypedHeaderKey(headers.getHeaderType(), NEWRELIC_TRANSACTION_HEADER,
+                                              NEWRELIC_TRANSACTION_MESSAGE_HEADER);
 
         return key == null ? null : headers.getHeader(key);
     }
 
     public static String getAppDataHeader(InboundHeaders headers) {
-        String key = getTypedHeaderKey(headers.getHeaderType(), "X-NewRelic-App-Data", "NewRelicAppData");
+        String key =
+                getTypedHeaderKey(headers.getHeaderType(), NEWRELIC_APP_DATA_HEADER, NEWRELIC_APP_DATA_MESSAGE_HEADER);
 
         return key == null ? null : headers.getHeader(key);
     }
 
     public static String getSyntheticsHeader(InboundHeaders headers) {
-        String key = getTypedHeaderKey(headers.getHeaderType(), "X-NewRelic-Synthetics", "NewRelicSynthetics");
+        String key = getTypedHeaderKey(headers.getHeaderType(), NEWRELIC_SYNTHETICS_HEADER,
+                                              NEWRELIC_SYNTHETICS_MESSAGE_HEADER);
 
         return key == null ? null : headers.getHeader(key);
     }
 
     public static void setIdHeader(OutboundHeaders headers, String crossProcessId) {
-        String key = getTypedHeaderKey(headers.getHeaderType(), "X-NewRelic-ID", "NewRelicID");
+        String key = getTypedHeaderKey(headers.getHeaderType(), NEWRELIC_ID_HEADER, NEWRELIC_ID_MESSAGE_HEADER);
         headers.setHeader(key, crossProcessId);
     }
 
     public static void setTransactionHeader(OutboundHeaders headers, String value) {
-        String key = getTypedHeaderKey(headers.getHeaderType(), "X-NewRelic-Transaction", "NewRelicTransaction");
+        String key = getTypedHeaderKey(headers.getHeaderType(), NEWRELIC_TRANSACTION_HEADER,
+                                              NEWRELIC_TRANSACTION_MESSAGE_HEADER);
 
         headers.setHeader(key, value);
     }
 
     public static void setAppDataHeader(OutboundHeaders headers, String value) {
-        String key = getTypedHeaderKey(headers.getHeaderType(), "X-NewRelic-App-Data", "NewRelicAppData");
+        String key =
+                getTypedHeaderKey(headers.getHeaderType(), NEWRELIC_APP_DATA_HEADER, NEWRELIC_APP_DATA_MESSAGE_HEADER);
 
         headers.setHeader(key, value);
     }
 
     public static void setSyntheticsHeader(OutboundHeaders headers, String value) {
-        String key = getTypedHeaderKey(headers.getHeaderType(), "X-NewRelic-Synthetics", "NewRelicSynthetics");
+        String key = getTypedHeaderKey(headers.getHeaderType(), NEWRELIC_SYNTHETICS_HEADER,
+                                              NEWRELIC_SYNTHETICS_MESSAGE_HEADER);
 
         headers.setHeader(key, value);
     }
@@ -81,12 +88,13 @@ public class HeadersUtil {
             return null;
         }
 
-        switch (type.ordinal()) {
-            case 1:
+        switch (type) {
+            case MESSAGE:
                 return messageHeader;
-            case 2:
+            case HTTP:
+            default:
+                return httpHeader;
         }
 
-        return httpHeader;
     }
 }

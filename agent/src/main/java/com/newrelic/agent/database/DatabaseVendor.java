@@ -16,16 +16,12 @@ import com.newrelic.agent.tracers.metricname.SimpleMetricNameFormat;
 
 public enum DatabaseVendor {
     MYSQL("MySQL", "mysql", true, "^jdbc:mysql://([^/]*)/([^/\\?]*).*"),
-
     ORACLE("Oracle", "oracle", false, "^jdbc:oracle:(thin|oci):(@//|@)([^:]*:\\d+)(/|:)(.*)"),
-
     MICROSOFT("Microsoft SQL Server", "sqlserver", false, "^jdbc:sqlserver://([^;]*).*"),
-
     POSTGRES("PostgreSQL", "postgresql", true, "^jdbc:postgresql://([^/]*)/([^\\?]*).*"),
-
     DB2("DB2", "db2", false, "jdbc:db2://server:port/database"),
-
-    DERBY("Apache Derby", "derby", false, "^$"), UNKNOWN("Unknown", null, false, "^$");
+    DERBY("Apache Derby", "derby", false, "^$"),
+    UNKNOWN("Unknown", null, false, "^$");
 
     public static final MetricNameFormat UNKNOWN_DATABASE_METRIC_NAME;
     static final Pattern POSTGRES_URL_PATTERN;
@@ -38,11 +34,9 @@ public enum DatabaseVendor {
 
     static {
         UNKNOWN_DATABASE_METRIC_NAME = new SimpleMetricNameFormat(MessageFormat
-                                                                          .format("RemoteService/Database/{0}/{1}/{2}/{3}/all",
-                                                                                         new Object[] {"Unknown",
-                                                                                                              "Unknown",
-                                                                                                              "Unknown",
-                                                                                                              "Unknown"}));
+                                                                          .format(REMOTE_SERVICE_DATABASE_METRIC_NAME,
+                                                                                         UNKNOWN_STRING, UNKNOWN_STRING,
+                                                                                         UNKNOWN_STRING, UNKNOWN_STRING));
 
         POSTGRES_URL_PATTERN = Pattern.compile("^jdbc:postgresql://([^/]*).*");
 
@@ -51,7 +45,7 @@ public enum DatabaseVendor {
         SIMPLE_DB_URL = Pattern.compile("jdbc:([^:]*):([^/;:].*)");
         TYPE_PATTERN = Pattern.compile("jdbc:([^:]*).*");
 
-        TYPE_TO_VENDOR = new HashMap(7);
+        TYPE_TO_VENDOR = new HashMap<String, DatabaseVendor>(7);
 
         for (DatabaseVendor vendor : values()) {
             TYPE_TO_VENDOR.put(vendor.getType(), vendor);
@@ -65,7 +59,7 @@ public enum DatabaseVendor {
 
     private DatabaseVendor(String name, String type, boolean explainSupported, String urlPattern) {
         this.name = name;
-        explainPlanSupported = explainSupported;
+        this.explainPlanSupported = explainSupported;
         this.type = type;
         this.urlPattern = Pattern.compile(urlPattern);
     }
@@ -75,7 +69,7 @@ public enum DatabaseVendor {
         if (matcher.matches()) {
             String type = matcher.group(1);
             if (type != null) {
-                DatabaseVendor vendor = (DatabaseVendor) TYPE_TO_VENDOR.get(type);
+                DatabaseVendor vendor = TYPE_TO_VENDOR.get(type);
                 if (vendor != null) {
                     return vendor;
                 }
@@ -136,7 +130,7 @@ public enum DatabaseVendor {
         if (matcher.matches()) {
             return matcher.group(2);
         }
-        return "Unknown";
+        return UNKNOWN_STRING;
     }
 
     protected String getDatabase(Matcher matcher) {
@@ -147,10 +141,10 @@ public enum DatabaseVendor {
     }
 
     public MetricNameFormat getDatabaseMetricName(DatabaseMetaData metaData) {
-        String databaseProductVersion = "Unknown";
-        String databaseProductName = "Unknown";
-        String host = "Unknown";
-        String databaseName = "Unknown";
+        String databaseProductVersion = UNKNOWN_STRING;
+        String databaseProductName = UNKNOWN_STRING;
+        String host = UNKNOWN_STRING;
+        String databaseName = UNKNOWN_STRING;
 
         if (metaData != null) {
             try {
@@ -168,17 +162,16 @@ public enum DatabaseVendor {
             } catch (Exception ex) {
             }
         }
-        return new SimpleMetricNameFormat(MessageFormat.format("RemoteService/Database/{0}/{1}/{2}/{3}/all",
-                                                                      new Object[] {databaseProductName,
-                                                                                           databaseProductVersion, host,
-                                                                                           databaseName}));
+        return new SimpleMetricNameFormat(MessageFormat.format(REMOTE_SERVICE_DATABASE_METRIC_NAME,
+                                                                      databaseProductName, databaseProductVersion, host,
+                                                                      databaseName));
     }
 
     public Collection<Collection<Object>> parseExplainPlanResultSet(int columnCount, ResultSet rs, RecordSql recordSql)
             throws SQLException {
-        Collection explains = new LinkedList();
+        Collection<Collection<Object>> explains = new LinkedList<Collection<Object>>();
         while (rs.next()) {
-            Collection values = new LinkedList();
+            Collection<Object> values = new LinkedList<Object>();
             for (int i = 1; i <= columnCount; i++) {
                 Object obj = rs.getObject(i);
                 values.add(obj == null ? "" : obj.toString());

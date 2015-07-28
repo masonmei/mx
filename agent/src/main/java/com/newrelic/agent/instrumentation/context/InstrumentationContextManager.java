@@ -109,8 +109,7 @@ public class InstrumentationContextManager {
                 public void visit(int version, int access, String name, String signature, String superName,
                                   String[] interfaces) {
                     if ((version < 49) || (version > 100)) {
-                        Agent.LOG.log(Level.FINEST, "Converting {0} from version {1} to {2}",
-                                             new Object[] {name, Integer.valueOf(version), Integer.valueOf(49)});
+                        Agent.LOG.log(Level.FINEST, "Converting {0} from version {1} to {2}", name, version, 49);
                         version = 49;
                     }
                     super.visit(version, access, name, signature, superName, interfaces);
@@ -181,18 +180,13 @@ public class InstrumentationContextManager {
             StatsService statsService = ServiceFactory.getStatsService();
             if (statsService != null) {
                 for (Method m : context.getTimedMethods()) {
-                    TraceDetails traceDetails =
-                            (TraceDetails) context.getTraceInformation().getTraceAnnotations().get(m);
+                    TraceDetails traceDetails = context.getTraceInformation().getTraceAnnotations().get(m);
                     if ((traceDetails != null) && (traceDetails.isCustom())) {
                         statsService.doStatsWork(StatsWorks.getRecordMetricWork(MessageFormat
                                                                                         .format("Supportability/Instrumented/{0}/{1}{2}",
-                                                                                                       new Object[]
-                                                                                                               {className
-                                                                                                                             .replace('/',
-                                                                                                                                             '.'),
-                                                                                                                            m.getName(),
-                                                                                                                            m.getDescriptor()}),
-                                                                                       1.0F));
+                                                                                                       className.replace('/', '.'),
+                                                                                                       m.getName(),
+                                                                                                       m.getDescriptor()), 1.0F));
                     }
                 }
             }
@@ -255,16 +249,17 @@ public class InstrumentationContextManager {
             public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
                                     ProtectionDomain protectionDomain, byte[] classfileBuffer)
                     throws IllegalClassFormatException {
-                if (!className.startsWith("com/newrelic/agent/deps/org/objectweb/asm") && !className
-                                                                                                   .startsWith
-                                                                                                            ("ch/qos/logback")
-                            && !className.startsWith("com/google") && !className.startsWith("javassist") && !className
-                                                                                                                     .startsWith("org/apache")
-                            && !className.startsWith("org/json/simple") && !className.startsWith("org/objectweb/asm")
-                            && !className.startsWith("org/reflections") && !className.startsWith("org/sl4j")
-                            && !className.startsWith("org/yaml/snakeyaml") && !className
-                                                                                       .startsWith
-                                                                                                ("com/newrelic/agent/tracers/")) {
+                if (!className.startsWith("org/objectweb/asm")
+                            && !className.startsWith("ch/qos/logback")
+                            && !className.startsWith("com/google")
+                            && !className.startsWith("javassist")
+                            && !className.startsWith("org/apache")
+                            && !className.startsWith("org/json/simple")
+                            && !className.startsWith("org/objectweb/asm")
+                            && !className.startsWith("org/reflections")
+                            && !className.startsWith("org/sl4j")
+                            && !className.startsWith("org/yaml/snakeyaml")
+                            && !className.startsWith("com/newrelic/agent/tracers/")) {
                     if (!initialized[0] && className.startsWith("com/newrelic/")) {
                         return null;
                     } else {

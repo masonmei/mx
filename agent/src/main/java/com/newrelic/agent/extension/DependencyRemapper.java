@@ -19,10 +19,10 @@ public class DependencyRemapper extends Remapper {
     }
 
     private static Set<String> fix(Set<String> prefixes) {
-        Set fixed = Sets.newHashSet();
+        Set<String> fixed = Sets.newHashSet();
         for (String prefix : prefixes) {
-            if (prefix.startsWith("com/newrelic/agent/deps/")) {
-                fixed.add(prefix.substring("com/newrelic/agent/deps/".length()));
+            if (prefix.startsWith(DEPENDENCY_PREFIX)) {
+                fixed.add(prefix.substring(DEPENDENCY_PREFIX.length()));
             } else {
                 fixed.add(prefix);
             }
@@ -33,7 +33,7 @@ public class DependencyRemapper extends Remapper {
     public String map(String typeName) {
         for (String prefix : prefixes) {
             if (typeName.startsWith(prefix)) {
-                String newType = "com/newrelic/agent/deps/" + typeName;
+                String newType = DEPENDENCY_PREFIX + typeName;
                 oldToNew.put(typeName, newType);
                 return newType;
             }
