@@ -23,16 +23,17 @@ public final class ParsedDatabaseStatement implements MetricNameFormat {
         this.generateMetric = generateMetric;
         this.dbVendor = dbVendor;
 
-        operationRollupMetricName = MessageFormat.format("Datastore/operation/{0}/{1}", new Object[] {DatabaseUtils
-                                                                                                              .getDatastoreVendor(dbVendor),
-                                                                                                             operation});
+        operationRollupMetricName =
+                MessageFormat.format("Datastore/operation/{0}/{1}", DatabaseUtils.getDatastoreVendor(dbVendor),
+
+                                            operation);
 
         if ((null == model) || ("".equals(model))) {
             metricName = operationRollupMetricName;
         } else {
-            metricName = MessageFormat.format("Datastore/statement/{0}/{1}/{2}",
-                                                     new Object[] {DatabaseUtils.getDatastoreVendor(dbVendor), model,
-                                                                          operation});
+            metricName = MessageFormat
+                                 .format("Datastore/statement/{0}/{1}/{2}", DatabaseUtils.getDatastoreVendor(dbVendor),
+                                                model, operation);
         }
     }
 
