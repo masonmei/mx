@@ -49,7 +49,7 @@ import com.newrelic.deps.com.google.common.base.Function;
  * using either of these classes, please contact the Java libraries team for advice.
  *
  * <p>Several popular escapers are defined as constants in classes like {@link
- * com.google.common.html.HtmlEscapers}, {@link com.google.common.xml.XmlEscapers}, and {@link
+ * com.newrelic.deps.com.google.common.html.HtmlEscapers}, {@link com.newrelic.deps.com.google.common.xml.XmlEscapers}, and {@link
  * SourceCodeEscapers}. To create your own escapers, use {@link CharEscaperBuilder}, or extend
  * {@code CharEscaper} or {@code UnicodeEscaper}.
  *

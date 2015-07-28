@@ -46,7 +46,7 @@ import java.util.TreeSet;
  * collection implementations used in a particular multimap.
  *
  * <p>This can be used to easily configure multimap data structure implementations not provided
- * explicitly in {@code com.google.common.collect}, for example:
+ * explicitly in {@code com.newrelic.deps.com.google.common.collect}, for example:
  *
  * <pre>   {@code
  *   ListMultimap<String, Integer> treeListMultimap =

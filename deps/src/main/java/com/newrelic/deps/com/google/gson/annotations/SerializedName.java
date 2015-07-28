@@ -25,10 +25,10 @@ import java.lang.annotation.Target;
  * An annotation that indicates this member should be serialized to JSON with
  * the provided name value as its field name.
  *
- * <p>This annotation will override any {@link com.google.gson.FieldNamingPolicy}, including
- * the default field naming policy, that may have been set on the {@link com.google.gson.Gson}
+ * <p>This annotation will override any {@link com.newrelic.deps.com.google.gson.FieldNamingPolicy}, including
+ * the default field naming policy, that may have been set on the {@link com.newrelic.deps.com.google.gson.Gson}
  * instance.  A different naming policy can set using the {@code GsonBuilder} class.  See
- * {@link com.google.gson.GsonBuilder#setFieldNamingPolicy(com.google.gson.FieldNamingPolicy)}
+ * {@link com.newrelic.deps.com.google.gson.GsonBuilder#setFieldNamingPolicy(com.google.gson.FieldNamingPolicy)}
  * for more information.</p>
  *
  * <p>Here is an example of how this annotation is meant to be used:</p>
@@ -58,7 +58,7 @@ import java.lang.annotation.Target;
  *
  * <p>NOTE: The value you specify in this annotation must be a valid JSON field name.</p>
  *
- * @see com.google.gson.FieldNamingPolicy
+ * @see com.newrelic.deps.com.google.gson.FieldNamingPolicy
  *
  * @author Inderjeet Singh
  * @author Joel Leitch

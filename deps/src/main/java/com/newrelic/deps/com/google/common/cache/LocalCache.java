@@ -89,7 +89,7 @@ import javax.annotation.concurrent.GuardedBy;
  * href="http://tinyurl.com/ConcurrentHashMap">ConcurrentHashMap.java</a>.
  *
  * @author Charles Fry
- * @author Bob Lee ({@code com.google.common.collect.MapMaker})
+ * @author Bob Lee ({@code com.newrelic.deps.com.google.common.collect.MapMaker})
  * @author Doug Lea ({@code ConcurrentHashMap})
  */
 @GwtCompatible(emulated = true)

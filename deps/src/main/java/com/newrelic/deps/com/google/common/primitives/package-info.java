@@ -30,36 +30,36 @@
  * <h3>General static utilities</h3>
  *
  * <ul>
- * <li>{@link com.google.common.primitives.Primitives}
+ * <li>{@link com.newrelic.deps.com.google.common.primitives.Primitives}
  * </ul>
  *
  * <h3>Per-type static utilities</h3>
  *
  * <ul>
- * <li>{@link com.google.common.primitives.Booleans}
- * <li>{@link com.google.common.primitives.Bytes}
+ * <li>{@link com.newrelic.deps.com.google.common.primitives.Booleans}
+ * <li>{@link com.newrelic.deps.com.google.common.primitives.Bytes}
  *   <ul>
- *     <li>{@link com.google.common.primitives.SignedBytes}
- *     <li>{@link com.google.common.primitives.UnsignedBytes}
+ *     <li>{@link com.newrelic.deps.com.google.common.primitives.SignedBytes}
+ *     <li>{@link com.newrelic.deps.com.google.common.primitives.UnsignedBytes}
  *   </ul>
- * <li>{@link com.google.common.primitives.Chars}
- * <li>{@link com.google.common.primitives.Doubles}
- * <li>{@link com.google.common.primitives.Floats}
- * <li>{@link com.google.common.primitives.Ints}
+ * <li>{@link com.newrelic.deps.com.google.common.primitives.Chars}
+ * <li>{@link com.newrelic.deps.com.google.common.primitives.Doubles}
+ * <li>{@link com.newrelic.deps.com.google.common.primitives.Floats}
+ * <li>{@link com.newrelic.deps.com.google.common.primitives.Ints}
  *   <ul>
- *     <li>{@link com.google.common.primitives.UnsignedInts}
+ *     <li>{@link com.newrelic.deps.com.google.common.primitives.UnsignedInts}
  *   </ul>
- * <li>{@link com.google.common.primitives.Longs}
+ * <li>{@link com.newrelic.deps.com.google.common.primitives.Longs}
  *   <ul>
- *     <li>{@link com.google.common.primitives.UnsignedLongs}
+ *     <li>{@link com.newrelic.deps.com.google.common.primitives.UnsignedLongs}
  *   </ul>
- * <li>{@link com.google.common.primitives.Shorts}
+ * <li>{@link com.newrelic.deps.com.google.common.primitives.Shorts}
  * </ul>
  *
  * <h3>Value types</h3>
  * <ul>
- *   <li>{@link com.google.common.primitives.UnsignedInteger}
- *   <li>{@link com.google.common.primitives.UnsignedLong}
+ *   <li>{@link com.newrelic.deps.com.google.common.primitives.UnsignedInteger}
+ *   <li>{@link com.newrelic.deps.com.google.common.primitives.UnsignedLong}
  * </ul>
  */
 @ParametersAreNonnullByDefault

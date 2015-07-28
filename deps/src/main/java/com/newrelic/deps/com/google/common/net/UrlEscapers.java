@@ -25,8 +25,8 @@ import com.newrelic.deps.com.google.common.escape.Escaper;
  * sections of URLs.
  *
  * <p>If the resulting URLs are inserted into an HTML or XML document, they will
- * require additional escaping with {@link com.google.common.html.HtmlEscapers}
- * or {@link com.google.common.xml.XmlEscapers}.
+ * require additional escaping with {@link com.newrelic.deps.com.google.common.html.HtmlEscapers}
+ * or {@link com.newrelic.deps.com.google.common.xml.XmlEscapers}.
  *
  *
  * @author David Beaumont

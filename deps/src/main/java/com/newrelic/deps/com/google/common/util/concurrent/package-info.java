@@ -18,13 +18,13 @@
  * Concurrency utilities.
  *
  * <p>Commonly used types include {@link
- * com.google.common.util.concurrent.ListenableFuture} and {@link
- * com.google.common.util.concurrent.Service}.
+ * com.newrelic.deps.com.google.common.util.concurrent.ListenableFuture} and {@link
+ * com.newrelic.deps.com.google.common.util.concurrent.Service}.
  *
  * <p>Commonly used utilities include {@link
- * com.google.common.util.concurrent.Futures}, {@link
- * com.google.common.util.concurrent.MoreExecutors}, and {@link
- * com.google.common.util.concurrent.ThreadFactoryBuilder}.
+ * com.newrelic.deps.com.google.common.util.concurrent.Futures}, {@link
+ * com.newrelic.deps.com.google.common.util.concurrent.MoreExecutors}, and {@link
+ * com.newrelic.deps.com.google.common.util.concurrent.ThreadFactoryBuilder}.
  *
  * <p>This package is a part of the open-source
  * <a href="http://guava-libraries.googlecode.com">Guava libraries</a>.

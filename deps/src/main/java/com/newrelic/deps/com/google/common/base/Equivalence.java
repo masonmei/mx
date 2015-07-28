@@ -233,7 +233,7 @@ public abstract class Equivalence<T> {
    * {@code this}.  Null iterables are equivalent to one another.
    * 
    * <p>Note that this method performs a similar function for equivalences as {@link
-   * com.google.common.collect.Ordering#lexicographical} does for orderings.
+   * com.newrelic.deps.com.google.common.collect.Ordering#lexicographical} does for orderings.
    *
    * @since 10.0
    */

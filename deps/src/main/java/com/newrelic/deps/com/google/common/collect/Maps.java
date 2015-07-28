@@ -1305,8 +1305,8 @@ public final class Maps {
    * {@link BiMap#inverse bimap.inverse()}{@code .get()}.
    *
    * <p>To use a plain {@link Map} as a {@link Function}, see
-   * {@link com.google.common.base.Functions#forMap(Map)} or
-   * {@link com.google.common.base.Functions#forMap(Map, Object)}.
+   * {@link com.newrelic.deps.com.google.common.base.Functions#forMap(Map)} or
+   * {@link com.newrelic.deps.com.google.common.base.Functions#forMap(Map, Object)}.
    *
    * @since 16.0
    */

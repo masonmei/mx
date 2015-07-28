@@ -49,7 +49,7 @@ import java.util.concurrent.TimeoutException;
  *
  * @author Jesse Wilson
  * @author Luke Sandberg
- * @since 9.0 (in 1.0 as {@code com.google.common.base.Service})
+ * @since 9.0 (in 1.0 as {@code com.newrelic.deps.com.google.common.base.Service})
  */
 @Beta
 public interface Service {
@@ -178,7 +178,7 @@ public interface Service {
    * {@code A.compareTo(B} < 0} then there is <b>not</b> guaranteed to be a valid state transition 
    * {@code A -> B}.
    *
-   * @since 9.0 (in 1.0 as {@code com.google.common.base.Service.State})
+   * @since 9.0 (in 1.0 as {@code com.newrelic.deps.com.google.common.base.Service.State})
    */
   @Beta // should come out of Beta when Service does
   enum State {

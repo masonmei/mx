@@ -53,7 +53,7 @@ public final class DoubleMath {
    * This method returns a value y such that rounding y DOWN (towards zero) gives the same result
    * as rounding x according to the specified mode.
    */
-  @GwtIncompatible("#isMathematicalInteger, com.google.common.math.DoubleUtils")
+  @GwtIncompatible("#isMathematicalInteger, com.newrelic.deps.com.google.common.math.DoubleUtils")
   static double roundIntermediate(double x, RoundingMode mode) {
     if (!isFinite(x)) {
       throw new ArithmeticException("input is infinite or NaN");
@@ -228,7 +228,7 @@ public final class DoubleMath {
    * @throws IllegalArgumentException if {@code x <= 0.0}, {@code x} is NaN, or {@code x} is
    *         infinite
    */
-  @GwtIncompatible("java.lang.Math.getExponent, com.google.common.math.DoubleUtils")
+  @GwtIncompatible("java.lang.Math.getExponent, com.newrelic.deps.com.google.common.math.DoubleUtils")
   @SuppressWarnings("fallthrough")
   public static int log2(double x, RoundingMode mode) {
     checkArgument(x > 0.0 && isFinite(x), "x must be positive and finite");
@@ -275,7 +275,7 @@ public final class DoubleMath {
    * <p>This is equivalent to, but not necessarily implemented as, the expression {@code
    * !Double.isNaN(x) && !Double.isInfinite(x) && x == Math.rint(x)}.
    */
-  @GwtIncompatible("java.lang.Math.getExponent, com.google.common.math.DoubleUtils")
+  @GwtIncompatible("java.lang.Math.getExponent, com.newrelic.deps.com.google.common.math.DoubleUtils")
   public static boolean isMathematicalInteger(double x) {
     return isFinite(x)
         && (x == 0.0 ||

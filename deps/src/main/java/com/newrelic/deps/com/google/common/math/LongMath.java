@@ -43,7 +43,7 @@ import java.math.RoundingMode;
  *
  * <p>Similar functionality for {@code int} and for {@link BigInteger} can be found in
  * {@link IntMath} and {@link BigIntegerMath} respectively.  For other common operations on
- * {@code long} values, see {@link com.google.common.primitives.Longs}.
+ * {@code long} values, see {@link com.newrelic.deps.com.google.common.primitives.Longs}.
  *
  * @author Louis Wasserman
  * @since 11.0

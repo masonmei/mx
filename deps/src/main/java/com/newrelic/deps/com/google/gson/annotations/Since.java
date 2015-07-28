@@ -26,9 +26,9 @@ import java.lang.annotation.Target;
  * This annotation is useful to manage versioning of your Json classes for a web-service.
  *
  * <p>
- * This annotation has no effect unless you build {@link com.google.gson.Gson} with a
- * {@link com.google.gson.GsonBuilder} and invoke
- * {@link com.google.gson.GsonBuilder#setVersion(double)} method.
+ * This annotation has no effect unless you build {@link com.newrelic.deps.com.google.gson.Gson} with a
+ * {@link com.newrelic.deps.com.google.gson.GsonBuilder} and invoke
+ * {@link com.newrelic.deps.com.google.gson.GsonBuilder#setVersion(double)} method.
  *
  * <p>Here is an example of how this annotation is meant to be used:</p>
  * <pre>

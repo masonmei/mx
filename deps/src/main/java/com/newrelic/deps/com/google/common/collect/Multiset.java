@@ -74,7 +74,7 @@ import javax.annotation.Nullable;
  * HashMultiset}, and {@link ConcurrentHashMultiset}.
  *
  * <p>If your values may be zero, negative, or outside the range of an int, you
- * may wish to use {@link com.google.common.util.concurrent.AtomicLongMap}
+ * may wish to use {@link com.newrelic.deps.com.google.common.util.concurrent.AtomicLongMap}
  * instead. Note, however, that unlike {@code Multiset}, {@code AtomicLongMap}
  * does not automatically remove zeros.
  * 

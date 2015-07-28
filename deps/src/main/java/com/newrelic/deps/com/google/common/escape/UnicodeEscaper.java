@@ -47,8 +47,8 @@ import com.newrelic.deps.com.google.common.annotations.GwtCompatible;
  * when used concurrently by multiple threads.
  *
  * <p>Several popular escapers are defined as constants in classes like {@link
- * com.google.common.html.HtmlEscapers}, {@link
- * com.google.common.xml.XmlEscapers}, and {@link SourceCodeEscapers}. To create
+ * com.newrelic.deps.com.google.common.html.HtmlEscapers}, {@link
+ * com.newrelic.deps.com.google.common.xml.XmlEscapers}, and {@link SourceCodeEscapers}. To create
  * your own escapers extend this class and implement the {@link #escape(int)}
  * method.
  *
@@ -105,7 +105,7 @@ public abstract class UnicodeEscaper extends Escaper {
    * of any surrogate characters encountered or provide a clear warning to users
    * that your escaper does not validate its input.
    *
-   * <p>See {@link com.google.common.net.PercentEscaper} for an example.
+   * <p>See {@link com.newrelic.deps.com.google.common.net.PercentEscaper} for an example.
    *
    * @param csq a sequence of characters
    * @param start the index of the first character to be scanned
@@ -138,7 +138,7 @@ public abstract class UnicodeEscaper extends Escaper {
    * <p><b>Note:</b> When implementing an escaper it is a good idea to override
    * this method for efficiency by inlining the implementation of
    * {@link #nextEscapeIndex(CharSequence, int, int)} directly. Doing this for
-   * {@link com.google.common.net.PercentEscaper} more than doubled the
+   * {@link com.newrelic.deps.com.google.common.net.PercentEscaper} more than doubled the
    * performance for unescaped strings (as measured by {@link
    * CharEscapersBenchmark}).
    *

@@ -38,7 +38,7 @@ import java.util.concurrent.TimeUnit;
  * @since 7.0
  * @deprecated This class existed only to support the generic paramterization necessary for the
  *     caching functionality in {@code MapMaker}. That functionality has been moved to {@link
- *     com.google.common.cache.CacheBuilder}, which is a properly generified class and thus needs no
+ *     com.newrelic.deps.com.google.common.cache.CacheBuilder}, which is a properly generified class and thus needs no
  *     "Generic" equivalent; simple use {@code CacheBuilder} naturally. For general migration
  *     instructions, see the <a
  *     href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker Migration
@@ -100,8 +100,8 @@ abstract class GenericMapMaker<K0, V0> {
    * See {@link MapMaker#softValues}.
    *
    * @deprecated Caching functionality in {@code MapMaker} has been moved to {@link
-   *     com.google.common.cache.CacheBuilder}, with {@link #softValues} being replaced by {@link
-   *     com.google.common.cache.CacheBuilder#softValues}. Note that {@code CacheBuilder} is simply
+   *     com.newrelic.deps.com.google.common.cache.CacheBuilder}, with {@link #softValues} being replaced by {@link
+   *     com.newrelic.deps.com.google.common.cache.CacheBuilder#softValues}. Note that {@code CacheBuilder} is simply
    *     an enhanced API for an implementation which was branched from {@code MapMaker}. <b>This
    *     method is scheduled for removal in March 2015.</b>
    */

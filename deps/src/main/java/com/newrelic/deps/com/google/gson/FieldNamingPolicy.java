@@ -20,8 +20,8 @@ import java.lang.reflect.Field;
 
 /**
  * An enumeration that defines a few standard naming conventions for JSON field names.
- * This enumeration should be used in conjunction with {@link com.google.gson.GsonBuilder}
- * to configure a {@link com.google.gson.Gson} instance to properly translate Java field
+ * This enumeration should be used in conjunction with {@link com.newrelic.deps.com.google.gson.GsonBuilder}
+ * to configure a {@link com.newrelic.deps.com.google.gson.Gson} instance to properly translate Java field
  * names into the desired JSON field names.
  *
  * @author Inderjeet Singh

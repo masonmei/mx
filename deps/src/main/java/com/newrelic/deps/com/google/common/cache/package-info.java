@@ -17,11 +17,11 @@
 /**
  * This package contains caching utilities.
  *
- * <p>The core interface used to represent caches is {@link com.google.common.cache.Cache}.
+ * <p>The core interface used to represent caches is {@link com.newrelic.deps.com.google.common.cache.Cache}.
  * In-memory caches can be configured and created using
- * {@link com.google.common.cache.CacheBuilder}, with cache entries being loaded by
- * {@link com.google.common.cache.CacheLoader}. Statistics about cache performance are exposed using
- * {@link com.google.common.cache.CacheStats}.
+ * {@link com.newrelic.deps.com.google.common.cache.CacheBuilder}, with cache entries being loaded by
+ * {@link com.newrelic.deps.com.google.common.cache.CacheLoader}. Statistics about cache performance are exposed using
+ * {@link com.newrelic.deps.com.google.common.cache.CacheStats}.
  * 
  * <p>See the Guava User Guide article on <a href=
  * "http://code.google.com/p/guava-libraries/wiki/CachesExplained">caches</a>.

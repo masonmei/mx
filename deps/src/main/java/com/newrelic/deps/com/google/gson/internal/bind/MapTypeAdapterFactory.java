@@ -61,8 +61,8 @@ import java.util.Map;
  * just the {@link Object#toString() toString()} of the map key. Attempting to
  * convert the above JSON to an object fails with a parse exception:
  * <pre>com.google.gson.JsonParseException: Expecting object found: "(5,6)"
- *   at com.google.gson.JsonObjectDeserializationVisitor.visitFieldUsingCustomHandler
- *   at com.google.gson.ObjectNavigator.navigateClassFields
+ *   at com.newrelic.deps.com.google.gson.JsonObjectDeserializationVisitor.visitFieldUsingCustomHandler
+ *   at com.newrelic.deps.com.google.gson.ObjectNavigator.navigateClassFields
  *   ...</pre>
  *
  * <h3>Maps as JSON arrays</h3>

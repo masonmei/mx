@@ -190,14 +190,14 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * unit)}. It can be useful in testing, or to disable caching temporarily without a code change.
    *
    * <p>Caching functionality in {@code MapMaker} has been moved to
-   * {@link com.google.common.cache.CacheBuilder}.
+   * {@link com.newrelic.deps.com.google.common.cache.CacheBuilder}.
    *
    * @param size the maximum size of the map
    * @throws IllegalArgumentException if {@code size} is negative
    * @throws IllegalStateException if a maximum size was already set
    * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #maximumSize} being
-   *     replaced by {@link com.google.common.cache.CacheBuilder#maximumSize}. Note that {@code
+   *     {@link com.newrelic.deps.com.google.common.cache.CacheBuilder}, with {@link #maximumSize} being
+   *     replaced by {@link com.newrelic.deps.com.google.common.cache.CacheBuilder#maximumSize}. Note that {@code
    *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
    *     {@code MapMaker}.
    */
@@ -323,8 +323,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalStateException if the value strength was already set
    * @see SoftReference
    * @deprecated Caching functionality in {@code MapMaker} has been moved to {@link
-   *     com.google.common.cache.CacheBuilder}, with {@link #softValues} being replaced by {@link
-   *     com.google.common.cache.CacheBuilder#softValues}. Note that {@code CacheBuilder} is simply
+   *     com.newrelic.deps.com.google.common.cache.CacheBuilder}, with {@link #softValues} being replaced by {@link
+   *     com.newrelic.deps.com.google.common.cache.CacheBuilder#softValues}. Note that {@code CacheBuilder} is simply
    *     an enhanced API for an implementation which was branched from {@code MapMaker}. <b>This
    *     method is scheduled for removal in March 2015.</b>
    */
@@ -369,8 +369,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to live or time to idle was already set
    * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterWrite} being
-   *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterWrite}. Note that {@code
+   *     {@link com.newrelic.deps.com.google.common.cache.CacheBuilder}, with {@link #expireAfterWrite} being
+   *     replaced by {@link com.newrelic.deps.com.google.common.cache.CacheBuilder#expireAfterWrite}. Note that {@code
    *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
    *     {@code MapMaker}.
    */
@@ -419,8 +419,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @throws IllegalArgumentException if {@code duration} is negative
    * @throws IllegalStateException if the time to idle or time to live was already set
    * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #expireAfterAccess} being
-   *     replaced by {@link com.google.common.cache.CacheBuilder#expireAfterAccess}. Note that
+   *     {@link com.newrelic.deps.com.google.common.cache.CacheBuilder}, with {@link #expireAfterAccess} being
+   *     replaced by {@link com.newrelic.deps.com.google.common.cache.CacheBuilder#expireAfterAccess}. Note that
    *     {@code CacheBuilder} is simply an enhanced API for an implementation which was branched
    *     from {@code MapMaker}.
    */
@@ -471,8 +471,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    *
    * @throws IllegalStateException if a removal listener was already set
    * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #removalListener} being
-   *     replaced by {@link com.google.common.cache.CacheBuilder#removalListener}. Note that {@code
+   *     {@link com.newrelic.deps.com.google.common.cache.CacheBuilder}, with {@link #removalListener} being
+   *     replaced by {@link com.newrelic.deps.com.google.common.cache.CacheBuilder#removalListener}. Note that {@code
    *     CacheBuilder} is simply an enhanced API for an implementation which was branched from
    *     {@code MapMaker}.
    */
@@ -528,9 +528,9 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * that thread to finish and returns its computed value. Note that the function may be executed
    * concurrently by multiple threads, but only for distinct keys.
    *
-   * <p>New code should use {@link com.google.common.cache.CacheBuilder}, which supports
-   * {@linkplain com.google.common.cache.CacheStats statistics} collection, introduces the
-   * {@link com.google.common.cache.CacheLoader} interface for loading entries into the cache
+   * <p>New code should use {@link com.newrelic.deps.com.google.common.cache.CacheBuilder}, which supports
+   * {@linkplain com.newrelic.deps.com.google.common.cache.CacheStats statistics} collection, introduces the
+   * {@link com.newrelic.deps.com.google.common.cache.CacheLoader} interface for loading entries into the cache
    * (allowing checked exceptions to be thrown in the process), and more cleanly separates
    * computation from the cache's {@code Map} view.
    *
@@ -573,8 +573,8 @@ public final class MapMaker extends GenericMapMaker<Object, Object> {
    * @param computingFunction the function used to compute new values
    * @return a serializable concurrent map having the requested features
    * @deprecated Caching functionality in {@code MapMaker} has been moved to
-   *     {@link com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being replaced
-   *     by {@link com.google.common.cache.CacheBuilder#build}. See the
+   *     {@link com.newrelic.deps.com.google.common.cache.CacheBuilder}, with {@link #makeComputingMap} being replaced
+   *     by {@link com.newrelic.deps.com.google.common.cache.CacheBuilder#build}. See the
    *     <a href="http://code.google.com/p/guava-libraries/wiki/MapMakerMigration">MapMaker
    *     Migration Guide</a> for more details.
    */

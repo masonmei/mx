@@ -36,7 +36,7 @@ import javax.annotation.Nullable;
  * <p>The reverse operation <b>may</b> be a strict <i>inverse</i> (meaning that {@code
  * converter.reverse().convert(converter.convert(a)).equals(a)} is always true). However, it is
  * very common (perhaps <i>more</i> common) for round-trip conversion to be <i>lossy</i>. Consider
- * an example round-trip using {@link com.google.common.primitives.Doubles#stringConverter}:
+ * an example round-trip using {@link com.newrelic.deps.com.google.common.primitives.Doubles#stringConverter}:
  *
  * <ol>
  * <li>{@code stringConverter().convert("1.00")} returns the {@code Double} value {@code 1.0}
@@ -63,10 +63,10 @@ import javax.annotation.Nullable;
  *
  * <ul>
  * <li>Use a provided converter implementation, such as {@link Enums#stringConverter}, {@link
- *     com.google.common.primitives.Ints#stringConverter Ints.stringConverter} or the {@linkplain
+ *     com.newrelic.deps.com.google.common.primitives.Ints#stringConverter Ints.stringConverter} or the {@linkplain
  *     #reverse reverse} views of these.
  * <li>Convert between specific preset values using {@link
- *     com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to create
+ *     com.newrelic.deps.com.google.common.collect.Maps#asConverter Maps.asConverter}. For example, use this to create
  *     a "fake" converter for a unit test. It is unnecessary (and confusing) to <i>mock</i> the
  *     {@code Converter} type using a mocking framework.
  * <li>Otherwise, extend this class and implement its {@link #doForward} and {@link #doBackward}

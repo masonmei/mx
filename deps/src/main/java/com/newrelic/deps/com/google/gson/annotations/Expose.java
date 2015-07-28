@@ -25,9 +25,9 @@ import java.lang.annotation.Target;
  * An annotation that indicates this member should be exposed for JSON
  * serialization or deserialization.
  *
- * <p>This annotation has no effect unless you build {@link com.google.gson.Gson}
- * with a {@link com.google.gson.GsonBuilder} and invoke
- * {@link com.google.gson.GsonBuilder#excludeFieldsWithoutExposeAnnotation()}
+ * <p>This annotation has no effect unless you build {@link com.newrelic.deps.com.google.gson.Gson}
+ * with a {@link com.newrelic.deps.com.google.gson.GsonBuilder} and invoke
+ * {@link com.newrelic.deps.com.google.gson.GsonBuilder#excludeFieldsWithoutExposeAnnotation()}
  * method.</p>
  *
  * <p>Here is an example of how this annotation is meant to be used:

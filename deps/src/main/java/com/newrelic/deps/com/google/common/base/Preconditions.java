@@ -74,7 +74,7 @@ import javax.annotation.Nullable;
  *
  * <h3>{@code java.util.Objects.requireNonNull()}</h3>
  *
- * <p>Projects which use {@code com.google.common} should generally avoid the use of {@link
+ * <p>Projects which use {@code com.newrelic.deps.com.google.common} should generally avoid the use of {@link
  * java.util.Objects#requireNonNull(Object)}. Instead, use whichever of {@link
  * #checkNotNull(Object)} or {@link Verify#verifyNotNull(Object)} is appropriate to the situation.
  * (The same goes for the message-accepting overloads.)

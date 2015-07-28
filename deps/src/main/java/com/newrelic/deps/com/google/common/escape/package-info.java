@@ -16,12 +16,12 @@
 
 /**
  * Interfaces, utilities, and simple implementations of escapers and encoders.  The primary type is
- * {@link com.google.common.escape.Escaper}.
+ * {@link com.newrelic.deps.com.google.common.escape.Escaper}.
  *
  * <p>Additional escapers implementations are found in the applicable packages: {@link
- * com.google.common.html.HtmlEscapers} in {@code com.google.common.html}, {@link
- * com.google.common.xml.XmlEscapers} in {@code com.google.common.xml}, and {@link
- * com.google.common.net.UrlEscapers} in {@code com.google.common.net}.
+ * com.newrelic.deps.com.google.common.html.HtmlEscapers} in {@code com.newrelic.deps.com.google.common.html}, {@link
+ * com.newrelic.deps.com.google.common.xml.XmlEscapers} in {@code com.newrelic.deps.com.google.common.xml}, and {@link
+ * com.newrelic.deps.com.google.common.net.UrlEscapers} in {@code com.newrelic.deps.com.google.common.net}.
  *
  * <p>This package is a part of the open-source
  * <a href="http://guava-libraries.googlecode.com">Guava libraries</a>.

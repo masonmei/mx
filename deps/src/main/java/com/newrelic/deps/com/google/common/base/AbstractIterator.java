@@ -25,7 +25,7 @@ import java.util.NoSuchElementException;
 
 /**
  * Note this class is a copy of
- * {@link com.google.common.collect.AbstractIterator} (for dependency reasons).
+ * {@link com.newrelic.deps.com.google.common.collect.AbstractIterator} (for dependency reasons).
  */
 @GwtCompatible
 abstract class AbstractIterator<T> implements Iterator<T> {

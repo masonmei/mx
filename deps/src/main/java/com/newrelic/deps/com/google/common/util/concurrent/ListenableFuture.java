@@ -121,9 +121,9 @@ public interface ListenableFuture<V> extends Future<V> {
    *
    * <p>This is the most general listener interface. For common operations
    * performed using listeners, see {@link
-   * com.google.common.util.concurrent.Futures}. For a simplified but general
+   * com.newrelic.deps.com.google.common.util.concurrent.Futures}. For a simplified but general
    * listener interface, see {@link
-   * com.google.common.util.concurrent.Futures#addCallback addCallback()}.
+   * com.newrelic.deps.com.google.common.util.concurrent.Futures#addCallback addCallback()}.
    *
    * @param listener the listener to run when the computation is complete
    * @param executor the executor to run the listener in

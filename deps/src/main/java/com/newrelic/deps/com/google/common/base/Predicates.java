@@ -187,7 +187,7 @@ public final class Predicates {
    * is {@code null} this predicate evaluates to {@code false}.
    *
    * <p>If you want to filter an {@code Iterable} to narrow its type, consider
-   * using {@link com.google.common.collect.Iterables#filter(Iterable, Class)}
+   * using {@link com.newrelic.deps.com.google.common.collect.Iterables#filter(Iterable, Class)}
    * in preference.
    *
    * <p><b>Warning:</b> contrary to the typical assumptions about predicates (as

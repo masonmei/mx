@@ -137,7 +137,7 @@ public final class GsonBuilder {
 
   /**
    * Configures Gson to exclude all fields from consideration for serialization or deserialization
-   * that do not have the {@link com.google.gson.annotations.Expose} annotation.
+   * that do not have the {@link com.newrelic.deps.com.google.gson.annotations.Expose} annotation.
    *
    * @return a reference to this {@code GsonBuilder} object to fulfill the "Builder" pattern
    */

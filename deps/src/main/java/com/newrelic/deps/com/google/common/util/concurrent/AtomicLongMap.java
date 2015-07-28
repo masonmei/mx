@@ -41,8 +41,8 @@ import java.util.concurrent.atomic.AtomicLong;
  * atomic unless otherwise noted.
  *
  * <p><b>Note:</b> If your values are always positive and less than 2^31, you may wish to use a
- * {@link com.google.common.collect.Multiset} such as
- * {@link com.google.common.collect.ConcurrentHashMultiset} instead.
+ * {@link com.newrelic.deps.com.google.common.collect.Multiset} such as
+ * {@link com.newrelic.deps.com.google.common.collect.ConcurrentHashMultiset} instead.
  *
  * <b>Warning:</b> Unlike {@code Multiset}, entries whose values are zero are not automatically
  * removed from the map. Instead they must be removed manually with {@link #removeAllZeros}.

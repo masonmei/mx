@@ -284,7 +284,7 @@ public final class Chars {
    *
    * <p>If you need to convert and concatenate several values (possibly even of
    * different types), use a shared {@link java.nio.ByteBuffer} instance, or use
-   * {@link com.google.common.io.ByteStreams#newDataOutput()} to get a growable
+   * {@link com.newrelic.deps.com.google.common.io.ByteStreams#newDataOutput()} to get a growable
    * buffer.
    */
   @GwtIncompatible("doesn't work")

@@ -28,7 +28,7 @@ import java.lang.annotation.Target;
 /**
  * Private replacement for {@link com.google.gwt.user.client.rpc.GwtTransient}
  * to work around build-system quirks. This annotation should be used
- * <b>only</b> in {@code com.google.common.collect}.
+ * <b>only</b> in {@code com.newrelic.deps.com.google.common.collect}.
  */
 @Documented
 @GwtCompatible

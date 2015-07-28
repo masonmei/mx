@@ -37,7 +37,7 @@ import javax.annotation.Nullable;
  * {@code ClassToInstanceMap}</a>.
  *
  * <p>To map a generic type to an instance of that type, use {@link
- * com.google.common.reflect.TypeToInstanceMap} instead.
+ * com.newrelic.deps.com.google.common.reflect.TypeToInstanceMap} instead.
  *
  * @param <B> the common supertype that all entries must share; often this is
  *     simply {@link Object}

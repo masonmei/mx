@@ -72,7 +72,7 @@ import java.lang.annotation.Target;
  * </pre>
  *
  * It's possible to specify different type adapters on a field, that
- * field's type, and in the {@link com.google.gson.GsonBuilder}. Field
+ * field's type, and in the {@link com.newrelic.deps.com.google.gson.GsonBuilder}. Field
  * annotations take precedence over {@code GsonBuilder}-registered type
  * adapters, which in turn take precedence over annotated types.
  *

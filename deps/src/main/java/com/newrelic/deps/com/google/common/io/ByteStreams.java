@@ -521,7 +521,7 @@ public final class ByteStreams {
   /**
    * Returns an {@link OutputStream} that simply discards written bytes.
    *
-   * @since 14.0 (since 1.0 as com.google.common.io.NullOutputStream)
+   * @since 14.0 (since 1.0 as com.newrelic.deps.com.google.common.io.NullOutputStream)
    */
   public static OutputStream nullOutputStream() {
     return NULL_OUTPUT_STREAM;
@@ -534,7 +534,7 @@ public final class ByteStreams {
    * @param in the input stream to be wrapped
    * @param limit the maximum number of bytes to be read
    * @return a length-limited {@link InputStream}
-   * @since 14.0 (since 1.0 as com.google.common.io.LimitInputStream)
+   * @since 14.0 (since 1.0 as com.newrelic.deps.com.google.common.io.LimitInputStream)
    */
   public static InputStream limit(InputStream in, long limit) {
     return new LimitedInputStream(in, limit);

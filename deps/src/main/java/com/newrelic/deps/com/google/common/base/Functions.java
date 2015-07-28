@@ -100,8 +100,8 @@ public final class Functions {
    * IllegalArgumentException} if given a key that does not exist in the map. See also {@link
    * #forMap(Map, Object)}, which returns a default value in this case.
    *
-   * <p>Note: if {@code map} is a {@link com.google.common.collect.BiMap BiMap} (or can be one), you
-   * can use {@link com.google.common.collect.Maps#asConverter Maps.asConverter} instead to get a
+   * <p>Note: if {@code map} is a {@link com.newrelic.deps.com.google.common.collect.BiMap BiMap} (or can be one), you
+   * can use {@link com.newrelic.deps.com.google.common.collect.Maps#asConverter Maps.asConverter} instead to get a
    * function that also supports reverse conversion.
    */
   public static <K, V> Function<K, V> forMap(Map<K, V> map) {
