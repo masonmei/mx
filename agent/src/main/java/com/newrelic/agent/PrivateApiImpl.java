@@ -7,6 +7,7 @@ import javax.management.MBeanServer;
 
 import com.newrelic.agent.attributes.AgentAttributeSender;
 import com.newrelic.agent.attributes.AttributeSender;
+import com.newrelic.agent.bridge.AgentBridge;
 import com.newrelic.agent.bridge.PrivateApi;
 import com.newrelic.agent.environment.Environment;
 import com.newrelic.agent.errors.ErrorService;
@@ -19,14 +20,14 @@ public class PrivateApiImpl implements PrivateApi {
 
     public static void initialize(Logger logger) {
         PrivateApiImpl api = new PrivateApiImpl();
-        com.newrelic.agent.bridge.AgentBridge.privateApi = api;
-        com.newrelic.agent.bridge.AgentBridge.asyncApi = new AsyncApiImpl(logger);
-        com.newrelic.agent.bridge.AgentBridge.jmxApi = new JmxApiImpl();
-        com.newrelic.agent.bridge.AgentBridge.agent = new AgentImpl(logger);
+        AgentBridge.privateApi = api;
+        AgentBridge.asyncApi = new AsyncApiImpl(logger);
+        AgentBridge.jmxApi = new JmxApiImpl();
+        AgentBridge.agent = new AgentImpl(logger);
     }
 
     public void setAppServerPort(int port) {
-        ServiceFactory.getEnvironmentService().getEnvironment().setServerPort(Integer.valueOf(port));
+        ServiceFactory.getEnvironmentService().getEnvironment().setServerPort(port);
     }
 
     public void setInstanceName(String instanceName) {

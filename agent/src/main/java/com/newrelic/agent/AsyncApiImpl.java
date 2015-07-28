@@ -18,7 +18,7 @@ public class AsyncApiImpl implements AsyncApi {
     }
 
     public void suspendAsync(Object asyncContext) {
-        logger.log(Level.FINEST, "Suspend async", new Object[0]);
+        logger.log(Level.FINEST, "Suspend async");
         if (asyncContext != null) {
             Transaction currentTx = Transaction.getTransaction();
             TransactionState transactionState = setTransactionState(currentTx);
@@ -38,9 +38,9 @@ public class AsyncApiImpl implements AsyncApi {
     }
 
     public com.newrelic.agent.bridge.Transaction resumeAsync(Object asyncContext) {
-        logger.log(Level.FINEST, "Resume async", new Object[0]);
+        logger.log(Level.FINEST, "Resume async");
         if (asyncContext != null) {
-            Transaction suspendedTx = (Transaction) asyncTransactions.get(asyncContext);
+            Transaction suspendedTx = asyncTransactions.get(asyncContext);
             if (suspendedTx != null) {
                 suspendedTx.getTransactionState().resume();
                 if (suspendedTx.isStarted()) {
@@ -53,22 +53,22 @@ public class AsyncApiImpl implements AsyncApi {
     }
 
     public void completeAsync(Object asyncContext) {
-        logger.log(Level.FINEST, "Complete async", new Object[0]);
+        logger.log(Level.FINEST, "Complete async");
         if (asyncContext == null) {
             return;
         }
-        Transaction transaction = (Transaction) asyncTransactions.remove(asyncContext);
+        Transaction transaction = asyncTransactions.remove(asyncContext);
         if (transaction != null) {
             transaction.getTransactionState().complete();
         }
     }
 
     public void errorAsync(Object asyncContext, Throwable t) {
-        logger.log(Level.FINEST, "Error async", new Object[0]);
+        logger.log(Level.FINEST, "Error async");
         if ((asyncContext == null) || (t == null)) {
             return;
         }
-        Transaction transaction = (Transaction) asyncTransactions.get(asyncContext);
+        Transaction transaction = asyncTransactions.get(asyncContext);
         if (transaction != null) {
             transaction.setThrowable(t, TransactionErrorPriority.API);
         }

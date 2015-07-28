@@ -3,7 +3,6 @@ package com.newrelic.agent;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.OutputStreamWriter;
-import java.io.Serializable;
 import java.io.UnsupportedEncodingException;
 import java.io.Writer;
 import java.text.MessageFormat;
@@ -54,7 +53,7 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
         }
 
         MapMaker factory = new MapMaker().initialCapacity(8).concurrencyLevel(4);
-        alternatePathHashes = Sets.newSetFromMap(new LazyMapImpl(factory));
+        alternatePathHashes = Sets.newSetFromMap(new LazyMapImpl<String, Boolean>(factory));
     }
 
     public static CrossProcessTransactionStateImpl create(ITransaction tx) {
@@ -98,12 +97,12 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
             return false;
         }
 
-        for (Entry entry : metadata.entrySet()) {
+        for (Entry<String, String> entry : metadata.entrySet()) {
             try {
-                String obfuscatedValue = Obfuscator.obfuscateNameUsingKey((String) entry.getValue(), encodingKey);
+                String obfuscatedValue = Obfuscator.obfuscateNameUsingKey(entry.getValue(), encodingKey);
                 entry.setValue(obfuscatedValue);
             } catch (UnsupportedEncodingException e) {
-                Agent.LOG.finest(MessageFormat.format("Metadata obfuscation failed. {0}", new Object[] {e}));
+                Agent.LOG.finest(MessageFormat.format("Metadata obfuscation failed. {0}", e));
                 return false;
             }
         }
@@ -168,7 +167,7 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
 
             if (crossProcessId != null) {
                 if (Agent.LOG.isFinerEnabled()) {
-                    Agent.LOG.log(Level.FINER, "Sending ID header: {0}", new Object[] {crossProcessId});
+                    Agent.LOG.log(Level.FINER, "Sending ID header: {0}", crossProcessId);
                 }
                 isCatOriginator = true;
 
@@ -193,23 +192,23 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
                 if (Agent.LOG.isFinestEnabled()) {
                     Agent.LOG
                             .log(Level.FINEST, "Received APP_DATA cross process response header for external call: {0}",
-                                        new Object[] {crossProcessFormat.toString()});
+                                        crossProcessFormat.toString());
                 }
 
             }
 
-            if ((addRollupMetrics) && (!"Unkown".equals(host))) {
-                tracer.addRollupMetricName(new String[] {crossProcessFormat.getHostCrossProcessIdRollupMetricName()});
+            if ((addRollupMetrics) && (!UNKNOWN_HOST.equals(host))) {
+                tracer.addRollupMetricName(crossProcessFormat.getHostCrossProcessIdRollupMetricName());
             }
         }
 
         if (addRollupMetrics) {
-            tracer.addRollupMetricName(new String[] {"External", host, "all"});
-            tracer.addRollupMetricName(new String[] {"External/all"});
+            tracer.addRollupMetricName("External", host, "all");
+            tracer.addRollupMetricName("External/all");
             if (Transaction.getTransaction().isWebTransaction()) {
-                tracer.addRollupMetricName(new String[] {"External/allWeb"});
+                tracer.addRollupMetricName("External/allWeb");
             } else {
-                tracer.addRollupMetricName(new String[] {"External/allOther"});
+                tracer.addRollupMetricName("External/allOther");
             }
         }
     }
@@ -237,7 +236,7 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
                     getTransactionHeaderJson(tx.getGuid(), getForceTransactionTrace(), getTripId(), generatePathHash());
 
             if (Agent.LOG.isFinerEnabled()) {
-                Agent.LOG.log(Level.FINER, "Sending TRANSACTION header: {0} obfuscated: {1}", new Object[] {json});
+                Agent.LOG.log(Level.FINER, "Sending TRANSACTION header: {0} obfuscated: {1}", json);
             }
 
             return json;
@@ -245,8 +244,7 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
     }
 
     private String getTransactionHeaderJson(String guid, boolean forceTransactionTrace, String trip, int pathHash) {
-        List args = Arrays.asList(new Serializable[] {guid, Boolean.valueOf(forceTransactionTrace), trip,
-                                                             ServiceUtils.intToHexString(pathHash)});
+        List args = Arrays.asList(guid, forceTransactionTrace, trip, ServiceUtils.intToHexString(pathHash));
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Writer writer = new OutputStreamWriter(out);
         try {
@@ -254,7 +252,7 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
             writer.close();
             return out.toString();
         } catch (IOException e) {
-            String msg = MessageFormat.format("Error getting JSON: {0}", new Object[] {e});
+            String msg = MessageFormat.format("Error getting JSON: {0}", e);
             Agent.LOG.error(msg);
         }
         return null;
@@ -265,7 +263,7 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
         String json = getCrossProcessAppDataJson(durationInNanos, contentLength);
 
         if (Agent.LOG.isLoggable(Level.FINER)) {
-            Agent.LOG.log(Level.FINER, "Setting APP_DATA response header to: {0}", new Object[] {json});
+            Agent.LOG.log(Level.FINER, "Setting APP_DATA response header to: {0}", json);
         }
 
         if (json == null) {
@@ -278,11 +276,10 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
     private String getCrossProcessAppDataJson(long durationInNanos, long contentLength) {
         String crossProcessId = tx.getCrossProcessConfig().getCrossProcessId();
         String transactionName = tx.getPriorityTransactionName().getName();
-        Float queueTimeInSeconds = Float.valueOf((float) tx.getExternalTime() / 1000.0F);
-        Float durationInSeconds = Float.valueOf((float) durationInNanos / 1.0E+09F);
-        List args = Arrays.asList(new Serializable[] {crossProcessId, transactionName, queueTimeInSeconds,
-                                                             durationInSeconds, Long.valueOf(contentLength),
-                                                             tx.getGuid()});
+        Float queueTimeInSeconds = (float) tx.getExternalTime() / 1000.0F;
+        Float durationInSeconds = (float) durationInNanos / 1.0E+09F;
+        List args = Arrays.asList(crossProcessId, transactionName, queueTimeInSeconds, durationInSeconds, contentLength,
+                                         tx.getGuid());
 
         ByteArrayOutputStream out = new ByteArrayOutputStream();
         Writer writer = new OutputStreamWriter(out);
@@ -291,7 +288,7 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
             writer.close();
             return out.toString();
         } catch (IOException e) {
-            String msg = MessageFormat.format("Error getting JSON: {0}", new Object[] {e});
+            String msg = MessageFormat.format("Error getting JSON: {0}", e);
             Agent.LOG.error(msg);
         }
         return null;
@@ -299,9 +296,8 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
 
     private void recordClientApplicationMetric(long durationInNanos) {
         if (tx.getInboundHeaderState().isTrustedCatRequest()) {
-            String metricName = MessageFormat.format("ClientApplication/{0}/all",
-                                                            new Object[] {tx.getInboundHeaderState()
-                                                                                  .getClientCrossProcessId()});
+            String metricName = MessageFormat.format("ClientApplication/{0}/all", tx.getInboundHeaderState()
+                                  .getClientCrossProcessId());
 
             tx.getTransactionActivity().getTransactionStats().getUnscopedStats().getResponseTimeStats(metricName)
                     .recordResponseTime(durationInNanos, TimeUnit.NANOSECONDS);
@@ -328,7 +324,7 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
                                                                  tx.getPriorityTransactionName().getName(),
                                                                  tx.getInboundHeaderState().getReferringPathHash());
 
-            if (alternatePathHashes.size() < 10) {
+            if (alternatePathHashes.size() < ALTERNATE_PATH_HASH_MAX_COUNT) {
                 alternatePathHashes.add(ServiceUtils.intToHexString(pathHash));
             }
             return pathHash;
@@ -337,7 +333,7 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
 
     public String getAlternatePathHashes() {
         synchronized(lock) {
-            Set<String> hashes = new TreeSet(alternatePathHashes);
+            Set<String> hashes = new TreeSet<String>(alternatePathHashes);
             hashes.remove(ServiceUtils.intToHexString(generatePathHash()));
             StringBuilder result = new StringBuilder();
             for (String alternatePathHash : hashes) {
@@ -361,8 +357,8 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
         try {
             return Obfuscator.obfuscateNameUsingKey(serializedMetadata, encodingKey);
         } catch (UnsupportedEncodingException e) {
-            Agent.LOG.log(Level.FINEST, "Error encoding metadata {0} using key {1}: {2}",
-                                 new Object[] {serializedMetadata, encodingKey, e});
+            Agent.LOG.log(Level.FINEST, "Error encoding metadata {0} using key {1}: {2}", serializedMetadata,
+                                 encodingKey, e);
         }
         return null;
     }
@@ -385,8 +381,8 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
         try {
             return Obfuscator.obfuscateNameUsingKey(serializedMetadata, encodingKey);
         } catch (UnsupportedEncodingException e) {
-            Agent.LOG.log(Level.SEVERE, "Error encoding metadata {0} using key {1}: {2}",
-                                 new Object[] {serializedMetadata, encodingKey, e});
+            Agent.LOG.log(Level.SEVERE, "Error encoding metadata {0} using key {1}: {2}", serializedMetadata,
+                                 encodingKey, e);
         }
         return null;
     }

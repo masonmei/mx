@@ -20,7 +20,7 @@ public class AgentImpl implements com.newrelic.agent.bridge.Agent {
     }
 
     public TracedMethod getTracedMethod() {
-        getLogger().log(Level.FINER, "Unexpected call to Agent.getTracedMethod()", new Object[0]);
+        getLogger().log(Level.FINER, "Unexpected call to Agent.getTracedMethod()");
         return NoOpTracedMethod.INSTANCE;
     }
 
@@ -48,8 +48,8 @@ public class AgentImpl implements com.newrelic.agent.bridge.Agent {
             }
             return ServiceFactory.getStatsService().getMetricAggregator();
         } catch (Throwable t) {
-            Agent.LOG.log(Level.FINE, "getMetricAggregator() call failed : {0}", new Object[] {t.getMessage()});
-            Agent.LOG.log(Level.FINEST, t, "getMetricAggregator() call failed", new Object[0]);
+            Agent.LOG.log(Level.FINE, "getMetricAggregator() call failed : {0}", t.getMessage());
+            Agent.LOG.log(Level.FINEST, t, "getMetricAggregator() call failed");
         }
         return NoOpMetricAggregator.INSTANCE;
     }

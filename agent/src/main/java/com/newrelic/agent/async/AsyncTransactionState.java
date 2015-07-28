@@ -5,7 +5,6 @@
 
 package com.newrelic.agent.async;
 
-import java.lang.reflect.Method;
 import java.text.MessageFormat;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -40,8 +39,8 @@ public class AsyncTransactionState extends TransactionStateImpl {
     private static final String ASYNC_WAIT = "Async Wait";
     private static final ClassMethodSignature ASYNC_WAIT_SIG =
             new ClassMethodSignature("NR_ASYNC_WAIT_CLASS", "NR_ASYNC_WAIT_METHOD", "()V");
-    private static final MetricNameFormat ASYNC_WAIT_FORMAT = new SimpleMetricNameFormat("Async Wait");
-    private static final Object[] ASYNC_TRACER_ARGS = new Object[] {Integer.valueOf(176), null};
+    private static final MetricNameFormat ASYNC_WAIT_FORMAT = new SimpleMetricNameFormat(ASYNC_WAIT);
+    private static final Object[] ASYNC_TRACER_ARGS = new Object[] {176, null};
     private static final int MAX_DEPTH = 150;
     private final AtomicBoolean isSuspended;
     private final AtomicBoolean isComplete;
@@ -57,22 +56,22 @@ public class AsyncTransactionState extends TransactionStateImpl {
     private volatile long asyncFinishTimeInNanos;
 
     public AsyncTransactionState(TransactionActivity txa) {
-        this(txa, (TransactionActivity) null);
+        this(txa, null);
     }
 
     public AsyncTransactionState(TransactionActivity txa, TransactionActivity parentTransactionActivity) {
         this.isSuspended = new AtomicBoolean(false);
         this.isComplete = new AtomicBoolean(false);
-        this.asyncTransactionActivitiesComplete = new ConcurrentLinkedQueue();
-        this.asyncTransactions = new ConcurrentLinkedQueue();
-        this.asyncJobs = new ConcurrentLinkedQueue();
-        this.transactionActivityRef = new AtomicReference();
-        this.parentTransactionActivityRef = new AtomicReference();
+        this.asyncTransactionActivitiesComplete = new ConcurrentLinkedQueue<TransactionActivity>();
+        this.asyncTransactions = new ConcurrentLinkedQueue<Transaction>();
+        this.asyncJobs = new ConcurrentLinkedQueue<TransactionHolder>();
+        this.transactionActivityRef = new AtomicReference<TransactionActivity>();
+        this.parentTransactionActivityRef = new AtomicReference<TransactionActivity>();
         this.asyncStartTimeInNanos = -1L;
         this.asyncFinishTimeInNanos = -1L;
         this.invalidateAsyncJobs = new AtomicBoolean();
-        this.mergingActivities = new LinkedList();
-        this.mergingActivityAsyncTracer = new LinkedList();
+        this.mergingActivities = new LinkedList<TransactionActivity>();
+        this.mergingActivityAsyncTracer = new LinkedList<AsyncTracer>();
         this.transactionActivityRef.set(txa);
         this.parentTransactionActivityRef.set(parentTransactionActivity);
     }
@@ -84,8 +83,7 @@ public class AsyncTransactionState extends TransactionStateImpl {
             Transaction.clearTransaction();
             this.isSuspended.set(true);
             if (Agent.LOG.isFinestEnabled()) {
-                Agent.LOG.finest(MessageFormat.format("Suspended transaction {0}",
-                                                             new Object[] {this.transactionActivityRef.get()}));
+                Agent.LOG.finest(MessageFormat.format("Suspended transaction {0}", this.transactionActivityRef.get()));
             }
 
             return false;
@@ -104,7 +102,7 @@ public class AsyncTransactionState extends TransactionStateImpl {
                 this.doComplete(finishRootTracer);
             } catch (Exception var4) {
                 String msg = MessageFormat.format("Failed to complete transaction {0}: {1}",
-                                                         new Object[] {this.transactionActivityRef.get(), var4});
+                                                         this.transactionActivityRef.get(), var4);
                 if (Agent.LOG.isFinestEnabled()) {
                     Agent.LOG.log(Level.FINEST, msg, var4);
                 } else {
@@ -130,19 +128,18 @@ public class AsyncTransactionState extends TransactionStateImpl {
     private void doComplete(boolean finishRootTracer) {
         Transaction currentTx = Transaction.getTransaction();
         if (currentTx.isStarted()) {
-            if (currentTx == ((TransactionActivity) this.transactionActivityRef.get()).getTransaction()) {
+            if (currentTx == this.transactionActivityRef.get().getTransaction()) {
                 currentTx = null;
             } else {
                 Transaction.clearTransaction();
-                Transaction.setTransaction(((TransactionActivity) this.transactionActivityRef.get()).getTransaction());
+                Transaction.setTransaction(this.transactionActivityRef.get().getTransaction());
             }
         }
 
         this.asyncFinishTimeInNanos = System.nanoTime();
         this.completeTransaction(finishRootTracer);
         if (Agent.LOG.isFinestEnabled()) {
-            Agent.LOG.finest(MessageFormat.format("Completed transaction {0}",
-                                                         new Object[] {this.transactionActivityRef.get()}));
+            Agent.LOG.finest(MessageFormat.format("Completed transaction {0}", this.transactionActivityRef.get()));
         }
 
         if (currentTx != null) {
@@ -155,24 +152,20 @@ public class AsyncTransactionState extends TransactionStateImpl {
     private void completeTransaction(boolean finishRootTracer) {
         this.mergeAsyncTransactionData();
         if (finishRootTracer) {
-            this.finishTracer((AbstractTracer) ((TransactionActivity) this.transactionActivityRef.get())
-                                                       .getRootTracer());
+            this.finishTracer((AbstractTracer) this.transactionActivityRef.get().getRootTracer());
         }
 
-        TransactionActivity parentTxActivity = (TransactionActivity) this.parentTransactionActivityRef.get();
+        TransactionActivity parentTxActivity = this.parentTransactionActivityRef.get();
         if (parentTxActivity != null) {
             parentTxActivity.getTransaction().getTransactionState()
-                    .asyncTransactionFinished((TransactionActivity) this.transactionActivityRef.get());
+                    .asyncTransactionFinished(this.transactionActivityRef.get());
         }
 
     }
 
     private void mergeAsyncTransactionData() {
-        Iterator i$ = this.asyncTransactionActivitiesComplete.iterator();
-
-        while (i$.hasNext()) {
-            TransactionActivity txa = (TransactionActivity) i$.next();
-            this.mergeAsyncTransactionData(txa);
+        for (TransactionActivity txa : asyncTransactionActivitiesComplete) {
+            mergeAsyncTransactionData(txa);
         }
 
     }
@@ -187,7 +180,7 @@ public class AsyncTransactionState extends TransactionStateImpl {
     }
 
     private void mergeStats(TransactionActivity childActivity) {
-        TransactionActivity txa = (TransactionActivity) this.transactionActivityRef.get();
+        TransactionActivity txa = this.transactionActivityRef.get();
         TransactionStats stats = txa.getTransactionStats();
         stats.getScopedStats().mergeStats(childActivity.getTransactionStats().getScopedStats());
         childActivity.getTransactionStats().getUnscopedStats().getStatsMap().remove("GC/cumulative");
@@ -195,10 +188,10 @@ public class AsyncTransactionState extends TransactionStateImpl {
     }
 
     private void mergeParameters(Transaction tx) {
-        Transaction transaction = ((TransactionActivity) this.transactionActivityRef.get()).getTransaction();
+        Transaction transaction = this.transactionActivityRef.get().getTransaction();
         Long cpuTime = (Long) tx.getIntrinsicAttributes().get("cpu_time");
         if (cpuTime != null) {
-            transaction.addTotalCpuTimeForLegacy(cpuTime.longValue());
+            transaction.addTotalCpuTimeForLegacy(cpuTime);
         }
 
         if (transaction.getUserAttributes().size() + tx.getUserAttributes().size() <= transaction.getAgentConfig()
@@ -210,53 +203,44 @@ public class AsyncTransactionState extends TransactionStateImpl {
 
     public void mergeAsyncTracers() {
         if (!this.asyncTransactionActivitiesComplete.isEmpty()) {
-            if (!this.asyncTransactionActivitiesComplete.isEmpty()) {
-                AsyncTracer txa = new AsyncTracer((TransactionActivity) this.transactionActivityRef.get(),
-                                                         (TransactionActivity) this.transactionActivityRef.get(),
-                                                         ASYNC_WAIT_SIG, ASYNC_WAIT_FORMAT, this.asyncStartTimeInNanos,
-                                                         this.asyncFinishTimeInNanos);
-                txa.setAttribute("nr_async_wait", Boolean.valueOf(true));
-                ((TransactionActivity) this.transactionActivityRef.get()).tracerStarted(txa);
-                this.mergingActivityAsyncTracer.push(txa);
-            }
+            AsyncTracer txa = new AsyncTracer(this.transactionActivityRef.get(), this.transactionActivityRef.get(),
+                                                     ASYNC_WAIT_SIG, ASYNC_WAIT_FORMAT, this.asyncStartTimeInNanos,
+                                                     this.asyncFinishTimeInNanos);
+            txa.setAttribute("nr_async_wait", true);
+            this.transactionActivityRef.get().tracerStarted(txa);
+            this.mergingActivityAsyncTracer.push(txa);
 
-            Iterator txa1 = this.asyncTransactionActivitiesComplete.iterator();
-
-            while (txa1.hasNext()) {
-                TransactionActivity asyncState = (TransactionActivity) txa1.next();
+            for (TransactionActivity asyncState : asyncTransactionActivitiesComplete) {
                 this.mergingActivities.push(asyncState);
             }
 
             while (!this.mergingActivities.isEmpty()) {
-                TransactionActivity txa2 = (TransactionActivity) this.mergingActivities.pop();
+                TransactionActivity txa2 = this.mergingActivities.pop();
                 AsyncTransactionState asyncState1 = null;
                 if (txa2.getTransaction().getTransactionState() instanceof AsyncTransactionState) {
                     asyncState1 = (AsyncTransactionState) txa2.getTransaction().getTransactionState();
                 }
 
                 if (asyncState1 != null) {
-                    while (((AsyncTracer) this.mergingActivityAsyncTracer.peek()).getTracerParentActivty()
+                    while ((this.mergingActivityAsyncTracer.peek()).getTracerParentActivty()
                                    != asyncState1.parentTransactionActivityRef.get()) {
-                        this.finishTracer((AbstractTracer) this.mergingActivityAsyncTracer.pop());
+                        this.finishTracer(this.mergingActivityAsyncTracer.pop());
                     }
                 }
 
-                this.mergeActivityTracers((AsyncTracer) this.mergingActivityAsyncTracer.peek(), txa2);
+                this.mergeActivityTracers(this.mergingActivityAsyncTracer.peek(), txa2);
                 if (asyncState1 != null) {
                     if (!asyncState1.asyncTransactionActivitiesComplete.isEmpty()) {
-                        AsyncTracer i$ = new AsyncTracer((TransactionActivity) this.transactionActivityRef.get(), txa2,
-                                                                ASYNC_WAIT_SIG, ASYNC_WAIT_FORMAT,
-                                                                asyncState1.asyncStartTimeInNanos,
-                                                                asyncState1.asyncFinishTimeInNanos);
-                        i$.setAttribute("nr_async_wait", Boolean.valueOf(true));
-                        ((TransactionActivity) this.transactionActivityRef.get()).tracerStarted(i$);
-                        this.mergingActivityAsyncTracer.push(i$);
+                        AsyncTracer asyncTracer =
+                                new AsyncTracer(this.transactionActivityRef.get(), txa2, ASYNC_WAIT_SIG,
+                                                       ASYNC_WAIT_FORMAT, asyncState1.asyncStartTimeInNanos,
+                                                       asyncState1.asyncFinishTimeInNanos);
+                        asyncTracer.setAttribute("nr_async_wait", true);
+                        (this.transactionActivityRef.get()).tracerStarted(asyncTracer);
+                        this.mergingActivityAsyncTracer.push(asyncTracer);
                     }
 
-                    Iterator i$1 = asyncState1.asyncTransactionActivitiesComplete.iterator();
-
-                    while (i$1.hasNext()) {
-                        TransactionActivity childActivity = (TransactionActivity) i$1.next();
+                    for (TransactionActivity childActivity : asyncTransactionActivitiesComplete) {
                         this.mergingActivities.push(childActivity);
                     }
 
@@ -265,7 +249,7 @@ public class AsyncTransactionState extends TransactionStateImpl {
             }
 
             while (!this.mergingActivityAsyncTracer.isEmpty()) {
-                this.finishTracer((AbstractTracer) this.mergingActivityAsyncTracer.pop());
+                this.finishTracer(this.mergingActivityAsyncTracer.pop());
             }
 
         }
@@ -273,7 +257,7 @@ public class AsyncTransactionState extends TransactionStateImpl {
 
     private void finishTracer(AbstractTracer tracer) {
         if (tracer != null) {
-            tracer.invoke("s", (Method) null, ASYNC_TRACER_ARGS);
+            tracer.invoke("s", null, ASYNC_TRACER_ARGS);
         }
 
     }
@@ -287,15 +271,12 @@ public class AsyncTransactionState extends TransactionStateImpl {
     }
 
     private void mergeTracers(AsyncTracer asyncWaitTracer, TransactionActivity childActivity) {
-        TransactionActivity txa = (TransactionActivity) this.transactionActivityRef.get();
+        TransactionActivity txa = this.transactionActivityRef.get();
         Tracer rootTracer = childActivity.getRootTracer();
         rootTracer.setParentTracer(asyncWaitTracer);
         txa.addTracer(rootTracer);
-        List tracers = this.getInterestingTracers(childActivity);
-        Iterator i$ = tracers.iterator();
-
-        while (i$.hasNext()) {
-            Tracer tracer = (Tracer) i$.next();
+        List<Tracer> tracers = this.getInterestingTracers(childActivity);
+        for (Tracer tracer : tracers) {
             txa.addTracer(tracer);
         }
 
@@ -304,18 +285,18 @@ public class AsyncTransactionState extends TransactionStateImpl {
 
     private List<Tracer> getInterestingTracers(TransactionActivity txa) {
         Tracer rootTracer = txa.getRootTracer();
-        List tracers = txa.getTracers();
-        HashSet interestingTracers = new HashSet();
-        Iterator i$ = tracers.iterator();
+        List<Tracer> tracers = txa.getTracers();
+        HashSet<Tracer> interestingTracers = new HashSet<Tracer>();
+        Iterator iterator = tracers.iterator();
 
         while (true) {
             Tracer tracer;
             do {
-                if (!i$.hasNext()) {
-                    return this.getInterestingTracersInStartOrder(tracers, interestingTracers);
+                if (!iterator.hasNext()) {
+                    return getInterestingTracersInStartOrder(tracers, interestingTracers);
                 }
 
-                tracer = (Tracer) i$.next();
+                tracer = (Tracer) iterator.next();
             } while (!this.isInteresting(tracer.getMetricName()));
 
             interestingTracers.add(tracer);
@@ -329,7 +310,7 @@ public class AsyncTransactionState extends TransactionStateImpl {
 
     private boolean isInteresting(String metricName) {
         if (metricName != null) {
-            if (metricName.startsWith("Async Wait")) {
+            if (metricName.startsWith(ASYNC_WAIT)) {
                 return false;
             }
 
@@ -366,11 +347,9 @@ public class AsyncTransactionState extends TransactionStateImpl {
     }
 
     private List<Tracer> getInterestingTracersInStartOrder(List<Tracer> tracers, Set<Tracer> interestingTracers) {
-        ArrayList result = new ArrayList(interestingTracers.size());
-        Iterator i$ = tracers.iterator();
+        ArrayList<Tracer> result = new ArrayList<Tracer>(interestingTracers.size());
 
-        while (i$.hasNext()) {
-            Tracer tracer = (Tracer) i$.next();
+        for (Tracer tracer : tracers) {
             if (interestingTracers.contains(tracer)) {
                 result.add(tracer);
             }
@@ -381,14 +360,13 @@ public class AsyncTransactionState extends TransactionStateImpl {
 
     public void asyncTransactionStarted(Transaction tx, TransactionHolder txHolder) {
         if (!this.isComplete()) {
-            if (((TransactionActivity) this.transactionActivityRef.get()).getTransaction() == tx) {
+            if (this.transactionActivityRef.get().getTransaction() == tx) {
                 Agent.LOG.fine("Cannot start async transaction of itself: " + tx);
             } else {
                 boolean added = this.addAsyncTransaction(tx);
                 if (added && Agent.LOG.isFinestEnabled()) {
                     String msg = MessageFormat.format("Async transaction started for {0} by {1}: {2}",
-                                                             new Object[] {this.transactionActivityRef.get(), txHolder,
-                                                                                  tx});
+                                                             this.transactionActivityRef.get(), txHolder, tx);
                     Agent.LOG.finest(msg);
                 }
 
@@ -408,20 +386,18 @@ public class AsyncTransactionState extends TransactionStateImpl {
                 boolean rootIgnored = !txa.getRootTracer().isTransactionSegment();
                 boolean noTracers = txa.getTracers().isEmpty();
                 TransactionState transactionState = txa.getTransaction().getTransactionState();
-                boolean noChildren = transactionState instanceof AsyncTransactionState
-                                             ? ((AsyncTransactionState) transactionState)
-                                                       .asyncTransactionActivitiesComplete
-                                                       .isEmpty() : true;
+                boolean noChildren = !(transactionState instanceof AsyncTransactionState)
+                                             || ((AsyncTransactionState) transactionState)
+                                                        .asyncTransactionActivitiesComplete
+                                                        .isEmpty();
                 String msg;
                 if (rootIgnored && noTracers && noChildren) {
                     if (this.asyncTransactions.remove(txa.getTransaction())) {
                         this.mergeAsyncTransactionData(txa);
                         if (Agent.LOG.isFinestEnabled()) {
-                            msg = MessageFormat
-                                          .format("Async transaction (excluded from trace) finished for {0}: {1} "
-                                                          + "(remaining: {2})",
-                                                         new Object[] {this.transactionActivityRef.get(), txa,
-                                                                              this.asyncTransactions});
+                            msg = MessageFormat.format("Async transaction (excluded from trace) finished for {0}: {1} "
+                                                               + "(remaining: {2})", this.transactionActivityRef.get(),
+                                                              txa, this.asyncTransactions);
                             Agent.LOG.finest(msg);
                         }
 
@@ -433,8 +409,8 @@ public class AsyncTransactionState extends TransactionStateImpl {
                                    && this.asyncTransactionActivitiesComplete.add(txa)) {
                     if (Agent.LOG.isFinestEnabled()) {
                         msg = MessageFormat.format("Async transaction finished for {0}: {1} (remaining: {2})",
-                                                          new Object[] {this.transactionActivityRef.get(), txa,
-                                                                               this.asyncTransactions});
+                                                          this.transactionActivityRef.get(), txa,
+                                                          this.asyncTransactions);
                         Agent.LOG.finest(msg);
                     }
 
@@ -452,9 +428,9 @@ public class AsyncTransactionState extends TransactionStateImpl {
         if (!this.isComplete() && !this.invalidateAsyncJobs.get()) {
             if (!this.asyncJobs.contains(job) && this.asyncJobs.add(job) && Agent.LOG.isFinestEnabled()) {
                 StackTraceElement[] stackTrace = Thread.currentThread().getStackTrace();
-                String msg = MessageFormat.format("Async job started for {0}: {1} ({2})",
-                                                         new Object[] {this.transactionActivityRef.get(), job,
-                                                                              Arrays.asList(stackTrace).toString()});
+                String msg = MessageFormat
+                                     .format("Async job started for {0}: {1} ({2})", this.transactionActivityRef.get(),
+                                                    job, Arrays.asList(stackTrace).toString());
                 Agent.LOG.finest(msg);
             }
 
@@ -466,8 +442,7 @@ public class AsyncTransactionState extends TransactionStateImpl {
             if (this.asyncJobs.remove(job)) {
                 if (Agent.LOG.isFinestEnabled()) {
                     String msg = MessageFormat.format("Async job removed from transaction. {0}: {1} (remaining: {2})",
-                                                             new Object[] {this.transactionActivityRef.get(), job,
-                                                                                  this.asyncJobs});
+                                                             this.transactionActivityRef.get(), job, this.asyncJobs);
                     Agent.LOG.finest(msg);
                 }
 
@@ -481,9 +456,8 @@ public class AsyncTransactionState extends TransactionStateImpl {
         if (!this.isComplete()) {
             if (this.asyncJobs.remove(job)) {
                 if (Agent.LOG.isFinestEnabled()) {
-                    String msg = MessageFormat.format("Async job finished for {0}: {1} (remaining: {2})",
-                                                             new Object[] {this.transactionActivityRef.get(), job,
-                                                                                  this.asyncJobs});
+                    String msg = MessageFormat.format("Async job finished for {0}: {1} (remaining: {2})", this.transactionActivityRef.get(),
+                                                             job, this.asyncJobs);
                     Agent.LOG.finest(msg);
                 }
 
@@ -506,7 +480,7 @@ public class AsyncTransactionState extends TransactionStateImpl {
     }
 
     private void printIncompleteTransactionGraph(int indentLevel) {
-        if (indentLevel >= 150) {
+        if (indentLevel >= MAX_DEPTH) {
             Agent.LOG.finer("Async nesting too deep!");
         } else {
             String indent = Strings.repeat("-", indentLevel * 2);
