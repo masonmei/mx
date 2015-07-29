@@ -14,7 +14,6 @@ import java.util.Map.Entry;
 import java.util.Properties;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.cache.Cache;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.Transaction;
 import com.newrelic.agent.database.DatabaseVendor;
@@ -27,6 +26,7 @@ import com.newrelic.agent.tracers.ClassMethodSignature;
 import com.newrelic.agent.tracers.DatabaseTracer;
 import com.newrelic.agent.tracers.MethodExitTracer;
 import com.newrelic.agent.tracers.Tracer;
+import com.newrelic.deps.com.google.common.cache.Cache;
 
 @PointCut
 public class SqlDriverPointCut extends TracerFactoryPointCut {

@@ -5,18 +5,18 @@ import java.util.Queue;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.cache.Cache;
-import com.newrelic.deps.com.google.common.cache.CacheBuilder;
-import com.newrelic.deps.com.google.common.cache.RemovalCause;
-import com.newrelic.deps.com.google.common.cache.RemovalListener;
-import com.newrelic.deps.com.google.common.cache.RemovalNotification;
-import com.newrelic.deps.com.google.common.collect.Queues;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.HarvestListener;
 import com.newrelic.agent.Transaction;
 import com.newrelic.agent.service.AbstractService;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.stats.StatsEngine;
+import com.newrelic.deps.com.google.common.cache.Cache;
+import com.newrelic.deps.com.google.common.cache.CacheBuilder;
+import com.newrelic.deps.com.google.common.cache.RemovalCause;
+import com.newrelic.deps.com.google.common.cache.RemovalListener;
+import com.newrelic.deps.com.google.common.cache.RemovalNotification;
+import com.newrelic.deps.com.google.common.collect.Queues;
 
 public class AsyncTransactionService extends AbstractService implements HarvestListener {
     private static final Queue<Map.Entry<Object, Transaction>> TIMED_OUT = Queues.newConcurrentLinkedQueue();

@@ -11,6 +11,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.instrumentation.tracing.BridgeUtils;
+import com.newrelic.agent.util.asm.Utils;
+import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.deps.org.objectweb.asm.Label;
 import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
 import com.newrelic.deps.org.objectweb.asm.Type;
@@ -24,11 +28,6 @@ import com.newrelic.deps.org.objectweb.asm.tree.LocalVariableNode;
 import com.newrelic.deps.org.objectweb.asm.tree.MethodInsnNode;
 import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
 import com.newrelic.deps.org.objectweb.asm.tree.VarInsnNode;
-
-import com.newrelic.deps.com.google.common.collect.Lists;
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.instrumentation.tracing.BridgeUtils;
-import com.newrelic.agent.util.asm.Utils;
 
 class MergeMethodVisitor extends MethodNode {
     private static final Method NOTICE_INSTRUMENTATION_ERROR_METHOD;
@@ -432,9 +431,9 @@ class MergeMethodVisitor extends MethodNode {
     }
 
     private int determineIfNew() {
-        AnalyzerAdapter stackAnalyzer =
-                new AnalyzerAdapter(this.className, this.access, this.name, this.desc, new MethodVisitor(Agent.ASM_LEVEL) {
-                });
+        AnalyzerAdapter stackAnalyzer = new AnalyzerAdapter(this.className, this.access, this.name, this.desc,
+                                                                   new MethodVisitor(Agent.ASM_LEVEL) {
+                                                                   });
         boolean callsThrow = false;
         int lastStackZeroIndex = 0;
         AbstractInsnNode[] inst = this.instructions.toArray();

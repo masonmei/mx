@@ -5,12 +5,12 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.ITransaction;
 import com.newrelic.agent.attributes.AttributesUtils;
 import com.newrelic.agent.dispatchers.Dispatcher;
 import com.newrelic.agent.service.ServiceFactory;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
 public class BrowserTransactionStateImpl implements BrowserTransactionState {
     private final Object lock = new Object();

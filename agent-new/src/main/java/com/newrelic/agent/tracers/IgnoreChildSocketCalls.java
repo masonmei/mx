@@ -1,5 +1,4 @@
 package com.newrelic.agent.tracers;
 
-public abstract interface IgnoreChildSocketCalls
-{
+public abstract interface IgnoreChildSocketCalls {
 }

@@ -93,9 +93,8 @@ public class InstrumentationContext implements TraceDetailsList {
         if (clazz.isArray()) {
             return false;
         }
-        if ((clazz.getName().startsWith("com.newrelic.api.agent")) || (clazz.getName()
-                                                                               .startsWith("com.newrelic.agent"
-                                                                                                   + ".bridge"))) {
+        if ((clazz.getName().startsWith("com.newrelic.api.agent")) || (clazz.getName().startsWith("com.newrelic.agent"
+                                                                                                          + ".bridge"))) {
             return false;
         }
         ClassLoader loader = clazz.getClassLoader();

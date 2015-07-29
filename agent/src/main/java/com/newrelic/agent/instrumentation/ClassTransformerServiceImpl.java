@@ -18,10 +18,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.InstrumentationProxy;
 import com.newrelic.agent.bridge.AgentBridge;
@@ -39,6 +35,9 @@ import com.newrelic.agent.instrumentation.tracing.TraceDetailsBuilder;
 import com.newrelic.agent.service.AbstractService;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.util.DefaultThreadFactory;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class ClassTransformerServiceImpl extends AbstractService implements ClassTransformerService {
     private final boolean isEnabled;
@@ -141,11 +140,10 @@ public class ClassTransformerServiceImpl extends AbstractService implements Clas
         traceMatchTransformer = new TraceMatchTransformer(contextManager);
 
         StartableClassFileTransformer[] startableClassTransformers =
-                new StartableClassFileTransformer[] {
-                    new InterfaceMixinClassTransformer(classTransformer.getClassReaderFlags()),
-                    new JDBCClassTransformer(classTransformer),
-                    new ConnectionClassTransformer(classTransformer)
-                };
+                new StartableClassFileTransformer[] {new InterfaceMixinClassTransformer(classTransformer
+                                                                                                .getClassReaderFlags()),
+                                                            new JDBCClassTransformer(classTransformer),
+                                                            new ConnectionClassTransformer(classTransformer)};
 
         for (StartableClassFileTransformer transformer : startableClassTransformers) {
             transformer.start(instrProxy, retransformSupported);

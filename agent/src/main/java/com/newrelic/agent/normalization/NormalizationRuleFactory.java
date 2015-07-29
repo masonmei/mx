@@ -14,10 +14,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.ImmutableSet;
-import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.transport.DataSenderWriter;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.com.google.common.collect.Lists;
 
 public class NormalizationRuleFactory {
     public static final String URL_RULES_KEY = "url_rules";
@@ -68,8 +68,8 @@ public class NormalizationRuleFactory {
         } catch (Exception var5) {
             String msg = MessageFormat.format("An error occurred getting metric name rules for {0} from the New Relic "
                                                       + "server. This can indicate a problem with the agent rules "
-                                                      + "supplied"
-                                                      + " by the New Relic server.: {1}", new Object[] {appName, var5});
+                                                      + "supplied" + " by the New Relic server.: {1}",
+                                                     new Object[] {appName, var5});
             if (Agent.LOG.isLoggable(Level.FINER)) {
                 Agent.LOG.log(Level.FINER, msg, var5);
             } else {

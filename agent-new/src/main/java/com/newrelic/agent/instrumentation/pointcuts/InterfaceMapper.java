@@ -17,11 +17,11 @@ import java.lang.annotation.Target;
 @Target({ElementType.TYPE})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface InterfaceMapper {
-  String originalInterfaceName();
+    String originalInterfaceName();
 
-  String[] className() default {};
+    String[] className() default {};
 
-  String[] skip() default {};
+    String[] skip() default {};
 
-  Class<?> classVisitor() default Object.class;
+    Class<?> classVisitor() default Object.class;
 }

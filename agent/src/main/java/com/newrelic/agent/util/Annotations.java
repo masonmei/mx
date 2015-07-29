@@ -10,16 +10,15 @@ import java.util.Set;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.reflections.Reflections;
-import com.newrelic.deps.org.reflections.serializers.JsonSerializer;
-import com.newrelic.deps.org.reflections.util.ConfigurationBuilder;
-
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.config.AgentJarHelper;
 import com.newrelic.agent.config.JarResource;
 import com.newrelic.agent.util.asm.ClassStructure;
+import com.newrelic.deps.com.google.common.collect.Sets;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.reflections.Reflections;
+import com.newrelic.deps.org.reflections.serializers.JsonSerializer;
+import com.newrelic.deps.org.reflections.util.ConfigurationBuilder;
 
 public class Annotations {
     private static Reflections loaded;

@@ -6,7 +6,6 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.config.BaseConfig;
 import com.newrelic.agent.config.Config;
@@ -14,6 +13,7 @@ import com.newrelic.agent.config.PointCutConfig;
 import com.newrelic.agent.instrumentation.custom.ExtensionClassAndMethodMatcher;
 import com.newrelic.agent.jmx.create.JmxConfiguration;
 import com.newrelic.agent.jmx.create.JmxYmlParser;
+import com.newrelic.deps.com.google.common.collect.Lists;
 
 public class YamlExtension extends Extension {
     private final Config configuration;

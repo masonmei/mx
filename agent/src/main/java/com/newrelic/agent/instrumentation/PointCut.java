@@ -2,7 +2,6 @@ package com.newrelic.agent.instrumentation;
 
 import java.text.MessageFormat;
 
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.Transaction;
 import com.newrelic.agent.instrumentation.classmatchers.ClassAndMethodMatcher;

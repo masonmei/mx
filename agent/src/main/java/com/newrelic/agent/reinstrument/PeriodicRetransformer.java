@@ -8,9 +8,9 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.service.ServiceFactory;
+import com.newrelic.deps.com.google.common.collect.Sets;
 
 public class PeriodicRetransformer implements Runnable {
     public static final PeriodicRetransformer INSTANCE = new PeriodicRetransformer();

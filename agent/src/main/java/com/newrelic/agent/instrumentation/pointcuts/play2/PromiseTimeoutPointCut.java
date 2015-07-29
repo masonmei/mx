@@ -37,9 +37,9 @@ public class PromiseTimeoutPointCut extends TracerFactoryPointCut {
     }
 
     private static MethodMatcher createMethodMatcher() {
-        return new ExactMethodMatcher("timeout",
-                                             "(Lscala/Function0;JLjava/util/concurrent/TimeUnit;"
-                                                     + "Lscala/concurrent/ExecutionContext;)Lscala/concurrent/Future;");
+        return new ExactMethodMatcher("timeout", "(Lscala/Function0;JLjava/util/concurrent/TimeUnit;"
+                                                         + "Lscala/concurrent/ExecutionContext;)"
+                                                         + "Lscala/concurrent/Future;");
     }
 
     protected PointCutInvocationHandler getPointCutInvocationHandlerImpl() {

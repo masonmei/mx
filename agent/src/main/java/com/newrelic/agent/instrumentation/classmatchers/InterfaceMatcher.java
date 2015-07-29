@@ -6,14 +6,13 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.Type;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.util.Strings;
 import com.newrelic.agent.util.asm.BenignClassReadException;
 import com.newrelic.agent.util.asm.MissingResourceException;
 import com.newrelic.agent.util.asm.Utils;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 public class InterfaceMatcher extends ClassMatcher {
     private final Type type;

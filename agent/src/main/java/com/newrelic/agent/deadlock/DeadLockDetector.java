@@ -12,12 +12,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.errors.DeadlockTraceError;
 import com.newrelic.agent.errors.ErrorService;
 import com.newrelic.agent.errors.TracedError;
 import com.newrelic.agent.service.ServiceFactory;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
 public class DeadLockDetector {
     private static final int MAX_THREAD_DEPTH = 300;

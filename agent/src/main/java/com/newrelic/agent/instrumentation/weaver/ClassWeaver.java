@@ -7,6 +7,14 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher;
+import com.newrelic.agent.instrumentation.context.InstrumentationContext;
+import com.newrelic.agent.instrumentation.tracing.TraceDetails;
+import com.newrelic.agent.util.asm.ClassStructure;
+import com.newrelic.api.agent.weaver.MatchType;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
 import com.newrelic.deps.org.objectweb.asm.Attribute;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
@@ -21,15 +29,6 @@ import com.newrelic.deps.org.objectweb.asm.commons.Remapper;
 import com.newrelic.deps.org.objectweb.asm.tree.FieldNode;
 import com.newrelic.deps.org.objectweb.asm.tree.InnerClassNode;
 import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
-
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.deps.com.google.common.collect.Sets;
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher;
-import com.newrelic.agent.instrumentation.context.InstrumentationContext;
-import com.newrelic.agent.instrumentation.tracing.TraceDetails;
-import com.newrelic.agent.util.asm.ClassStructure;
-import com.newrelic.api.agent.weaver.MatchType;
 import com.newrelic.org.objectweb.asm.commons.MethodCallInlinerAdapter;
 
 class ClassWeaver extends ClassVisitor {
@@ -283,7 +282,8 @@ class ClassWeaver extends ClassVisitor {
                 adapter.visitVarInsn(25, 0);
 
                 adapter.loadArgs();
-                adapter.visitMethodInsn(182, MAGIC_KEY_FOR_CONSTRUCTOR_INLINE, newCode.name, method.getDescriptor(), false);
+                adapter.visitMethodInsn(182, MAGIC_KEY_FOR_CONSTRUCTOR_INLINE, newCode.name, method.getDescriptor(),
+                                               false);
 
                 adapter.goTo(end);
 

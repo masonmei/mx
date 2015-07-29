@@ -38,25 +38,58 @@ public class DefaultDatabaseStatementParser implements DatabaseStatementParser {
         this.selectStatementFactory =
                 new DefaultDatabaseStatementParser.DefaultStatementFactory("select", SELECT_PATTERN, true);
         this.reportSqlParserErrors = agentConfig.isReportSqlParserErrors();
-        this.statementFactories =
-                Arrays.asList(new InnerSelectStatementFactory(),
-                                     new DefaultStatementFactory("show", Pattern.compile("^\\s*show\\s+(.*)$", PATTERN_SWITCHES), false) {
-                                         protected boolean isValidModelName(String name) {
-                                             return true;
-                                         }
-                                     },
-                                     new DefaultStatementFactory("insert", Pattern.compile("^\\s*insert(?:\\s+ignore)?\\s+into\\s+([^\\s(,;]*).*", PATTERN_SWITCHES), true),
-                                     new DefaultStatementFactory("update", Pattern.compile("^\\s*update\\s+([^\\s,;]*).*", PATTERN_SWITCHES), true),
-                                     new DefaultStatementFactory("delete", Pattern.compile("^\\s*delete\\s+from\\s+([^\\s,(;]*).*", PATTERN_SWITCHES), true),
-                                     new DDLStatementFactory("create", Pattern.compile("^\\s*create\\s+procedure.*", PATTERN_SWITCHES), "Procedure"),
-                                     new SelectVariableStatementFactory(),
-                                     new DDLStatementFactory("drop", Pattern.compile("^\\s*drop\\s+procedure.*", PATTERN_SWITCHES), "Procedure"),
-                                     new DDLStatementFactory("create", Pattern.compile("^\\s*create\\s+table.*", PATTERN_SWITCHES), "Table"),
-                                     new DDLStatementFactory("drop", Pattern.compile("^\\s*drop\\s+table.*", PATTERN_SWITCHES), "Table"),
-                                     new DefaultStatementFactory("alter", Pattern.compile("^\\s*alter\\s+([^\\s]*).*", PATTERN_SWITCHES), false),
-                                     new DefaultStatementFactory("call", Pattern.compile(".*call\\s+([^\\s(,]*).*", PATTERN_SWITCHES), true),
-                                     new DefaultStatementFactory("exec", Pattern.compile(".*(?:exec|execute)\\s+([^\\s(,]*).*", PATTERN_SWITCHES), true),
-                                     new DefaultStatementFactory("set", Pattern.compile("^\\s*set\\s+(.*)\\s*(as|=).*", PATTERN_SWITCHES), false));
+        this.statementFactories = Arrays.asList(new InnerSelectStatementFactory(), new DefaultStatementFactory("show",
+                                                                                                                      Pattern.compile("^\\s*show\\s+(.*)$",
+                                                                                                                                             PATTERN_SWITCHES),
+                                                                                                                      false) {
+                    protected boolean isValidModelName(String name) {
+                        return true;
+                    }
+                }, new DefaultStatementFactory("insert",
+                                                      Pattern.compile("^\\s*insert(?:\\s+ignore)?\\s+into\\s+([^\\s(,"
+                                                                              + ";]*).*",
+                                                                             PATTERN_SWITCHES), true),
+                                                       new DefaultStatementFactory("update",
+                                                                                          Pattern.compile("^\\s*update\\s+([^\\s,;]*).*",
+                                                                                                                 PATTERN_SWITCHES),
+                                                                                          true),
+                                                       new DefaultStatementFactory("delete",
+                                                                                          Pattern.compile("^\\s*delete\\s+from\\s+([^\\s,(;]*).*",
+                                                                                                                 PATTERN_SWITCHES),
+                                                                                          true),
+                                                       new DDLStatementFactory("create",
+                                                                                      Pattern.compile("^\\s*create\\s+procedure.*",
+                                                                                                             PATTERN_SWITCHES),
+                                                                                      "Procedure"),
+                                                       new SelectVariableStatementFactory(),
+                                                       new DDLStatementFactory("drop",
+                                                                                      Pattern.compile("^\\s*drop\\s+procedure.*",
+                                                                                                             PATTERN_SWITCHES),
+                                                                                      "Procedure"),
+                                                       new DDLStatementFactory("create",
+                                                                                      Pattern.compile("^\\s*create\\s+table.*",
+                                                                                                             PATTERN_SWITCHES),
+                                                                                      "Table"),
+                                                       new DDLStatementFactory("drop",
+                                                                                      Pattern.compile("^\\s*drop\\s+table.*",
+                                                                                                             PATTERN_SWITCHES),
+                                                                                      "Table"),
+                                                       new DefaultStatementFactory("alter",
+                                                                                          Pattern.compile("^\\s*alter\\s+([^\\s]*).*",
+                                                                                                                 PATTERN_SWITCHES),
+                                                                                          false),
+                                                       new DefaultStatementFactory("call",
+                                                                                          Pattern.compile(".*call\\s+([^\\s(,]*).*",
+                                                                                                                 PATTERN_SWITCHES),
+                                                                                          true),
+                                                       new DefaultStatementFactory("exec",
+                                                                                          Pattern.compile(".*(?:exec|execute)\\s+([^\\s(,]*).*",
+                                                                                                                 PATTERN_SWITCHES),
+                                                                                          true),
+                                                       new DefaultStatementFactory("set",
+                                                                                          Pattern.compile("^\\s*set\\s+(.*)\\s*(as|=).*",
+                                                                                                                 PATTERN_SWITCHES),
+                                                                                          false));
         this.knownOperations = new HashSet();
         Iterator i$ = this.statementFactories.iterator();
 

@@ -6,10 +6,9 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.Map;
 
+import com.newrelic.agent.transport.DataSenderWriter;
 import com.newrelic.deps.org.json.simple.JSONArray;
 import com.newrelic.deps.org.json.simple.JSONStreamAware;
-
-import com.newrelic.agent.transport.DataSenderWriter;
 
 class SqlTraceImpl implements SqlTrace, JSONStreamAware {
     private final String blameMetricName;

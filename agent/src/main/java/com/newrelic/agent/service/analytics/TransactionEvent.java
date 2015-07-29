@@ -6,12 +6,11 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
-import com.newrelic.deps.org.json.simple.JSONArray;
-import com.newrelic.deps.org.json.simple.JSONObject;
-
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.service.ServiceUtils;
 import com.newrelic.agent.stats.ApdexPerfZone;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONObject;
 
 public class TransactionEvent extends AnalyticsEvent {
     static final float UNASSIGNED = (1.0F / -1.0F);

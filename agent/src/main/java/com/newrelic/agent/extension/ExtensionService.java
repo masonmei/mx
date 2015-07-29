@@ -22,11 +22,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.base.Predicate;
-import com.newrelic.deps.com.google.common.collect.Collections2;
-import com.newrelic.deps.com.google.common.collect.Lists;
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.HarvestListener;
 import com.newrelic.agent.config.AgentConfig;
@@ -44,6 +39,11 @@ import com.newrelic.agent.service.AbstractService;
 import com.newrelic.agent.service.Service;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.stats.StatsEngine;
+import com.newrelic.deps.com.google.common.base.Predicate;
+import com.newrelic.deps.com.google.common.collect.Collections2;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 
 public class ExtensionService extends AbstractService implements HarvestListener {
     private final Map<String, Extension> internalExtensions = Maps.newHashMap();
@@ -370,12 +370,12 @@ public class ExtensionService extends AbstractService implements HarvestListener
                 return extension;
             }
 
-            this.getLogger().log(Level.FINER, MessageFormat
-                                                      .format("Additional extension with name {0} and version {1} "
-                                                                      + "being ignored. Another file with name and "
-                                                                      + "version already read in.",
-                                                                     new Object[] {name, Double.valueOf(version)
-                                                                                                 .toString()}));
+            this.getLogger().log(Level.FINER, MessageFormat.format("Additional extension with name {0} and version {1} "
+                                                                           + "being ignored. Another file with name "
+                                                                           + "and "
+                                                                           + "version already read in.",
+                                                                          new Object[] {name, Double.valueOf(version)
+                                                                                                      .toString()}));
         }
 
         return null;
@@ -423,7 +423,8 @@ public class ExtensionService extends AbstractService implements HarvestListener
                                                                                       : (jarDirectory.exists()
                                                                                                  ? this.loadJars(new File[] {jarDirectory})
                                                                                                  : Collections
-                                                                                                           .emptyList()))
+                                                                                                           .emptyList
+                                                                                                                    ()))
                                      : Collections.emptyList());
     }
 

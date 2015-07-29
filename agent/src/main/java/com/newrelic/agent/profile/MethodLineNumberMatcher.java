@@ -9,12 +9,11 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.logging.Level;
 
+import com.newrelic.agent.Agent;
 import com.newrelic.deps.org.objectweb.asm.ClassReader;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 import com.newrelic.deps.org.objectweb.asm.Label;
 import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-
-import com.newrelic.agent.Agent;
 
 public class MethodLineNumberMatcher {
     public MethodLineNumberMatcher() {

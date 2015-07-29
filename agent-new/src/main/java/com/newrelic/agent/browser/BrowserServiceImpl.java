@@ -1,66 +1,55 @@
 package com.newrelic.agent.browser;
 
-import com.newrelic.agent.ConnectionListener;
-import com.newrelic.agent.IRPMService;
-import com.newrelic.agent.RPMServiceManager;
-import com.newrelic.agent.config.AgentConfig;
-import com.newrelic.agent.config.ConfigService;
-import com.newrelic.agent.service.AbstractService;
-import com.newrelic.agent.service.ServiceFactory;
 import java.util.Map;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 
-public class BrowserServiceImpl extends AbstractService
-  implements BrowserService, ConnectionListener
-{
-  private final ConcurrentMap<String, IBrowserConfig> browserConfigs = new ConcurrentHashMap();
-  private volatile IBrowserConfig defaultBrowserConfig = null;
-  private final String defaultAppName;
+import com.newrelic.agent.ConnectionListener;
+import com.newrelic.agent.IRPMService;
+import com.newrelic.agent.service.AbstractService;
+import com.newrelic.agent.service.ServiceFactory;
 
-  public BrowserServiceImpl()
-  {
-    super(ConnectionListener.class.getSimpleName());
-    this.defaultAppName = ServiceFactory.getConfigService().getDefaultAgentConfig().getApplicationName();
-  }
+public class BrowserServiceImpl extends AbstractService implements BrowserService, ConnectionListener {
+    private final ConcurrentMap<String, IBrowserConfig> browserConfigs = new ConcurrentHashMap();
+    private final String defaultAppName;
+    private volatile IBrowserConfig defaultBrowserConfig = null;
 
-  protected void doStart() throws Exception
-  {
-    ServiceFactory.getRPMServiceManager().addConnectionListener(this);
-  }
-
-  protected void doStop() throws Exception
-  {
-    ServiceFactory.getRPMServiceManager().removeConnectionListener(this);
-  }
-
-  public IBrowserConfig getBrowserConfig(String appName)
-  {
-    if ((appName == null) || (appName.equals(this.defaultAppName))) {
-      return this.defaultBrowserConfig;
+    public BrowserServiceImpl() {
+        super(ConnectionListener.class.getSimpleName());
+        this.defaultAppName = ServiceFactory.getConfigService().getDefaultAgentConfig().getApplicationName();
     }
-    return (IBrowserConfig)this.browserConfigs.get(appName);
-  }
 
-  public boolean isEnabled()
-  {
-    return true;
-  }
-
-  public void connected(IRPMService rpmService, Map<String, Object> serverData)
-  {
-    String appName = rpmService.getApplicationName();
-    IBrowserConfig browserConfig = BrowserConfigFactory.createBrowserConfig(appName, serverData);
-    if ((appName == null) || (appName.equals(this.defaultAppName))) {
-      this.defaultBrowserConfig = browserConfig;
+    protected void doStart() throws Exception {
+        ServiceFactory.getRPMServiceManager().addConnectionListener(this);
     }
-    else if (browserConfig == null)
-      this.browserConfigs.remove(appName);
-    else
-      this.browserConfigs.put(appName, browserConfig);
-  }
 
-  public void disconnected(IRPMService rpmService)
-  {
-  }
+    protected void doStop() throws Exception {
+        ServiceFactory.getRPMServiceManager().removeConnectionListener(this);
+    }
+
+    public IBrowserConfig getBrowserConfig(String appName) {
+        if ((appName == null) || (appName.equals(this.defaultAppName))) {
+            return this.defaultBrowserConfig;
+        }
+        return (IBrowserConfig) this.browserConfigs.get(appName);
+    }
+
+    public boolean isEnabled() {
+        return true;
+    }
+
+    public void connected(IRPMService rpmService, Map<String, Object> serverData) {
+        String appName = rpmService.getApplicationName();
+        IBrowserConfig browserConfig = BrowserConfigFactory.createBrowserConfig(appName, serverData);
+        if ((appName == null) || (appName.equals(this.defaultAppName))) {
+            this.defaultBrowserConfig = browserConfig;
+        } else if (browserConfig == null) {
+            this.browserConfigs.remove(appName);
+        } else {
+            this.browserConfigs.put(appName, browserConfig);
+        }
+    }
+
+    public void disconnected(IRPMService rpmService) {
+    }
 }

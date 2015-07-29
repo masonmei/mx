@@ -238,8 +238,7 @@ public class JmxObjectFactory {
                     } else {
                         Agent.LOG.log(Level.WARNING,
                                              "Not recording JMX metric because the object name is null or empty in "
-                                                     + "extension "
-                                                     + extensionName);
+                                                     + "extension " + extensionName);
                     }
                 }
             }

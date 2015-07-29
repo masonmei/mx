@@ -4,11 +4,10 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
+import com.newrelic.agent.extension.dom.ExtensionDomParser;
 import com.newrelic.deps.org.yaml.snakeyaml.Loader;
 import com.newrelic.deps.org.yaml.snakeyaml.Yaml;
 import com.newrelic.deps.org.yaml.snakeyaml.constructor.Constructor;
-
-import com.newrelic.agent.extension.dom.ExtensionDomParser;
 
 public class ExtensionParsers {
     private final ExtensionParser yamlParser;

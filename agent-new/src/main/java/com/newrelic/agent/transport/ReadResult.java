@@ -1,25 +1,23 @@
 package com.newrelic.agent.transport;
 
-public class ReadResult
-{
-  private final int responseCode;
-  private final String responseBody;
+public class ReadResult {
+    private final int responseCode;
+    private final String responseBody;
 
-  protected ReadResult(int responseCode, String responseBody)
-  {
-    this.responseCode = responseCode;
-    this.responseBody = responseBody;
-  }
+    protected ReadResult(int responseCode, String responseBody) {
+        this.responseCode = responseCode;
+        this.responseBody = responseBody;
+    }
 
-  protected int getResponseCode() {
-    return this.responseCode;
-  }
+    public static ReadResult create(int responseCode, String responseBody) {
+        return new ReadResult(responseCode, responseBody);
+    }
 
-  protected String getResponseBody() {
-    return this.responseBody;
-  }
+    protected int getResponseCode() {
+        return this.responseCode;
+    }
 
-  public static ReadResult create(int responseCode, String responseBody) {
-    return new ReadResult(responseCode, responseBody);
-  }
+    protected String getResponseBody() {
+        return this.responseBody;
+    }
 }

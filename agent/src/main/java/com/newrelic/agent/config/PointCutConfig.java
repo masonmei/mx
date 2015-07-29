@@ -13,15 +13,14 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.yaml.snakeyaml.Loader;
-import com.newrelic.deps.org.yaml.snakeyaml.Yaml;
-import com.newrelic.deps.org.yaml.snakeyaml.constructor.Constructor;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.extension.Extension;
 import com.newrelic.agent.instrumentation.custom.ExtensionClassAndMethodMatcher;
 import com.newrelic.agent.instrumentation.yaml.InstrumentationConstructor;
 import com.newrelic.agent.instrumentation.yaml.PointCutFactory;
+import com.newrelic.deps.org.yaml.snakeyaml.Loader;
+import com.newrelic.deps.org.yaml.snakeyaml.Yaml;
+import com.newrelic.deps.org.yaml.snakeyaml.constructor.Constructor;
 
 public class PointCutConfig {
     private static String defaultMetricPrefix;

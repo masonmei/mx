@@ -2,9 +2,8 @@ package com.newrelic.agent.instrumentation.methodmatchers;
 
 import java.util.Set;
 
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
 import com.newrelic.deps.com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public interface MethodMatcher {
     Set<String> UNSPECIFIED_ANNOTATIONS = ImmutableSet.of();

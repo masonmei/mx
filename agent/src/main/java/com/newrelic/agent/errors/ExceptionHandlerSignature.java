@@ -7,16 +7,15 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import com.newrelic.deps.org.json.simple.JSONArray;
-import com.newrelic.deps.org.json.simple.JSONStreamAware;
-import com.newrelic.deps.org.objectweb.asm.Type;
-
 import com.newrelic.agent.instrumentation.classmatchers.ClassMatcher;
 import com.newrelic.agent.instrumentation.classmatchers.ExactClassMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.ExactMethodMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.InvalidMethodDescriptor;
 import com.newrelic.agent.instrumentation.methodmatchers.MethodMatcher;
 import com.newrelic.agent.tracers.ClassMethodSignature;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 public class ExceptionHandlerSignature implements JSONStreamAware {
     private final String className;

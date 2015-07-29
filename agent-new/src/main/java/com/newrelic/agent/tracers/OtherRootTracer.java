@@ -8,31 +8,27 @@ import com.newrelic.agent.dispatchers.OtherDispatcher;
 import com.newrelic.agent.tracers.metricname.ClassMethodMetricNameFormat;
 import com.newrelic.agent.tracers.metricname.MetricNameFormat;
 
-public class OtherRootTracer extends DefaultTracer
-  implements TransactionActivityInitiator
-{
-  private final MetricNameFormat uri;
+public class OtherRootTracer extends DefaultTracer implements TransactionActivityInitiator {
+    private final MetricNameFormat uri;
 
-  public OtherRootTracer(Transaction transaction, ClassMethodSignature sig, Object object, MetricNameFormat uri)
-  {
-    this(transaction.getTransactionActivity(), sig, object, uri);
-  }
+    public OtherRootTracer(Transaction transaction, ClassMethodSignature sig, Object object, MetricNameFormat uri) {
+        this(transaction.getTransactionActivity(), sig, object, uri);
+    }
 
-  public OtherRootTracer(TransactionActivity activity, ClassMethodSignature sig, Object object, MetricNameFormat uri)
-  {
-    super(activity, sig, object, new ClassMethodMetricNameFormat(sig, object), 6);
-    this.uri = uri;
-  }
+    public OtherRootTracer(TransactionActivity activity, ClassMethodSignature sig, Object object,
+                           MetricNameFormat uri) {
+        super(activity, sig, object, new ClassMethodMetricNameFormat(sig, object), 6);
+        this.uri = uri;
+    }
 
-  public Dispatcher createDispatcher()
-  {
-    return new OtherDispatcher(getTransaction(), this.uri);
-  }
+    public Dispatcher createDispatcher() {
+        return new OtherDispatcher(getTransaction(), this.uri);
+    }
 
-  protected void doFinish(Throwable throwable)
-  {
-    super.doFinish(throwable);
-    if (equals(getTransaction().getTransactionActivity().getRootTracer()))
-      getTransaction().setThrowable(throwable, TransactionErrorPriority.TRACER);
-  }
+    protected void doFinish(Throwable throwable) {
+        super.doFinish(throwable);
+        if (equals(getTransaction().getTransactionActivity().getRootTracer())) {
+            getTransaction().setThrowable(throwable, TransactionErrorPriority.TRACER);
+        }
+    }
 }

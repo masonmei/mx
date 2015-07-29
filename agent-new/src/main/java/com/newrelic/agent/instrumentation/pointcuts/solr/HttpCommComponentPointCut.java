@@ -10,15 +10,18 @@ import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.metricname.ClassMethodMetricNameFormat;
 
 @PointCut
-public class HttpCommComponentPointCut extends AbstractSolrPointCut
-{
-  public HttpCommComponentPointCut(ClassTransformer classTransformer)
-  {
-    super(HttpCommComponentPointCut.class, new ExactClassMatcher("org/apache/solr/handler/component/HttpCommComponent"), createExactMethodMatcher("submit", new String[] { "(Lorg/apache/solr/handler/component/ShardRequest;Ljava/lang/String;Lorg/apache/solr/common/params/ModifiableSolrParams;)V" }));
-  }
+public class HttpCommComponentPointCut extends AbstractSolrPointCut {
+    public HttpCommComponentPointCut(ClassTransformer classTransformer) {
+        super(HttpCommComponentPointCut.class,
+                     new ExactClassMatcher("org/apache/solr/handler/component/HttpCommComponent"),
+                     createExactMethodMatcher("submit",
+                                                     new String[] {"(Lorg/apache/solr/handler/component/ShardRequest;"
+                                                                           + "Ljava/lang/String;"
+                                                                           +
+                                                                           "Lorg/apache/solr/common/params/ModifiableSolrParams;)V"}));
+    }
 
-  public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object component, Object[] args)
-  {
-    return new DefaultTracer(transaction, sig, component, new ClassMethodMetricNameFormat(sig, component, "Solr"));
-  }
+    public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object component, Object[] args) {
+        return new DefaultTracer(transaction, sig, component, new ClassMethodMetricNameFormat(sig, component, "Solr"));
+    }
 }

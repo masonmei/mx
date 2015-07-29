@@ -16,18 +16,6 @@ import java.util.Set;
 import java.util.concurrent.CountDownLatch;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.base.Supplier;
-import com.newrelic.deps.com.google.common.collect.ImmutableMap;
-import com.newrelic.deps.com.google.common.collect.Lists;
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.deps.com.google.common.collect.Multimap;
-import com.newrelic.deps.com.google.common.collect.Multimaps;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.PointCut;
 import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher.Match;
@@ -36,6 +24,17 @@ import com.newrelic.agent.util.asm.BenignClassReadException;
 import com.newrelic.agent.util.asm.ClassResolver;
 import com.newrelic.agent.util.asm.ClassResolvers;
 import com.newrelic.agent.util.asm.Utils;
+import com.newrelic.deps.com.google.common.base.Supplier;
+import com.newrelic.deps.com.google.common.collect.ImmutableMap;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Multimap;
+import com.newrelic.deps.com.google.common.collect.Multimaps;
+import com.newrelic.deps.com.google.common.collect.Sets;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class InstrumentationContext implements TraceDetailsList {
     private static final TraceInformation EMPTY_TRACE_INFO = new TraceInformation();
@@ -162,12 +161,12 @@ public class InstrumentationContext implements TraceDetailsList {
 
     public void addWeavedMethod(Method method, String instrumentationTitle) {
         if (this.weavedMethods == null) {
-            this.weavedMethods =
-                    Multimaps.newSetMultimap(Maps.<Method, Collection<String>>newHashMap(), new Supplier<Set<String>>() {
-                        public Set<String> get() {
-                            return Sets.newHashSet();
-                        }
-                    });
+            this.weavedMethods = Multimaps.newSetMultimap(Maps.<Method, Collection<String>>newHashMap(),
+                                                                 new Supplier<Set<String>>() {
+                                                                     public Set<String> get() {
+                                                                         return Sets.newHashSet();
+                                                                     }
+                                                                 });
         }
 
         this.weavedMethods.put(method, instrumentationTitle);

@@ -1,5 +1,7 @@
 package com.newrelic.agent.instrumentation.verifier.mocks;
 
+import java.util.Map;
+
 import com.newrelic.agent.HarvestService;
 import com.newrelic.agent.IAgent;
 import com.newrelic.agent.RPMServiceManager;
@@ -34,258 +36,210 @@ import com.newrelic.agent.stats.StatsService;
 import com.newrelic.agent.trace.TransactionTraceService;
 import com.newrelic.agent.utilization.UtilizationService;
 import com.newrelic.agent.xray.IXRaySessionService;
-import java.util.Map;
 
-public class MockServiceManager
-  implements ServiceManager
-{
-  private ConfigService configService = null;
-  private StatsService statsService = null;
-  private ExtensionService extensionService = null;
-  private ClassTransformerService classTransformerService = null;
-  private IAgent agent = null;
-  private JarCollectorService jarCollectorService = null;
-  private ThreadService threadService = null;
+public class MockServiceManager implements ServiceManager {
+    private ConfigService configService = null;
+    private StatsService statsService = null;
+    private ExtensionService extensionService = null;
+    private ClassTransformerService classTransformerService = null;
+    private IAgent agent = null;
+    private JarCollectorService jarCollectorService = null;
+    private ThreadService threadService = null;
 
-  public void setExtensionService(ExtensionService extensionService) {
-    this.extensionService = extensionService;
-  }
+    public String getName() {
+        return null;
+    }
 
-  public void setClassTransformerService(ClassTransformerService classTransformerService) {
-    this.classTransformerService = classTransformerService;
-  }
+    public void start() throws Exception {
+    }
 
-  public void setJarCollectorService(JarCollectorService jarCollectorService) {
-    this.jarCollectorService = jarCollectorService;
-  }
+    public void stop() throws Exception {
+    }
 
-  public void setAgent(IAgent agent) {
-    this.agent = agent;
-  }
+    public boolean isEnabled() {
+        return false;
+    }
 
-  public void setConfigService(ConfigService configService) {
-    this.configService = configService;
-  }
+    public IAgentLogger getLogger() {
+        return null;
+    }
 
-  public void setStatsService(StatsService statsService) {
-    this.statsService = statsService;
-  }
+    public boolean isStarted() {
+        return false;
+    }
 
-  public void setThreadService(ThreadService threadService) {
-    this.threadService = threadService;
-  }
+    public boolean isStopped() {
+        return false;
+    }
 
-  public String getName()
-  {
-    return null;
-  }
+    public boolean isStartedOrStarting() {
+        return false;
+    }
 
-  public void start()
-    throws Exception
-  {
-  }
+    public boolean isStoppedOrStopping() {
+        return false;
+    }
 
-  public void stop()
-    throws Exception
-  {
-  }
+    public Map<String, Map<String, Object>> getServicesConfiguration() {
+        return null;
+    }
 
-  public boolean isEnabled()
-  {
-    return false;
-  }
+    public void addService(Service service) {
+    }
 
-  public IAgentLogger getLogger()
-  {
-    return null;
-  }
+    public Service getService(String name) {
+        return null;
+    }
 
-  public boolean isStarted()
-  {
-    return false;
-  }
+    public ExtensionService getExtensionService() {
+        return this.extensionService;
+    }
 
-  public boolean isStopped()
-  {
-    return false;
-  }
+    public void setExtensionService(ExtensionService extensionService) {
+        this.extensionService = extensionService;
+    }
 
-  public boolean isStartedOrStarting()
-  {
-    return false;
-  }
+    public ProfilerService getProfilerService() {
+        return null;
+    }
 
-  public boolean isStoppedOrStopping()
-  {
-    return false;
-  }
+    public TracerService getTracerService() {
+        return null;
+    }
 
-  public Map<String, Map<String, Object>> getServicesConfiguration()
-  {
-    return null;
-  }
+    public TransactionTraceService getTransactionTraceService() {
+        return null;
+    }
 
-  public void addService(Service service)
-  {
-  }
+    public ThreadService getThreadService() {
+        return this.threadService;
+    }
 
-  public Service getService(String name)
-  {
-    return null;
-  }
+    public void setThreadService(ThreadService threadService) {
+        this.threadService = threadService;
+    }
 
-  public ExtensionService getExtensionService()
-  {
-    return this.extensionService;
-  }
+    public HarvestService getHarvestService() {
+        return null;
+    }
 
-  public ProfilerService getProfilerService()
-  {
-    return null;
-  }
+    public SqlTraceService getSqlTraceService() {
+        return null;
+    }
 
-  public TracerService getTracerService()
-  {
-    return null;
-  }
+    public CacheService getCacheService() {
+        return null;
+    }
 
-  public TransactionTraceService getTransactionTraceService()
-  {
-    return null;
-  }
+    public DatabaseService getDatabaseService() {
+        return null;
+    }
 
-  public ThreadService getThreadService()
-  {
-    return this.threadService;
-  }
+    public TransactionService getTransactionService() {
+        return null;
+    }
 
-  public HarvestService getHarvestService()
-  {
-    return null;
-  }
+    public JarCollectorService getJarCollectorService() {
+        return this.jarCollectorService;
+    }
 
-  public SqlTraceService getSqlTraceService()
-  {
-    return null;
-  }
+    public void setJarCollectorService(JarCollectorService jarCollectorService) {
+        this.jarCollectorService = jarCollectorService;
+    }
 
-  public CacheService getCacheService()
-  {
-    return null;
-  }
+    public JmxService getJmxService() {
+        return null;
+    }
 
-  public DatabaseService getDatabaseService()
-  {
-    return null;
-  }
+    public TransactionEventsService getTransactionEventsService() {
+        return null;
+    }
 
-  public TransactionService getTransactionService()
-  {
-    return null;
-  }
+    public CommandParser getCommandParser() {
+        return null;
+    }
 
-  public JarCollectorService getJarCollectorService()
-  {
-    return this.jarCollectorService;
-  }
+    public RPMServiceManager getRPMServiceManager() {
+        return null;
+    }
 
-  public JmxService getJmxService()
-  {
-    return null;
-  }
+    public SamplerService getSamplerService() {
+        return null;
+    }
 
-  public TransactionEventsService getTransactionEventsService()
-  {
-    return null;
-  }
+    public IAgent getAgent() {
+        return this.agent;
+    }
 
-  public CommandParser getCommandParser()
-  {
-    return null;
-  }
+    public void setAgent(IAgent agent) {
+        this.agent = agent;
+    }
 
-  public RPMServiceManager getRPMServiceManager()
-  {
-    return null;
-  }
+    public ConfigService getConfigService() {
+        return this.configService;
+    }
 
-  public SamplerService getSamplerService()
-  {
-    return null;
-  }
+    public void setConfigService(ConfigService configService) {
+        this.configService = configService;
+    }
 
-  public IAgent getAgent()
-  {
-    return this.agent;
-  }
+    public RPMConnectionService getRPMConnectionService() {
+        return null;
+    }
 
-  public ConfigService getConfigService()
-  {
-    return this.configService;
-  }
+    public EnvironmentService getEnvironmentService() {
+        return null;
+    }
 
-  public RPMConnectionService getRPMConnectionService()
-  {
-    return null;
-  }
+    public ClassTransformerService getClassTransformerService() {
+        return this.classTransformerService;
+    }
 
-  public EnvironmentService getEnvironmentService()
-  {
-    return null;
-  }
+    public void setClassTransformerService(ClassTransformerService classTransformerService) {
+        this.classTransformerService = classTransformerService;
+    }
 
-  public ClassTransformerService getClassTransformerService()
-  {
-    return this.classTransformerService;
-  }
+    public StatsService getStatsService() {
+        return this.statsService;
+    }
 
-  public StatsService getStatsService()
-  {
-    return this.statsService;
-  }
+    public void setStatsService(StatsService statsService) {
+        this.statsService = statsService;
+    }
 
-  public NormalizationService getNormalizationService()
-  {
-    return null;
-  }
+    public NormalizationService getNormalizationService() {
+        return null;
+    }
 
-  public IXRaySessionService getXRaySessionService()
-  {
-    return null;
-  }
+    public IXRaySessionService getXRaySessionService() {
+        return null;
+    }
 
-  public AttributesService getAttributesService()
-  {
-    return null;
-  }
+    public AttributesService getAttributesService() {
+        return null;
+    }
 
-  public RemoteInstrumentationService getRemoteInstrumentationService()
-  {
-    return null;
-  }
+    public RemoteInstrumentationService getRemoteInstrumentationService() {
+        return null;
+    }
 
-  public InsightsService getInsights()
-  {
-    return null;
-  }
+    public InsightsService getInsights() {
+        return null;
+    }
 
-  public CircuitBreakerService getCircuitBreakerService()
-  {
-    return null;
-  }
+    public CircuitBreakerService getCircuitBreakerService() {
+        return null;
+    }
 
-  public BrowserService getBrowserService()
-  {
-    return null;
-  }
+    public BrowserService getBrowserService() {
+        return null;
+    }
 
-  public AsyncTransactionService getAsyncTxService()
-  {
-    return null;
-  }
+    public AsyncTransactionService getAsyncTxService() {
+        return null;
+    }
 
-  public UtilizationService getUtilizationService()
-  {
-    return null;
-  }
+    public UtilizationService getUtilizationService() {
+        return null;
+    }
 }

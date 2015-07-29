@@ -1,84 +1,74 @@
 package com.newrelic.agent.install;
 
 import com.newrelic.agent.util.EditableFile;
-import java.io.PrintStream;
 
-public class JBossSelfInstaller extends SelfInstaller
-{
-  private final String scriptPath = "/bin/run";
+public class JBossSelfInstaller extends SelfInstaller {
+    private final String scriptPath = "/bin/run";
 
-  private final String agentAlreadySet = "(.*)JAVA_OPTS=(.*)\\-javaagent:(.*)newrelic.jar";
-  private final String windowsLocator = "set JBOSS_CLASSPATH=%RUN_CLASSPATH%";
-  private String rootDir;
+    private final String agentAlreadySet = "(.*)JAVA_OPTS=(.*)\\-javaagent:(.*)newrelic.jar";
+    private final String windowsLocator = "set JBOSS_CLASSPATH=%RUN_CLASSPATH%";
+    private String rootDir;
 
-  public boolean backupAndEditStartScript(String appServerRootDir)
-  {
-    this.rootDir = appServerRootDir;
-    return backupAndEdit(appServerRootDir + getStartScript());
-  }
+    public boolean backupAndEditStartScript(String appServerRootDir) {
+        this.rootDir = appServerRootDir;
+        return backupAndEdit(appServerRootDir + getStartScript());
+    }
 
-  private boolean backupAndEdit(String fullPathToScript)
-  {
-    try {
-      EditableFile file = new EditableFile(fullPathToScript);
+    private boolean backupAndEdit(String fullPathToScript) {
+        try {
+            EditableFile file = new EditableFile(fullPathToScript);
 
-      String fullSwitch = getCommentForAgentSwitch(file.comment) + lineSep + getAgentSettings();
+            String fullSwitch = getCommentForAgentSwitch(file.comment) + lineSep + getAgentSettings();
 
-      if (!file.contains(getAgentAlreadySetExpr())) {
-        backup(file);
-        if (this.osIsWindows)
-          file.insertAfterLocator(getLocator(), lineSep + fullSwitch, true);
-        else {
-          file.append(fullSwitch + lineSep);
+            if (!file.contains(getAgentAlreadySetExpr())) {
+                backup(file);
+                if (this.osIsWindows) {
+                    file.insertAfterLocator(getLocator(), lineSep + fullSwitch, true);
+                } else {
+                    file.append(fullSwitch + lineSep);
+                }
+                System.out.println("Added agent switch to start script " + file.getLocation());
+            } else {
+                System.out.println("Did not edit start script " + file.getLocation() + " because:");
+                System.out.println(" .:. The agent switch is already set");
+            }
+
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
         }
-        System.out.println("Added agent switch to start script " + file.getLocation());
-      }
-      else {
-        System.out.println("Did not edit start script " + file.getLocation() + " because:");
-        System.out.println(" .:. The agent switch is already set");
-      }
-
-      return true;
+        return false;
     }
-    catch (Exception e) {
-      System.out.println(e.getMessage());
-    }return false;
-  }
 
-  public String getStartScript()
-  {
-    String path = "/bin/run";
-    if (this.osIsWindows) {
-      path = path.replaceAll("/", "\\\\");
+    public String getStartScript() {
+        String path = "/bin/run";
+        if (this.osIsWindows) {
+            path = path.replaceAll("/", "\\\\");
+        }
+        return path + (this.osIsWindows ? ".bat" : ".conf");
     }
-    return path + (this.osIsWindows ? ".bat" : ".conf");
-  }
 
-  public String getAlternateStartScript()
-  {
-    return getStartScript();
-  }
+    public String getAlternateStartScript() {
+        return getStartScript();
+    }
 
-  public String getLocator()
-  {
-    return "set JBOSS_CLASSPATH=%RUN_CLASSPATH%";
-  }
+    public String getLocator() {
+        return "set JBOSS_CLASSPATH=%RUN_CLASSPATH%";
+    }
 
-  public String getAlternateLocator()
-  {
-    return getLocator();
-  }
+    public String getAlternateLocator() {
+        return getLocator();
+    }
 
-  public String getAgentSettings()
-  {
-    String unixSwitch = "JAVA_OPTS=\"$JAVA_OPTS -javaagent:" + this.rootDir + "/newrelic/newrelic.jar\"" + lineSep;
-    String windowsSwitch = "set JAVA_OPTS=-javaagent:\"" + this.rootDir.replaceAll("\\\\", "/") + "/newrelic/newrelic.jar\" %JAVA_OPTS%";
+    public String getAgentSettings() {
+        String unixSwitch = "JAVA_OPTS=\"$JAVA_OPTS -javaagent:" + this.rootDir + "/newrelic/newrelic.jar\"" + lineSep;
+        String windowsSwitch = "set JAVA_OPTS=-javaagent:\"" + this.rootDir.replaceAll("\\\\", "/")
+                                       + "/newrelic/newrelic.jar\" %JAVA_OPTS%";
 
-    return this.osIsWindows ? windowsSwitch : unixSwitch;
-  }
+        return this.osIsWindows ? windowsSwitch : unixSwitch;
+    }
 
-  public String getAgentAlreadySetExpr()
-  {
-    return "(.*)JAVA_OPTS=(.*)\\-javaagent:(.*)newrelic.jar";
-  }
+    public String getAgentAlreadySetExpr() {
+        return "(.*)JAVA_OPTS=(.*)\\-javaagent:(.*)newrelic.jar";
+    }
 }

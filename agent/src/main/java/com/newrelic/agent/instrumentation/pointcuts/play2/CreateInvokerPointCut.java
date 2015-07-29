@@ -45,10 +45,9 @@ public class CreateInvokerPointCut extends TracerFactoryPointCut {
     }
 
     private static MethodMatcher createMethodMatcher() {
-        return new ExactMethodMatcher("createInvoker",
-                                             "(Lscala/Function0;Lplay/core/Router$HandlerDef;"
-                                                     + "Lplay/core/Router$HandlerInvokerFactory;)"
-                                                     + "Lplay/core/Router$HandlerInvoker;");
+        return new ExactMethodMatcher("createInvoker", "(Lscala/Function0;Lplay/core/Router$HandlerDef;"
+                                                               + "Lplay/core/Router$HandlerInvokerFactory;)"
+                                                               + "Lplay/core/Router$HandlerInvoker;");
     }
 
     protected boolean isDispatcher() {

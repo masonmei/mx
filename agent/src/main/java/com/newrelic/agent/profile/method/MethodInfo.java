@@ -3,10 +3,10 @@ package com.newrelic.agent.profile.method;
 import java.util.List;
 import java.util.Map;
 
-import com.newrelic.deps.com.google.common.collect.Lists;
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.instrumentation.InstrumentationType;
 import com.newrelic.agent.instrumentation.InstrumentedMethod;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
 public abstract class MethodInfo {
     protected static void addOneMethodInstrumentedInfo(Map<String, Object> toAdd,

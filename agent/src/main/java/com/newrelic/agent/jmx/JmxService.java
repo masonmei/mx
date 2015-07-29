@@ -28,7 +28,6 @@ import javax.management.ObjectName;
 import javax.management.QueryExp;
 import javax.management.openmbean.CompositeDataSupport;
 
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.HarvestListener;
 import com.newrelic.agent.config.AgentConfig;
@@ -41,6 +40,7 @@ import com.newrelic.agent.jmx.metrics.JmxFrameworkValues;
 import com.newrelic.agent.service.AbstractService;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.stats.StatsEngine;
+import com.newrelic.deps.com.google.common.collect.Sets;
 
 public class JmxService extends AbstractService implements HarvestListener {
     private static final int INVOKE_ERROR_COUNT_MAX = 5;
@@ -85,9 +85,8 @@ public class JmxService extends AbstractService implements HarvestListener {
             this.addJmxAttributeProcessor(JmxAttributeProcessorWrapper
                                                   .createInstance("com.newrelic.agent.jmx.J2EEStatsAttributeProcessor"
                                                                           + ""));
-            this.addJmxAttributeProcessor(JmxAttributeProcessorWrapper
-                                                  .createInstance("com.newrelic.agent.jmx"
-                                                                          + ".WebSphereStatsAttributeProcessor"));
+            this.addJmxAttributeProcessor(JmxAttributeProcessorWrapper.createInstance("com.newrelic.agent.jmx"
+                                                                                              + ".WebSphereStatsAttributeProcessor"));
         }
 
     }

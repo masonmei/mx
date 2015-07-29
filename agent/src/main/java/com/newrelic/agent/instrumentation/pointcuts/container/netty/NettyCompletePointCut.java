@@ -35,10 +35,9 @@ public class NettyCompletePointCut extends com.newrelic.agent.instrumentation.Po
     }
 
     private static MethodMatcher createMethodMatcher() {
-        return new ExactMethodMatcher("encode",
-                                             "(Lorg/jboss/netty/channel/ChannelHandlerContext;"
-                                                     + "Lorg/jboss/netty/channel/Channel;Ljava/lang/Object;)"
-                                                     + "Ljava/lang/Object;");
+        return new ExactMethodMatcher("encode", "(Lorg/jboss/netty/channel/ChannelHandlerContext;"
+                                                        + "Lorg/jboss/netty/channel/Channel;Ljava/lang/Object;)"
+                                                        + "Ljava/lang/Object;");
     }
 
     protected PointCutInvocationHandler getPointCutInvocationHandlerImpl() {

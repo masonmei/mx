@@ -12,8 +12,6 @@ import java.util.concurrent.ThreadFactory;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.IAgent;
 import com.newrelic.agent.IRPMService;
 import com.newrelic.agent.config.AgentConfig;
@@ -26,6 +24,8 @@ import com.newrelic.agent.stats.StatsService;
 import com.newrelic.agent.stats.StatsWork;
 import com.newrelic.agent.util.DefaultThreadFactory;
 import com.newrelic.agent.util.SafeWrappers;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 
 public class SamplerServiceImpl extends AbstractService implements SamplerService {
     private static final String SAMPLER_THREAD_NAME = "New Relic Sampler Service";

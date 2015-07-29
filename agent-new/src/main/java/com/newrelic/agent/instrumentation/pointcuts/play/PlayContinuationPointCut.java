@@ -1,7 +1,6 @@
 package com.newrelic.agent.instrumentation.pointcuts.play;
 
 import com.newrelic.agent.Transaction;
-import com.newrelic.agent.TransactionState;
 import com.newrelic.agent.instrumentation.ClassTransformer;
 import com.newrelic.agent.instrumentation.PointCutConfiguration;
 import com.newrelic.agent.instrumentation.TracerFactoryPointCut;
@@ -14,34 +13,30 @@ import com.newrelic.agent.tracers.ClassMethodSignature;
 import com.newrelic.agent.tracers.Tracer;
 
 @PointCut
-public class PlayContinuationPointCut extends TracerFactoryPointCut
-{
-  private static final String POINT_CUT_NAME = PlayContinuationPointCut.class.getName();
-  private static final String CONTINUATION_CLASS = "com/newrelic/agent/deps/org/apache/commons/javaflow/Continuation";
-  private static final String SUSPEND_METHOD_NAME = "suspend";
-  private static final String SUSPEND_METHOD_DESC = "(Ljava/lang/Object;)Ljava/lang/Object;";
+public class PlayContinuationPointCut extends TracerFactoryPointCut {
+    private static final String POINT_CUT_NAME = PlayContinuationPointCut.class.getName();
+    private static final String CONTINUATION_CLASS = "com/newrelic/agent/deps/org/apache/commons/javaflow/Continuation";
+    private static final String SUSPEND_METHOD_NAME = "suspend";
+    private static final String SUSPEND_METHOD_DESC = "(Ljava/lang/Object;)Ljava/lang/Object;";
 
-  public PlayContinuationPointCut(ClassTransformer classTransformer)
-  {
-    super(createPointCutConfig(), createClassMatcher(), createMethodMatcher());
-  }
+    public PlayContinuationPointCut(ClassTransformer classTransformer) {
+        super(createPointCutConfig(), createClassMatcher(), createMethodMatcher());
+    }
 
-  private static PointCutConfiguration createPointCutConfig() {
-    return new PointCutConfiguration(POINT_CUT_NAME, "play_instrumentation", true);
-  }
+    private static PointCutConfiguration createPointCutConfig() {
+        return new PointCutConfiguration(POINT_CUT_NAME, "play_instrumentation", true);
+    }
 
-  private static ClassMatcher createClassMatcher()
-  {
-    return new ExactClassMatcher("com/newrelic/agent/deps/org/apache/commons/javaflow/Continuation");
-  }
+    private static ClassMatcher createClassMatcher() {
+        return new ExactClassMatcher("com/newrelic/agent/deps/org/apache/commons/javaflow/Continuation");
+    }
 
-  private static MethodMatcher createMethodMatcher() {
-    return new ExactMethodMatcher("suspend", "(Ljava/lang/Object;)Ljava/lang/Object;");
-  }
+    private static MethodMatcher createMethodMatcher() {
+        return new ExactMethodMatcher("suspend", "(Ljava/lang/Object;)Ljava/lang/Object;");
+    }
 
-  public Tracer doGetTracer(Transaction tx, ClassMethodSignature sig, Object object, Object[] args)
-  {
-    tx.getTransactionState().suspend();
-    return null;
-  }
+    public Tracer doGetTracer(Transaction tx, ClassMethodSignature sig, Object object, Object[] args) {
+        tx.getTransactionState().suspend();
+        return null;
+    }
 }

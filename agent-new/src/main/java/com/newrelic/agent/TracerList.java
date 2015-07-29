@@ -1,6 +1,5 @@
 package com.newrelic.agent;
 
-import com.newrelic.agent.tracers.Tracer;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Iterator;
@@ -8,153 +7,128 @@ import java.util.List;
 import java.util.ListIterator;
 import java.util.Set;
 
-public class TracerList
-  implements List<Tracer>
-{
-  private final Set<TransactionActivity> activities;
-  private List<Tracer> tracers;
-  private final Tracer txRootTracer;
+import com.newrelic.agent.tracers.Tracer;
 
-  public TracerList(Tracer txRootTracer, Set<TransactionActivity> activities)
-  {
-    if (activities == null) {
-      throw new IllegalArgumentException();
-    }
-    this.activities = activities;
-    this.txRootTracer = txRootTracer;
-  }
+public class TracerList implements List<Tracer> {
+    private final Set<TransactionActivity> activities;
+    private final Tracer txRootTracer;
+    private List<Tracer> tracers;
 
-  private List<Tracer> getTracers()
-  {
-    if (this.tracers == null) {
-      int n = 0;
-      for (TransactionActivity txa : this.activities) {
-        n += txa.getTracers().size();
-      }
-      n++;
-      this.tracers = new ArrayList(n);
-      for (TransactionActivity txa : this.activities) {
-        if (txa.getRootTracer() != this.txRootTracer) {
-          this.tracers.add(txa.getRootTracer());
+    public TracerList(Tracer txRootTracer, Set<TransactionActivity> activities) {
+        if (activities == null) {
+            throw new IllegalArgumentException();
         }
-        this.tracers.addAll(txa.getTracers());
-      }
+        this.activities = activities;
+        this.txRootTracer = txRootTracer;
     }
-    return this.tracers;
-  }
 
-  public int size()
-  {
-    return getTracers().size();
-  }
+    private List<Tracer> getTracers() {
+        if (this.tracers == null) {
+            int n = 0;
+            for (TransactionActivity txa : this.activities) {
+                n += txa.getTracers().size();
+            }
+            n++;
+            this.tracers = new ArrayList(n);
+            for (TransactionActivity txa : this.activities) {
+                if (txa.getRootTracer() != this.txRootTracer) {
+                    this.tracers.add(txa.getRootTracer());
+                }
+                this.tracers.addAll(txa.getTracers());
+            }
+        }
+        return this.tracers;
+    }
 
-  public boolean isEmpty()
-  {
-    return getTracers().isEmpty();
-  }
+    public int size() {
+        return getTracers().size();
+    }
 
-  public boolean contains(Object o)
-  {
-    return getTracers().contains(o);
-  }
+    public boolean isEmpty() {
+        return getTracers().isEmpty();
+    }
 
-  public Iterator<Tracer> iterator()
-  {
-    return getTracers().iterator();
-  }
+    public boolean contains(Object o) {
+        return getTracers().contains(o);
+    }
 
-  public Object[] toArray()
-  {
-    return getTracers().toArray();
-  }
+    public Iterator<Tracer> iterator() {
+        return getTracers().iterator();
+    }
 
-  public <T> T[] toArray(T[] a)
-  {
-    return getTracers().toArray(a);
-  }
+    public Object[] toArray() {
+        return getTracers().toArray();
+    }
 
-  public boolean add(Tracer e)
-  {
-    throw new UnsupportedOperationException();
-  }
+    public <T> T[] toArray(T[] a) {
+        return getTracers().toArray(a);
+    }
 
-  public boolean remove(Object o)
-  {
-    return getTracers().remove(o);
-  }
+    public boolean add(Tracer e) {
+        throw new UnsupportedOperationException();
+    }
 
-  public boolean containsAll(Collection<?> c)
-  {
-    return getTracers().containsAll(c);
-  }
+    public boolean remove(Object o) {
+        return getTracers().remove(o);
+    }
 
-  public boolean addAll(Collection<? extends Tracer> c)
-  {
-    return getTracers().addAll(c);
-  }
+    public boolean containsAll(Collection<?> c) {
+        return getTracers().containsAll(c);
+    }
 
-  public boolean addAll(int index, Collection<? extends Tracer> c)
-  {
-    return getTracers().addAll(index, c);
-  }
+    public boolean addAll(Collection<? extends Tracer> c) {
+        return getTracers().addAll(c);
+    }
 
-  public boolean removeAll(Collection<?> c)
-  {
-    return getTracers().removeAll(c);
-  }
+    public boolean addAll(int index, Collection<? extends Tracer> c) {
+        return getTracers().addAll(index, c);
+    }
 
-  public boolean retainAll(Collection<?> c)
-  {
-    return getTracers().retainAll(c);
-  }
+    public boolean removeAll(Collection<?> c) {
+        return getTracers().removeAll(c);
+    }
 
-  public void clear()
-  {
-    getTracers().clear();
-  }
+    public boolean retainAll(Collection<?> c) {
+        return getTracers().retainAll(c);
+    }
 
-  public Tracer get(int index)
-  {
-    return (Tracer)getTracers().get(index);
-  }
+    public void clear() {
+        getTracers().clear();
+    }
 
-  public Tracer set(int index, Tracer element)
-  {
-    return (Tracer)getTracers().set(index, element);
-  }
+    public Tracer get(int index) {
+        return (Tracer) getTracers().get(index);
+    }
 
-  public void add(int index, Tracer element)
-  {
-    getTracers().add(index, element);
-  }
+    public Tracer set(int index, Tracer element) {
+        return (Tracer) getTracers().set(index, element);
+    }
 
-  public Tracer remove(int index)
-  {
-    return (Tracer)getTracers().remove(index);
-  }
+    public void add(int index, Tracer element) {
+        getTracers().add(index, element);
+    }
 
-  public int indexOf(Object o)
-  {
-    return getTracers().indexOf(o);
-  }
+    public Tracer remove(int index) {
+        return (Tracer) getTracers().remove(index);
+    }
 
-  public int lastIndexOf(Object o)
-  {
-    return getTracers().lastIndexOf(o);
-  }
+    public int indexOf(Object o) {
+        return getTracers().indexOf(o);
+    }
 
-  public ListIterator<Tracer> listIterator()
-  {
-    return getTracers().listIterator();
-  }
+    public int lastIndexOf(Object o) {
+        return getTracers().lastIndexOf(o);
+    }
 
-  public ListIterator<Tracer> listIterator(int index)
-  {
-    return getTracers().listIterator(index);
-  }
+    public ListIterator<Tracer> listIterator() {
+        return getTracers().listIterator();
+    }
 
-  public List<Tracer> subList(int fromIndex, int toIndex)
-  {
-    return getTracers().subList(fromIndex, toIndex);
-  }
+    public ListIterator<Tracer> listIterator(int index) {
+        return getTracers().listIterator(index);
+    }
+
+    public List<Tracer> subList(int fromIndex, int toIndex) {
+        return getTracers().subList(fromIndex, toIndex);
+    }
 }

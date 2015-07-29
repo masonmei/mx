@@ -5,13 +5,6 @@
 
 package com.newrelic.agent.instrumentation.context;
 
-import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.config.ClassTransformerConfig;
 import com.newrelic.agent.config.ConfigService;
@@ -21,6 +14,12 @@ import com.newrelic.agent.instrumentation.tracing.Annotation;
 import com.newrelic.agent.instrumentation.tracing.TraceDetailsBuilder;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.api.agent.Trace;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 class TraceMatchVisitor implements ClassMatchVisitorFactory {
     private final AnnotationMatcher traceAnnotationMatcher;
@@ -49,7 +48,7 @@ class TraceMatchVisitor implements ClassMatchVisitorFactory {
             public MethodVisitor visitMethod(int access, final String methodName, final String methodDesc,
                                              String signature, String[] exceptions) {
                 return new MethodVisitor(Agent.ASM_LEVEL, super.visitMethod(access, methodName, methodDesc, signature,
-                                                                          exceptions)) {
+                                                                                   exceptions)) {
                     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
                         if (TraceMatchVisitor.this.traceAnnotationMatcher.matches(desc)) {
                             Annotation node = new Annotation(super.visitAnnotation(desc, visible),

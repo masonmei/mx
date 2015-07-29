@@ -8,7 +8,6 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.ImmutableMap;
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.config.ConfigService;
 import com.newrelic.agent.install.ConfigInstaller;
@@ -22,6 +21,7 @@ import com.newrelic.agent.stats.StatsService;
 import com.newrelic.agent.stats.StatsWorks;
 import com.newrelic.api.agent.NewRelicApiImplementation;
 import com.newrelic.bootstrap.BootstrapAgent;
+import com.newrelic.deps.com.google.common.collect.ImmutableMap;
 
 public final class Agent extends AbstractService implements IAgent {
     public static final IAgentLogger LOG = AgentLogManager.getLogger();

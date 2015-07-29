@@ -1,19 +1,18 @@
 package com.newrelic.agent.tracers.metricname;
 
-import com.newrelic.agent.tracers.ClassMethodSignature;
 import java.text.MessageFormat;
 
-public class DefaultMetricNameFormat extends AbstractMetricNameFormat
-{
-  private final String metricName;
+import com.newrelic.agent.tracers.ClassMethodSignature;
 
-  public DefaultMetricNameFormat(ClassMethodSignature sig, Object object, String pattern)
-  {
-    this.metricName = MessageFormat.format(pattern, new Object[] { object.getClass().getName(), sig.getMethodName() });
-  }
+public class DefaultMetricNameFormat extends AbstractMetricNameFormat {
+    private final String metricName;
 
-  public String getMetricName()
-  {
-    return this.metricName;
-  }
+    public DefaultMetricNameFormat(ClassMethodSignature sig, Object object, String pattern) {
+        this.metricName =
+                MessageFormat.format(pattern, new Object[] {object.getClass().getName(), sig.getMethodName()});
+    }
+
+    public String getMetricName() {
+        return this.metricName;
+    }
 }

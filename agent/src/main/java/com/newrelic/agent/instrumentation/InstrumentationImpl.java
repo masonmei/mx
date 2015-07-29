@@ -6,10 +6,6 @@ import java.lang.reflect.Modifier;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.Type;
-
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.TransactionActivity;
 import com.newrelic.agent.TransactionApiImpl;
@@ -39,6 +35,9 @@ import com.newrelic.agent.tracers.metricname.MetricNameFormat;
 import com.newrelic.agent.tracers.metricname.MetricNameFormats;
 import com.newrelic.agent.util.InsertOnlyArray;
 import com.newrelic.api.agent.Logger;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 public class InstrumentationImpl implements Instrumentation {
     private final Logger logger;
@@ -120,7 +119,8 @@ public class InstrumentationImpl implements Instrumentation {
             }
             return result;
         } catch (Throwable t) {
-            logger.log(Level.FINEST, t, "createTracer({0}, {1}, {2}, {3})", invocationTarget, signatureId, metricName, flags);
+            logger.log(Level.FINEST, t, "createTracer({0}, {1}, {2}, {3})", invocationTarget, signatureId, metricName,
+                              flags);
         }
         return null;
     }
@@ -140,8 +140,8 @@ public class InstrumentationImpl implements Instrumentation {
             ClassMethodSignature sig = ClassMethodSignatures.get().get(signatureId);
             return transaction.getTransactionState().getTracer(transaction, invocationTarget, sig, metricName, flags);
         } catch (Throwable t) {
-            logger.log(Level.FINEST, t, "createTracer({0}, {1}, {2}, {3})", invocationTarget, signatureId,
-                              metricName, flags);
+            logger.log(Level.FINEST, t, "createTracer({0}, {1}, {2}, {3})", invocationTarget, signatureId, metricName,
+                              flags);
         }
         return null;
     }

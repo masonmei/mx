@@ -5,19 +5,18 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Map;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
-
-import com.newrelic.deps.com.google.common.collect.ImmutableMap;
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.util.asm.Utils;
 import com.newrelic.api.agent.HeaderType;
 import com.newrelic.api.agent.Request;
 import com.newrelic.api.agent.Response;
+import com.newrelic.deps.com.google.common.collect.ImmutableMap;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
 
 public class DefaultApiImplementations {
     private final Map<String, Map<Method, MethodNode>> interfaceToMethods;

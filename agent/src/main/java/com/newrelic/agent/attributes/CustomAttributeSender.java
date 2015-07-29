@@ -23,8 +23,7 @@ public class CustomAttributeSender extends AttributeSender {
             if (Transaction.getTransaction().getAgentConfig().isHighSecurity()) {
                 Agent.LOG.log(Level.FINER,
                                      "Unable to add {0} attribute because {1} was invoked with key \"{2}\" while in "
-                                             + "high security mode.",
-                                     new Object[] {getAttributeType(), methodCalled, key});
+                                             + "high security mode.", getAttributeType(), methodCalled, key);
 
                 return null;
             }
@@ -42,15 +41,14 @@ public class CustomAttributeSender extends AttributeSender {
             Transaction tx = Transaction.getTransaction();
             if (getAttributeMap().size() >= tx.getAgentConfig().getMaxUserParameters()) {
                 Agent.LOG.log(Level.FINER, "Unable to add {0} attribute for key \"{1}\" because the limit is {2}.",
-                                     new Object[] {getAttributeType(), key,
-                                                          Integer.valueOf(tx.getAgentConfig().getMaxUserParameters())});
+                                     getAttributeType(), key, tx.getAgentConfig().getMaxUserParameters());
 
                 return;
             }
             super.addCustomAttributeImpl(key, value, methodName);
         } catch (Throwable t) {
-            Agent.LOG.log(Level.FINER, "Exception adding {0} parameter for key: \"{1}\": {2}",
-                                 new Object[] {getAttributeType(), key, t});
+            Agent.LOG.log(Level.FINER, "Exception adding {0} parameter for key: \"{1}\": {2}", getAttributeType(), key,
+                                 t);
         }
     }
 }

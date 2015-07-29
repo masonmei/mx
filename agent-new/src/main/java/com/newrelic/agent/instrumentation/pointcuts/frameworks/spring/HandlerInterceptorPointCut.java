@@ -14,15 +14,23 @@ import com.newrelic.agent.tracers.metricname.ClassMethodMetricNameFormat;
 import com.newrelic.agent.tracers.metricname.SimpleMetricNameFormat;
 
 @PointCut
-public class HandlerInterceptorPointCut extends TracerFactoryPointCut
-{
-  public HandlerInterceptorPointCut(ClassTransformer classTransformer)
-  {
-    super(HandlerInterceptorPointCut.class, new InterfaceMatcher("org/springframework/web/servlet/HandlerInterceptor"), createMethodMatcher(new MethodMatcher[] { new ExactMethodMatcher("preHandle", "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/Object;)Z"), new ExactMethodMatcher("postHandle", "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/Object;Lorg/springframework/web/servlet/ModelAndView;)V"), new ExactMethodMatcher("afterCompletion", "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/Object;Ljava/lang/Exception;)V") }));
-  }
+public class HandlerInterceptorPointCut extends TracerFactoryPointCut {
+    public HandlerInterceptorPointCut(ClassTransformer classTransformer) {
+        super(HandlerInterceptorPointCut.class,
+                     new InterfaceMatcher("org/springframework/web/servlet/HandlerInterceptor"),
+                     createMethodMatcher(new MethodMatcher[] {new ExactMethodMatcher("preHandle",
+                                                                                            "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/Object;)Z"),
+                                                                     new ExactMethodMatcher("postHandle",
+                                                                                                   "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/Object;Lorg/springframework/web/servlet/ModelAndView;)V"),
+                                                                     new ExactMethodMatcher("afterCompletion",
+                                                                                                   "(Ljavax/servlet/http/HttpServletRequest;Ljavax/servlet/http/HttpServletResponse;Ljava/lang/Object;Ljava/lang/Exception;)V")}));
+    }
 
-  public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object intercepter, Object[] args)
-  {
-    return new DefaultTracer(transaction, sig, intercepter, new SimpleMetricNameFormat("Spring/HandlerInterceptor", ClassMethodMetricNameFormat.getMetricName(sig, intercepter, "Spring/Java")));
-  }
+    public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object intercepter, Object[] args) {
+        return new DefaultTracer(transaction, sig, intercepter, new SimpleMetricNameFormat("Spring/HandlerInterceptor",
+                                                                                                  ClassMethodMetricNameFormat
+                                                                                                          .getMetricName(sig,
+                                                                                                                                intercepter,
+                                                                                                                                "Spring/Java")));
+    }
 }

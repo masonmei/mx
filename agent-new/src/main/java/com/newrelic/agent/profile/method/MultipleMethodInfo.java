@@ -1,35 +1,34 @@
 package com.newrelic.agent.profile.method;
 
-import com.newrelic.deps.com.google.common.collect.Lists;
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.agent.instrumentation.InstrumentedMethod;
 import java.lang.reflect.AnnotatedElement;
 import java.lang.reflect.Member;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-public class MultipleMethodInfo extends MethodInfo
-{
-  private final Set<Member> possibleMethods;
+import com.newrelic.agent.instrumentation.InstrumentedMethod;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
-  public MultipleMethodInfo(Set<Member> methods)
-  {
-    this.possibleMethods = methods;
-  }
+public class MultipleMethodInfo extends MethodInfo {
+    private final Set<Member> possibleMethods;
 
-  public List<Map<String, Object>> getJsonMethodMaps()
-  {
-    List methodList = Lists.newArrayList();
-
-    for (Member current : this.possibleMethods) {
-      Map oneMethod = Maps.newHashMap();
-      addOneMethodArgs(oneMethod, MethodInfoUtil.getArguments(current));
-      addOneMethodInstrumentedInfo(oneMethod, (InstrumentedMethod)((AnnotatedElement)current).getAnnotation(InstrumentedMethod.class));
-
-      methodList.add(oneMethod);
+    public MultipleMethodInfo(Set<Member> methods) {
+        this.possibleMethods = methods;
     }
 
-    return methodList;
-  }
+    public List<Map<String, Object>> getJsonMethodMaps() {
+        List methodList = Lists.newArrayList();
+
+        for (Member current : this.possibleMethods) {
+            Map oneMethod = Maps.newHashMap();
+            addOneMethodArgs(oneMethod, MethodInfoUtil.getArguments(current));
+            addOneMethodInstrumentedInfo(oneMethod, (InstrumentedMethod) ((AnnotatedElement) current)
+                                                                                 .getAnnotation(InstrumentedMethod.class));
+
+            methodList.add(oneMethod);
+        }
+
+        return methodList;
+    }
 }

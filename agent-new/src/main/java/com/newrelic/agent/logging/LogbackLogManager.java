@@ -64,8 +64,7 @@ class LogbackLogManager implements IAgentLogManager {
             if (logger == null) {
                 logger = createRootLogger(name);
             }
-            String msg =
-                    MessageFormat.format("Error setting logback.configurationFile property: {0}", e);
+            String msg = MessageFormat.format("Error setting logback.configurationFile property: {0}", e);
             logger.warning(msg);
         }
         return logger;
@@ -124,12 +123,13 @@ class LogbackLogManager implements IAgentLogManager {
             this.rootLogger.info(MessageFormat.format("JRE vendor {0} version {1}", System.getProperty("java.vendor"),
                                                              System.getProperty("java.version")));
 
-            this.rootLogger.info(MessageFormat.format("JVM vendor {0} {1} version {2}", System.getProperty("java.vm.vendor"),
-                                                             System.getProperty("java.vm.name"),
-                                                             System.getProperty("java.vm.version")));
+            this.rootLogger.info(MessageFormat
+                                         .format("JVM vendor {0} {1} version {2}", System.getProperty("java.vm.vendor"),
+                                                        System.getProperty("java.vm.name"),
+                                                        System.getProperty("java.vm.version")));
 
-            this.rootLogger.fine(MessageFormat.format("JVM runtime version {0}",
-                                                             System.getProperty("java.runtime.version")));
+            this.rootLogger
+                    .fine(MessageFormat.format("JVM runtime version {0}", System.getProperty("java.runtime.version")));
             this.rootLogger.info(MessageFormat.format("OS {0} version {1} arch {2}", System.getProperty("os.name"),
                                                              System.getProperty("os.version"),
                                                              System.getProperty("os.arch")));
@@ -168,7 +168,8 @@ class LogbackLogManager implements IAgentLogManager {
             this.rootLogger.info(MessageFormat.format("New Relic Agent: Writing to log file: {0}", logFileName));
         } else {
             this.rootLogger.warning(MessageFormat
-                                            .format("New Relic Agent: Unable to write log file: {0}. Please check permissions on the file and directory.",
+                                            .format("New Relic Agent: Unable to write log file: {0}. Please check "
+                                                            + "permissions on the file and directory.",
                                                            logFileName));
         }
 

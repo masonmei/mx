@@ -24,14 +24,13 @@ import java.util.jar.Manifest;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-
-import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.weaver.WeaveUtils;
 import com.newrelic.agent.logging.IAgentLogger;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.util.Streams;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
 
 public class JarExtension {
     private final ClassLoader classloader;

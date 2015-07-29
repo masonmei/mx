@@ -2,14 +2,6 @@ package com.newrelic.agent.servlet;
 
 import java.util.Set;
 
-import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.collect.ImmutableSet;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.TransactionNamePriority;
 import com.newrelic.agent.instrumentation.InstrumentationType;
@@ -17,6 +9,13 @@ import com.newrelic.agent.instrumentation.context.ClassMatchVisitorFactory;
 import com.newrelic.agent.instrumentation.context.InstrumentationContext;
 import com.newrelic.agent.instrumentation.tracing.TraceDetails;
 import com.newrelic.agent.instrumentation.tracing.TraceDetailsBuilder;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class ServletAnnotationVisitor implements ClassMatchVisitorFactory {
     private static final String WEB_SERVLET_DESCRIPTOR =

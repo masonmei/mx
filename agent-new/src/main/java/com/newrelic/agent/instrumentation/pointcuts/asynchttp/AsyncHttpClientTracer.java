@@ -1,5 +1,7 @@
 package com.newrelic.agent.instrumentation.pointcuts.asynchttp;
 
+import java.util.List;
+
 import com.newrelic.agent.Transaction;
 import com.newrelic.agent.dispatchers.AsyncDispatcher;
 import com.newrelic.agent.dispatchers.Dispatcher;
@@ -10,79 +12,69 @@ import com.newrelic.agent.tracers.ClassMethodSignature;
 import com.newrelic.agent.tracers.ExternalComponentNameFormat;
 import com.newrelic.agent.tracers.TransactionActivityInitiator;
 import com.newrelic.agent.tracers.metricname.SimpleMetricNameFormat;
-import java.util.List;
 
-public class AsyncHttpClientTracer extends AbstractCrossProcessTracer
-  implements TransactionActivityInitiator
-{
-  private Object response;
-  private final String txName;
-  private final long startTime2;
+public class AsyncHttpClientTracer extends AbstractCrossProcessTracer implements TransactionActivityInitiator {
+    private final String txName;
+    private final long startTime2;
+    private Object response;
 
-  public AsyncHttpClientTracer(Transaction transaction, String txName, ClassMethodSignature sig, Object object, String host, String library, String uri, long startTime, String methodName)
-  {
-    super(transaction, sig, object, host, library, uri, methodName);
-    setMetricNameFormat(ExternalComponentNameFormat.create(host, library, true, uri, new String[0]));
-    this.txName = txName;
-    this.startTime2 = startTime;
-  }
-
-  protected String getHeaderValue(Object returnValue, String name)
-  {
-    if (this.response == null) {
-      return null;
+    public AsyncHttpClientTracer(Transaction transaction, String txName, ClassMethodSignature sig, Object object,
+                                 String host, String library, String uri, long startTime, String methodName) {
+        super(transaction, sig, object, host, library, uri, methodName);
+        setMetricNameFormat(ExternalComponentNameFormat.create(host, library, true, uri, new String[0]));
+        this.txName = txName;
+        this.startTime2 = startTime;
     }
 
-    if ((this.response instanceof WSResponse)) {
-      this.response = ((WSResponse)this.response)._nr_response();
+    protected String getHeaderValue(Object returnValue, String name) {
+        if (this.response == null) {
+            return null;
+        }
+
+        if ((this.response instanceof WSResponse)) {
+            this.response = ((WSResponse) this.response)._nr_response();
+        }
+        if ((this.response instanceof Response)) {
+            return ((Response) this.response).getHeader(name);
+        }
+
+        return null;
     }
-    if ((this.response instanceof Response)) {
-      return ((Response)this.response).getHeader(name);
+
+    public void setResponse(Object response) {
+        this.response = response;
     }
 
-    return null;
-  }
+    public long getStartTime() {
+        return this.startTime2;
+    }
 
-  public void setResponse(Object response) {
-    this.response = response;
-  }
+    public String getUri() {
+        return this.txName;
+    }
 
-  public long getStartTime()
-  {
-    return this.startTime2;
-  }
+    public String getHeader(String name) {
+        return null;
+    }
 
-  public String getUri()
-  {
-    return this.txName;
-  }
+    public Dispatcher createDispatcher() {
+        return new AsyncDispatcher(getTransaction(), new SimpleMetricNameFormat(getUri()));
+    }
 
-  public String getHeader(String name)
-  {
-    return null;
-  }
+    @InterfaceMixin(originalClassName = {"com/ning/http/client/Response"})
+    public static abstract interface Response {
+        public static final String CLASS = "com/ning/http/client/Response";
 
-  public Dispatcher createDispatcher()
-  {
-    return new AsyncDispatcher(getTransaction(), new SimpleMetricNameFormat(getUri()));
-  }
+        public abstract String getHeader(String paramString);
 
-  @InterfaceMixin(originalClassName={"com/ning/http/client/Response"})
-  public static abstract interface Response
-  {
-    public static final String CLASS = "com/ning/http/client/Response";
+        public abstract List<String> getHeaders(String paramString);
+    }
 
-    public abstract String getHeader(String paramString);
+    @InterfaceMixin(originalClassName = {"play/api/libs/ws/Response"})
+    public static abstract interface WSResponse {
+        public static final String CLASS = "play/api/libs/ws/Response";
 
-    public abstract List<String> getHeaders(String paramString);
-  }
-
-  @InterfaceMixin(originalClassName={"play/api/libs/ws/Response"})
-  public static abstract interface WSResponse
-  {
-    public static final String CLASS = "play/api/libs/ws/Response";
-
-    @FieldAccessor(fieldName="ahcResponse", fieldDesc="Lcom/ning/http/client/Response;", existingField=true)
-    public abstract Object _nr_response();
-  }
+        @FieldAccessor(fieldName = "ahcResponse", fieldDesc = "Lcom/ning/http/client/Response;", existingField = true)
+        public abstract Object _nr_response();
+    }
 }

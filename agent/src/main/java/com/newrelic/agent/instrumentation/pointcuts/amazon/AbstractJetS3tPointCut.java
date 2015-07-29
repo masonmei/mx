@@ -23,9 +23,9 @@ public abstract class AbstractJetS3tPointCut extends TracerFactoryPointCut {
     protected String getHost(Object service) {
         if (service != null) {
             String serviceImplName = service.getClass().getCanonicalName();
-          if ("org.jets3t.service.impl.rest.httpclient.RestS3Service".equals(serviceImplName)) {
-            return "amazon";
-          }
+            if ("org.jets3t.service.impl.rest.httpclient.RestS3Service".equals(serviceImplName)) {
+                return "amazon";
+            }
             if ("org.jets3t.service.impl.rest.httpclient.GoogleStorageService".equals(serviceImplName)) {
                 return "google";
             }

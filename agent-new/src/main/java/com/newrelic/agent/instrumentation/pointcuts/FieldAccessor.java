@@ -17,11 +17,11 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface FieldAccessor {
-  String fieldName();
+    String fieldName();
 
-  String fieldDesc() default "";
+    String fieldDesc() default "";
 
-  boolean existingField() default false;
+    boolean existingField() default false;
 
-  boolean volatileAccess() default false;
+    boolean volatileAccess() default false;
 }

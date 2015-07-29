@@ -10,11 +10,10 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
+import com.newrelic.agent.bridge.AgentBridge;
 import com.newrelic.deps.org.objectweb.asm.Type;
 import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.agent.bridge.AgentBridge;
 
 public class MethodBuilder {
     public static final Object LOAD_THIS = new Object();

@@ -90,11 +90,8 @@ public class DelegatingNettyHttpRequest implements Request {
     }
 
     public String[] getParameterValues(String name) {
-        return this.parameters == null
-                       ? null
-                       : (this.parameters.get(name) == null
-                                  ? null
-                                  : (String[]) ((List) this.parameters.get(name))
+        return this.parameters == null ? null : (this.parameters.get(name) == null ? null
+                                                         : (String[]) ((List) this.parameters.get(name))
                                                                               .toArray(new String[((List) this.parameters
                                                                                                                   .get(name))
                                                                                                           .size()]));

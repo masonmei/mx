@@ -13,10 +13,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassWriter;
-
-import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.InstrumentationProxy;
 import com.newrelic.agent.TracerService;
@@ -34,6 +30,9 @@ import com.newrelic.agent.tracers.ClassMethodSignature;
 import com.newrelic.agent.tracers.PointCutInvocationHandler;
 import com.newrelic.agent.util.Annotations;
 import com.newrelic.agent.util.Invoker;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
 
 public class ClassTransformer implements ContextClassTransformer {
     protected final Collection<PointCut> pointcuts;

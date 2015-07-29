@@ -46,9 +46,9 @@ public class SpringDispatcherPointCut extends TracerFactoryPointCut {
                     String viewName = SpringPointCut.getModelAndViewViewName(args[0]);
                     if (viewName != null) {
                         metricName.append(viewName);
-                      if (normalizeTransactions) {
-                        setTransactionName(transaction, viewName);
-                      }
+                        if (normalizeTransactions) {
+                            setTransactionName(transaction, viewName);
+                        }
                     }
                 } catch (Exception e) {
                     metricName.append("/Java/").append(dispatcher.getClass().getName()).append('/')
@@ -75,7 +75,8 @@ public class SpringDispatcherPointCut extends TracerFactoryPointCut {
         }
         TransactionNamingPolicy policy = TransactionNamingPolicy.getHigherPriorityTransactionNamingPolicy();
         if ((Agent.LOG.isLoggable(Level.FINER)) && (policy.canSetTransactionName(transaction,
-                                                                                        TransactionNamePriority.FRAMEWORK))) {
+                                                                                        TransactionNamePriority
+                                                                                                .FRAMEWORK))) {
             String msg = MessageFormat.format("Setting transaction name to \"{0}\" using Spring view",
                                                      new Object[] {viewName});
             Agent.LOG.finer(msg);

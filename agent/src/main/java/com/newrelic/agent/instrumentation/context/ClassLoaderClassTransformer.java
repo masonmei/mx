@@ -14,18 +14,6 @@ import java.util.Iterator;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassWriter;
-import com.newrelic.deps.org.objectweb.asm.Label;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.collect.ImmutableSet;
-import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.InstrumentationProxy;
 import com.newrelic.agent.config.ClassTransformerConfig;
@@ -41,6 +29,17 @@ import com.newrelic.agent.instrumentation.methodmatchers.MethodMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.OrMethodMatcher;
 import com.newrelic.agent.instrumentation.tracing.BridgeUtils;
 import com.newrelic.agent.service.ServiceFactory;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.Label;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 class ClassLoaderClassTransformer implements ContextClassTransformer {
     public static final String NEWRELIC_CLASS_PREFIX = "com.newrelic.agent.";

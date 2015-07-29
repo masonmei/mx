@@ -9,9 +9,6 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import com.newrelic.deps.com.google.common.cache.CacheBuilder;
-import com.newrelic.deps.com.google.common.cache.CacheLoader;
-import com.newrelic.deps.com.google.common.cache.LoadingCache;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.HarvestListener;
 import com.newrelic.agent.TransactionData;
@@ -28,6 +25,9 @@ import com.newrelic.agent.stats.StatsBase;
 import com.newrelic.agent.stats.StatsEngine;
 import com.newrelic.agent.stats.TransactionStats;
 import com.newrelic.agent.transaction.PriorityTransactionName;
+import com.newrelic.deps.com.google.common.cache.CacheBuilder;
+import com.newrelic.deps.com.google.common.cache.CacheLoader;
+import com.newrelic.deps.com.google.common.cache.LoadingCache;
 
 public class TransactionEventsService extends AbstractService implements Service, HarvestListener, TransactionListener,
                                                                                  AgentConfigListener {

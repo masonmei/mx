@@ -13,9 +13,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.classmatchers.ClassAndMethodMatcher;
 import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher.Match;
@@ -25,6 +22,8 @@ import com.newrelic.agent.instrumentation.context.ContextClassTransformer;
 import com.newrelic.agent.instrumentation.context.InstrumentationContext;
 import com.newrelic.agent.instrumentation.context.InstrumentationContextManager;
 import com.newrelic.agent.instrumentation.tracing.TraceDetails;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class CustomClassTransformer implements ContextClassTransformer {
     final List<ExtensionClassAndMethodMatcher> extensionPointCuts;
@@ -89,10 +88,9 @@ public class CustomClassTransformer implements ContextClassTransformer {
                         TraceDetails td = pc.getTraceDetails();
                         if (td.ignoreTransaction()) {
                             if (Agent.LOG.isFinerEnabled()) {
-                                Agent.LOG.log(Level.FINER, MessageFormat
-                                                                   .format("Matched method {0} for ignoring the "
-                                                                                   + "transaction trace.",
-                                                                                  new Object[] {m.toString()}));
+                                Agent.LOG.log(Level.FINER, MessageFormat.format("Matched method {0} for ignoring the "
+                                                                                        + "transaction trace.",
+                                                                                       new Object[] {m.toString()}));
                             }
 
                             pContext.addIgnoreTransactionMethod(m);

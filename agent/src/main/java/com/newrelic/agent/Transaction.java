@@ -20,9 +20,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.MapMaker;
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.ThreadService.AgentThread;
 import com.newrelic.agent.application.ApplicationNamingPolicy;
 import com.newrelic.agent.application.HigherPriorityApplicationNamingPolicy;
@@ -71,6 +68,9 @@ import com.newrelic.api.agent.NewRelic;
 import com.newrelic.api.agent.Request;
 import com.newrelic.api.agent.Response;
 import com.newrelic.api.agent.TransactionNamePriority;
+import com.newrelic.deps.com.google.common.collect.MapMaker;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 
 public class Transaction implements ITransaction {
     protected static final WebResponse DEFAULT_RESPONSE;
@@ -343,7 +343,8 @@ public class Transaction implements ITransaction {
 
     private static String stripLeadingForwardSlash(String appName) {
         String FORWARD_SLASH = "/";
-        return appName.length() > 1 && appName.startsWith(FORWARD_SLASH) ? appName.substring(1, appName.length()) : appName;
+        return appName.length() > 1 && appName.startsWith(FORWARD_SLASH) ? appName.substring(1, appName.length())
+                       : appName;
     }
 
     private void postConstruct() {
@@ -482,7 +483,8 @@ public class Transaction implements ITransaction {
             if (this.dispatcher == null) {
                 if (Agent.LOG.isFinestEnabled()) {
                     Agent.LOG.finest(MessageFormat
-                                             .format("Unable to set the transaction name to \"{0}\" - no transaction", name));
+                                             .format("Unable to set the transaction name to \"{0}\" - no transaction",
+                                                            name));
                 }
 
                 return false;
@@ -541,9 +543,9 @@ public class Transaction implements ITransaction {
                 return this.setPriorityTransactionNameLocked(policy.getPriorityTransactionName(this, name, category,
                                                                                                       priority));
             } else {
-                Agent.LOG.log(Level.FINER,
-                                     "Not setting the transaction name to  \"{0}\" for transaction {1}: a higher "
-                                             + "priority name is already in place. Current transaction name is {2}",
+                Agent.LOG.log(Level.FINER, "Not setting the transaction name to  \"{0}\" for transaction {1}: a higher "
+                                                   + "priority name is already in place. Current transaction name is "
+                                                   + "{2}",
                                      name, this, this.getTransactionName());
                 return false;
             }
@@ -1002,11 +1004,13 @@ public class Transaction implements ITransaction {
             if (normalizedUri != null && normalizedUri.length() != 0) {
                 TransactionNamingPolicy policy =
                         TransactionNamingPolicy.getSameOrHigherPriorityTransactionNamingPolicy();
-                if (Agent.LOG.isLoggable(Level.FINER) && policy.canSetTransactionName(this, com.newrelic.agent.bridge.TransactionNamePriority.CUSTOM_HIGH)) {
+                if (Agent.LOG.isLoggable(Level.FINER) && policy.canSetTransactionName(this,
+                                                                                             com.newrelic.agent
+                                                                                                     .bridge
+                                                                                                     .TransactionNamePriority.CUSTOM_HIGH)) {
                     String msg = MessageFormat
                                          .format("Setting transaction name to normalized URI \"{0}\" for transaction "
-                                                         + "{1}",
-                                                        normalizedUri, this);
+                                                         + "{1}", normalizedUri, this);
                     Agent.LOG.finer(msg);
                 }
 
@@ -1039,16 +1043,15 @@ public class Transaction implements ITransaction {
                 if (Agent.LOG.isFinerEnabled()) {
                     Agent.LOG.log(Level.FINER,
                                          "Non-API call to setThrowable from asynchronous activity ignored: {0} with "
-                                                 + "priority {1}",
-                                         throwable, priority);
+                                                 + "priority {1}", throwable, priority);
                 }
 
             } else {
                 if (Agent.LOG.isFinerEnabled() && !this.ignoreErrorPriority) {
                     Agent.LOG.log(Level.FINER,
                                          "Attempting to set throwable in transaction: {0} having priority {1} with "
-                                                 + "priority {2}",
-                                         throwable.getClass().getName(), this.throwablePriority, priority);
+                                                 + "priority {2}", throwable.getClass().getName(),
+                                         this.throwablePriority, priority);
                 }
 
                 if (this.ignoreErrorPriority || priority.updateCurrentPriority(this.throwablePriority)) {
@@ -1297,12 +1300,12 @@ public class Transaction implements ITransaction {
                                          "Parent tracer not found. Not registering async activity context {0} with "
                                                  + "transaction {1}", activityContext, this);
                 } else if (!ServiceFactory.getAsyncTxService().putIfAbsent(activityContext, this)) {
-                    Agent.LOG.log(Level.FINER,
-                                         "Key already in use. Not registering async activity context {0} with "
-                                                 + "transaction {1}", activityContext, this);
+                    Agent.LOG.log(Level.FINER, "Key already in use. Not registering async activity context {0} with "
+                                                       + "transaction {1}", activityContext, this);
                 } else {
                     this.contextToTracer.put(activityContext, t);
-                    Agent.LOG.log(Level.FINER, "Registering async activity context {0} with transaction {1}", activityContext, this);
+                    Agent.LOG.log(Level.FINER, "Registering async activity context {0} with transaction {1}",
+                                         activityContext, this);
                     result = true;
                 }
             }
@@ -1489,8 +1492,8 @@ public class Transaction implements ITransaction {
         String category = this.getPriorityTransactionName().getCategory();
         String prefix = this.getPriorityTransactionName().getPrefix();
         String txnNamePrefix = prefix + '/' + category + '/';
-        return fullName != null && fullName.startsWith(txnNamePrefix) ?
-                       fullName.substring(txnNamePrefix.length(), fullName.length())
+        return fullName != null && fullName.startsWith(txnNamePrefix) ? fullName.substring(txnNamePrefix.length(),
+                                                                                                  fullName.length())
                        : fullName;
     }
 

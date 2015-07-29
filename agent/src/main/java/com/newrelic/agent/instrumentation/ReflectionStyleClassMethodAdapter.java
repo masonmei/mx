@@ -1,9 +1,8 @@
 package com.newrelic.agent.instrumentation;
 
+import com.newrelic.agent.Agent;
 import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.agent.Agent;
 
 public class ReflectionStyleClassMethodAdapter extends AbstractTracingMethodAdapter {
     private final int tracerFactoryId;

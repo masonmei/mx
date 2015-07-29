@@ -3,12 +3,6 @@ package com.newrelic.agent.instrumentation.tracing;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.collect.ImmutableSet;
 import com.newrelic.agent.bridge.AgentBridge;
 import com.newrelic.agent.bridge.Instrumentation;
 import com.newrelic.agent.bridge.PrivateApi;
@@ -18,6 +12,11 @@ import com.newrelic.agent.util.asm.VariableLoader;
 import com.newrelic.api.agent.Logger;
 import com.newrelic.api.agent.NewRelic;
 import com.newrelic.api.agent.weaver.Weaver;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class BridgeUtils {
     public static final Type NEW_RELIC_API_TYPE = Type.getType(NewRelic.class);

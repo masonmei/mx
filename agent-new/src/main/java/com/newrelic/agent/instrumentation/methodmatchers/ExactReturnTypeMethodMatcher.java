@@ -1,26 +1,22 @@
 package com.newrelic.agent.instrumentation.methodmatchers;
 
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
 import java.util.Set;
 
-public class ExactReturnTypeMethodMatcher
-  implements MethodMatcher
-{
-  private final Type returnType;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
-  public ExactReturnTypeMethodMatcher(Type returnType)
-  {
-    this.returnType = returnType;
-  }
+public class ExactReturnTypeMethodMatcher implements MethodMatcher {
+    private final Type returnType;
 
-  public boolean matches(int access, String name, String desc, Set<String> annotations)
-  {
-    return Type.getReturnType(desc).equals(this.returnType);
-  }
+    public ExactReturnTypeMethodMatcher(Type returnType) {
+        this.returnType = returnType;
+    }
 
-  public Method[] getExactMethods()
-  {
-    return null;
-  }
+    public boolean matches(int access, String name, String desc, Set<String> annotations) {
+        return Type.getReturnType(desc).equals(this.returnType);
+    }
+
+    public Method[] getExactMethods() {
+        return null;
+    }
 }

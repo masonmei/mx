@@ -12,8 +12,6 @@ import java.util.logging.Level;
 
 import javax.sql.DataSource;
 
-import com.newrelic.deps.org.objectweb.asm.Type;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.Transaction;
 import com.newrelic.agent.config.TransactionTracerConfig;
@@ -32,6 +30,7 @@ import com.newrelic.agent.tracers.DefaultTracer;
 import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.metricname.ClassMethodMetricNameFormat;
 import com.newrelic.agent.tracers.metricname.MetricNameFormat;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 @PointCut
 public class DataSourcePointCut extends TracerFactoryPointCut {

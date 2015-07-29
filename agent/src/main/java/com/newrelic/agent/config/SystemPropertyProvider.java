@@ -8,8 +8,8 @@ import java.util.Properties;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
 public class SystemPropertyProvider {
     private static final String HEROKU_PREFIX = "NEW_RELIC_";

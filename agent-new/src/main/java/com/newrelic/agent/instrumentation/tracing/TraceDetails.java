@@ -1,37 +1,37 @@
 package com.newrelic.agent.instrumentation.tracing;
 
-import com.newrelic.agent.instrumentation.InstrumentationType;
 import java.util.List;
 
-public abstract interface TraceDetails
-{
-  public abstract String metricName();
+import com.newrelic.agent.instrumentation.InstrumentationType;
 
-  public abstract String[] rollupMetricName();
+public abstract interface TraceDetails {
+    public abstract String metricName();
 
-  public abstract boolean dispatcher();
+    public abstract String[] rollupMetricName();
 
-  public abstract TransactionName transactionName();
+    public abstract boolean dispatcher();
 
-  public abstract String tracerFactoryName();
+    public abstract TransactionName transactionName();
 
-  public abstract boolean excludeFromTransactionTrace();
+    public abstract String tracerFactoryName();
 
-  public abstract String metricPrefix();
+    public abstract boolean excludeFromTransactionTrace();
 
-  public abstract String getFullMetricName(String paramString1, String paramString2);
+    public abstract String metricPrefix();
 
-  public abstract boolean ignoreTransaction();
+    public abstract String getFullMetricName(String paramString1, String paramString2);
 
-  public abstract List<InstrumentationType> instrumentationTypes();
+    public abstract boolean ignoreTransaction();
 
-  public abstract List<String> instrumentationSourceNames();
+    public abstract List<InstrumentationType> instrumentationTypes();
 
-  public abstract boolean isCustom();
+    public abstract List<String> instrumentationSourceNames();
 
-  public abstract boolean isLeaf();
+    public abstract boolean isCustom();
 
-  public abstract boolean isWebTransaction();
+    public abstract boolean isLeaf();
 
-  public abstract List<ParameterAttributeName> getParameterAttributeNames();
+    public abstract boolean isWebTransaction();
+
+    public abstract List<ParameterAttributeName> getParameterAttributeNames();
 }

@@ -14,8 +14,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.Lists;
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.extension.beans.Extension;
 import com.newrelic.agent.extension.beans.Extension.Instrumentation;
@@ -33,6 +31,8 @@ import com.newrelic.agent.instrumentation.custom.ExtensionClassAndMethodMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.AnnotationMethodMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.MethodMatcher;
 import com.newrelic.agent.instrumentation.tracing.ParameterAttributeName;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
 public final class ExtensionConversionUtility {
     public static final String DEFAULT_CONFIG_DIRECTORY = "extensions";
@@ -244,8 +244,7 @@ public final class ExtensionConversionUtility {
         } else {
             throw new XmlException(MessageFormat
                                            .format("At least one method must be specified for each point cut in the "
-                                                           + "extension {0}",
-                                                          new Object[] {pExtName}));
+                                                           + "extension {0}", new Object[] {pExtName}));
         }
     }
 
@@ -271,10 +270,9 @@ public final class ExtensionConversionUtility {
         } else if (pointcut.getInterfaceName() != null) {
             return new InterfaceMatcher(pointcut.getInterfaceName());
         } else {
-            throw new XmlException(MessageFormat
-                                           .format("A class name, interface name, or super class name needs to be "
-                                                           + "specified for every point cut in the extension {0}",
-                                                          new Object[] {pExtName}));
+            throw new XmlException(MessageFormat.format("A class name, interface name, or super class name needs to be "
+                                                                + "specified for every point cut in the extension {0}",
+                                                               new Object[] {pExtName}));
         }
     }
 }

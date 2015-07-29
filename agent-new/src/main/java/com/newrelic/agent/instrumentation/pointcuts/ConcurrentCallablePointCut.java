@@ -14,20 +14,22 @@ import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.metricname.ClassMethodMetricNameFormat;
 
 @PointCut
-public class ConcurrentCallablePointCut extends TracerFactoryPointCut
-{
-  public ConcurrentCallablePointCut(ClassTransformer classTransformer)
-  {
-    super(new PointCutConfiguration(ConcurrentCallablePointCut.class.getName(), null, false), new OrClassMatcher(new ClassMatcher[] { new ExactClassMatcher("java/util/concurrent/Executors$RunnableAdapter"), new InterfaceMatcher("java/util/concurrent/Callable") }), createExactMethodMatcher("call", new String[] { "()Ljava/lang/Object;" }));
-  }
+public class ConcurrentCallablePointCut extends TracerFactoryPointCut {
+    public ConcurrentCallablePointCut(ClassTransformer classTransformer) {
+        super(new PointCutConfiguration(ConcurrentCallablePointCut.class.getName(), null, false),
+                     new OrClassMatcher(new ClassMatcher[] {new ExactClassMatcher
+                                                                    ("java/util/concurrent/Executors$RunnableAdapter"),
+                                                                   new InterfaceMatcher
+                                                                           ("java/util/concurrent/Callable")}),
+                     createExactMethodMatcher("call", new String[] {"()Ljava/lang/Object;"}));
+    }
 
-  public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object callable, Object[] args)
-  {
-    return new OtherRootTracer(transaction, sig, callable, new ClassMethodMetricNameFormat(sig, callable, "OtherTransaction/Job"));
-  }
+    public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object callable, Object[] args) {
+        return new OtherRootTracer(transaction, sig, callable,
+                                          new ClassMethodMetricNameFormat(sig, callable, "OtherTransaction/Job"));
+    }
 
-  protected boolean isDispatcher()
-  {
-    return true;
-  }
+    protected boolean isDispatcher() {
+        return true;
+    }
 }

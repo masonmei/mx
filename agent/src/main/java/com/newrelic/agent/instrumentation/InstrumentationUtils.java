@@ -4,15 +4,14 @@ import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.deps.org.objectweb.asm.ClassReader;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 import com.newrelic.deps.org.objectweb.asm.ClassWriter;
 import com.newrelic.deps.org.objectweb.asm.Type;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
 import com.newrelic.deps.org.objectweb.asm.commons.SerialVersionUIDAdder;
-
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.service.ServiceFactory;
 
 public class InstrumentationUtils {
     public static final int JAVA_5_VERSION_NO = 49;

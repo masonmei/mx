@@ -1,46 +1,44 @@
 package com.newrelic.agent.transaction;
 
-import com.newrelic.deps.com.google.common.cache.Cache;
-import com.newrelic.deps.com.google.common.cache.CacheBuilder;
-import com.newrelic.agent.instrumentation.pointcuts.database.ConnectionFactory;
 import java.sql.Connection;
 
-public class ConnectionCache
-{
-  private static final int MAX_CONN_CACHE_SIZE = 50;
-  private Cache<Connection, ConnectionFactory> connectionFactoryCache;
+import com.newrelic.agent.instrumentation.pointcuts.database.ConnectionFactory;
+import com.newrelic.deps.com.google.common.cache.Cache;
+import com.newrelic.deps.com.google.common.cache.CacheBuilder;
 
-  public void putConnectionFactory(Connection key, ConnectionFactory val)
-  {
-    getOrCreateConnectionFactoryCache().put(key, val);
-  }
+public class ConnectionCache {
+    private static final int MAX_CONN_CACHE_SIZE = 50;
+    private Cache<Connection, ConnectionFactory> connectionFactoryCache;
 
-  public long getConnectionFactoryCacheSize() {
-    return getOrCreateConnectionFactoryCache().size();
-  }
-
-  public ConnectionFactory removeConnectionFactory(Connection key) {
-    if (this.connectionFactoryCache == null) {
-      return null;
+    public void putConnectionFactory(Connection key, ConnectionFactory val) {
+        getOrCreateConnectionFactoryCache().put(key, val);
     }
-    ConnectionFactory cf = (ConnectionFactory)this.connectionFactoryCache.getIfPresent(key);
-    this.connectionFactoryCache.invalidate(key);
-    return cf;
-  }
 
-  public Cache<Connection, ConnectionFactory> getConnectionFactoryCache() {
-    return this.connectionFactoryCache;
-  }
-
-  private Cache<Connection, ConnectionFactory> getOrCreateConnectionFactoryCache()
-  {
-    if (this.connectionFactoryCache == null) {
-      this.connectionFactoryCache = CacheBuilder.newBuilder().maximumSize(50L).build();
+    public long getConnectionFactoryCacheSize() {
+        return getOrCreateConnectionFactoryCache().size();
     }
-    return this.connectionFactoryCache;
-  }
 
-  public void clear() {
-    this.connectionFactoryCache.invalidateAll();
-  }
+    public ConnectionFactory removeConnectionFactory(Connection key) {
+        if (this.connectionFactoryCache == null) {
+            return null;
+        }
+        ConnectionFactory cf = (ConnectionFactory) this.connectionFactoryCache.getIfPresent(key);
+        this.connectionFactoryCache.invalidate(key);
+        return cf;
+    }
+
+    public Cache<Connection, ConnectionFactory> getConnectionFactoryCache() {
+        return this.connectionFactoryCache;
+    }
+
+    private Cache<Connection, ConnectionFactory> getOrCreateConnectionFactoryCache() {
+        if (this.connectionFactoryCache == null) {
+            this.connectionFactoryCache = CacheBuilder.newBuilder().maximumSize(50L).build();
+        }
+        return this.connectionFactoryCache;
+    }
+
+    public void clear() {
+        this.connectionFactoryCache.invalidateAll();
+    }
 }

@@ -4,6 +4,9 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.logging.Level;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.service.ServiceFactory;
+import com.newrelic.agent.stats.StatsWorks;
 import com.newrelic.deps.org.apache.http.client.config.RequestConfig;
 import com.newrelic.deps.org.apache.http.client.methods.CloseableHttpResponse;
 import com.newrelic.deps.org.apache.http.client.methods.HttpGet;
@@ -13,10 +16,6 @@ import com.newrelic.deps.org.apache.http.conn.ssl.StrictHostnameVerifier;
 import com.newrelic.deps.org.apache.http.impl.client.CloseableHttpClient;
 import com.newrelic.deps.org.apache.http.impl.client.HttpClientBuilder;
 import com.newrelic.deps.org.apache.http.util.EntityUtils;
-
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.service.ServiceFactory;
-import com.newrelic.agent.stats.StatsWorks;
 
 public class AWS {
     protected static final String INSTANCE_TYPE_URL = "http://169.254.169.254/2008-02-01/meta-data/instance-type";

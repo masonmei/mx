@@ -2,9 +2,9 @@ package com.newrelic.agent.transaction;
 
 import java.sql.Connection;
 
+import com.newrelic.agent.instrumentation.pointcuts.database.ConnectionFactory;
 import com.newrelic.deps.com.google.common.cache.Cache;
 import com.newrelic.deps.com.google.common.cache.CacheBuilder;
-import com.newrelic.agent.instrumentation.pointcuts.database.ConnectionFactory;
 
 public class ConnectionCache {
     private static final int MAX_CONN_CACHE_SIZE = 50;

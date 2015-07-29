@@ -5,11 +5,10 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.newrelic.deps.org.json.simple.JSONArray;
-import com.newrelic.deps.org.json.simple.JSONStreamAware;
-
 import com.newrelic.agent.metric.MetricName;
 import com.newrelic.agent.stats.StatsBase;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 public class MetricData implements JSONStreamAware {
     private final MetricName metricName;

@@ -23,15 +23,14 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.json.simple.JSONArray;
-
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.ThreadService;
 import com.newrelic.agent.profile.ThreadType.BasicThreadType;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.transport.DataSenderWriter;
 import com.newrelic.agent.util.StackTraces;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.org.json.simple.JSONArray;
 
 public class Profile implements IProfile {
     public static final int MAX_STACK_DEPTH = 300;

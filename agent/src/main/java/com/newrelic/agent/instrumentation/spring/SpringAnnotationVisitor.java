@@ -3,14 +3,6 @@ package com.newrelic.agent.instrumentation.spring;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.collect.ImmutableSet;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.TransactionNamePriority;
 import com.newrelic.agent.instrumentation.InstrumentationType;
@@ -18,6 +10,13 @@ import com.newrelic.agent.instrumentation.context.ClassMatchVisitorFactory;
 import com.newrelic.agent.instrumentation.context.InstrumentationContext;
 import com.newrelic.agent.instrumentation.context.TraceDetailsList;
 import com.newrelic.agent.instrumentation.tracing.TraceDetailsBuilder;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class SpringAnnotationVisitor {
     private static final Set<String> CONTROLLER_DESCRIPTORS = ImmutableSet
@@ -70,7 +69,7 @@ public class SpringAnnotationVisitor {
                     return super.visitMethod(access, methodName, methodDesc, signature, exceptions);
                 }
                 return new MethodVisitor(Agent.ASM_LEVEL, super.visitMethod(access, methodName, methodDesc, signature,
-                                                                          exceptions)) {
+                                                                                   exceptions)) {
                     String path;
                     String httpMethod = "GET";
 

@@ -16,65 +16,65 @@ import javax.sql.DataSource;
 import com.newrelic.agent.Agent;
 
 class ReflectiveDataSource implements DataSource {
-  private static final String DATASOURCE_CLASS_NAME = DataSource.class.getName();
-  private final Object dataSource;
-  private final Class<?> dataSourceClass;
+    private static final String DATASOURCE_CLASS_NAME = DataSource.class.getName();
+    private final Object dataSource;
+    private final Class<?> dataSourceClass;
 
-  public ReflectiveDataSource(Object dataSource) throws ClassNotFoundException {
-    this.dataSource = dataSource;
-    dataSource.getClass();
-    this.dataSourceClass = Class.forName(DATASOURCE_CLASS_NAME);
-  }
-
-  public Connection getConnection() throws SQLException {
-    return (Connection) this.invoke("getConnection", new Object[0]);
-  }
-
-  private <T> T invoke(String methodName, Object... args) {
-    Class[] argTypes = new Class[args.length];
-
-    for (int e = 0; e < args.length; ++e) {
-      argTypes[e] = args[e].getClass();
+    public ReflectiveDataSource(Object dataSource) throws ClassNotFoundException {
+        this.dataSource = dataSource;
+        dataSource.getClass();
+        this.dataSourceClass = Class.forName(DATASOURCE_CLASS_NAME);
     }
 
-    try {
-      return (T) this.dataSourceClass.getMethod(methodName, argTypes).invoke(this.dataSource, args);
-    } catch (Throwable var5) {
-      if (Agent.LOG.isLoggable(Level.FINER)) {
-        Agent.LOG.log(Level.FINER, "Unable to invoke DataSource method " + methodName, var5);
-      }
-
-      return null;
+    public Connection getConnection() throws SQLException {
+        return (Connection) this.invoke("getConnection", new Object[0]);
     }
-  }
 
-  public Connection getConnection(String username, String password) throws SQLException {
-    return (Connection) this.invoke("getConnection", new Object[] {username, password});
-  }
+    private <T> T invoke(String methodName, Object... args) {
+        Class[] argTypes = new Class[args.length];
 
-  public PrintWriter getLogWriter() throws SQLException {
-    return null;
-  }
+        for (int e = 0; e < args.length; ++e) {
+            argTypes[e] = args[e].getClass();
+        }
 
-  public void setLogWriter(PrintWriter arg0) throws SQLException {
-  }
+        try {
+            return (T) this.dataSourceClass.getMethod(methodName, argTypes).invoke(this.dataSource, args);
+        } catch (Throwable var5) {
+            if (Agent.LOG.isLoggable(Level.FINER)) {
+                Agent.LOG.log(Level.FINER, "Unable to invoke DataSource method " + methodName, var5);
+            }
 
-  public int getLoginTimeout() throws SQLException {
-    return 0;
-  }
+            return null;
+        }
+    }
 
-  public void setLoginTimeout(int arg0) throws SQLException {
-  }
+    public Connection getConnection(String username, String password) throws SQLException {
+        return (Connection) this.invoke("getConnection", new Object[] {username, password});
+    }
 
-  public boolean isWrapperFor(Class<?> iface) throws SQLException {
-    return false;
-  }
+    public PrintWriter getLogWriter() throws SQLException {
+        return null;
+    }
 
-  public <T> T unwrap(Class<T> iface) throws SQLException {
-    return null;
-  }
+    public void setLogWriter(PrintWriter arg0) throws SQLException {
+    }
 
-  public Logger getParentLogger() {
-    return null;
-  }
+    public int getLoginTimeout() throws SQLException {
+        return 0;
+    }
+
+    public void setLoginTimeout(int arg0) throws SQLException {
+    }
+
+    public boolean isWrapperFor(Class<?> iface) throws SQLException {
+        return false;
+    }
+
+    public <T> T unwrap(Class<T> iface) throws SQLException {
+        return null;
+    }
+
+    public Logger getParentLogger() {
+        return null;
+    }
 }

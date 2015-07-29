@@ -8,17 +8,6 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.base.Function;
-import com.newrelic.deps.com.google.common.collect.ImmutableMap;
-import com.newrelic.deps.com.google.common.collect.Lists;
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.TransactionNamePriority;
 import com.newrelic.agent.instrumentation.InstrumentationType;
@@ -38,6 +27,16 @@ import com.newrelic.agent.instrumentation.tracing.TraceDetails;
 import com.newrelic.agent.instrumentation.tracing.TraceDetailsBuilder;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.util.Strings;
+import com.newrelic.deps.com.google.common.base.Function;
+import com.newrelic.deps.com.google.common.collect.ImmutableMap;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class RestAnnotationVisitor {
     private static final String PATH_DESCRIPTOR = Type.getObjectType("javax/ws/rs/Path").getDescriptor();
@@ -66,7 +65,7 @@ public class RestAnnotationVisitor {
             public MethodVisitor visitMethod(int access, final String methodName, final String methodDesc,
                                              String signature, String[] exceptions) {
                 return new MethodVisitor(Agent.ASM_LEVEL, super.visitMethod(access, methodName, methodDesc, signature,
-                                                                          exceptions)) {
+                                                                                   exceptions)) {
                     String methodPath;
                     String httpMethod;
 
@@ -173,7 +172,7 @@ public class RestAnnotationVisitor {
 
                 final TraceList list = new TraceList();
                 return new ClassVisitor(Agent.ASM_LEVEL, RestAnnotationVisitor
-                                                        .createClassVisitor(reader.getClassName(), cv, list)) {
+                                                                 .createClassVisitor(reader.getClassName(), cv, list)) {
                     public void visitEnd() {
                         super.visitEnd();
 

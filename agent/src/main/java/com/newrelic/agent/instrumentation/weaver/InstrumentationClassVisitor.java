@@ -14,24 +14,6 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassWriter;
-import com.newrelic.deps.org.objectweb.asm.FieldVisitor;
-import com.newrelic.deps.org.objectweb.asm.Label;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
-import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
-import com.newrelic.deps.org.objectweb.asm.commons.JSRInlinerAdapter;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-import com.newrelic.deps.org.objectweb.asm.tree.FieldNode;
-import com.newrelic.deps.org.objectweb.asm.tree.InnerClassNode;
-import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
-
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.AgentBridge;
 import com.newrelic.agent.bridge.ObjectFieldManager;
@@ -50,6 +32,23 @@ import com.newrelic.api.agent.weaver.CatchAndLog;
 import com.newrelic.api.agent.weaver.MatchType;
 import com.newrelic.api.agent.weaver.NewField;
 import com.newrelic.api.agent.weaver.SkipIfPresent;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.FieldVisitor;
+import com.newrelic.deps.org.objectweb.asm.Label;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.JSRInlinerAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.tree.FieldNode;
+import com.newrelic.deps.org.objectweb.asm.tree.InnerClassNode;
+import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
 
 class InstrumentationClassVisitor extends ClassVisitor implements WeavedClassInfo {
     private static final String OBJECT_FIELDS_FIELD_NAME = "objectFieldManager";
@@ -219,7 +218,8 @@ class InstrumentationClassVisitor extends ClassVisitor implements WeavedClassInf
         return new ClassVisitor(Agent.ASM_LEVEL, cv) {
             public MethodVisitor visitMethod(int access, String name, String desc, String signature,
                                              String[] exceptions) {
-                return new MethodVisitor(Agent.ASM_LEVEL, super.visitMethod(access, name, desc, signature, exceptions)) {
+                return new MethodVisitor(Agent.ASM_LEVEL,
+                                                super.visitMethod(access, name, desc, signature, exceptions)) {
                     public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
                         return Type.getDescriptor(Trace.class).equals(desc) ? null
                                        : super.visitAnnotation(desc, visible);
@@ -478,7 +478,8 @@ class InstrumentationClassVisitor extends ClassVisitor implements WeavedClassInf
         } else {
             MethodVisitor mv = codeVisitor;
             if (!this.newFields.isEmpty()) {
-                mv = new GeneratorAdapter(Agent.ASM_LEVEL, codeVisitor, access, method.getName(), method.getDescriptor()) {
+                mv = new GeneratorAdapter(Agent.ASM_LEVEL, codeVisitor, access, method.getName(),
+                                                 method.getDescriptor()) {
                     public void visitFieldInsn(int opcode, String owner, String name, String desc) {
                         FieldNode fieldNode = (FieldNode) InstrumentationClassVisitor.this.newFields.get(name);
                         if (null != fieldNode) {
@@ -583,7 +584,8 @@ class InstrumentationClassVisitor extends ClassVisitor implements WeavedClassInf
             }
         } else {
             this.verifyNewClass();
-            NewClassDependencyVisitor dependencyCV = new NewClassDependencyVisitor(Agent.ASM_LEVEL, cv, newClassLoadOrder);
+            NewClassDependencyVisitor dependencyCV =
+                    new NewClassDependencyVisitor(Agent.ASM_LEVEL, cv, newClassLoadOrder);
             cv = NewClassMarker.getVisitor(dependencyCV, instrumentationPackage.implementationTitle,
                                                   Float.toString(instrumentationPackage.implementationVersion));
             cv = CurrentTransactionRewriter.rewriteCurrentTransactionReferences(cv, reader);

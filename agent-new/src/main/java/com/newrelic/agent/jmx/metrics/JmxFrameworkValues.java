@@ -2,14 +2,12 @@ package com.newrelic.agent.jmx.metrics;
 
 import java.util.List;
 
-public abstract class JmxFrameworkValues
-{
-  public abstract List<BaseJmxValue> getFrameworkMetrics();
+public abstract class JmxFrameworkValues {
+    public abstract List<BaseJmxValue> getFrameworkMetrics();
 
-  public List<BaseJmxInvokeValue> getJmxInvokers()
-  {
-    return null;
-  }
+    public List<BaseJmxInvokeValue> getJmxInvokers() {
+        return null;
+    }
 
-  public abstract String getPrefix();
+    public abstract String getPrefix();
 }

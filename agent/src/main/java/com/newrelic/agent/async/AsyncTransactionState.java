@@ -20,7 +20,6 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.base.Strings;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.Transaction;
 import com.newrelic.agent.TransactionActivity;
@@ -34,6 +33,7 @@ import com.newrelic.agent.tracers.ClassMethodSignature;
 import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.metricname.MetricNameFormat;
 import com.newrelic.agent.tracers.metricname.SimpleMetricNameFormat;
+import com.newrelic.deps.com.google.common.base.Strings;
 
 public class AsyncTransactionState extends TransactionStateImpl {
     private static final String ASYNC_WAIT = "Async Wait";
@@ -456,8 +456,8 @@ public class AsyncTransactionState extends TransactionStateImpl {
         if (!this.isComplete()) {
             if (this.asyncJobs.remove(job)) {
                 if (Agent.LOG.isFinestEnabled()) {
-                    String msg = MessageFormat.format("Async job finished for {0}: {1} (remaining: {2})", this.transactionActivityRef.get(),
-                                                             job, this.asyncJobs);
+                    String msg = MessageFormat.format("Async job finished for {0}: {1} (remaining: {2})",
+                                                             this.transactionActivityRef.get(), job, this.asyncJobs);
                     Agent.LOG.finest(msg);
                 }
 

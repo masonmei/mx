@@ -1,87 +1,73 @@
 package com.newrelic.agent.instrumentation.tracing;
 
-import com.newrelic.agent.instrumentation.InstrumentationType;
 import java.util.List;
 
-public class DelegatingTraceDetails
-  implements TraceDetails
-{
-  private final TraceDetails delegate;
+import com.newrelic.agent.instrumentation.InstrumentationType;
 
-  public DelegatingTraceDetails(TraceDetails delegate)
-  {
-    this.delegate = delegate;
-  }
+public class DelegatingTraceDetails implements TraceDetails {
+    private final TraceDetails delegate;
 
-  public String metricName()
-  {
-    return this.delegate.metricName();
-  }
+    public DelegatingTraceDetails(TraceDetails delegate) {
+        this.delegate = delegate;
+    }
 
-  public boolean dispatcher()
-  {
-    return this.delegate.dispatcher();
-  }
+    public String metricName() {
+        return this.delegate.metricName();
+    }
 
-  public String tracerFactoryName()
-  {
-    return this.delegate.tracerFactoryName();
-  }
+    public boolean dispatcher() {
+        return this.delegate.dispatcher();
+    }
 
-  public boolean excludeFromTransactionTrace()
-  {
-    return this.delegate.excludeFromTransactionTrace();
-  }
+    public String tracerFactoryName() {
+        return this.delegate.tracerFactoryName();
+    }
 
-  public String metricPrefix()
-  {
-    return this.delegate.metricPrefix();
-  }
+    public boolean excludeFromTransactionTrace() {
+        return this.delegate.excludeFromTransactionTrace();
+    }
 
-  public String getFullMetricName(String className, String methodName)
-  {
-    return this.delegate.getFullMetricName(className, methodName);
-  }
+    public String metricPrefix() {
+        return this.delegate.metricPrefix();
+    }
 
-  public boolean ignoreTransaction()
-  {
-    return this.delegate.ignoreTransaction();
-  }
+    public String getFullMetricName(String className, String methodName) {
+        return this.delegate.getFullMetricName(className, methodName);
+    }
 
-  public boolean isCustom()
-  {
-    return this.delegate.isCustom();
-  }
+    public boolean ignoreTransaction() {
+        return this.delegate.ignoreTransaction();
+    }
 
-  public TransactionName transactionName() {
-    return this.delegate.transactionName();
-  }
+    public boolean isCustom() {
+        return this.delegate.isCustom();
+    }
 
-  public List<InstrumentationType> instrumentationTypes() {
-    return this.delegate.instrumentationTypes();
-  }
+    public TransactionName transactionName() {
+        return this.delegate.transactionName();
+    }
 
-  public List<String> instrumentationSourceNames() {
-    return this.delegate.instrumentationSourceNames();
-  }
+    public List<InstrumentationType> instrumentationTypes() {
+        return this.delegate.instrumentationTypes();
+    }
 
-  public boolean isWebTransaction()
-  {
-    return this.delegate.isWebTransaction();
-  }
+    public List<String> instrumentationSourceNames() {
+        return this.delegate.instrumentationSourceNames();
+    }
 
-  public boolean isLeaf()
-  {
-    return this.delegate.isLeaf();
-  }
+    public boolean isWebTransaction() {
+        return this.delegate.isWebTransaction();
+    }
 
-  public String[] rollupMetricName()
-  {
-    return this.delegate.rollupMetricName();
-  }
+    public boolean isLeaf() {
+        return this.delegate.isLeaf();
+    }
 
-  public List<ParameterAttributeName> getParameterAttributeNames()
-  {
-    return this.delegate.getParameterAttributeNames();
-  }
+    public String[] rollupMetricName() {
+        return this.delegate.rollupMetricName();
+    }
+
+    public List<ParameterAttributeName> getParameterAttributeNames() {
+        return this.delegate.getParameterAttributeNames();
+    }
 }

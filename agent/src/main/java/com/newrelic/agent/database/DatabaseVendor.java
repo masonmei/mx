@@ -36,7 +36,8 @@ public enum DatabaseVendor {
         UNKNOWN_DATABASE_METRIC_NAME = new SimpleMetricNameFormat(MessageFormat
                                                                           .format(REMOTE_SERVICE_DATABASE_METRIC_NAME,
                                                                                          UNKNOWN_STRING, UNKNOWN_STRING,
-                                                                                         UNKNOWN_STRING, UNKNOWN_STRING));
+                                                                                         UNKNOWN_STRING,
+                                                                                         UNKNOWN_STRING));
 
         POSTGRES_URL_PATTERN = Pattern.compile("^jdbc:postgresql://([^/]*).*");
 
@@ -162,9 +163,8 @@ public enum DatabaseVendor {
             } catch (Exception ex) {
             }
         }
-        return new SimpleMetricNameFormat(MessageFormat.format(REMOTE_SERVICE_DATABASE_METRIC_NAME,
-                                                                      databaseProductName, databaseProductVersion, host,
-                                                                      databaseName));
+        return new SimpleMetricNameFormat(MessageFormat.format(REMOTE_SERVICE_DATABASE_METRIC_NAME, databaseProductName,
+                                                                      databaseProductVersion, host, databaseName));
     }
 
     public Collection<Collection<Object>> parseExplainPlanResultSet(int columnCount, ResultSet rs, RecordSql recordSql)

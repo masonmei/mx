@@ -6,10 +6,10 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
+import com.newrelic.agent.Agent;
 import com.newrelic.deps.com.google.common.cache.CacheBuilder;
 import com.newrelic.deps.com.google.common.cache.CacheLoader;
 import com.newrelic.deps.com.google.common.cache.LoadingCache;
-import com.newrelic.agent.Agent;
 
 public class DefaultDestinationPredicate implements DestinationPredicate {
     private static final long MAX_CACHE_SIZE_BUFFER = 200L;
@@ -25,7 +25,7 @@ public class DefaultDestinationPredicate implements DestinationPredicate {
         configTrie = generateConfigTrie(dest, exclude, include);
         defaultExcludeTrie = generateDefaultTrie(dest, defaultExcludes);
         destination = dest;
-        cache = CacheBuilder.newBuilder().maximumSize(200L).build(new CacheLoader<String, Boolean>() {
+        cache = CacheBuilder.newBuilder().maximumSize(MAX_CACHE_SIZE_BUFFER).build(new CacheLoader<String, Boolean>() {
             public Boolean load(String key) throws Exception {
                 return DefaultDestinationPredicate.this.isIncluded(key);
             }
@@ -75,7 +75,7 @@ public class DefaultDestinationPredicate implements DestinationPredicate {
 
     public boolean apply(String key) {
         try {
-            return changeToPrimitiveAndLog(key, (Boolean) cache.get(key));
+            return changeToPrimitiveAndLog(key, cache.get(key));
         } catch (ExecutionException e) {
         }
         return changeToPrimitiveAndLog(key, isIncluded(key));
@@ -83,23 +83,22 @@ public class DefaultDestinationPredicate implements DestinationPredicate {
 
     private void logOutput(String key, boolean value) {
         if (Agent.LOG.isFineEnabled()) {
-            Agent.LOG.log(Level.FINER, "{0}: Attribute {1} is {2}",
-                                 new Object[] {destination, key, value ? "enabled" : "disabled"});
+            Agent.LOG.log(Level.FINER, "{0}: Attribute {1} is {2}", destination, key, value ? "enabled" : "disabled");
         }
     }
 
     private boolean changeToPrimitiveAndLog(String key, Boolean value) {
-        boolean out = value == null ? true : value.booleanValue();
+        boolean out = value == null || value.booleanValue();
         logOutput(key, out);
         return out;
     }
 
     public boolean isPotentialConfigMatch(String key) {
-        List queue = new LinkedList();
+        List<AttributesNode> queue = new LinkedList<AttributesNode>();
         queue.addAll(configTrie.getChildren());
 
         while (!queue.isEmpty()) {
-            AttributesNode node = (AttributesNode) queue.remove(0);
+            AttributesNode node = queue.remove(0);
             queue.addAll(node.getChildren());
             if ((node.isIncludeDestination()) && (node.mightMatch(key))) {
                 return true;

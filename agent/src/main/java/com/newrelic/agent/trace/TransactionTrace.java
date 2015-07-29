@@ -21,10 +21,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.json.simple.JSONArray;
-import com.newrelic.deps.org.json.simple.JSONStreamAware;
-
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.TransactionData;
 import com.newrelic.agent.attributes.AttributesUtils;
@@ -39,6 +35,9 @@ import com.newrelic.agent.instrumentation.pointcuts.database.SqlStatementTracer;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.transport.DataSenderWriter;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 public class TransactionTrace implements Comparable<TransactionTrace>, JSONStreamAware {
     private final TransactionSegment rootSegment;

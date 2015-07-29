@@ -7,13 +7,7 @@ package com.newrelic.agent.instrumentation.yaml;
 
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
-
-import com.newrelic.deps.org.yaml.snakeyaml.constructor.Constructor;
-import com.newrelic.deps.org.yaml.snakeyaml.nodes.Node;
-import com.newrelic.deps.org.yaml.snakeyaml.nodes.ScalarNode;
-import com.newrelic.deps.org.yaml.snakeyaml.nodes.SequenceNode;
 
 import com.newrelic.agent.extension.ConfigurationConstruct;
 import com.newrelic.agent.instrumentation.classmatchers.AndClassMatcher;
@@ -25,6 +19,10 @@ import com.newrelic.agent.instrumentation.classmatchers.OrClassMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.AllMethodsMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.OrMethodMatcher;
 import com.newrelic.agent.instrumentation.yaml.PointCutFactory.ClassMethodNameFormatDescriptor;
+import com.newrelic.deps.org.yaml.snakeyaml.constructor.Constructor;
+import com.newrelic.deps.org.yaml.snakeyaml.nodes.Node;
+import com.newrelic.deps.org.yaml.snakeyaml.nodes.ScalarNode;
+import com.newrelic.deps.org.yaml.snakeyaml.nodes.SequenceNode;
 
 public class InstrumentationConstructor extends Constructor {
     public final Collection<ConfigurationConstruct> constructs =

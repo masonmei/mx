@@ -1,12 +1,11 @@
 package com.newrelic.agent.instrumentation.weaver;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.api.agent.weaver.internal.NewClass;
 import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
 import com.newrelic.deps.org.objectweb.asm.ClassReader;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 import com.newrelic.deps.org.objectweb.asm.Type;
-
-import com.newrelic.agent.Agent;
-import com.newrelic.api.agent.weaver.internal.NewClass;
 
 public class NewClassMarker {
     private static final String NEW_CLASS_INTERNAL_NAME = Type.getInternalName(NewClass.class);

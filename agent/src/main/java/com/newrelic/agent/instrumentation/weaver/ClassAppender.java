@@ -20,16 +20,15 @@ import java.util.Set;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.Type;
-
-import com.newrelic.deps.com.google.common.collect.Lists;
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.util.JarUtils;
 import com.newrelic.agent.util.asm.Utils;
 import com.newrelic.bootstrap.BootstrapAgent;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 abstract class ClassAppender {
     ClassAppender() {

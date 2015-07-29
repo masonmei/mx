@@ -31,9 +31,9 @@ public class WeblogicStartUpPointCut extends com.newrelic.agent.instrumentation.
         if (!addedJmx) {
             ServiceFactory.getJmxService().addJmxFrameworkValues(new WeblogicJmxValues());
             addedJmx = true;
-          if (Agent.LOG.isFinerEnabled()) {
-            Agent.LOG.log(Level.FINER, "Added JMX for Weblogic");
-          }
+            if (Agent.LOG.isFinerEnabled()) {
+                Agent.LOG.log(Level.FINER, "Added JMX for Weblogic");
+            }
         }
     }
 

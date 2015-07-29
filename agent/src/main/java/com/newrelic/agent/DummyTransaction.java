@@ -15,7 +15,6 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.newrelic.deps.com.google.common.cache.Cache;
 import com.newrelic.agent.application.PriorityApplicationName;
 import com.newrelic.agent.bridge.CrossProcessState;
 import com.newrelic.agent.bridge.TracedMethod;
@@ -62,6 +61,7 @@ import com.newrelic.api.agent.MetricAggregator;
 import com.newrelic.api.agent.OutboundHeaders;
 import com.newrelic.api.agent.Request;
 import com.newrelic.api.agent.Response;
+import com.newrelic.deps.com.google.common.cache.Cache;
 
 public class DummyTransaction extends Transaction {
     private static final MetricAggregator metricAggregator = new AbstractMetricAggregator() {

@@ -5,9 +5,9 @@ import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
+import com.newrelic.agent.Agent;
 import com.newrelic.deps.com.google.common.cache.Cache;
 import com.newrelic.deps.com.google.common.cache.CacheBuilder;
-import com.newrelic.agent.Agent;
 
 public class CachingDatabaseStatementParser implements DatabaseStatementParser {
     private final DatabaseStatementParser databaseStatementParser;

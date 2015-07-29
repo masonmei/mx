@@ -58,8 +58,7 @@ public class CreatePreparedStatementTracerFactory extends AbstractTracerFactory 
             if (!(statement instanceof PreparedStatementExtension)) {
                 if (isLoggable) {
                     String msg = MessageFormat.format("{0} does not implement {1}", statement.getClass().getName(),
-                                                             PreparedStatementExtension.class
-                                                                     .getName());
+                                                             PreparedStatementExtension.class.getName());
 
                     Agent.LOG.finest(msg);
                 }

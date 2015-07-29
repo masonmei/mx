@@ -22,7 +22,7 @@ public class AttributesNode {
 
     public AttributesNode(String pOriginal, boolean isIncluded, String dest, boolean isDefault) {
         original = pOriginal;
-        if (original.endsWith("*")) {
+        if (original.endsWith(END_WILDCARD)) {
             name = original.substring(0, original.length() - 1);
             hasEndWildcard = true;
         } else {
@@ -32,7 +32,7 @@ public class AttributesNode {
         includeDestination = isIncluded;
         destination = dest;
         isDefaultRule = isDefault;
-        children = new HashSet();
+        children = new HashSet<AttributesNode>();
         parent = null;
     }
 
@@ -40,7 +40,7 @@ public class AttributesNode {
         Boolean result = null;
         if (matches(key)) {
             logMatch(key);
-            result = Boolean.valueOf(includeDestination);
+            result = includeDestination;
 
             for (AttributesNode current : children) {
                 Boolean tmp = current.applyRules(key);
@@ -55,9 +55,9 @@ public class AttributesNode {
 
     private void logMatch(String key) {
         if (Agent.LOG.isFinerEnabled()) {
-            Agent.LOG.log(Level.FINEST, "{0}: Attribute key \"{1}\" matched {2} {3} rule \"{4}\"",
-                                 new Object[] {destination, key, isDefaultRule ? "default" : "config",
-                                                      includeDestination ? "INCLUDE" : "EXCLUDE", original});
+            Agent.LOG.log(Level.FINEST, "{0}: Attribute key \"{1}\" matched {2} {3} rule \"{4}\"", destination, key,
+                                 isDefaultRule ? "default" : "config", includeDestination ? "INCLUDE" : "EXCLUDE",
+                                 original);
         }
     }
 

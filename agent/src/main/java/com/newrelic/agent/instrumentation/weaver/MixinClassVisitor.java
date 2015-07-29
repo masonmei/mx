@@ -7,6 +7,10 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.api.agent.weaver.MatchType;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
@@ -19,11 +23,6 @@ import com.newrelic.deps.org.objectweb.asm.tree.LineNumberNode;
 import com.newrelic.deps.org.objectweb.asm.tree.MethodInsnNode;
 import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
 import com.newrelic.deps.org.objectweb.asm.util.TraceClassVisitor;
-
-import com.newrelic.deps.com.google.common.collect.Lists;
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.agent.Agent;
-import com.newrelic.api.agent.weaver.MatchType;
 
 class MixinClassVisitor extends ClassVisitor {
     private final Map<Method, MergeMethodVisitor> methods = Maps.newHashMap();
@@ -67,8 +66,8 @@ class MixinClassVisitor extends ClassVisitor {
         }
 
         MergeMethodVisitor node =
-                new MergeMethodVisitor(instrumentationPackage, className, Agent.ASM_LEVEL, access, name, desc, signature,
-                                              exceptions);
+                new MergeMethodVisitor(instrumentationPackage, className, Agent.ASM_LEVEL, access, name, desc,
+                                              signature, exceptions);
 
         methods.put(method, node);
 

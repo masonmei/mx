@@ -7,8 +7,6 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 
-import com.newrelic.deps.org.apache.commons.cli.CommandLine;
-import com.newrelic.deps.org.objectweb.asm.Type;
 import org.xml.sax.SAXException;
 
 import com.newrelic.agent.extension.beans.Extension;
@@ -16,6 +14,8 @@ import com.newrelic.agent.extension.dom.ExtensionDomParser;
 import com.newrelic.agent.extension.util.ExtensionConversionUtility;
 import com.newrelic.agent.instrumentation.custom.ExtensionClassAndMethodMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.MethodMatcher;
+import com.newrelic.deps.org.apache.commons.cli.CommandLine;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 public class XmlInstrumentValidator {
     public static void validateInstrumentation(CommandLine cmd) {

@@ -166,7 +166,8 @@ public class Play2RequestPointCut extends com.newrelic.agent.instrumentation.Poi
 
     @InterfaceMapper(
                             originalInterfaceName = "play/api/mvc/Request",
-                            className = {"play/core/server/netty/PlayDefaultUpstreamHandler$$anonfun$19$$anonfun$apply$21$$anon$1"})
+                            className =
+                                    {"play/core/server/netty/PlayDefaultUpstreamHandler$$anonfun$19$$anonfun$apply$21$$anon$1"})
     public interface Request {
         String INTERFACE = "play/api/mvc/Request";
         String CLASS = "play/core/server/netty/PlayDefaultUpstreamHandler$$anonfun$19$$anonfun$apply$21$$anon$1";

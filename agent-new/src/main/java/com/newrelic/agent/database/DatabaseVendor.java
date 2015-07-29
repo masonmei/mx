@@ -1,199 +1,194 @@
 package com.newrelic.agent.database;
 
-import com.newrelic.agent.Agent;
-import com.newrelic.deps.com.google.common.collect.ImmutableSet;
-import com.newrelic.deps.org.json.simple.JSONArray;
-import com.newrelic.deps.org.json.simple.parser.JSONParser;
-import com.newrelic.deps.org.json.simple.parser.ParseException;
-import com.newrelic.agent.logging.IAgentLogger;
-import com.newrelic.agent.tracers.metricname.MetricNameFormat;
-import com.newrelic.agent.tracers.metricname.SimpleMetricNameFormat;
 import java.sql.DatabaseMetaData;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.text.MessageFormat;
-import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.Map.Entry;
-import java.util.Set;
-import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public enum DatabaseVendor
-{
-  MYSQL("MySQL", "mysql", true, "^jdbc:mysql://([^/]*)/([^/\\?]*).*"), 
+import com.newrelic.agent.tracers.metricname.MetricNameFormat;
+import com.newrelic.agent.tracers.metricname.SimpleMetricNameFormat;
 
-  ORACLE("Oracle", "oracle", false, "^jdbc:oracle:(thin|oci):(@//|@)([^:]*:\\d+)(/|:)(.*)"), 
+public enum DatabaseVendor {
+    MYSQL("MySQL", "mysql", true, "^jdbc:mysql://([^/]*)/([^/\\?]*).*"),
 
-  MICROSOFT("Microsoft SQL Server", "sqlserver", false, "^jdbc:sqlserver://([^;]*).*"), 
+    ORACLE("Oracle", "oracle", false, "^jdbc:oracle:(thin|oci):(@//|@)([^:]*:\\d+)(/|:)(.*)"),
 
-  POSTGRES("PostgreSQL", "postgresql", true, "^jdbc:postgresql://([^/]*)/([^\\?]*).*"), 
+    MICROSOFT("Microsoft SQL Server", "sqlserver", false, "^jdbc:sqlserver://([^;]*).*"),
 
-  DB2("DB2", "db2", false, "jdbc:db2://server:port/database"), 
+    POSTGRES("PostgreSQL", "postgresql", true, "^jdbc:postgresql://([^/]*)/([^\\?]*).*"),
 
-  DERBY("Apache Derby", "derby", false, "^$"), UNKNOWN("Unknown", null, false, "^$");
+    DB2("DB2", "db2", false, "jdbc:db2://server:port/database"),
 
-  private static final String UNKNOWN_STRING = "Unknown";
-  private static final String REMOTE_SERVICE_DATABASE_METRIC_NAME = "RemoteService/Database/{0}/{1}/{2}/{3}/all";
-  public static final MetricNameFormat UNKNOWN_DATABASE_METRIC_NAME;
-  static final Pattern POSTGRES_URL_PATTERN;
-  static final Pattern POSTGRES_URL_PATTERN_DB;
-  private static final Pattern SIMPLE_DB_URL;
-  private static final Pattern TYPE_PATTERN;
-  private static final Map<String, DatabaseVendor> TYPE_TO_VENDOR;
-  private final String name;
-  final boolean explainPlanSupported;
-  final Pattern urlPattern;
-  final String type;
+    DERBY("Apache Derby", "derby", false, "^$"), UNKNOWN("Unknown", null, false, "^$");
 
-  private DatabaseVendor(String name, String type, boolean explainSupported, String urlPattern)
-  {
-    this.name = name;
-    this.explainPlanSupported = explainSupported;
-    this.type = type;
-    this.urlPattern = Pattern.compile(urlPattern);
-  }
+    public static final MetricNameFormat UNKNOWN_DATABASE_METRIC_NAME;
+    static final Pattern POSTGRES_URL_PATTERN;
+    static final Pattern POSTGRES_URL_PATTERN_DB;
+    private static final String UNKNOWN_STRING = "Unknown";
+    private static final String REMOTE_SERVICE_DATABASE_METRIC_NAME = "RemoteService/Database/{0}/{1}/{2}/{3}/all";
+    private static final Pattern SIMPLE_DB_URL;
+    private static final Pattern TYPE_PATTERN;
+    private static final Map<String, DatabaseVendor> TYPE_TO_VENDOR;
 
-  public String getName() {
-    return this.name;
-  }
+    static {
+        UNKNOWN_DATABASE_METRIC_NAME = new SimpleMetricNameFormat(MessageFormat
+                                                                          .format("RemoteService/Database/{0}/{1}/{2}/{3}/all",
+                                                                                         new Object[] {"Unknown",
+                                                                                                              "Unknown",
+                                                                                                              "Unknown",
+                                                                                                              "Unknown"}));
 
-  public boolean isExplainPlanSupported() {
-    return this.explainPlanSupported;
-  }
+        POSTGRES_URL_PATTERN = Pattern.compile("^jdbc:postgresql://([^/]*).*");
 
-  public String getExplainPlanSql(String sql) throws SQLException {
-    if (!isExplainPlanSupported()) {
-      throw new SQLException("Unable to run explain plans for " + getName() + " databases");
-    }
-    return "EXPLAIN " + sql;
-  }
+        POSTGRES_URL_PATTERN_DB = Pattern.compile("^jdbc:postgresql:(.*)");
 
-  public static DatabaseVendor getDatabaseVendor(String url) {
-    Matcher matcher = TYPE_PATTERN.matcher(url);
-    if (matcher.matches()) {
-      String type = matcher.group(1);
-      if (type != null) {
-        DatabaseVendor vendor = (DatabaseVendor)TYPE_TO_VENDOR.get(type);
-        if (vendor != null) {
-          return vendor;
+        SIMPLE_DB_URL = Pattern.compile("jdbc:([^:]*):([^/;:].*)");
+        TYPE_PATTERN = Pattern.compile("jdbc:([^:]*).*");
+
+        TYPE_TO_VENDOR = new HashMap(7);
+
+        for (DatabaseVendor vendor : values()) {
+            TYPE_TO_VENDOR.put(vendor.getType(), vendor);
         }
-      }
     }
-    return UNKNOWN;
-  }
 
-  public String getType() {
-    return this.type;
-  }
+    final boolean explainPlanSupported;
+    final Pattern urlPattern;
+    final String type;
+    private final String name;
 
-  public String getHost(String url) {
-    Matcher matcher = this.urlPattern.matcher(url);
-    if (matcher.matches()) {
-      String host = getHost(matcher);
-      if (host != null) {
-        return host;
-      }
+    private DatabaseVendor(String name, String type, boolean explainSupported, String urlPattern) {
+        this.name = name;
+        this.explainPlanSupported = explainSupported;
+        this.type = type;
+        this.urlPattern = Pattern.compile(urlPattern);
     }
-    if (SIMPLE_DB_URL.matcher(url).matches()) {
-      return "localhost";
+
+    public static DatabaseVendor getDatabaseVendor(String url) {
+        Matcher matcher = TYPE_PATTERN.matcher(url);
+        if (matcher.matches()) {
+            String type = matcher.group(1);
+            if (type != null) {
+                DatabaseVendor vendor = (DatabaseVendor) TYPE_TO_VENDOR.get(type);
+                if (vendor != null) {
+                    return vendor;
+                }
+            }
+        }
+        return UNKNOWN;
     }
-    return "UnknownOrLocalhost";
-  }
 
-  protected String getHost(Matcher matcher) {
-    if (matcher.groupCount() >= 1) {
-      return matcher.group(1);
+    public String getName() {
+        return this.name;
     }
-    return null;
-  }
 
-  public String getDatabase(String url) {
-    Matcher matcher = this.urlPattern.matcher(url);
-    if (matcher.matches()) {
-      String db = getDatabase(matcher);
-      if (db != null) {
-        return db;
-      }
+    public boolean isExplainPlanSupported() {
+        return this.explainPlanSupported;
     }
-    matcher = SIMPLE_DB_URL.matcher(url);
-    if (matcher.matches()) {
-      return matcher.group(2);
+
+    public String getExplainPlanSql(String sql) throws SQLException {
+        if (!isExplainPlanSupported()) {
+            throw new SQLException("Unable to run explain plans for " + getName() + " databases");
+        }
+        return "EXPLAIN " + sql;
     }
-    return "Unknown";
-  }
 
-  protected String getDatabase(Matcher matcher) {
-    if (matcher.groupCount() >= 2) {
-      return matcher.group(2);
+    public String getType() {
+        return this.type;
     }
-    return null;
-  }
 
-  public MetricNameFormat getDatabaseMetricName(DatabaseMetaData metaData) {
-    String databaseProductVersion = "Unknown"; String databaseProductName = "Unknown"; String host = "Unknown"; String databaseName = "Unknown";
-
-    if (metaData != null) {
-      try {
-        databaseProductVersion = metaData.getDatabaseProductVersion();
-      }
-      catch (Exception ex) {
-      }
-      try {
-        databaseProductName = metaData.getDatabaseProductName();
-      }
-      catch (Exception ex) {
-      }
-      try {
-        String url = metaData.getURL();
-        host = getHost(url);
-        databaseName = getDatabase(url);
-      }
-      catch (Exception ex) {
-      }
+    public String getHost(String url) {
+        Matcher matcher = this.urlPattern.matcher(url);
+        if (matcher.matches()) {
+            String host = getHost(matcher);
+            if (host != null) {
+                return host;
+            }
+        }
+        if (SIMPLE_DB_URL.matcher(url).matches()) {
+            return "localhost";
+        }
+        return "UnknownOrLocalhost";
     }
-    return new SimpleMetricNameFormat(MessageFormat.format("RemoteService/Database/{0}/{1}/{2}/{3}/all", new Object[] { databaseProductName, databaseProductVersion, host, databaseName }));
-  }
 
-  public Collection<Collection<Object>> parseExplainPlanResultSet(int columnCount, ResultSet rs, RecordSql recordSql)
-    throws SQLException
-  {
-    Collection explains = new LinkedList();
-    while (rs.next()) {
-      Collection values = new LinkedList();
-      for (int i = 1; i <= columnCount; i++) {
-        Object obj = rs.getObject(i);
-        values.add(obj == null ? "" : obj.toString());
-      }
-      explains.add(values);
+    protected String getHost(Matcher matcher) {
+        if (matcher.groupCount() >= 1) {
+            return matcher.group(1);
+        }
+        return null;
     }
-    return explains;
-  }
 
-  public String getExplainPlanFormat()
-  {
-    return "text";
-  }
+    public String getDatabase(String url) {
+        Matcher matcher = this.urlPattern.matcher(url);
+        if (matcher.matches()) {
+            String db = getDatabase(matcher);
+            if (db != null) {
+                return db;
+            }
+        }
+        matcher = SIMPLE_DB_URL.matcher(url);
+        if (matcher.matches()) {
+            return matcher.group(2);
+        }
+        return "Unknown";
+    }
 
-  static
-  {
-    UNKNOWN_DATABASE_METRIC_NAME = new SimpleMetricNameFormat(MessageFormat.format("RemoteService/Database/{0}/{1}/{2}/{3}/all", new Object[] { "Unknown", "Unknown", "Unknown", "Unknown" }));
+    protected String getDatabase(Matcher matcher) {
+        if (matcher.groupCount() >= 2) {
+            return matcher.group(2);
+        }
+        return null;
+    }
 
-    POSTGRES_URL_PATTERN = Pattern.compile("^jdbc:postgresql://([^/]*).*");
+    public MetricNameFormat getDatabaseMetricName(DatabaseMetaData metaData) {
+        String databaseProductVersion = "Unknown";
+        String databaseProductName = "Unknown";
+        String host = "Unknown";
+        String databaseName = "Unknown";
 
-    POSTGRES_URL_PATTERN_DB = Pattern.compile("^jdbc:postgresql:(.*)");
+        if (metaData != null) {
+            try {
+                databaseProductVersion = metaData.getDatabaseProductVersion();
+            } catch (Exception ex) {
+            }
+            try {
+                databaseProductName = metaData.getDatabaseProductName();
+            } catch (Exception ex) {
+            }
+            try {
+                String url = metaData.getURL();
+                host = getHost(url);
+                databaseName = getDatabase(url);
+            } catch (Exception ex) {
+            }
+        }
+        return new SimpleMetricNameFormat(MessageFormat.format("RemoteService/Database/{0}/{1}/{2}/{3}/all",
+                                                                      new Object[] {databaseProductName,
+                                                                                           databaseProductVersion, host,
+                                                                                           databaseName}));
+    }
 
-    SIMPLE_DB_URL = Pattern.compile("jdbc:([^:]*):([^/;:].*)");
-    TYPE_PATTERN = Pattern.compile("jdbc:([^:]*).*");
+    public Collection<Collection<Object>> parseExplainPlanResultSet(int columnCount, ResultSet rs, RecordSql recordSql)
+            throws SQLException {
+        Collection explains = new LinkedList();
+        while (rs.next()) {
+            Collection values = new LinkedList();
+            for (int i = 1; i <= columnCount; i++) {
+                Object obj = rs.getObject(i);
+                values.add(obj == null ? "" : obj.toString());
+            }
+            explains.add(values);
+        }
+        return explains;
+    }
 
-    TYPE_TO_VENDOR = new HashMap(7);
-
-    for (DatabaseVendor vendor : values())
-      TYPE_TO_VENDOR.put(vendor.getType(), vendor);
-  }
+    public String getExplainPlanFormat() {
+        return "text";
+    }
 }

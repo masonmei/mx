@@ -5,14 +5,6 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.collect.ImmutableSet;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.InstrumentationType;
 import com.newrelic.agent.instrumentation.context.ClassMatchVisitorFactory;
@@ -20,6 +12,13 @@ import com.newrelic.agent.instrumentation.context.InstrumentationContext;
 import com.newrelic.agent.instrumentation.tracing.TraceDetailsBuilder;
 import com.newrelic.agent.util.asm.ClassStructure;
 import com.newrelic.agent.util.asm.Utils;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class EJBAnnotationVisitor implements ClassMatchVisitorFactory {
     private static final Set<String> EJB_DESCRIPTORS = ImmutableSet.of(Type.getObjectType("javax/ejb/Stateless")

@@ -7,10 +7,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Set;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassWriter;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.config.ClassTransformerConfig;
 import com.newrelic.agent.instrumentation.classmatchers.ClassMatcher;
@@ -18,6 +14,9 @@ import com.newrelic.agent.instrumentation.classmatchers.ExactClassMatcher;
 import com.newrelic.agent.instrumentation.classmatchers.NoMatchMatcher;
 import com.newrelic.agent.instrumentation.pointcuts.database.PreparedStatementExtension;
 import com.newrelic.agent.service.ServiceFactory;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
 
 public class JDBCClassTransformer extends AbstractImplementationClassTransformer {
     public static final String DERBY_PREPARED_STATEMENT = "org/apache/derby/impl/jdbc/EmbedPreparedStatement";

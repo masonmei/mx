@@ -3,11 +3,11 @@ package com.newrelic.agent.instrumentation.tracing;
 import java.util.Arrays;
 import java.util.List;
 
-import com.newrelic.deps.com.google.common.collect.ImmutableList;
-import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.bridge.TransactionNamePriority;
 import com.newrelic.agent.instrumentation.InstrumentationType;
 import com.newrelic.agent.util.Strings;
+import com.newrelic.deps.com.google.common.collect.ImmutableList;
+import com.newrelic.deps.com.google.common.collect.Lists;
 
 public class TraceDetailsBuilder {
     private final List<String> rollupMetricName = Lists.newArrayListWithCapacity(5);

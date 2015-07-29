@@ -7,12 +7,11 @@ import java.util.Arrays;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.json.simple.JSONArray;
-import com.newrelic.deps.org.json.simple.JSONStreamAware;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.profile.method.MethodInfo;
 import com.newrelic.agent.profile.method.MethodInfoUtil;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 public class ProfiledMethod implements JSONStreamAware {
     private final StackTraceElement stackTraceElement;

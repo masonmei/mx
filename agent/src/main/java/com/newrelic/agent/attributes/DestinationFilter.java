@@ -12,10 +12,10 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.config.AgentConfig;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 
 public class DestinationFilter {
     private final boolean isEnabled;
@@ -45,14 +45,14 @@ public class DestinationFilter {
         }
     }
 
-    private static Set<String> getMandatoryExcludes(boolean highSecurity) {
-        return (Set) (highSecurity ? Sets.newHashSet(new String[] {"request.parameters.*", "message.parameters.*"})
+    private static Set getMandatoryExcludes(boolean highSecurity) {
+        return (Set) (highSecurity ? Sets.newHashSet("request.parameters.*", "message.parameters.*")
                               : Collections.emptySet());
     }
 
     private static Set<String> updateDefaults(boolean captureParams, boolean captureMessageParams,
                                               String[] defaultExclude) {
-        HashSet defaultExc = Sets.newHashSet(defaultExclude);
+        HashSet<String> defaultExc = Sets.newHashSet(defaultExclude);
         if (!captureParams) {
             defaultExc.add("request.parameters.*");
         }

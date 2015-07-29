@@ -25,11 +25,9 @@ public class StrutsActionConfigMatcherPointCut extends TracerFactoryPointCut {
     public StrutsActionConfigMatcherPointCut(ClassTransformer classTransformer) {
         super(StrutsActionConfigMatcherPointCut.class,
                      new ExactClassMatcher("org/apache/struts/config/ActionConfigMatcher"),
-                     createExactMethodMatcher("convertActionConfig", new String[] {"(Ljava/lang/String;"
-                                                                                           +
+                     createExactMethodMatcher("convertActionConfig", new String[] {"(Ljava/lang/String;" +
                                                                                            "Lorg/apache/struts/config/ActionConfig;"
-                                                                                           + "Ljava/util/Map;)"
-                                                                                           +
+                                                                                           + "Ljava/util/Map;)" +
                                                                                            "Lorg/apache/struts/config/ActionConfig;"
                                                                                            + ""}));
     }

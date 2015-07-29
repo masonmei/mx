@@ -4,7 +4,6 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.Transaction;
 import com.newrelic.agent.bridge.TransactionNamePriority;
@@ -16,6 +15,7 @@ import com.newrelic.agent.instrumentation.classmatchers.ClassMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.MethodMatcher;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.transaction.TransactionNamingPolicy;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
 public abstract class MethodInvokerPointCut extends TracerFactoryPointCut {
     protected static final String TO_REMOVE = "$$EnhancerBy";

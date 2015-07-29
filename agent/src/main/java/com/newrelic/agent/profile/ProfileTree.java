@@ -15,11 +15,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import com.newrelic.deps.org.json.simple.JSONArray;
-import com.newrelic.deps.org.json.simple.JSONStreamAware;
-
 import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 public class ProfileTree implements JSONStreamAware {
     private final Map<ProfiledMethod, ProfileSegment> rootSegments = Maps.newIdentityHashMap();

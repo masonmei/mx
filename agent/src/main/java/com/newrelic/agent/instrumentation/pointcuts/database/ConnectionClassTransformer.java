@@ -1,9 +1,5 @@
 package com.newrelic.agent.instrumentation.pointcuts.database;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassWriter;
-
 import com.newrelic.agent.instrumentation.AbstractImplementationClassTransformer;
 import com.newrelic.agent.instrumentation.AddInterfaceAdapter;
 import com.newrelic.agent.instrumentation.ClassTransformer;
@@ -11,6 +7,9 @@ import com.newrelic.agent.instrumentation.FieldAccessorGeneratingClassAdapter;
 import com.newrelic.agent.instrumentation.RequireMethodsAdapter;
 import com.newrelic.agent.instrumentation.classmatchers.ExactClassMatcher;
 import com.newrelic.agent.instrumentation.classmatchers.NoMatchMatcher;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
 
 public class ConnectionClassTransformer extends AbstractImplementationClassTransformer {
     public ConnectionClassTransformer(ClassTransformer classTransformer) {

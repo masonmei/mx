@@ -3,11 +3,11 @@ package com.newrelic.agent;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.MapMaker;
 import com.newrelic.agent.bridge.AsyncApi;
 import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.servlet.ServletAsyncTransactionStateImpl;
 import com.newrelic.api.agent.Logger;
+import com.newrelic.deps.com.google.common.collect.MapMaker;
 
 public class AsyncApiImpl implements AsyncApi {
     private final ConcurrentMap<Object, Transaction> asyncTransactions = new MapMaker().weakKeys().makeMap();

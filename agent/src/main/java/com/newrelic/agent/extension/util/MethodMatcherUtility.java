@@ -11,8 +11,6 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import com.newrelic.deps.org.objectweb.asm.Type;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.extension.beans.Extension.Instrumentation.Pointcut.Method;
 import com.newrelic.agent.extension.beans.Extension.Instrumentation.Pointcut.Method.Parameters;
@@ -23,6 +21,7 @@ import com.newrelic.agent.instrumentation.methodmatchers.MethodMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.NameMethodMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.OrMethodMatcher;
 import com.newrelic.agent.util.asm.Utils;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 public class MethodMatcherUtility {
     public MethodMatcherUtility() {
@@ -94,8 +93,7 @@ public class MethodMatcherUtility {
                             } else {
                                 throw new NoSuchMethodException("Method " + methodName
                                                                         + " has already been added to a point cut and"
-                                                                        + " will "
-                                                                        + "not be added again.");
+                                                                        + " will " + "not be added again.");
                             }
                         }
                     } else if (!isDuplicateMethod(className, methodName, (String) null, classesToMethods)) {
@@ -114,13 +112,13 @@ public class MethodMatcherUtility {
         if (m == null) {
             throw new XmlException(MessageFormat
                                            .format("At least one method must be specified for each point cut in the "
-                                                           + "extension {0}",
-                                                          new Object[] {extName}));
+                                                           + "extension {0}", new Object[] {extName}));
         } else {
             String mName = m.getName();
             if (mName == null || mName.trim().length() == 0) {
                 throw new XmlException(MessageFormat
-                                               .format("A method name must be specified for each method in the extension {0}",
+                                               .format("A method name must be specified for each method in the "
+                                                               + "extension {0}",
                                                               new Object[] {extName}));
             }
         }

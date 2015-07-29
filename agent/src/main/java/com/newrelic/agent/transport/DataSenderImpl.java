@@ -36,6 +36,21 @@ import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.SSLContext;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.ForceDisconnectException;
+import com.newrelic.agent.MetricData;
+import com.newrelic.agent.MetricDataException;
+import com.newrelic.agent.config.AgentConfig;
+import com.newrelic.agent.errors.TracedError;
+import com.newrelic.agent.logging.ApacheCommonsAdaptingLogFactory;
+import com.newrelic.agent.profile.IProfile;
+import com.newrelic.agent.service.ServiceFactory;
+import com.newrelic.agent.service.analytics.CustomInsightsEvent;
+import com.newrelic.agent.service.analytics.TransactionEvent;
+import com.newrelic.agent.service.module.Jar;
+import com.newrelic.agent.sql.SqlTrace;
+import com.newrelic.agent.trace.TransactionTrace;
+import com.newrelic.agent.util.RubyConversion;
 import com.newrelic.deps.org.apache.http.Header;
 import com.newrelic.deps.org.apache.http.HttpEntity;
 import com.newrelic.deps.org.apache.http.HttpHost;
@@ -63,22 +78,6 @@ import com.newrelic.deps.org.json.simple.JSONArray;
 import com.newrelic.deps.org.json.simple.JSONStreamAware;
 import com.newrelic.deps.org.json.simple.JSONValue;
 import com.newrelic.deps.org.json.simple.parser.JSONParser;
-
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.ForceDisconnectException;
-import com.newrelic.agent.MetricData;
-import com.newrelic.agent.MetricDataException;
-import com.newrelic.agent.config.AgentConfig;
-import com.newrelic.agent.errors.TracedError;
-import com.newrelic.agent.logging.ApacheCommonsAdaptingLogFactory;
-import com.newrelic.agent.profile.IProfile;
-import com.newrelic.agent.service.ServiceFactory;
-import com.newrelic.agent.service.analytics.CustomInsightsEvent;
-import com.newrelic.agent.service.analytics.TransactionEvent;
-import com.newrelic.agent.service.module.Jar;
-import com.newrelic.agent.sql.SqlTrace;
-import com.newrelic.agent.trace.TransactionTrace;
-import com.newrelic.agent.util.RubyConversion;
 
 public class DataSenderImpl implements DataSender {
     private static final String MODULE_TYPE = "Jars";
@@ -133,7 +132,8 @@ public class DataSenderImpl implements DataSender {
 
     public DataSenderImpl(AgentConfig config) {
         this.agentRunId = NO_AGENT_RUN_ID;
-        System.setProperty("com.newrelic.deps.org.apache.commons.logging.LogFactory", ApacheCommonsAdaptingLogFactory.class.getName());
+        System.setProperty("com.newrelic.deps.org.apache.commons.logging.LogFactory",
+                                  ApacheCommonsAdaptingLogFactory.class.getName());
         this.auditMode = config.isAuditMode();
         Agent.LOG.info(MessageFormat
                                .format("Setting audit_mode to {0}", new Object[] {Boolean.valueOf(this.auditMode)}));
@@ -333,10 +333,8 @@ public class DataSenderImpl implements DataSender {
                     try {
                         return (List) response1;
                     } catch (ClassCastException var7) {
-                        String msg = MessageFormat
-                                             .format("Invalid response from New Relic when getting agent X Ray "
-                                                             + "parameters: {0}",
-                                                            new Object[] {var7});
+                        String msg = MessageFormat.format("Invalid response from New Relic when getting agent X Ray "
+                                                                  + "parameters: {0}", new Object[] {var7});
                         Agent.LOG.warning(msg);
                         throw var7;
                     }
@@ -485,10 +483,8 @@ public class DataSenderImpl implements DataSender {
             params.add(traces);
             Object response = this.invokeRunId("transaction_sample_data", "identity", runId, params);
             if (response != null && !"null".equals(response)) {
-                String msg = MessageFormat
-                                     .format("Invalid response from New Relic when sending transaction traces. "
-                                                     + "Response: {0}",
-                                                    new Object[] {response});
+                String msg = MessageFormat.format("Invalid response from New Relic when sending transaction traces. "
+                                                          + "Response: {0}", new Object[] {response});
                 Agent.LOG.warning(msg);
             }
         }
@@ -630,21 +626,18 @@ public class DataSenderImpl implements DataSender {
         } catch (MalformedURLException var8) {
             Agent.LOG.log(Level.SEVERE,
                                  "You have requested a connection to New Relic via a protocol which is unavailable in"
-                                         + " your runtime: {0}",
-                                 new Object[] {var8.toString()});
+                                         + " your runtime: {0}", new Object[] {var8.toString()});
             throw new ForceDisconnectException(var8.toString());
         } catch (SocketException var9) {
             if (var9.getCause() instanceof NoSuchAlgorithmException) {
                 String msg = MessageFormat.format("You have requested a connection to New Relic via an algorithm "
                                                           + "which is unavailable in your runtime: {0}  This may also"
                                                           + " be indicative of a corrupted keystore or trust store on"
-                                                          + " your server.",
-                                                         new Object[] {var9.getCause().toString()});
+                                                          + " your server.", new Object[] {var9.getCause().toString()});
                 Agent.LOG.error(msg);
             } else {
-                Agent.LOG.log(Level.INFO,
-                                     "A socket exception was encountered while sending data to New Relic ({0}).  "
-                                             + "Please check your network / proxy settings.",
+                Agent.LOG.log(Level.INFO, "A socket exception was encountered while sending data to New Relic ({0}).  "
+                                                  + "Please check your network / proxy settings.",
                                      new Object[] {var9.toString()});
                 if (Agent.LOG.isLoggable(Level.FINE)) {
                     Agent.LOG.log(Level.FINE, "Error sending JSON({0}): {1}",

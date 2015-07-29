@@ -85,9 +85,8 @@ public class RemoteInstrumentationServiceImpl extends AbstractService implements
                         if (config != null && config instanceof String) {
                             this.processXml((String) config);
                         } else {
-                            Agent.LOG
-                                    .info("The instrumentation configuration passed down does not contain a config "
-                                                  + "key.");
+                            Agent.LOG.info("The instrumentation configuration passed down does not contain a config "
+                                                   + "key.");
                         }
                     }
 
@@ -113,9 +112,8 @@ public class RemoteInstrumentationServiceImpl extends AbstractService implements
                             Agent.LOG.info("The XML file is empty. All custom instrumentation will be removed.");
                             this.updateJvmWithExtension((Extension) null, result);
                         } else {
-                            Agent.LOG.log(Level.FINE,
-                                                 "Instrumentation modifications received from the server with "
-                                                         + "attributes {0}.",
+                            Agent.LOG.log(Level.FINE, "Instrumentation modifications received from the server with "
+                                                              + "attributes {0}.",
                                                  new Object[] {this.isLiveAttributesEnabled ? "enabled" : "disabled"});
                             Extension e = this.getExtensionAndAddErrors(result, pXml);
                             if (e != null) {
@@ -123,16 +121,12 @@ public class RemoteInstrumentationServiceImpl extends AbstractService implements
                             }
                         }
                     } else {
-                        this.handleErrorNoInstrumentation(result,
-                                                                 "Remote instrumentation is not supported in high "
-                                                                         + "security mode.",
-                                                                 pXml);
+                        this.handleErrorNoInstrumentation(result, "Remote instrumentation is not supported in high "
+                                                                          + "security mode.", pXml);
                     }
                 } else {
-                    this.handleErrorNoInstrumentation(result,
-                                                             "Retransform classes is not supported on the current "
-                                                                     + "instrumentation.",
-                                                             pXml);
+                    this.handleErrorNoInstrumentation(result, "Retransform classes is not supported on the current "
+                                                                      + "instrumentation.", pXml);
                 }
             } else {
                 this.handleErrorNoInstrumentation(result, "The Reinstrument Service is currently disabled.", pXml);

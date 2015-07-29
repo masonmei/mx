@@ -7,9 +7,8 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-
 import com.newrelic.agent.util.Strings;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
 
 public class OrClassMatcher extends ManyClassMatcher {
     public OrClassMatcher(ClassMatcher[] matchers) {

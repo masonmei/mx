@@ -13,9 +13,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.apache.http.conn.HttpHostConnectException;
-import com.newrelic.deps.org.json.simple.JSONObject;
-
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.config.AgentConfigListener;
 import com.newrelic.agent.config.AgentJarHelper;
@@ -43,6 +40,8 @@ import com.newrelic.agent.transport.DataSender;
 import com.newrelic.agent.transport.DataSenderFactory;
 import com.newrelic.agent.transport.HttpError;
 import com.newrelic.agent.utilization.UtilizationData;
+import com.newrelic.deps.org.apache.http.conn.HttpHostConnectException;
+import com.newrelic.deps.org.json.simple.JSONObject;
 
 public class RPMService extends AbstractService implements IRPMService, EnvironmentChangeListener, AgentConfigListener {
     public static final String COLLECT_TRACES_KEY = "collect_traces";
@@ -719,8 +718,7 @@ public class RPMService extends AbstractService implements IRPMService, Environm
         Agent.LOG.log(Level.INFO,
                              "An unexpected error occurred sending metric data to New Relic.  Please file a support "
                                      + "ticket once you have seen several of these messages in a short period of "
-                                     + "time: {0}",
-                             new Object[] {e.toString()});
+                                     + "time: {0}", new Object[] {e.toString()});
 
         Agent.LOG.log(Level.FINEST, e, e.toString(), new Object[0]);
     }

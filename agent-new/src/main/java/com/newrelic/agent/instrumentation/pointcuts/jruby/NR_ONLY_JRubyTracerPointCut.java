@@ -12,17 +12,16 @@ import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.metricname.SimpleMetricNameFormat;
 
 @PointCut
-public class NR_ONLY_JRubyTracerPointCut extends TracerFactoryPointCut
-{
-  private final int METRIC_NAME_ARGUMENT = 2;
+public class NR_ONLY_JRubyTracerPointCut extends TracerFactoryPointCut {
+    private final int METRIC_NAME_ARGUMENT = 2;
 
-  public NR_ONLY_JRubyTracerPointCut(ClassTransformer ct) {
-    super(NR_ONLY_JRubyTracerPointCut.class, new ExactClassMatcher("com/newrelic/api/jruby/JavaAgentBackend"), new ExactMethodMatcher("trace", new String[0]));
-  }
+    public NR_ONLY_JRubyTracerPointCut(ClassTransformer ct) {
+        super(NR_ONLY_JRubyTracerPointCut.class, new ExactClassMatcher("com/newrelic/api/jruby/JavaAgentBackend"),
+                     new ExactMethodMatcher("trace", new String[0]));
+    }
 
-  public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object object, Object[] args)
-  {
-    String metric = args[2].toString();
-    return new DefaultTracer(transaction, sig, object, new SimpleMetricNameFormat(metric));
-  }
+    public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object object, Object[] args) {
+        String metric = args[2].toString();
+        return new DefaultTracer(transaction, sig, object, new SimpleMetricNameFormat(metric));
+    }
 }

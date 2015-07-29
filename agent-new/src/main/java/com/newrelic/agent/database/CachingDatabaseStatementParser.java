@@ -1,57 +1,52 @@
 package com.newrelic.agent.database;
 
-import com.newrelic.agent.Agent;
-import com.newrelic.deps.com.google.common.cache.Cache;
-import com.newrelic.deps.com.google.common.cache.CacheBuilder;
-import com.newrelic.agent.logging.IAgentLogger;
 import java.sql.ResultSetMetaData;
 import java.util.concurrent.Callable;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
-public class CachingDatabaseStatementParser
-  implements DatabaseStatementParser
-{
-  private final DatabaseStatementParser databaseStatementParser;
-  private volatile Cache<String, ParsedDatabaseStatement> statements;
+import com.newrelic.agent.Agent;
+import com.newrelic.deps.com.google.common.cache.Cache;
+import com.newrelic.deps.com.google.common.cache.CacheBuilder;
 
-  public CachingDatabaseStatementParser(DatabaseStatementParser databaseStatementParser)
-  {
-    this.databaseStatementParser = databaseStatementParser;
-  }
+public class CachingDatabaseStatementParser implements DatabaseStatementParser {
+    private final DatabaseStatementParser databaseStatementParser;
+    private volatile Cache<String, ParsedDatabaseStatement> statements;
 
-  private Cache<String, ParsedDatabaseStatement> getOrCreateCache()
-  {
-    if (null == this.statements) {
-      synchronized (this) {
+    public CachingDatabaseStatementParser(DatabaseStatementParser databaseStatementParser) {
+        this.databaseStatementParser = databaseStatementParser;
+    }
+
+    private Cache<String, ParsedDatabaseStatement> getOrCreateCache() {
         if (null == this.statements) {
-          this.statements = CacheBuilder.newBuilder().maximumSize(100L).build();
+            synchronized(this) {
+                if (null == this.statements) {
+                    this.statements = CacheBuilder.newBuilder().maximumSize(100L).build();
+                }
+            }
         }
-      }
+        return this.statements;
     }
-    return this.statements;
-  }
 
-  public ParsedDatabaseStatement getParsedDatabaseStatement(final String statement, final ResultSetMetaData resultSetMetaData)
-  {
-    Throwable toLog = null;
-    try
-    {
-      return (ParsedDatabaseStatement)getOrCreateCache().get(statement, new Callable()
-      {
-        public ParsedDatabaseStatement call() throws Exception {
-          return CachingDatabaseStatementParser.this.databaseStatementParser.getParsedDatabaseStatement(statement, resultSetMetaData);
-        } } );
+    public ParsedDatabaseStatement getParsedDatabaseStatement(final String statement,
+                                                              final ResultSetMetaData resultSetMetaData) {
+        Throwable toLog = null;
+        try {
+            return (ParsedDatabaseStatement) getOrCreateCache().get(statement, new Callable() {
+                public ParsedDatabaseStatement call() throws Exception {
+                    return CachingDatabaseStatementParser.this.databaseStatementParser
+                                   .getParsedDatabaseStatement(statement, resultSetMetaData);
+                }
+            });
+        } catch (ExecutionException ee) {
+            toLog = ee;
+            if (ee.getCause() != null) {
+                toLog = ee.getCause();
+            }
+        } catch (Exception ex) {
+            toLog = ex;
+        }
+        Agent.LOG.log(Level.FINEST, "In cache.get() or its loader:", toLog);
+        return UNPARSEABLE_STATEMENT;
     }
-    catch (ExecutionException ee) {
-      toLog = ee;
-      if (ee.getCause() != null)
-        toLog = ee.getCause();
-    }
-    catch (Exception ex) {
-      toLog = ex;
-    }
-    Agent.LOG.log(Level.FINEST, "In cache.get() or its loader:", toLog);
-    return UNPARSEABLE_STATEMENT;
-  }
 }

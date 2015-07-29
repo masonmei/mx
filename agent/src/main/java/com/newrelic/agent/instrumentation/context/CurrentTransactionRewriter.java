@@ -8,19 +8,18 @@ package com.newrelic.agent.instrumentation.context;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.bridge.AsyncApi;
+import com.newrelic.agent.bridge.Instrumentation;
+import com.newrelic.agent.instrumentation.tracing.BridgeUtils;
+import com.newrelic.agent.util.asm.BytecodeGenProxyBuilder;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.deps.org.objectweb.asm.ClassReader;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
 import com.newrelic.deps.org.objectweb.asm.Type;
 import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.collect.Sets;
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.bridge.AsyncApi;
-import com.newrelic.agent.bridge.Instrumentation;
-import com.newrelic.agent.instrumentation.tracing.BridgeUtils;
-import com.newrelic.agent.util.asm.BytecodeGenProxyBuilder;
 
 public class CurrentTransactionRewriter {
     public CurrentTransactionRewriter() {

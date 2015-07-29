@@ -9,7 +9,6 @@ import java.util.Map.Entry;
 
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.config.AgentJarHelper;
-
 import com.newrelic.deps.ch.qos.logback.classic.Level;
 
 class LogbackLogManager implements IAgentLogManager {
@@ -173,10 +172,9 @@ class LogbackLogManager implements IAgentLogManager {
             rootLogger.info(MessageFormat
                                     .format("New Relic Agent: Writing to log file: {0}", new Object[] {logFileName}));
         } else {
-            rootLogger.warning(MessageFormat
-                                       .format("New Relic Agent: Unable to write log file: {0}. Please check "
-                                                       + "permissions on the file and directory.",
-                                                      new Object[] {logFileName}));
+            rootLogger.warning(MessageFormat.format("New Relic Agent: Unable to write log file: {0}. Please check "
+                                                            + "permissions on the file and directory.",
+                                                           new Object[] {logFileName}));
         }
 
         rootLogger.removeConsoleAppender();

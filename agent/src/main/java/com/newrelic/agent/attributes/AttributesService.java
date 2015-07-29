@@ -3,11 +3,11 @@ package com.newrelic.agent.attributes;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.config.AgentConfigListener;
 import com.newrelic.agent.service.AbstractService;
 import com.newrelic.agent.service.ServiceFactory;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
 public class AttributesService extends AbstractService implements AgentConfigListener {
     private final boolean enabled;
@@ -18,7 +18,7 @@ public class AttributesService extends AbstractService implements AgentConfigLis
     public AttributesService() {
         super(AttributesService.class.getSimpleName());
         AgentConfig config = ServiceFactory.getConfigService().getDefaultAgentConfig();
-        enabled = ((Boolean) config.getValue("attributes.enabled", Boolean.TRUE)).booleanValue();
+        enabled = config.getValue("attributes.enabled", Boolean.TRUE);
         defaultAppName = config.getApplicationName();
         defaultFilter = new AttributesFilter(config);
         appNamesToFilters = Maps.newConcurrentMap();
@@ -82,7 +82,7 @@ public class AttributesService extends AbstractService implements AgentConfigLis
         if ((appName == null) || (appName.equals(defaultAppName))) {
             return defaultFilter;
         }
-        AttributesFilter filter = (AttributesFilter) appNamesToFilters.get(appName);
+        AttributesFilter filter = appNamesToFilters.get(appName);
         return filter == null ? defaultFilter : filter;
     }
 

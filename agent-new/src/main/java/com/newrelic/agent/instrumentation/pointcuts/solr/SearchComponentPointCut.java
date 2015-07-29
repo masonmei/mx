@@ -11,20 +11,22 @@ import com.newrelic.agent.tracers.ClassMethodSignature;
 import com.newrelic.agent.tracers.DefaultTracer;
 import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.metricname.ClassMethodMetricNameFormat;
-import com.newrelic.agent.transaction.TransactionCache;
 
 @PointCut
-public class SearchComponentPointCut extends AbstractSolrPointCut
-{
-  public SearchComponentPointCut(ClassTransformer classTransformer)
-  {
-    super(SearchComponentPointCut.class, new ChildClassMatcher("org/apache/solr/handler/component/SearchComponent"), OrMethodMatcher.getMethodMatcher(new MethodMatcher[] { new ExactMethodMatcher("handleResponses", "(Lorg/apache/solr/handler/component/ResponseBuilder;Lorg/apache/solr/handler/component/ShardRequest;)V"), new ExactMethodMatcher("prepare", "(Lorg/apache/solr/handler/component/ResponseBuilder;)V"), new ExactMethodMatcher("process", "(Lorg/apache/solr/handler/component/ResponseBuilder;)V") }));
-  }
+public class SearchComponentPointCut extends AbstractSolrPointCut {
+    public SearchComponentPointCut(ClassTransformer classTransformer) {
+        super(SearchComponentPointCut.class, new ChildClassMatcher("org/apache/solr/handler/component/SearchComponent"),
+                     OrMethodMatcher.getMethodMatcher(new MethodMatcher[] {new ExactMethodMatcher("handleResponses",
+                                                                                                         "(Lorg/apache/solr/handler/component/ResponseBuilder;Lorg/apache/solr/handler/component/ShardRequest;)V"),
+                                                                                  new ExactMethodMatcher("prepare",
+                                                                                                                "(Lorg/apache/solr/handler/component/ResponseBuilder;)V"),
+                                                                                  new ExactMethodMatcher("process",
+                                                                                                                "(Lorg/apache/solr/handler/component/ResponseBuilder;)V")}));
+    }
 
-  public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object component, Object[] args)
-  {
-    transaction.getTransactionCache().putSolrResponseBuilderParamName(args[0]);
+    public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object component, Object[] args) {
+        transaction.getTransactionCache().putSolrResponseBuilderParamName(args[0]);
 
-    return new DefaultTracer(transaction, sig, component, new ClassMethodMetricNameFormat(sig, component, "Solr"));
-  }
+        return new DefaultTracer(transaction, sig, component, new ClassMethodMetricNameFormat(sig, component, "Solr"));
+    }
 }

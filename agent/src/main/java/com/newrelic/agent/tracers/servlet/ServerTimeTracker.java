@@ -86,8 +86,7 @@ public class ServerTimeTracker {
             if (Agent.LOG.isLoggable(Level.FINEST)) {
                 String msg = MessageFormat.format("Transaction start time (nanoseconds): {0}, {1} start time (in "
                                                           + "nanoseconds): {2}, queue time (in nanoseconds): {3}, {4}"
-                                                          + " time"
-                                                          + " (in nanoseconds): {5}",
+                                                          + " time" + " (in nanoseconds): {5}",
                                                          new Object[] {Long.valueOf(txStartTimeInNanos), lastServerName,
                                                                               Long.valueOf(lastServerStartTimeInNanos),
                                                                               Long.valueOf(queueTime), lastServerName,

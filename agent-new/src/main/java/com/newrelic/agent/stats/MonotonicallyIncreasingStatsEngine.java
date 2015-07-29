@@ -3,42 +3,41 @@ package com.newrelic.agent.stats;
 import java.util.HashMap;
 import java.util.Map;
 
-public class MonotonicallyIncreasingStatsEngine
-{
-  private final Map<String, MonotonicallyIncreasingStatsHelper> monoStatsHelpers;
+public class MonotonicallyIncreasingStatsEngine {
+    private final Map<String, MonotonicallyIncreasingStatsHelper> monoStatsHelpers;
 
-  public MonotonicallyIncreasingStatsEngine()
-  {
-    this.monoStatsHelpers = new HashMap();
-  }
-  public void recordMonoStats(StatsEngine statsEngine, String name, float value) {
-    MonotonicallyIncreasingStatsHelper monoStatsHelper = getMonotonicallyIncreasingStatsHelper(name);
-    Stats stats = statsEngine.getStats(name);
-    monoStatsHelper.recordDataPoint(stats, value);
-  }
-
-  private MonotonicallyIncreasingStatsHelper getMonotonicallyIncreasingStatsHelper(String name) {
-    MonotonicallyIncreasingStatsHelper monoStatsHelper = (MonotonicallyIncreasingStatsHelper)this.monoStatsHelpers.get(name);
-    if (monoStatsHelper == null) {
-      monoStatsHelper = new MonotonicallyIncreasingStatsHelper();
-      this.monoStatsHelpers.put(name, monoStatsHelper);
-    }
-    return monoStatsHelper;
-  }
-
-  private class MonotonicallyIncreasingStatsHelper
-  {
-    private float lastValue = 0.0F;
-
-    public MonotonicallyIncreasingStatsHelper() {
+    public MonotonicallyIncreasingStatsEngine() {
+        this.monoStatsHelpers = new HashMap();
     }
 
-    public void recordDataPoint(Stats stats, float value) {
-      if (this.lastValue > value) {
-        this.lastValue = 0.0F;
-      }
-      stats.recordDataPoint(value - this.lastValue);
-      this.lastValue = value;
+    public void recordMonoStats(StatsEngine statsEngine, String name, float value) {
+        MonotonicallyIncreasingStatsHelper monoStatsHelper = getMonotonicallyIncreasingStatsHelper(name);
+        Stats stats = statsEngine.getStats(name);
+        monoStatsHelper.recordDataPoint(stats, value);
     }
-  }
+
+    private MonotonicallyIncreasingStatsHelper getMonotonicallyIncreasingStatsHelper(String name) {
+        MonotonicallyIncreasingStatsHelper monoStatsHelper =
+                (MonotonicallyIncreasingStatsHelper) this.monoStatsHelpers.get(name);
+        if (monoStatsHelper == null) {
+            monoStatsHelper = new MonotonicallyIncreasingStatsHelper();
+            this.monoStatsHelpers.put(name, monoStatsHelper);
+        }
+        return monoStatsHelper;
+    }
+
+    private class MonotonicallyIncreasingStatsHelper {
+        private float lastValue = 0.0F;
+
+        public MonotonicallyIncreasingStatsHelper() {
+        }
+
+        public void recordDataPoint(Stats stats, float value) {
+            if (this.lastValue > value) {
+                this.lastValue = 0.0F;
+            }
+            stats.recordDataPoint(value - this.lastValue);
+            this.lastValue = value;
+        }
+    }
 }

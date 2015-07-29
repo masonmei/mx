@@ -3,10 +3,9 @@ package com.newrelic.agent.instrumentation.classmatchers;
 import java.util.Arrays;
 import java.util.Collection;
 
+import com.newrelic.agent.util.Strings;
 import com.newrelic.deps.org.objectweb.asm.ClassReader;
 import com.newrelic.deps.org.objectweb.asm.Type;
-
-import com.newrelic.agent.util.Strings;
 
 public class ExactClassMatcher extends ClassMatcher {
     private final Type type;

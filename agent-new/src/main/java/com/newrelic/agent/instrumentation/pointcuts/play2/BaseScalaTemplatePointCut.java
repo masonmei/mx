@@ -15,34 +15,31 @@ import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.metricname.ClassMethodMetricNameFormat;
 
 @PointCut
-public class BaseScalaTemplatePointCut extends TracerFactoryPointCut
-{
-  private static final boolean DEFAULT_ENABLED = false;
-  private static final String POINT_CUT_NAME = BaseScalaTemplatePointCut.class.getName();
+public class BaseScalaTemplatePointCut extends TracerFactoryPointCut {
+    private static final boolean DEFAULT_ENABLED = false;
+    private static final String POINT_CUT_NAME = BaseScalaTemplatePointCut.class.getName();
 
-  public BaseScalaTemplatePointCut(ClassTransformer classTransformer) {
-    super(createPointCutConfig(), createClassMatcher(), createMethodMatcher());
-  }
-
-  private static PointCutConfiguration createPointCutConfig() {
-    return new PointCutConfiguration(POINT_CUT_NAME, "play2_instrumentation", false);
-  }
-
-  private static ClassMatcher createClassMatcher()
-  {
-    return new ChildClassMatcher("play.templates.BaseScalaTemplate");
-  }
-
-  private static MethodMatcher createMethodMatcher() {
-    return new NameMethodMatcher("apply");
-  }
-
-  public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object object, Object[] args)
-  {
-    if (!transaction.isStarted()) {
-      Transaction.clearTransaction();
-      return null;
+    public BaseScalaTemplatePointCut(ClassTransformer classTransformer) {
+        super(createPointCutConfig(), createClassMatcher(), createMethodMatcher());
     }
-    return new DefaultTracer(transaction, sig, object, new ClassMethodMetricNameFormat(sig, object));
-  }
+
+    private static PointCutConfiguration createPointCutConfig() {
+        return new PointCutConfiguration(POINT_CUT_NAME, "play2_instrumentation", false);
+    }
+
+    private static ClassMatcher createClassMatcher() {
+        return new ChildClassMatcher("play.templates.BaseScalaTemplate");
+    }
+
+    private static MethodMatcher createMethodMatcher() {
+        return new NameMethodMatcher("apply");
+    }
+
+    public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object object, Object[] args) {
+        if (!transaction.isStarted()) {
+            Transaction.clearTransaction();
+            return null;
+        }
+        return new DefaultTracer(transaction, sig, object, new ClassMethodMetricNameFormat(sig, object));
+    }
 }

@@ -13,174 +13,174 @@ import com.newrelic.agent.Agent;
 import com.newrelic.agent.service.ServiceUtils;
 
 public class FixedSizeArrayList<E> implements List<E> {
-  protected final int size;
-  protected final AtomicInteger numberOfTries = new AtomicInteger();
-  private final Object[] data;
-  private final AtomicInteger volatileMemoryBarrier = new AtomicInteger(0);
+    protected final int size;
+    protected final AtomicInteger numberOfTries = new AtomicInteger();
+    private final Object[] data;
+    private final AtomicInteger volatileMemoryBarrier = new AtomicInteger(0);
 
-  public FixedSizeArrayList(int size) {
-    data = new Object[size];
-    this.size = size;
-  }
-
-  public E get(int index) {
-    rangeCheck(index);
-    ServiceUtils.readMemoryBarrier(volatileMemoryBarrier);
-    return (E) data[index];
-  }
-
-  public boolean add(E t) {
-    Integer slot = getSlot();
-    if (slot == null) {
-      return false;
+    public FixedSizeArrayList(int size) {
+        data = new Object[size];
+        this.size = size;
     }
-    set(slot.intValue(), t);
-    return true;
-  }
 
-  public boolean addAll(Collection<? extends E> c) {
-    boolean modified = false;
-    for (Iterator i$ = c.iterator(); i$.hasNext(); ) {
-      Object e = i$.next();
-      modified |= add((E) e);
-    }
-    return modified;
-  }
-
-  public E set(int slot, E element) {
-    rangeCheck(slot);
-    ServiceUtils.readMemoryBarrier(volatileMemoryBarrier);
-    Object oldValue = data[slot];
-    data[slot] = element;
-    ServiceUtils.writeMemoryBarrier(volatileMemoryBarrier);
-    return (E) oldValue;
-  }
-
-  private void rangeCheck(int index) {
-    if (index >= data.length) {
-      throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + data.length);
-    }
-  }
-
-  public Integer getSlot() {
-    int insertIndex = numberOfTries.getAndIncrement();
-    if (insertIndex >= data.length) {
-      return null;
-    }
-    return Integer.valueOf(insertIndex);
-  }
-
-  int getNumberOfTries() {
-    return numberOfTries.get();
-  }
-
-  public int size() {
-    return Math.min(data.length, numberOfTries.get());
-  }
-
-  public boolean isEmpty() {
-    return numberOfTries.get() == 0;
-  }
-
-  public Iterator<E> iterator() {
-    return new Iterator() {
-      int cursor;
-
-      public boolean hasNext() {
-        return cursor != size();
-      }
-
-      public E next() {
-        int i = cursor;
-        if (i >= size()) {
-          throw new NoSuchElementException();
-        }
-        cursor = (i + 1);
+    public E get(int index) {
+        rangeCheck(index);
         ServiceUtils.readMemoryBarrier(volatileMemoryBarrier);
-        return (E) data[i];
-      }
+        return (E) data[index];
+    }
 
-      public void remove() {
-        Agent.LOG
-                .log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-      }
-    };
-  }
+    public boolean add(E t) {
+        Integer slot = getSlot();
+        if (slot == null) {
+            return false;
+        }
+        set(slot.intValue(), t);
+        return true;
+    }
 
-  public Object[] toArray() {
-    return Arrays.copyOf(data, size());
-  }
+    public boolean addAll(Collection<? extends E> c) {
+        boolean modified = false;
+        for (Iterator i$ = c.iterator(); i$.hasNext(); ) {
+            Object e = i$.next();
+            modified |= add((E) e);
+        }
+        return modified;
+    }
 
-  public boolean contains(Object o) {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-    return false;
-  }
+    public E set(int slot, E element) {
+        rangeCheck(slot);
+        ServiceUtils.readMemoryBarrier(volatileMemoryBarrier);
+        Object oldValue = data[slot];
+        data[slot] = element;
+        ServiceUtils.writeMemoryBarrier(volatileMemoryBarrier);
+        return (E) oldValue;
+    }
 
-  public <T> T[] toArray(T[] a) {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-    return null;
-  }
+    private void rangeCheck(int index) {
+        if (index >= data.length) {
+            throw new IndexOutOfBoundsException("Index: " + index + ", Size: " + data.length);
+        }
+    }
 
-  public boolean remove(Object o) {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-    return false;
-  }
+    public Integer getSlot() {
+        int insertIndex = numberOfTries.getAndIncrement();
+        if (insertIndex >= data.length) {
+            return null;
+        }
+        return Integer.valueOf(insertIndex);
+    }
 
-  public boolean containsAll(Collection<?> c) {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-    return false;
-  }
+    int getNumberOfTries() {
+        return numberOfTries.get();
+    }
 
-  public boolean addAll(int index, Collection<? extends E> c) {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-    return false;
-  }
+    public int size() {
+        return Math.min(data.length, numberOfTries.get());
+    }
 
-  public boolean removeAll(Collection<?> c) {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-    return false;
-  }
+    public boolean isEmpty() {
+        return numberOfTries.get() == 0;
+    }
 
-  public boolean retainAll(Collection<?> c) {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-    return false;
-  }
+    public Iterator<E> iterator() {
+        return new Iterator() {
+            int cursor;
 
-  public void clear() {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-  }
+            public boolean hasNext() {
+                return cursor != size();
+            }
 
-  public void add(int index, E element) {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-  }
+            public E next() {
+                int i = cursor;
+                if (i >= size()) {
+                    throw new NoSuchElementException();
+                }
+                cursor = (i + 1);
+                ServiceUtils.readMemoryBarrier(volatileMemoryBarrier);
+                return (E) data[i];
+            }
 
-  public E remove(int index) {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-    return null;
-  }
+            public void remove() {
+                Agent.LOG
+                        .log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+            }
+        };
+    }
 
-  public int indexOf(Object o) {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-    return -1;
-  }
+    public Object[] toArray() {
+        return Arrays.copyOf(data, size());
+    }
 
-  public int lastIndexOf(Object o) {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-    return -1;
-  }
+    public boolean contains(Object o) {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+        return false;
+    }
 
-  public ListIterator<E> listIterator() {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-    return null;
-  }
+    public <T> T[] toArray(T[] a) {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+        return null;
+    }
 
-  public ListIterator<E> listIterator(int index) {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-    return null;
-  }
+    public boolean remove(Object o) {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+        return false;
+    }
 
-  public List<E> subList(int fromIndex, int toIndex) {
-    Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
-    return null;
-  }
+    public boolean containsAll(Collection<?> c) {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+        return false;
+    }
+
+    public boolean addAll(int index, Collection<? extends E> c) {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+        return false;
+    }
+
+    public boolean removeAll(Collection<?> c) {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+        return false;
+    }
+
+    public boolean retainAll(Collection<?> c) {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+        return false;
+    }
+
+    public void clear() {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+    }
+
+    public void add(int index, E element) {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+    }
+
+    public E remove(int index) {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+        return null;
+    }
+
+    public int indexOf(Object o) {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+        return -1;
+    }
+
+    public int lastIndexOf(Object o) {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+        return -1;
+    }
+
+    public ListIterator<E> listIterator() {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+        return null;
+    }
+
+    public ListIterator<E> listIterator(int index) {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+        return null;
+    }
+
+    public List<E> subList(int fromIndex, int toIndex) {
+        Agent.LOG.log(Level.FINE, new UnsupportedOperationException(), "Method not implemented.", new Object[0]);
+        return null;
+    }
 }

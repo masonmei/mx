@@ -3,11 +3,10 @@ package com.newrelic.agent.extension;
 import java.util.Map;
 import java.util.Set;
 
-import com.newrelic.deps.org.objectweb.asm.commons.Remapper;
-
 import com.newrelic.deps.com.google.common.collect.ImmutableSet;
 import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.deps.com.google.common.collect.Sets;
+import com.newrelic.deps.org.objectweb.asm.commons.Remapper;
 
 public class DependencyRemapper extends Remapper {
     static final String DEPENDENCY_PREFIX = "com/newrelic/deps/";

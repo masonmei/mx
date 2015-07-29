@@ -4,13 +4,12 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.instrumentation.pointcuts.FieldAccessor;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 import com.newrelic.deps.org.objectweb.asm.FieldVisitor;
 import com.newrelic.deps.org.objectweb.asm.Type;
 import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
-
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.instrumentation.pointcuts.FieldAccessor;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class FieldAccessorGeneratingClassAdapter extends ClassVisitor {

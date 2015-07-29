@@ -1,11 +1,10 @@
 package com.newrelic.agent.instrumentation.weaver;
 
+import com.newrelic.agent.Agent;
 import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
 import com.newrelic.deps.org.objectweb.asm.Type;
 import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.agent.Agent;
 
 final class FixLoadClassMethodAdapter extends GeneratorAdapter {
     FixLoadClassMethodAdapter(int access, Method method, MethodVisitor mv) {

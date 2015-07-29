@@ -1,38 +1,33 @@
 package com.newrelic.agent.instrumentation.methodmatchers;
 
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
 import java.util.Set;
 
-public final class AllMethodsMatcher
-  implements MethodMatcher
-{
-  public boolean matches(int access, String name, String desc, Set<String> annotations)
-  {
-    return !"<init>".equals(name);
-  }
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
-  public boolean equals(Object obj)
-  {
-    if (this == obj) {
-      return true;
-    }
-    if (obj == null) {
-      return false;
-    }
-    if (getClass() != obj.getClass()) {
-      return false;
+public final class AllMethodsMatcher implements MethodMatcher {
+    public boolean matches(int access, String name, String desc, Set<String> annotations) {
+        return !"<init>".equals(name);
     }
 
-    return true;
-  }
+    public boolean equals(Object obj) {
+        if (this == obj) {
+            return true;
+        }
+        if (obj == null) {
+            return false;
+        }
+        if (getClass() != obj.getClass()) {
+            return false;
+        }
 
-  public int hashCode()
-  {
-    return super.hashCode();
-  }
+        return true;
+    }
 
-  public Method[] getExactMethods()
-  {
-    return null;
-  }
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    public Method[] getExactMethods() {
+        return null;
+    }
 }

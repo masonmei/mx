@@ -10,16 +10,15 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.errors.ExceptionHandlerSignature;
+import com.newrelic.agent.instrumentation.methodmatchers.InvalidMethodDescriptor;
 import com.newrelic.deps.org.yaml.snakeyaml.Loader;
 import com.newrelic.deps.org.yaml.snakeyaml.Yaml;
 import com.newrelic.deps.org.yaml.snakeyaml.constructor.Construct;
 import com.newrelic.deps.org.yaml.snakeyaml.constructor.Constructor;
 import com.newrelic.deps.org.yaml.snakeyaml.nodes.Node;
 import com.newrelic.deps.org.yaml.snakeyaml.nodes.SequenceNode;
-
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.errors.ExceptionHandlerSignature;
-import com.newrelic.agent.instrumentation.methodmatchers.InvalidMethodDescriptor;
 
 public class AgentConfigHelper {
     public static final String NEWRELIC_ENVIRONMENT = "newrelic.environment";

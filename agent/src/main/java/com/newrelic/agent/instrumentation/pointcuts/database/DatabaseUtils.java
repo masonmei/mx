@@ -60,7 +60,7 @@ public class DatabaseUtils {
                 return DatastoreVendor.Derby;
             default:
                 Agent.LOG.log(Level.FINEST, "ERROR: Unknown Database Vendor: {0}. Defaulting to JDBC.", databaseVendor);
+                return DatastoreVendor.JDBC;
         }
-        return DatastoreVendor.JDBC;
     }
 }

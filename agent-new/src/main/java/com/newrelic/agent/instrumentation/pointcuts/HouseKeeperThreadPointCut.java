@@ -10,20 +10,18 @@ import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.metricname.ClassMethodMetricNameFormat;
 
 @PointCut
-public class HouseKeeperThreadPointCut extends TracerFactoryPointCut
-{
-  public HouseKeeperThreadPointCut(ClassTransformer classTransformer)
-  {
-    super(HouseKeeperThreadPointCut.class, new ExactClassMatcher("org/logicalcobwebs/proxool/HouseKeeperThread"), createExactMethodMatcher("run", new String[] { "()V" }));
-  }
+public class HouseKeeperThreadPointCut extends TracerFactoryPointCut {
+    public HouseKeeperThreadPointCut(ClassTransformer classTransformer) {
+        super(HouseKeeperThreadPointCut.class, new ExactClassMatcher("org/logicalcobwebs/proxool/HouseKeeperThread"),
+                     createExactMethodMatcher("run", new String[] {"()V"}));
+    }
 
-  public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object thread, Object[] args)
-  {
-    return new OtherRootTracer(transaction, sig, thread, new ClassMethodMetricNameFormat(sig, thread, "OtherTransaction/Job"));
-  }
+    public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object thread, Object[] args) {
+        return new OtherRootTracer(transaction, sig, thread,
+                                          new ClassMethodMetricNameFormat(sig, thread, "OtherTransaction/Job"));
+    }
 
-  protected boolean isDispatcher()
-  {
-    return true;
-  }
+    protected boolean isDispatcher() {
+        return true;
+    }
 }

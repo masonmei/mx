@@ -25,20 +25,6 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarInputStream;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassWriter;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-import com.newrelic.deps.org.objectweb.asm.commons.RemappingClassAdapter;
-import com.newrelic.deps.org.objectweb.asm.commons.SimpleRemapper;
-import com.newrelic.deps.org.objectweb.asm.tree.InnerClassNode;
-
-import com.newrelic.deps.com.google.common.collect.ImmutableMap;
-import com.newrelic.deps.com.google.common.collect.Lists;
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.config.Config;
 import com.newrelic.agent.instrumentation.classmatchers.ChildClassMatcher;
@@ -60,6 +46,19 @@ import com.newrelic.agent.util.asm.ClassResolver;
 import com.newrelic.agent.util.asm.ClassResolvers;
 import com.newrelic.agent.util.asm.PatchedClassWriter;
 import com.newrelic.api.agent.weaver.MatchType;
+import com.newrelic.deps.com.google.common.collect.ImmutableMap;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.commons.RemappingClassAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.SimpleRemapper;
+import com.newrelic.deps.org.objectweb.asm.tree.InnerClassNode;
 
 public class InstrumentationPackage implements ClassResolver {
     public final List<String> newClassLoadOrder = Lists.newLinkedList();
@@ -472,7 +471,8 @@ public class InstrumentationPackage implements ClassResolver {
             if (((List) methods).isEmpty()) {
                 if (this.instrumentationClass.getTracedMethods().isEmpty()) {
                     InstrumentationPackage.this.logger.fine(this.className
-                                                                    + " is marked as a weaved class, but no methods are matched to be weaved.");
+                                                                    + " is marked as a weaved class, but no methods "
+                                                                    + "are matched to be weaved.");
                     return;
                 }
 

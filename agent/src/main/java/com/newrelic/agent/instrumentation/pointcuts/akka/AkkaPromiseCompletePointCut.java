@@ -59,11 +59,11 @@ public class AkkaPromiseCompletePointCut extends com.newrelic.agent.instrumentat
                 Tracer tracer = (Tracer) tracerHolder._nr_getTracer();
                 if ((args[0] instanceof Either)) {
                     Object resolved = ((Either) args[0]).get();
-                  if ((resolved instanceof Throwable)) {
-                    tracer.finish((Throwable) resolved);
-                  } else {
-                    tracer.finish(176, resolved);
-                  }
+                    if ((resolved instanceof Throwable)) {
+                        tracer.finish((Throwable) resolved);
+                    } else {
+                        tracer.finish(176, resolved);
+                    }
                 }
                 tracerHolder._nr_setTracer(null);
             }

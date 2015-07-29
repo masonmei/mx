@@ -3,14 +3,6 @@ package com.newrelic.agent.instrumentation.tracing;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.Label;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.AgentBridge;
 import com.newrelic.agent.bridge.Instrumentation;
@@ -21,6 +13,13 @@ import com.newrelic.agent.instrumentation.PointCut;
 import com.newrelic.agent.instrumentation.context.InstrumentationContext;
 import com.newrelic.agent.instrumentation.context.TraceInformation;
 import com.newrelic.agent.util.asm.BytecodeGenProxyBuilder;
+import com.newrelic.deps.com.google.common.collect.Sets;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.Label;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class TraceClassVisitor extends ClassVisitor {
     private final String className;

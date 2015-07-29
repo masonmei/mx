@@ -12,14 +12,6 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.apache.commons.cli.CommandLine;
-import com.newrelic.deps.org.apache.commons.cli.CommandLineParser;
-import com.newrelic.deps.org.apache.commons.cli.HelpFormatter;
-import com.newrelic.deps.org.apache.commons.cli.Option;
-import com.newrelic.deps.org.apache.commons.cli.Options;
-import com.newrelic.deps.org.apache.commons.cli.ParseException;
-import com.newrelic.deps.org.apache.commons.cli.PosixParser;
-
 import com.newrelic.agent.command.XmlInstrumentOptions;
 import com.newrelic.agent.command.XmlInstrumentValidator;
 import com.newrelic.agent.install.AppServerIdentifier;
@@ -30,6 +22,13 @@ import com.newrelic.agent.install.SelfInstallerFactory;
 import com.newrelic.agent.instrumentation.verifier.InstrumentationVerifier;
 import com.newrelic.agent.instrumentation.verifier.VerificationLogger;
 import com.newrelic.agent.service.ServiceFactory;
+import com.newrelic.deps.org.apache.commons.cli.CommandLine;
+import com.newrelic.deps.org.apache.commons.cli.CommandLineParser;
+import com.newrelic.deps.org.apache.commons.cli.HelpFormatter;
+import com.newrelic.deps.org.apache.commons.cli.Option;
+import com.newrelic.deps.org.apache.commons.cli.Options;
+import com.newrelic.deps.org.apache.commons.cli.ParseException;
+import com.newrelic.deps.org.apache.commons.cli.PosixParser;
 
 class AgentCommandLineParser {
     private static final String INSTALL_COMMAND = "install";

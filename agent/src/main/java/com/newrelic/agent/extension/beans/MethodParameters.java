@@ -10,8 +10,8 @@ import java.util.Collections;
 import java.util.Iterator;
 import java.util.List;
 
-import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.extension.beans.Extension.Instrumentation.Pointcut.Method.Parameters;
+import com.newrelic.deps.com.google.common.collect.Lists;
 
 public class MethodParameters extends Parameters {
     private final String paramDescriptor;

@@ -49,16 +49,22 @@ public class HttpMethodBasePointCut extends HttpCommonsPointCut {
     private final MethodCache getProtocolMethodCache;
 
     public HttpMethodBasePointCut(ClassTransformer classTransformer) {
-        super(HttpMethodBasePointCut.class, new ExactClassMatcher(HTTP_METHOD_BASE_CLASS_NAME_MATCH),
-                     OrMethodMatcher.getMethodMatcher(new ExactMethodMatcher(EXECUTE_METHOD_NAME, EXECUTE_METHOD_DESC),
-                                                             new ExactMethodMatcher(GET_RESPONSE_BODY_NAME, new String[] {GET_RESPONSE_BODY_DESC_1, GET_RESPONSE_BODY_DESC_2}),
-                                                             new ExactMethodMatcher(RELEASE_CONNECTION_NAME, RELEASE_CONNECTION_DESC)));
+        super(HttpMethodBasePointCut.class, new ExactClassMatcher(HTTP_METHOD_BASE_CLASS_NAME_MATCH), OrMethodMatcher
+                                                                                                              .getMethodMatcher(new ExactMethodMatcher(EXECUTE_METHOD_NAME,
+                                                                                                                                                              EXECUTE_METHOD_DESC),
+                                                                                                                                       new ExactMethodMatcher(GET_RESPONSE_BODY_NAME,
+                                                                                                                                                                     new String[] {GET_RESPONSE_BODY_DESC_1,
+                                                                                                                                                                                          GET_RESPONSE_BODY_DESC_2}),
+                                                                                                                                       new ExactMethodMatcher(RELEASE_CONNECTION_NAME,
+                                                                                                                                                                     RELEASE_CONNECTION_DESC)));
 
         getHostMethodCache = ServiceFactory.getCacheService()
-                                     .getMethodCache(HTTPCONNECTION_CLASS_NAME, GET_HOST_METHOD_NAME, GET_HOST_METHOD_DESC);
+                                     .getMethodCache(HTTPCONNECTION_CLASS_NAME, GET_HOST_METHOD_NAME,
+                                                            GET_HOST_METHOD_DESC);
 
         getPortMethodCache = ServiceFactory.getCacheService()
-                                     .getMethodCache(HTTPCONNECTION_CLASS_NAME, GET_PORT_METHOD_NAME, GET_PORT_METHOD_DESC);
+                                     .getMethodCache(HTTPCONNECTION_CLASS_NAME, GET_PORT_METHOD_NAME,
+                                                            GET_PORT_METHOD_DESC);
 
         getProtocolMethodCache = ServiceFactory.getCacheService()
                                          .getMethodCache(HTTPCONNECTION_CLASS_NAME, GET_PROTOCOL_METHOD_NAME,
@@ -114,9 +120,9 @@ public class HttpMethodBasePointCut extends HttpCommonsPointCut {
 
             methodName = sig.getMethodName();
         } catch (Throwable t) {
-            String msg = MessageFormat.format("Instrumentation error invoking {0} in {1}: {2}", sig, getClass()
-                                                                    .getName(),
-                                                     t);
+            String msg = MessageFormat
+                                 .format("Instrumentation error invoking {0} in {1}: {2}", sig, getClass().getName(),
+                                                t);
 
             if (Agent.LOG.isLoggable(Level.FINEST)) {
                 Agent.LOG.log(Level.FINEST, msg, t);

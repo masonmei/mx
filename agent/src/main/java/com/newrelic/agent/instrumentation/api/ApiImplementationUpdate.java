@@ -12,15 +12,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassWriter;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
-
-import com.newrelic.deps.com.google.common.collect.ImmutableMultimap;
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.classmatchers.ClassAndMethodMatcher;
 import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher.Match;
@@ -28,6 +19,14 @@ import com.newrelic.agent.instrumentation.context.ClassMatchVisitorFactory;
 import com.newrelic.agent.instrumentation.context.ContextClassTransformer;
 import com.newrelic.agent.instrumentation.context.InstrumentationContext;
 import com.newrelic.agent.instrumentation.context.InstrumentationContextManager;
+import com.newrelic.deps.com.google.common.collect.ImmutableMultimap;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
 
 public class ApiImplementationUpdate implements ContextClassTransformer {
     private final DefaultApiImplementations defaultImplementations = new DefaultApiImplementations();

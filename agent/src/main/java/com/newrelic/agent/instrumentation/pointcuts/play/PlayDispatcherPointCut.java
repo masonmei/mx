@@ -117,11 +117,11 @@ public class PlayDispatcherPointCut extends TracerFactoryPointCut {
                                                      getMetricNameFormat(tx, sig, object, args));
         } catch (Exception e) {
             String msg = MessageFormat.format("Unable to create request dispatcher tracer: {0}", new Object[] {e});
-          if (Agent.LOG.isFinestEnabled()) {
-            Agent.LOG.log(Level.WARNING, msg, e);
-          } else {
-            Agent.LOG.warning(msg);
-          }
+            if (Agent.LOG.isFinestEnabled()) {
+                Agent.LOG.log(Level.WARNING, msg, e);
+            } else {
+                Agent.LOG.warning(msg);
+            }
         }
         return null;
     }

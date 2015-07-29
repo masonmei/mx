@@ -10,31 +10,28 @@ import com.newrelic.agent.tracers.ClassMethodSignature;
 import com.newrelic.agent.tracers.DefaultTracer;
 import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.metricname.ClassMethodMetricNameFormat;
-import com.newrelic.agent.tracers.metricname.MetricNameFormat;
 
-public abstract class AbstractExceptionHandlerPointCut extends TracerFactoryPointCut
-{
-  public AbstractExceptionHandlerPointCut(PointCutConfiguration config, ClassMatcher classMatcher, MethodMatcher methodMatcher)
-  {
-    super(config, classMatcher, methodMatcher);
-  }
-
-  public final Tracer doGetTracer(final Transaction transaction, ClassMethodSignature sig, Object errorHandler, Object[] args)
-  {
-    final Throwable throwable = getThrowable(sig, args);
-    if (throwable == null) {
-      return null;
+public abstract class AbstractExceptionHandlerPointCut extends TracerFactoryPointCut {
+    public AbstractExceptionHandlerPointCut(PointCutConfiguration config, ClassMatcher classMatcher,
+                                            MethodMatcher methodMatcher) {
+        super(config, classMatcher, methodMatcher);
     }
-    return new DefaultTracer(transaction, sig, errorHandler, new ClassMethodMetricNameFormat(sig, errorHandler))
-    {
-      protected void doFinish(int opcode, Object returnValue)
-      {
-        transaction.setThrowable(throwable, TransactionErrorPriority.API);
 
-        super.doFinish(opcode, returnValue);
-      }
-    };
-  }
+    public final Tracer doGetTracer(final Transaction transaction, ClassMethodSignature sig, Object errorHandler,
+                                    Object[] args) {
+        final Throwable throwable = getThrowable(sig, args);
+        if (throwable == null) {
+            return null;
+        }
+        return new DefaultTracer(transaction, sig, errorHandler, new ClassMethodMetricNameFormat(sig, errorHandler)) {
+            protected void doFinish(int opcode, Object returnValue) {
+                transaction.setThrowable(throwable, TransactionErrorPriority.API);
 
-  protected abstract Throwable getThrowable(ClassMethodSignature paramClassMethodSignature, Object[] paramArrayOfObject);
+                super.doFinish(opcode, returnValue);
+            }
+        };
+    }
+
+    protected abstract Throwable getThrowable(ClassMethodSignature paramClassMethodSignature,
+                                              Object[] paramArrayOfObject);
 }

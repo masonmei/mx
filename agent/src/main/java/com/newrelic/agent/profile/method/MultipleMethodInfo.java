@@ -6,9 +6,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.newrelic.agent.instrumentation.InstrumentedMethod;
 import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.agent.instrumentation.InstrumentedMethod;
 
 public class MultipleMethodInfo extends MethodInfo {
     private final Set<Member> possibleMethods;

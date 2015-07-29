@@ -8,14 +8,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.json.simple.JSONArray;
-import com.newrelic.deps.org.json.simple.JSONObject;
-import com.newrelic.deps.org.json.simple.JSONStreamAware;
-
+import com.newrelic.agent.Agent;
 import com.newrelic.deps.com.google.common.base.CharMatcher;
 import com.newrelic.deps.com.google.common.collect.ImmutableMap;
 import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.agent.Agent;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONObject;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 public class LabelsConfigImpl implements LabelsConfig, JSONStreamAware {
     private final Map<String, String> labels = Maps.newHashMap();

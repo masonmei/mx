@@ -3,14 +3,13 @@ package com.newrelic.agent.tracers;
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 
-import com.newrelic.deps.org.json.simple.JSONArray;
-import com.newrelic.deps.org.json.simple.parser.JSONParser;
-import com.newrelic.deps.org.json.simple.parser.ParseException;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.tracers.metricname.MetricNameFormat;
 import com.newrelic.agent.util.Obfuscator;
 import com.newrelic.agent.util.Strings;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.parser.JSONParser;
+import com.newrelic.deps.org.json.simple.parser.ParseException;
 
 public class CrossProcessNameFormat implements MetricNameFormat {
     private final String transactionName;

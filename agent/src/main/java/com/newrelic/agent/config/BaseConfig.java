@@ -12,10 +12,9 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
+import com.newrelic.agent.Agent;
 import com.newrelic.deps.org.json.simple.parser.JSONParser;
 import com.newrelic.deps.org.json.simple.parser.ParseException;
-
-import com.newrelic.agent.Agent;
 
 public class BaseConfig implements Config {
     public static final String COMMA_SEPARATOR = ",";

@@ -2,9 +2,9 @@ package com.newrelic.agent.transaction;
 
 import java.net.URL;
 
+import com.newrelic.agent.tracers.MetricNameFormatWithHost;
 import com.newrelic.deps.com.google.common.cache.Cache;
 import com.newrelic.deps.com.google.common.cache.CacheBuilder;
-import com.newrelic.agent.tracers.MetricNameFormatWithHost;
 
 public class TransactionCache {
     private Cache<Object, URL> urlCache;

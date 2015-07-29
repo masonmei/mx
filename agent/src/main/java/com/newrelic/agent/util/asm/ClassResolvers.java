@@ -14,15 +14,14 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Enumeration;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.Lists;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.bootstrap.EmbeddedJarFilesImpl;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Sets;
 
 public class ClassResolvers {
     private ClassResolvers() {
@@ -110,10 +109,10 @@ public class ClassResolvers {
     public static ClassResolver getMultiResolver(final Collection<ClassResolver> resolvers) {
         return new ClassResolver() {
             public InputStream getClassResource(String internalClassName) throws IOException {
-                if(resolvers != null){
+                if (resolvers != null) {
                     for (ClassResolver resolver : resolvers) {
                         InputStream classResource = resolver.getClassResource(internalClassName);
-                        if(classResource != null){
+                        if (classResource != null) {
                             return classResource;
                         }
                     }

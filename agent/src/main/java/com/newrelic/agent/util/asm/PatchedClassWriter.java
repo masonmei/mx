@@ -5,11 +5,10 @@ import java.io.InputStream;
 import java.util.Set;
 import java.util.logging.Level;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.deps.org.objectweb.asm.ClassReader;
 import com.newrelic.deps.org.objectweb.asm.ClassWriter;
-
-import com.newrelic.deps.com.google.common.collect.Sets;
-import com.newrelic.agent.Agent;
 
 public class PatchedClassWriter extends ClassWriter {
     private static final String JAVA_LANG_OBJECT = "java/lang/Object";

@@ -9,14 +9,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.Label;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.base.Joiner;
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.AgentBridge;
 import com.newrelic.agent.bridge.Instrumentation;
@@ -26,6 +18,13 @@ import com.newrelic.agent.bridge.TransactionNamePriority;
 import com.newrelic.agent.util.Strings;
 import com.newrelic.agent.util.asm.BytecodeGenProxyBuilder;
 import com.newrelic.agent.util.asm.Variables;
+import com.newrelic.deps.com.google.common.base.Joiner;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.org.objectweb.asm.Label;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class FlyweightTraceMethodVisitor extends AdviceAdapter {
     static final Type THROWABLE_TYPE = Type.getType(Throwable.class);

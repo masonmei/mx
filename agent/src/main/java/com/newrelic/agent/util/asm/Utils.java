@@ -8,6 +8,11 @@ import java.lang.reflect.Proxy;
 import java.net.URL;
 import java.util.Set;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.service.ServiceFactory;
+import com.newrelic.agent.util.BootstrapLoader;
+import com.newrelic.deps.com.google.common.base.Joiner;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
 import com.newrelic.deps.org.objectweb.asm.ClassReader;
 import com.newrelic.deps.org.objectweb.asm.Type;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
@@ -16,12 +21,6 @@ import com.newrelic.deps.org.objectweb.asm.util.Printer;
 import com.newrelic.deps.org.objectweb.asm.util.Textifier;
 import com.newrelic.deps.org.objectweb.asm.util.TraceClassVisitor;
 import com.newrelic.deps.org.objectweb.asm.util.TraceMethodVisitor;
-
-import com.newrelic.deps.com.google.common.base.Joiner;
-import com.newrelic.deps.com.google.common.collect.ImmutableSet;
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.service.ServiceFactory;
-import com.newrelic.agent.util.BootstrapLoader;
 
 public class Utils {
     private static final String PROXY_CLASS_NAME = "java/lang/reflect/Proxy";

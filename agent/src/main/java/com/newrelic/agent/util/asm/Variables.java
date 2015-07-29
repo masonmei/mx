@@ -1,8 +1,7 @@
 package com.newrelic.agent.util.asm;
 
-import com.newrelic.deps.org.objectweb.asm.Type;
-
 import com.newrelic.agent.bridge.Transaction;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 public interface Variables {
     Object loadThis(int paramInt);

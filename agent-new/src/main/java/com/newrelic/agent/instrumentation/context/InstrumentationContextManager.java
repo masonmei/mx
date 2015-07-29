@@ -8,7 +8,6 @@ import java.lang.instrument.Instrumentation;
 import java.security.ProtectionDomain;
 import java.text.MessageFormat;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -182,7 +181,9 @@ public class InstrumentationContextManager {
                     if ((traceDetails != null) && (traceDetails.isCustom())) {
                         statsService.doStatsWork(StatsWorks.getRecordMetricWork(MessageFormat
                                                                                         .format("Supportability/Instrumented/{0}/{1}{2}",
-                                                                                                       className.replace('/', '.'),
+                                                                                                       className
+                                                                                                               .replace('/',
+                                                                                                                               '.'),
                                                                                                        m.getName(),
                                                                                                        m.getDescriptor()),
                                                                                        1.0F));
@@ -299,7 +300,8 @@ public class InstrumentationContextManager {
                                 return null;
                             } else {
 
-                                for (Map.Entry<ClassMatchVisitorFactory, OptimizedClassMatcher.Match> entry : context.getMatches().entrySet()) {
+                                for (Map.Entry<ClassMatchVisitorFactory, OptimizedClassMatcher.Match> entry : context.getMatches()
+                                                                                                                      .entrySet()) {
                                     ContextClassTransformer transformer = manager.matchVisitors.get(entry.getKey());
                                     if (transformer != null
                                                 && transformer != InstrumentationContextManager.NO_OP_TRANSFORMER) {

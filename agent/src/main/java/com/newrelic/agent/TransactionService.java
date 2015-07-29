@@ -62,9 +62,8 @@ public class TransactionService extends AbstractService implements HarvestListen
         try {
             doProcessTransaction(transactionData, transactionStats);
         } catch (Exception e) {
-            String msg = MessageFormat.format("Error recording transaction \"{0}\": {1}", transactionData
-                                                         .getBlameMetricName(),
-                                                     e);
+            String msg = MessageFormat.format("Error recording transaction \"{0}\": {1}",
+                                                     transactionData.getBlameMetricName(), e);
 
             if (getLogger().isLoggable(Level.FINER)) {
                 getLogger().log(Level.FINER, msg, e);

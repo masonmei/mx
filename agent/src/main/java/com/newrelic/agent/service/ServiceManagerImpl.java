@@ -10,7 +10,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.GCService;
 import com.newrelic.agent.HarvestService;
 import com.newrelic.agent.HarvestServiceImpl;
@@ -65,6 +64,7 @@ import com.newrelic.agent.utilization.UtilizationService;
 import com.newrelic.agent.xray.IXRaySessionService;
 import com.newrelic.agent.xray.XRaySessionService;
 import com.newrelic.api.agent.MetricAggregator;
+import com.newrelic.deps.com.google.common.collect.Lists;
 
 public class ServiceManagerImpl extends AbstractService implements ServiceManager {
     private final Map<String, Service> services = new HashMap();

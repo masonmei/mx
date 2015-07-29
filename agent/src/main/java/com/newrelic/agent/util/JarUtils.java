@@ -9,9 +9,9 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.util.asm.Utils;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
 public class JarUtils {
     public static File createJarFile(String prefix, Map<String, byte[]> classes) throws IOException {

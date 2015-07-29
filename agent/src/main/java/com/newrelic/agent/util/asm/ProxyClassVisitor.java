@@ -2,11 +2,10 @@ package com.newrelic.agent.util.asm;
 
 import java.lang.reflect.Method;
 
+import com.newrelic.agent.Agent;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 import com.newrelic.deps.org.objectweb.asm.FieldVisitor;
 import com.newrelic.deps.org.objectweb.asm.Type;
-
-import com.newrelic.agent.Agent;
 
 public class ProxyClassVisitor extends ClassVisitor {
     private static final String PROXY_METHOD_DESC = Type.getDescriptor(Method.class);

@@ -5,16 +5,15 @@ import java.util.HashMap;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.base.Supplier;
-import com.newrelic.deps.com.google.common.collect.Multimaps;
-import com.newrelic.deps.com.google.common.collect.SetMultimap;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.context.ClassMatchVisitorFactory;
 import com.newrelic.agent.instrumentation.methodmatchers.AnnotationMethodMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.MethodMatcher;
+import com.newrelic.deps.com.google.common.base.Supplier;
+import com.newrelic.deps.com.google.common.collect.Multimaps;
+import com.newrelic.deps.com.google.common.collect.SetMultimap;
+import com.newrelic.deps.com.google.common.collect.Sets;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class OptimizedClassMatcherBuilder {
     private static Supplier<Set<ClassAndMethodMatcher>> CLASS_AND_METHOD_MATCHER_SET_SUPPLIER = new Supplier() {

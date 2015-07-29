@@ -1,75 +1,72 @@
 package com.newrelic.agent.transaction;
 
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.config.AgentConfig;
-import com.newrelic.agent.config.TransactionTracerConfig;
-import com.newrelic.agent.logging.IAgentLogger;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
-public class TransactionCounts
-{
-  private static final int APPROX_TRACER_SIZE = 128;
-  private final int maxTransactionSize;
-  private final int maxSegments;
-  private final AtomicInteger transactionSize = new AtomicInteger(0);
-  private final AtomicInteger segmentCount = new AtomicInteger(0);
-  private final AtomicInteger explainPlanCount = new AtomicInteger(0);
-  private final AtomicInteger stackTraceCount = new AtomicInteger(0);
-  private volatile boolean overSegmentLimit;
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.config.AgentConfig;
 
-  public TransactionCounts(AgentConfig config)
-  {
-    this.maxSegments = config.getTransactionTracerConfig().getMaxSegments();
-    this.maxTransactionSize = config.getTransactionSizeLimit();
-  }
+public class TransactionCounts {
+    private static final int APPROX_TRACER_SIZE = 128;
+    private final int maxTransactionSize;
+    private final int maxSegments;
+    private final AtomicInteger transactionSize = new AtomicInteger(0);
+    private final AtomicInteger segmentCount = new AtomicInteger(0);
+    private final AtomicInteger explainPlanCount = new AtomicInteger(0);
+    private final AtomicInteger stackTraceCount = new AtomicInteger(0);
+    private volatile boolean overSegmentLimit;
 
-  public void incrementSize(int size) {
-    this.transactionSize.addAndGet(size);
-  }
+    public TransactionCounts(AgentConfig config) {
+        this.maxSegments = config.getTransactionTracerConfig().getMaxSegments();
+        this.maxTransactionSize = config.getTransactionSizeLimit();
+    }
 
-  public int getTransactionSize() {
-    return this.transactionSize.intValue();
-  }
+    public void incrementSize(int size) {
+        this.transactionSize.addAndGet(size);
+    }
 
-  public void addTracer() {
-    int count = this.segmentCount.incrementAndGet();
-    this.transactionSize.addAndGet(128);
-    this.overSegmentLimit = (count > this.maxSegments);
-  }
+    public int getTransactionSize() {
+        return this.transactionSize.intValue();
+    }
 
-  public boolean isOverTracerSegmentLimit() {
-    return this.overSegmentLimit;
-  }
+    public void addTracer() {
+        int count = this.segmentCount.incrementAndGet();
+        this.transactionSize.addAndGet(128);
+        this.overSegmentLimit = (count > this.maxSegments);
+    }
 
-  public int getSegmentCount() {
-    return this.segmentCount.get();
-  }
+    public boolean isOverTracerSegmentLimit() {
+        return this.overSegmentLimit;
+    }
 
-  public boolean isOverTransactionSize() {
-    return this.transactionSize.intValue() > this.maxTransactionSize;
-  }
+    public int getSegmentCount() {
+        return this.segmentCount.get();
+    }
 
-  public boolean shouldGenerateTransactionSegment() {
-    return (!isOverTracerSegmentLimit()) && (!isOverTransactionSize());
-  }
+    public boolean isOverTransactionSize() {
+        return this.transactionSize.intValue() > this.maxTransactionSize;
+    }
 
-  public void incrementStackTraceCount() {
-    this.stackTraceCount.incrementAndGet();
-  }
+    public boolean shouldGenerateTransactionSegment() {
+        return (!isOverTracerSegmentLimit()) && (!isOverTransactionSize());
+    }
 
-  public int getStackTraceCount() {
-    return this.stackTraceCount.intValue();
-  }
+    public void incrementStackTraceCount() {
+        this.stackTraceCount.incrementAndGet();
+    }
 
-  public int getExplainPlanCount()
-  {
-    return this.explainPlanCount.intValue();
-  }
+    public int getStackTraceCount() {
+        return this.stackTraceCount.intValue();
+    }
 
-  public void incrementExplainPlanCountAndLogIfReachedMax(int max) {
-    int updatedVal = this.explainPlanCount.incrementAndGet();
-    if (updatedVal == max)
-      Agent.LOG.log(Level.FINER, "Reached the maximum number of explain plans.");
-  }
+    public int getExplainPlanCount() {
+        return this.explainPlanCount.intValue();
+    }
+
+    public void incrementExplainPlanCountAndLogIfReachedMax(int max) {
+        int updatedVal = this.explainPlanCount.incrementAndGet();
+        if (updatedVal == max) {
+            Agent.LOG.log(Level.FINER, "Reached the maximum number of explain plans.");
+        }
+    }
 }

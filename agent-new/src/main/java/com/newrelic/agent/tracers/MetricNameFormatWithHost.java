@@ -3,38 +3,32 @@ package com.newrelic.agent.tracers;
 import com.newrelic.agent.tracers.metricname.MetricNameFormat;
 import com.newrelic.agent.util.Strings;
 
-public class MetricNameFormatWithHost
-  implements MetricNameFormat
-{
-  private final String host;
-  private final String metricName;
+public class MetricNameFormatWithHost implements MetricNameFormat {
+    private final String host;
+    private final String metricName;
 
-  private MetricNameFormatWithHost(String host, String library)
-  {
-    this.host = host;
-    this.metricName = Strings.join('/', new String[] { "External", host, library });
-  }
+    private MetricNameFormatWithHost(String host, String library) {
+        this.host = host;
+        this.metricName = Strings.join('/', new String[] {"External", host, library});
+    }
 
-  public String getHost() {
-    return this.host;
-  }
+    public static MetricNameFormatWithHost create(String host, String library) {
+        return new MetricNameFormatWithHost(host, library);
+    }
 
-  public String getMetricName()
-  {
-    return this.metricName;
-  }
+    public String getHost() {
+        return this.host;
+    }
 
-  public String getTransactionSegmentName()
-  {
-    return this.metricName;
-  }
+    public String getMetricName() {
+        return this.metricName;
+    }
 
-  public String getTransactionSegmentUri()
-  {
-    return null;
-  }
+    public String getTransactionSegmentName() {
+        return this.metricName;
+    }
 
-  public static MetricNameFormatWithHost create(String host, String library) {
-    return new MetricNameFormatWithHost(host, library);
-  }
+    public String getTransactionSegmentUri() {
+        return null;
+    }
 }

@@ -1,5 +1,4 @@
 package com.newrelic.agent.tracers;
 
-public class SkipTracerException extends RuntimeException
-{
+public class SkipTracerException extends RuntimeException {
 }

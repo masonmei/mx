@@ -4,9 +4,8 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
 import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public abstract class ManyMethodMatcher implements MethodMatcher {
     protected final Collection<MethodMatcher> methodMatchers;

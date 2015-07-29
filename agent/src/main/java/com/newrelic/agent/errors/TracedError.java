@@ -7,12 +7,11 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Map;
 
-import com.newrelic.deps.org.json.simple.JSONArray;
-import com.newrelic.deps.org.json.simple.JSONStreamAware;
-
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.attributes.AttributesUtils;
 import com.newrelic.agent.service.ServiceFactory;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 public abstract class TracedError implements Comparable<TracedError>, JSONStreamAware {
     private final String path;

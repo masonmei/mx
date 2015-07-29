@@ -14,11 +14,11 @@ import java.lang.annotation.Target;
 @Target({ElementType.METHOD})
 @Retention(RetentionPolicy.RUNTIME)
 public @interface MethodMapper {
-  String NULL = "";
+    String NULL = "";
 
-  boolean invokeInterface() default true;
+    boolean invokeInterface() default true;
 
-  String originalMethodName();
+    String originalMethodName();
 
-  String originalDescriptor() default "";
+    String originalDescriptor() default "";
 }

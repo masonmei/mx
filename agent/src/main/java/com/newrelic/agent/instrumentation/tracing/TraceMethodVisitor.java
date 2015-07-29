@@ -1,11 +1,5 @@
 package com.newrelic.agent.instrumentation.tracing;
 
-import com.newrelic.deps.org.objectweb.asm.Label;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.ExitTracer;
 import com.newrelic.agent.bridge.Instrumentation;
@@ -15,6 +9,11 @@ import com.newrelic.agent.tracers.ClassMethodSignature;
 import com.newrelic.agent.tracers.ClassMethodSignatures;
 import com.newrelic.agent.util.asm.BytecodeGenProxyBuilder;
 import com.newrelic.agent.util.asm.Variables;
+import com.newrelic.deps.org.objectweb.asm.Label;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class TraceMethodVisitor extends AdviceAdapter {
     public static final Method IGNORE_APDEX_METHOD = new Method("ignoreApdex", Type.VOID_TYPE, new Type[0]);

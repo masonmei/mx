@@ -1,14 +1,13 @@
 package com.newrelic.agent.instrumentation.weaver;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.api.agent.weaver.NewField;
+import com.newrelic.api.agent.weaver.Weave;
 import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
 import com.newrelic.deps.org.objectweb.asm.ClassReader;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 import com.newrelic.deps.org.objectweb.asm.Type;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.agent.Agent;
-import com.newrelic.api.agent.weaver.NewField;
-import com.newrelic.api.agent.weaver.Weave;
 
 public class WeaveUtils {
     public static final String NEW_FIELD_ANNOTATION_DESCRIPTOR = Type.getDescriptor(NewField.class);

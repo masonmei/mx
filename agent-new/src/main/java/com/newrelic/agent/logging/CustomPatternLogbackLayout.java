@@ -1,20 +1,17 @@
 package com.newrelic.agent.logging;
 
 import com.newrelic.deps.ch.qos.logback.classic.PatternLayout;
-import java.util.Map;
 
-class CustomPatternLogbackLayout extends PatternLayout
-{
-  private static final String THREAD_ID_CHAR = "i";
-  private static final String MARKER_LEVEL_ID = "ml";
-  private static final String PROCESS_ID = "pid";
+class CustomPatternLogbackLayout extends PatternLayout {
+    private static final String THREAD_ID_CHAR = "i";
+    private static final String MARKER_LEVEL_ID = "ml";
+    private static final String PROCESS_ID = "pid";
 
-  public CustomPatternLogbackLayout(String pPattern)
-  {
-    defaultConverterMap.put("i", ThreadIdLogbackConverter.class.getName());
-    defaultConverterMap.put("ml", MarkerLevelConverter.class.getName());
-    defaultConverterMap.put("pid", ProcessIdLogbackConverter.class.getName());
+    public CustomPatternLogbackLayout(String pPattern) {
+        defaultConverterMap.put("i", ThreadIdLogbackConverter.class.getName());
+        defaultConverterMap.put("ml", MarkerLevelConverter.class.getName());
+        defaultConverterMap.put("pid", ProcessIdLogbackConverter.class.getName());
 
-    setPattern(pPattern);
-  }
+        setPattern(pPattern);
+    }
 }

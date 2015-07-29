@@ -6,47 +6,44 @@
 package com.newrelic.agent.logging;
 
 import com.newrelic.agent.config.AgentConfig;
-import com.newrelic.agent.logging.IAgentLogManager;
-import com.newrelic.agent.logging.IAgentLogger;
-import com.newrelic.agent.logging.LogbackLogManager;
 
 public class AgentLogManager {
-  static final String ROOT_LOGGER_NAME = "com.newrelic";
-  private static final IAgentLogManager INSTANCE = createAgentLogManager();
-  private static final IAgentLogger ROOT_LOGGER;
+    static final String ROOT_LOGGER_NAME = "com.newrelic";
+    private static final IAgentLogManager INSTANCE = createAgentLogManager();
+    private static final IAgentLogger ROOT_LOGGER;
 
-  private AgentLogManager() {
-  }
+    static {
+        ROOT_LOGGER = INSTANCE.getRootLogger();
+    }
 
-  private static IAgentLogManager createAgentLogManager() {
-    return LogbackLogManager.create(ROOT_LOGGER_NAME);
-  }
+    private AgentLogManager() {
+    }
 
-  public static IAgentLogger getLogger() {
-    return ROOT_LOGGER;
-  }
+    private static IAgentLogManager createAgentLogManager() {
+        return LogbackLogManager.create(ROOT_LOGGER_NAME);
+    }
 
-  public static String getLogFilePath() {
-    return INSTANCE.getLogFilePath();
-  }
+    public static IAgentLogger getLogger() {
+        return ROOT_LOGGER;
+    }
 
-  public static void configureLogger(AgentConfig agentConfig) {
-    INSTANCE.configureLogger(agentConfig);
-  }
+    public static String getLogFilePath() {
+        return INSTANCE.getLogFilePath();
+    }
 
-  public static void addConsoleHandler() {
-    INSTANCE.addConsoleHandler();
-  }
+    public static void configureLogger(AgentConfig agentConfig) {
+        INSTANCE.configureLogger(agentConfig);
+    }
 
-  public static void setLogLevel(String level) {
-    INSTANCE.setLogLevel(level);
-  }
+    public static void addConsoleHandler() {
+        INSTANCE.addConsoleHandler();
+    }
 
-  public static String getLogLevel() {
-    return INSTANCE.getLogLevel();
-  }
+    public static String getLogLevel() {
+        return INSTANCE.getLogLevel();
+    }
 
-  static {
-    ROOT_LOGGER = INSTANCE.getRootLogger();
-  }
+    public static void setLogLevel(String level) {
+        INSTANCE.setLogLevel(level);
+    }
 }

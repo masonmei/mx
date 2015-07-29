@@ -14,12 +14,11 @@ import java.util.logging.Level;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import com.newrelic.deps.org.json.simple.JSONArray;
-import com.newrelic.deps.org.json.simple.JSONStreamAware;
-
-import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.config.AgentConfig;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 public class Environment implements JSONStreamAware, Cloneable {
     public static final String PHYSICAL_CORE_KEY = "Physical Processors";

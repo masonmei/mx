@@ -9,7 +9,6 @@ import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 
 import com.newrelic.deps.org.json.simple.JSONValue;
-
 import com.newrelic.org.apache.axis.encoding.Base64;
 
 public class DataSenderWriter extends OutputStreamWriter {

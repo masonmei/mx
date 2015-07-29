@@ -5,12 +5,11 @@ import java.security.ProtectionDomain;
 import java.text.MessageFormat;
 import java.util.logging.Level;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.InstrumentationProxy;
 import com.newrelic.deps.org.objectweb.asm.ClassReader;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 import com.newrelic.deps.org.objectweb.asm.ClassWriter;
-
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.InstrumentationProxy;
 
 public abstract class AbstractClassTransformer implements StartableClassFileTransformer {
     private final int classreaderFlags;

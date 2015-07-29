@@ -21,36 +21,32 @@ public class AttributesFilter {
 
     public AttributesFilter(AgentConfig config, String[] defaultExcludeBrowser, String[] defaultExcludeErrors,
                             String[] defaultExcludeEvents, String[] defaultExcludeTraces) {
-        List rootExcludes = new ArrayList();
+        List<String> rootExcludes = new ArrayList<String>();
         rootExcludes.addAll(AttributesConfigUtil.getBaseList(config, "attributes.exclude"));
         rootExcludes.addAll(AttributesConfigUtil.getBaseList(config, "ignored_params", "request.parameters."));
 
-        rootExcludes
-                .addAll(AttributesConfigUtil.getBaseList(config, "ignored_messaging_params", "message.parameters."));
+        rootExcludes.addAll(AttributesConfigUtil.getBaseList(config, "ignored_messaging_params", "message.parameters."));
 
-        List rootIncludes = AttributesConfigUtil.getBaseList(config, "attributes.include");
+        List<String> rootIncludes = AttributesConfigUtil.getBaseList(config, "attributes.include");
 
         boolean captureParams = AttributesConfigUtil.isCaptureAttributes(config);
         boolean captureMessageParams = AttributesConfigUtil.isCaptureMessageAttributes(config);
 
         errorFilter = new DestinationFilter("error_collector", true, config, rootExcludes, rootIncludes, captureParams,
-                                                   captureMessageParams, defaultExcludeErrors,
-                                                   new String[] {"error_collector"});
+                                                   captureMessageParams, defaultExcludeErrors, "error_collector");
 
         eventsFilter =
                 new DestinationFilter("transaction_events", true, config, rootExcludes, rootIncludes, captureParams,
-                                             captureMessageParams, defaultExcludeEvents,
-                                             new String[] {"transaction_events", "analytics_events"});
+                                             captureMessageParams, defaultExcludeEvents, "transaction_events",
+                                             "analytics_events");
 
         traceFilter =
                 new DestinationFilter("transaction_tracer", true, config, rootExcludes, rootIncludes, captureParams,
-                                             captureMessageParams, defaultExcludeTraces,
-                                             new String[] {"transaction_tracer"});
+                                             captureMessageParams, defaultExcludeTraces, "transaction_tracer");
 
         browserFilter =
                 new DestinationFilter("browser_monitoring", false, config, rootExcludes, rootIncludes, captureParams,
-                                             captureMessageParams, defaultExcludeBrowser,
-                                             new String[] {"browser_monitoring"});
+                                             captureMessageParams, defaultExcludeBrowser, "browser_monitoring");
 
         boolean enabled = (errorFilter.isEnabled()) || (eventsFilter.isEnabled()) || (traceFilter.isEnabled());
         captureRequestParameters =
@@ -61,14 +57,10 @@ public class AttributesFilter {
     }
 
     private boolean captureAllParams(boolean enabled, boolean highSecurity, boolean captureParams, String paramStart) {
-        if ((!enabled) || (highSecurity)) {
-            return false;
-        }
-        return (captureParams) || (errorFilter.isPotentialConfigMatch(paramStart)) || (eventsFilter
-                                                                                               .isPotentialConfigMatch(paramStart))
-                       || (traceFilter.isPotentialConfigMatch(paramStart)) || (browserFilter
-                                                                                       .isPotentialConfigMatch
-                                                                                                (paramStart));
+        return !((!enabled) || (highSecurity)) && ((captureParams) || (errorFilter.isPotentialConfigMatch(paramStart))
+                                                           || (eventsFilter.isPotentialConfigMatch(paramStart))
+                                                           || (traceFilter.isPotentialConfigMatch(paramStart))
+                                                           || (browserFilter.isPotentialConfigMatch(paramStart)));
     }
 
     public boolean captureRequestParams() {

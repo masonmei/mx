@@ -7,7 +7,6 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.instrumentation.ClassTransformer;
 import com.newrelic.agent.service.ServiceFactory;
@@ -15,6 +14,7 @@ import com.newrelic.agent.util.BootstrapLoader;
 import com.newrelic.agent.util.InstrumentationWrapper;
 import com.newrelic.agent.util.Streams;
 import com.newrelic.agent.util.asm.Utils;
+import com.newrelic.deps.com.google.common.collect.Lists;
 
 public class InstrumentationProxy extends InstrumentationWrapper {
     private final boolean bootstrapClassIntrumentationEnabled;

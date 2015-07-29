@@ -5,10 +5,9 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
+import com.newrelic.agent.Agent;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 import com.newrelic.deps.org.objectweb.asm.Type;
-
-import com.newrelic.agent.Agent;
 
 public class AddInterfaceAdapter extends ClassVisitor {
     private final String className;

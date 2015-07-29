@@ -23,6 +23,10 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.bridge.reflect.ClassReflection;
+import com.newrelic.deps.com.google.common.collect.ImmutableMap;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
 import com.newrelic.deps.org.objectweb.asm.ClassReader;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
@@ -31,11 +35,6 @@ import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
 import com.newrelic.deps.org.objectweb.asm.Type;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
 import com.newrelic.deps.org.objectweb.asm.tree.FieldNode;
-
-import com.newrelic.deps.com.google.common.collect.ImmutableMap;
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.bridge.reflect.ClassReflection;
 
 public class ClassStructure {
     public static final int METHODS = 1;
@@ -358,7 +357,8 @@ public class ClassStructure {
                                 new ClassStructure.MethodDetails(Maps.<String, AnnotationDetails>newHashMap(),
                                                                         isStatic);
                         ClassStructure.this.methods.put(method, details);
-                        return new MethodVisitor(Agent.ASM_LEVEL, super.visitMethod(access, name, desc, signature, exceptions)) {
+                        return new MethodVisitor(Agent.ASM_LEVEL,
+                                                        super.visitMethod(access, name, desc, signature, exceptions)) {
                             public AnnotationVisitor visitAnnotation(String desc, boolean visible) {
                                 AnnotationDetails annotation =
                                         new AnnotationDetails(super.visitAnnotation(desc, visible), desc);

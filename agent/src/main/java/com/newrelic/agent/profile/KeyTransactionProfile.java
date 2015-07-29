@@ -15,13 +15,12 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.json.simple.JSONStreamAware;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.TransactionData;
 import com.newrelic.agent.TransactionListener;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.stats.TransactionStats;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 public class KeyTransactionProfile implements IProfile, TransactionListener, JSONStreamAware {
     private static final int CAPACITY = 100;

@@ -82,9 +82,8 @@ public class JmxService extends AbstractService implements HarvestListener {
 
             addJmxAttributeProcessor(JmxAttributeProcessorWrapper
                                              .createInstance("com.newrelic.agent.jmx.J2EEStatsAttributeProcessor"));
-            addJmxAttributeProcessor(JmxAttributeProcessorWrapper
-                                             .createInstance("com.newrelic.agent.jmx"
-                                                                     + ".WebSphereStatsAttributeProcessor"));
+            addJmxAttributeProcessor(JmxAttributeProcessorWrapper.createInstance("com.newrelic.agent.jmx"
+                                                                                         + ".WebSphereStatsAttributeProcessor"));
         }
     }
 

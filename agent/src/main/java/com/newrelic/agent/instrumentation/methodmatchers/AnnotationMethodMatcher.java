@@ -2,10 +2,9 @@ package com.newrelic.agent.instrumentation.methodmatchers;
 
 import java.util.Set;
 
+import com.newrelic.agent.Agent;
 import com.newrelic.deps.org.objectweb.asm.Type;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.agent.Agent;
 
 public class AnnotationMethodMatcher implements MethodMatcher {
     private final Type annotationType;

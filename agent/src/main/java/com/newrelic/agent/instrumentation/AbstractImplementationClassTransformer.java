@@ -5,17 +5,16 @@ import java.security.ProtectionDomain;
 import java.text.MessageFormat;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassWriter;
-import com.newrelic.deps.org.objectweb.asm.Type;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.InstrumentationProxy;
 import com.newrelic.agent.instrumentation.classmatchers.ClassMatcher;
 import com.newrelic.agent.instrumentation.classmatchers.ExactClassMatcher;
 import com.newrelic.agent.instrumentation.pointcuts.InterfaceMapper;
 import com.newrelic.agent.logging.IAgentLogger;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 public abstract class AbstractImplementationClassTransformer implements StartableClassFileTransformer {
     protected final IAgentLogger logger;

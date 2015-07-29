@@ -23,9 +23,8 @@ public class Play2RoutingPointCut extends com.newrelic.agent.instrumentation.Poi
     public static final String PLAY_INSTRUMENTATION_GROUP_NAME = "play2_instrumentation";
     static final String CLASS = "play/core/Router$Routes$class";
     static final String METHOD_NAME = "invokeHandler";
-    static final String METHOD_DESC =
-            "(Lplay/core/Router$Routes;Lscala/Function0;Lplay/core/Router$HandlerDef;"
-                    + "Lplay/core/Router$HandlerInvoker;)Lplay/api/mvc/Handler;";
+    static final String METHOD_DESC = "(Lplay/core/Router$Routes;Lscala/Function0;Lplay/core/Router$HandlerDef;"
+                                              + "Lplay/core/Router$HandlerInvoker;)Lplay/api/mvc/Handler;";
     private static final boolean DEFAULT_ENABLED = true;
     private static final String POINT_CUT_NAME = Play2RoutingPointCut.class.getName();
 
@@ -42,10 +41,10 @@ public class Play2RoutingPointCut extends com.newrelic.agent.instrumentation.Poi
     }
 
     private static MethodMatcher createMethodMatcher() {
-        return new ExactMethodMatcher("invokeHandler",
-                                             "(Lplay/core/Router$Routes;Lscala/Function0;"
-                                                     + "Lplay/core/Router$HandlerDef;"
-                                                     + "Lplay/core/Router$HandlerInvoker;)Lplay/api/mvc/Handler;");
+        return new ExactMethodMatcher("invokeHandler", "(Lplay/core/Router$Routes;Lscala/Function0;"
+                                                               + "Lplay/core/Router$HandlerDef;"
+                                                               + "Lplay/core/Router$HandlerInvoker;)"
+                                                               + "Lplay/api/mvc/Handler;");
     }
 
     protected PointCutInvocationHandler getPointCutInvocationHandlerImpl() {

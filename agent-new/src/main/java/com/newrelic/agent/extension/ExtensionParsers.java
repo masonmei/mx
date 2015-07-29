@@ -1,67 +1,58 @@
 package com.newrelic.agent.extension;
 
-import com.newrelic.deps.org.yaml.snakeyaml.Loader;
-import com.newrelic.deps.org.yaml.snakeyaml.Yaml;
-import com.newrelic.deps.org.yaml.snakeyaml.constructor.Constructor;
-import com.newrelic.agent.extension.dom.ExtensionDomParser;
 import java.io.InputStream;
 import java.util.List;
 import java.util.Map;
 
-public class ExtensionParsers
-{
-  private final ExtensionParser yamlParser;
-  private final ExtensionParser xmlParser;
+import com.newrelic.agent.extension.dom.ExtensionDomParser;
+import com.newrelic.deps.org.yaml.snakeyaml.Loader;
+import com.newrelic.deps.org.yaml.snakeyaml.Yaml;
+import com.newrelic.deps.org.yaml.snakeyaml.constructor.Constructor;
 
-  public ExtensionParsers(final List<ConfigurationConstruct> constructs)
-  {
-    Constructor constructor = new Constructor()
-    {
-    };
-    Loader loader = new Loader(constructor);
-    final Yaml yaml = new Yaml(loader);
+public class ExtensionParsers {
+    private final ExtensionParser yamlParser;
+    private final ExtensionParser xmlParser;
 
-    this.yamlParser = new ExtensionParser()
-    {
-      public Extension parse(ClassLoader classloader, InputStream inputStream, boolean custom) throws Exception
-      {
-        Object config = yaml.load(inputStream);
-        if ((config instanceof Map)) {
-          return new YamlExtension(classloader, (Map)config, custom);
-        }
-        throw new Exception("Invalid yaml extension");
-      }
-    };
-    this.xmlParser = new ExtensionParser()
-    {
-      public Extension parse(ClassLoader classloader, InputStream inputStream, boolean custom) throws Exception
-      {
-        com.newrelic.agent.extension.beans.Extension ext = ExtensionDomParser.readFile(inputStream);
-        return new XmlExtension(getClass().getClassLoader(), ext.getName(), ext, custom);
-      }
-    };
-  }
+    public ExtensionParsers(final List<ConfigurationConstruct> constructs) {
+        Constructor constructor = new Constructor() {
+        };
+        Loader loader = new Loader(constructor);
+        final Yaml yaml = new Yaml(loader);
 
-  public ExtensionParser getParser(String fileName)
-  {
-    if (fileName.endsWith(".yml")) {
-      return this.yamlParser;
+        this.yamlParser = new ExtensionParser() {
+            public Extension parse(ClassLoader classloader, InputStream inputStream, boolean custom) throws Exception {
+                Object config = yaml.load(inputStream);
+                if ((config instanceof Map)) {
+                    return new YamlExtension(classloader, (Map) config, custom);
+                }
+                throw new Exception("Invalid yaml extension");
+            }
+        };
+        this.xmlParser = new ExtensionParser() {
+            public Extension parse(ClassLoader classloader, InputStream inputStream, boolean custom) throws Exception {
+                com.newrelic.agent.extension.beans.Extension ext = ExtensionDomParser.readFile(inputStream);
+                return new XmlExtension(getClass().getClassLoader(), ext.getName(), ext, custom);
+            }
+        };
     }
-    return this.xmlParser;
-  }
 
-  public ExtensionParser getXmlParser()
-  {
-    return this.xmlParser;
-  }
+    public ExtensionParser getParser(String fileName) {
+        if (fileName.endsWith(".yml")) {
+            return this.yamlParser;
+        }
+        return this.xmlParser;
+    }
 
-  public ExtensionParser getYamlParser() {
-    return this.yamlParser;
-  }
+    public ExtensionParser getXmlParser() {
+        return this.xmlParser;
+    }
 
-  public static abstract interface ExtensionParser
-  {
-    public abstract Extension parse(ClassLoader paramClassLoader, InputStream paramInputStream, boolean paramBoolean)
-      throws Exception;
-  }
+    public ExtensionParser getYamlParser() {
+        return this.yamlParser;
+    }
+
+    public static abstract interface ExtensionParser {
+        public abstract Extension parse(ClassLoader paramClassLoader, InputStream paramInputStream,
+                                        boolean paramBoolean) throws Exception;
+    }
 }

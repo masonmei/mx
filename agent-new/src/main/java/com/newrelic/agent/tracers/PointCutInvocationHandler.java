@@ -1,5 +1,4 @@
 package com.newrelic.agent.tracers;
 
-public abstract interface PointCutInvocationHandler
-{
+public abstract interface PointCutInvocationHandler {
 }

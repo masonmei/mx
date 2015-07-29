@@ -12,44 +12,39 @@ import com.newrelic.agent.tracers.EntryInvocationHandler;
 import com.newrelic.agent.tracers.PointCutInvocationHandler;
 
 @com.newrelic.agent.instrumentation.pointcuts.PointCut
-public class FinishResponsePointCut extends com.newrelic.agent.instrumentation.PointCut
-  implements EntryInvocationHandler
-{
-  private static final String POINT_CUT_NAME = FinishResponsePointCut.class.getName();
-  private static final boolean DEFAULT_ENABLED = true;
-  private static final String COYOTE_RESPONSE_CLASS = "org/apache/catalina/connector/Response";
-  private static final String FINISH_RESPONSE_METHOD_NAME = "finishResponse";
-  private static final String FINISH_RESPONSE_METHOD_DESC = "()V";
+public class FinishResponsePointCut extends com.newrelic.agent.instrumentation.PointCut implements
+        EntryInvocationHandler {
+    private static final String POINT_CUT_NAME = FinishResponsePointCut.class.getName();
+    private static final boolean DEFAULT_ENABLED = true;
+    private static final String COYOTE_RESPONSE_CLASS = "org/apache/catalina/connector/Response";
+    private static final String FINISH_RESPONSE_METHOD_NAME = "finishResponse";
+    private static final String FINISH_RESPONSE_METHOD_DESC = "()V";
 
-  public FinishResponsePointCut(ClassTransformer classTransformer)
-  {
-    super(createPointCutConfig(), createClassMatcher(), createMethodMatcher());
-  }
-
-  private static PointCutConfiguration createPointCutConfig() {
-    return new PointCutConfiguration(POINT_CUT_NAME, "tomcat", true);
-  }
-
-  private static ClassMatcher createClassMatcher()
-  {
-    return new ExactClassMatcher("org/apache/catalina/connector/Response");
-  }
-
-  private static MethodMatcher createMethodMatcher() {
-    return new ExactMethodMatcher("finishResponse", "()V");
-  }
-
-  protected PointCutInvocationHandler getPointCutInvocationHandlerImpl()
-  {
-    return this;
-  }
-
-  public void handleInvocation(ClassMethodSignature sig, Object object, Object[] args)
-  {
-    Transaction tx = Transaction.getTransaction();
-    if (tx == null) {
-      return;
+    public FinishResponsePointCut(ClassTransformer classTransformer) {
+        super(createPointCutConfig(), createClassMatcher(), createMethodMatcher());
     }
-    tx.beforeSendResponseHeaders();
-  }
+
+    private static PointCutConfiguration createPointCutConfig() {
+        return new PointCutConfiguration(POINT_CUT_NAME, "tomcat", true);
+    }
+
+    private static ClassMatcher createClassMatcher() {
+        return new ExactClassMatcher("org/apache/catalina/connector/Response");
+    }
+
+    private static MethodMatcher createMethodMatcher() {
+        return new ExactMethodMatcher("finishResponse", "()V");
+    }
+
+    protected PointCutInvocationHandler getPointCutInvocationHandlerImpl() {
+        return this;
+    }
+
+    public void handleInvocation(ClassMethodSignature sig, Object object, Object[] args) {
+        Transaction tx = Transaction.getTransaction();
+        if (tx == null) {
+            return;
+        }
+        tx.beforeSendResponseHeaders();
+    }
 }

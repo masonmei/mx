@@ -70,9 +70,9 @@ public class DefaultExplainPlanExecutor implements ExplainPlanExecutor {
                 }
             }
         }
-      if (explainPlan != null) {
-        tracer.setExplainPlan(explainPlan);
-      }
+        if (explainPlan != null) {
+            tracer.setExplainPlan(explainPlan);
+        }
     }
 
     protected ResultSet executeStatement(Statement statement, String sql) throws SQLException {

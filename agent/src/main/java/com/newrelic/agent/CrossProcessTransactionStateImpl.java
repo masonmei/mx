@@ -15,11 +15,6 @@ import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.json.simple.JSONArray;
-import com.newrelic.deps.org.json.simple.JSONValue;
-
-import com.newrelic.deps.com.google.common.collect.MapMaker;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.bridge.TracedMethod;
 import com.newrelic.agent.dispatchers.Dispatcher;
 import com.newrelic.agent.service.ServiceUtils;
@@ -32,6 +27,10 @@ import com.newrelic.api.agent.HeaderType;
 import com.newrelic.api.agent.InboundHeaders;
 import com.newrelic.api.agent.OutboundHeaders;
 import com.newrelic.api.agent.Response;
+import com.newrelic.deps.com.google.common.collect.MapMaker;
+import com.newrelic.deps.com.google.common.collect.Sets;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONValue;
 
 public class CrossProcessTransactionStateImpl implements CrossProcessTransactionState {
     private static final boolean OPTIMISTIC_TRACING = false;
@@ -296,8 +295,8 @@ public class CrossProcessTransactionStateImpl implements CrossProcessTransaction
 
     private void recordClientApplicationMetric(long durationInNanos) {
         if (tx.getInboundHeaderState().isTrustedCatRequest()) {
-            String metricName = MessageFormat.format("ClientApplication/{0}/all", tx.getInboundHeaderState()
-                                  .getClientCrossProcessId());
+            String metricName = MessageFormat.format("ClientApplication/{0}/all",
+                                                            tx.getInboundHeaderState().getClientCrossProcessId());
 
             tx.getTransactionActivity().getTransactionStats().getUnscopedStats().getResponseTimeStats(metricName)
                     .recordResponseTime(durationInNanos, TimeUnit.NANOSECONDS);

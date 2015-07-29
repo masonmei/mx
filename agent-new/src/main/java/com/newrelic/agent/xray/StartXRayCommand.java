@@ -10,41 +10,41 @@ import com.newrelic.agent.commands.AbstractCommand;
 import com.newrelic.agent.commands.CommandException;
 
 public class StartXRayCommand extends AbstractCommand {
-  public static final String COMMAND_NAME = "active_xray_sessions";
-  private static final String DISABLED_MESSAGE = "The X-Ray service is disabled";
-  private IXRaySessionService xRaySessionService;
+    public static final String COMMAND_NAME = "active_xray_sessions";
+    private static final String DISABLED_MESSAGE = "The X-Ray service is disabled";
+    private IXRaySessionService xRaySessionService;
 
-  public StartXRayCommand(XRaySessionService xRaySessionService) {
-    super("active_xray_sessions");
-    this.xRaySessionService = xRaySessionService;
-  }
-
-  public Map<?, ?> process(IRPMService rpmService, Map arguments) throws CommandException {
-    if (xRaySessionService.isEnabled()) {
-      return processEnabled(rpmService, arguments);
+    public StartXRayCommand(XRaySessionService xRaySessionService) {
+        super("active_xray_sessions");
+        this.xRaySessionService = xRaySessionService;
     }
-    return processDisabled(rpmService, arguments);
-  }
 
-  private Map processDisabled(IRPMService rpmService, Map arguments) {
-    Agent.LOG.debug("The X-Ray service is disabled");
-    try {
-      xRaySessionService.stop();
-    } catch (Exception e) {
-      Agent.LOG.warning("Error disabling X-Ray Session service: " + e.getMessage());
+    public Map<?, ?> process(IRPMService rpmService, Map arguments) throws CommandException {
+        if (xRaySessionService.isEnabled()) {
+            return processEnabled(rpmService, arguments);
+        }
+        return processDisabled(rpmService, arguments);
     }
-    return Collections.EMPTY_MAP;
-  }
 
-  private Map processEnabled(IRPMService rpmService, Map arguments) {
-    Object xray_ids = arguments.remove("xray_ids");
-
-    List xrayIds;
-    if ((xray_ids instanceof List)) {
-      xrayIds = (List) xray_ids;
-    } else {
-      xrayIds = Collections.emptyList();
+    private Map processDisabled(IRPMService rpmService, Map arguments) {
+        Agent.LOG.debug("The X-Ray service is disabled");
+        try {
+            xRaySessionService.stop();
+        } catch (Exception e) {
+            Agent.LOG.warning("Error disabling X-Ray Session service: " + e.getMessage());
+        }
+        return Collections.EMPTY_MAP;
     }
-    return xRaySessionService.processSessionsList(xrayIds, rpmService);
-  }
+
+    private Map processEnabled(IRPMService rpmService, Map arguments) {
+        Object xray_ids = arguments.remove("xray_ids");
+
+        List xrayIds;
+        if ((xray_ids instanceof List)) {
+            xrayIds = (List) xray_ids;
+        } else {
+            xrayIds = Collections.emptyList();
+        }
+        return xRaySessionService.processSessionsList(xrayIds, rpmService);
+    }
 }

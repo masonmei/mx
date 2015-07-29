@@ -8,16 +8,15 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
-import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
-
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.Transaction;
 import com.newrelic.agent.instrumentation.tracing.BridgeUtils;
 import com.newrelic.agent.util.AgentError;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class BytecodeGenProxyBuilder<T> {

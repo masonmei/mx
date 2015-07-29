@@ -81,7 +81,8 @@ public class Annotation extends AnnotationVisitor {
                                                   .setTracerFactoryName((String) getValues().get("tracerFactoryName"))
                                                   .setExcludeFromTransactionTrace(getBoolean("skipTransactionTrace"))
                                                   .setNameTransaction(getBoolean("nameTransaction")).setCustom(custom)
-                                                  .setExcludeFromTransactionTrace(getBoolean("excludeFromTransactionTrace"))
+                                                  .setExcludeFromTransactionTrace(getBoolean
+                                                                                          ("excludeFromTransactionTrace"))
                                                   .setLeaf(getBoolean("leaf")).build()) {
             public String getFullMetricName(String className, String methodName) {
                 return metricName();

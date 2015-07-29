@@ -11,8 +11,8 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
 public class AgentConfigImpl extends BaseConfig implements AgentConfig {
     public static final String APDEX_T = "apdex_t";

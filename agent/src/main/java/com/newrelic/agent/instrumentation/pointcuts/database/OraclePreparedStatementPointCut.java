@@ -17,7 +17,8 @@ public class OraclePreparedStatementPointCut extends AbstractPreparedStatementPo
 
     public OraclePreparedStatementPointCut(ClassTransformer classTransformer) {
         super(new PointCutConfiguration("jdbc_oracle_prepared_statement", null, true), ExactClassMatcher
-                                                                                               .or(new String[] {"oracle/jdbc/driver/OraclePreparedStatement",
+                                                                                               .or(new String[]
+                                                                                                           {"oracle/jdbc/driver/OraclePreparedStatement",
                                                                                                                         "oracle/jdbc/driver/OracleCallableStatement"}));
     }
 }

@@ -12,17 +12,16 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.context.InstrumentationContext;
 import com.newrelic.agent.instrumentation.methodmatchers.MethodMatcher;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.tracers.PointCutInvocationHandler;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class GenericClassAdapter extends ClassVisitor {
     private static final int MAX_VERSION = 51;
@@ -239,8 +238,8 @@ public class GenericClassAdapter extends ClassVisitor {
             this.visitInsn(1);
             ArrayList<Object> arguments =
                     new ArrayList<Object>(Arrays.asList(GenericClassAdapter.this.className, methodAdapter.methodName,
-                                                       methodAdapter.getMethodDescriptor(), Boolean.valueOf(false),
-                                                       Boolean.valueOf(false)));
+                                                               methodAdapter.getMethodDescriptor(),
+                                                               Boolean.valueOf(false), Boolean.valueOf(false)));
             (new MethodBuilder(this, this.methodAccess))
                     .loadArray(Object.class, arguments.toArray(new Object[arguments.size()]))
                     .invokeInvocationHandlerInterface(false);

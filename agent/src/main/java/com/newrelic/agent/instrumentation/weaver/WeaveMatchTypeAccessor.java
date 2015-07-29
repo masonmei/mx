@@ -1,11 +1,10 @@
 package com.newrelic.agent.instrumentation.weaver;
 
-import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.api.agent.weaver.MatchType;
 import com.newrelic.api.agent.weaver.Weave;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 public class WeaveMatchTypeAccessor {
     private MatchType matchType;

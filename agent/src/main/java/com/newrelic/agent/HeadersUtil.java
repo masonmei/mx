@@ -2,10 +2,10 @@ package com.newrelic.agent;
 
 import java.util.Set;
 
-import com.newrelic.deps.com.google.common.collect.ImmutableSet;
 import com.newrelic.api.agent.HeaderType;
 import com.newrelic.api.agent.InboundHeaders;
 import com.newrelic.api.agent.OutboundHeaders;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
 
 public class HeadersUtil {
     public static final String NEWRELIC_ID_HEADER = "X-NewRelic-ID";

@@ -1,125 +1,124 @@
 package com.newrelic.agent;
 
-import com.newrelic.agent.config.AgentConfig;
-import com.newrelic.agent.config.ConfigService;
-import com.newrelic.agent.config.ConfigServiceFactory;
-import com.newrelic.deps.org.apache.commons.cli.CommandLine;
-import com.newrelic.agent.util.Streams;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.OutputStream;
 import java.io.PrintStream;
 import java.net.HttpURLConnection;
 import java.net.URL;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
 
-public class Deployments
-{
-  static final String REVISION_OPTION = "revision";
-  static final String CHANGE_LOG_OPTION = "changes";
-  static final String APP_NAME_OPTION = "appname";
-  static final String USER_OPTION = "user";
-  static final String ENVIRONMENT_OPTION = "environment";
+import com.newrelic.agent.config.AgentConfig;
+import com.newrelic.agent.config.ConfigServiceFactory;
+import com.newrelic.agent.util.Streams;
+import com.newrelic.deps.org.apache.commons.cli.CommandLine;
 
-  static int recordDeployment(CommandLine cmd)
-    throws Exception
-  {
-    if (cmd.hasOption("environment")) {
-      System.setProperty("newrelic.environment", cmd.getOptionValue("environment"));
-    }
-    AgentConfig config = ConfigServiceFactory.createConfigService().getDefaultAgentConfig();
-    return recordDeployment(cmd, config);
-  }
+public class Deployments {
+    static final String REVISION_OPTION = "revision";
+    static final String CHANGE_LOG_OPTION = "changes";
+    static final String APP_NAME_OPTION = "appname";
+    static final String USER_OPTION = "user";
+    static final String ENVIRONMENT_OPTION = "environment";
 
-  static int recordDeployment(CommandLine cmd, AgentConfig config) throws Exception {
-    String appName = config.getApplicationName();
-    if (cmd.hasOption("appname")) {
-      appName = cmd.getOptionValue("appname");
-    }
-    if (appName == null) {
-      throw new IllegalArgumentException("A deployment must be associated with an application.  Set app_name in newrelic.yml or specify the application name with the -appname switch.");
+    static int recordDeployment(CommandLine cmd) throws Exception {
+        if (cmd.hasOption("environment")) {
+            System.setProperty("newrelic.environment", cmd.getOptionValue("environment"));
+        }
+        AgentConfig config = ConfigServiceFactory.createConfigService().getDefaultAgentConfig();
+        return recordDeployment(cmd, config);
     }
 
-    System.out.println("Recording a deployment for application " + appName);
+    static int recordDeployment(CommandLine cmd, AgentConfig config) throws Exception {
+        String appName = config.getApplicationName();
+        if (cmd.hasOption("appname")) {
+            appName = cmd.getOptionValue("appname");
+        }
+        if (appName == null) {
+            throw new IllegalArgumentException("A deployment must be associated with an application.  Set app_name in"
+                                                       + " newrelic.yml or specify the application name with the "
+                                                       + "-appname switch.");
+        }
 
-    String uri = "/deployments.xml";
-    String payload = getDeploymentPayload(appName, cmd);
-    String protocol = "http" + (config.isSSL() ? "s" : "");
-    URL url = new URL(protocol, config.getApiHost(), config.getApiPort(), uri);
+        System.out.println("Recording a deployment for application " + appName);
 
-    System.out.println(MessageFormat.format("Opening connection to {0}:{1}", new Object[] { config.getApiHost(), Integer.toString(config.getApiPort()) }));
+        String uri = "/deployments.xml";
+        String payload = getDeploymentPayload(appName, cmd);
+        String protocol = "http" + (config.isSSL() ? "s" : "");
+        URL url = new URL(protocol, config.getApiHost(), config.getApiPort(), uri);
 
-    HttpURLConnection conn = (HttpURLConnection)url.openConnection();
-    conn.setRequestProperty("x-license-key", config.getLicenseKey());
+        System.out.println(MessageFormat.format("Opening connection to {0}:{1}", new Object[] {config.getApiHost(),
+                                                                                                      Integer.toString(config.getApiPort())}));
 
-    conn.setRequestMethod("POST");
-    conn.setConnectTimeout(10000);
-    conn.setReadTimeout(10000);
-    conn.setDoOutput(true);
-    conn.setDoInput(true);
+        HttpURLConnection conn = (HttpURLConnection) url.openConnection();
+        conn.setRequestProperty("x-license-key", config.getLicenseKey());
 
-    conn.setRequestProperty("Content-Length", Integer.toString(payload.length()));
-    conn.setFixedLengthStreamingMode(payload.length());
-    conn.getOutputStream().write(payload.getBytes());
+        conn.setRequestMethod("POST");
+        conn.setConnectTimeout(10000);
+        conn.setReadTimeout(10000);
+        conn.setDoOutput(true);
+        conn.setDoInput(true);
 
-    int responseCode = conn.getResponseCode();
-    if (responseCode < 300) {
-      System.out.println("Deployment successfully recorded");
-    } else if (responseCode == 401) {
-      System.out.println("Unable to notify New Relic of the deployment because of an authorization error.  Check your license key.");
-      System.out.println("Response message: " + conn.getResponseMessage());
-    } else {
-      System.out.println("Unable to notify New Relic of the deployment");
-      System.out.println("Response message: " + conn.getResponseMessage());
-    }
-    boolean isError = responseCode >= 300;
-    if ((isError) || (config.isDebugEnabled())) {
-      System.out.println("Response code: " + responseCode);
-      InputStream inStream = isError ? conn.getErrorStream() : conn.getInputStream();
+        conn.setRequestProperty("Content-Length", Integer.toString(payload.length()));
+        conn.setFixedLengthStreamingMode(payload.length());
+        conn.getOutputStream().write(payload.getBytes());
 
-      if (inStream != null) {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        Streams.copy(inStream, output);
+        int responseCode = conn.getResponseCode();
+        if (responseCode < 300) {
+            System.out.println("Deployment successfully recorded");
+        } else if (responseCode == 401) {
+            System.out
+                    .println("Unable to notify New Relic of the deployment because of an authorization error.  Check "
+                                     + "your license key.");
+            System.out.println("Response message: " + conn.getResponseMessage());
+        } else {
+            System.out.println("Unable to notify New Relic of the deployment");
+            System.out.println("Response message: " + conn.getResponseMessage());
+        }
+        boolean isError = responseCode >= 300;
+        if ((isError) || (config.isDebugEnabled())) {
+            System.out.println("Response code: " + responseCode);
+            InputStream inStream = isError ? conn.getErrorStream() : conn.getInputStream();
 
-        PrintStream out = isError ? System.err : System.out;
+            if (inStream != null) {
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                Streams.copy(inStream, output);
 
-        out.println(output);
-      }
-    }
-    return responseCode;
-  }
+                PrintStream out = isError ? System.err : System.out;
 
-  private static String getDeploymentPayload(String appName, CommandLine cmd)
-    throws IOException
-  {
-    StringBuilder builder = new StringBuilder();
-    builder.append("deployment[timestamp]=").append(System.currentTimeMillis());
-
-    builder.append("&deployment[appname]=").append(URLEncoder.encode(appName, "UTF-8"));
-    if (cmd.getArgs().length > 1) {
-      builder.append("&deployment[description]=").append(URLEncoder.encode(cmd.getArgs()[1], "UTF-8"));
-    }
-    if (cmd.hasOption("user")) {
-      builder.append("&deployment[user]=").append(URLEncoder.encode(cmd.getOptionValue("user"), "UTF-8"));
-    }
-    if (cmd.hasOption("revision")) {
-      builder.append("&deployment[revision]=").append(URLEncoder.encode(cmd.getOptionValue("revision"), "UTF-8"));
+                out.println(output);
+            }
+        }
+        return responseCode;
     }
 
-    if (cmd.hasOption("changes")) {
-      System.out.println("Reading the change log from standard input...");
-      try {
-        ByteArrayOutputStream output = new ByteArrayOutputStream();
-        Streams.copy(System.in, output);
+    private static String getDeploymentPayload(String appName, CommandLine cmd) throws IOException {
+        StringBuilder builder = new StringBuilder();
+        builder.append("deployment[timestamp]=").append(System.currentTimeMillis());
 
-        builder.append("&deployment[changelog]=").append(URLEncoder.encode(output.toString(), "UTF-8"));
-      } catch (IOException ex) {
-        throw new IOException("An error occurred reading the change log from standard input", ex);
-      }
+        builder.append("&deployment[appname]=").append(URLEncoder.encode(appName, "UTF-8"));
+        if (cmd.getArgs().length > 1) {
+            builder.append("&deployment[description]=").append(URLEncoder.encode(cmd.getArgs()[1], "UTF-8"));
+        }
+        if (cmd.hasOption("user")) {
+            builder.append("&deployment[user]=").append(URLEncoder.encode(cmd.getOptionValue("user"), "UTF-8"));
+        }
+        if (cmd.hasOption("revision")) {
+            builder.append("&deployment[revision]=").append(URLEncoder.encode(cmd.getOptionValue("revision"), "UTF-8"));
+        }
+
+        if (cmd.hasOption("changes")) {
+            System.out.println("Reading the change log from standard input...");
+            try {
+                ByteArrayOutputStream output = new ByteArrayOutputStream();
+                Streams.copy(System.in, output);
+
+                builder.append("&deployment[changelog]=").append(URLEncoder.encode(output.toString(), "UTF-8"));
+            } catch (IOException ex) {
+                throw new IOException("An error occurred reading the change log from standard input", ex);
+            }
+        }
+
+        return builder.toString();
     }
-
-    return builder.toString();
-  }
 }

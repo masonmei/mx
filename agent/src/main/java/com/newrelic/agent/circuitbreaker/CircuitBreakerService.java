@@ -284,9 +284,8 @@ public class CircuitBreakerService extends AbstractService implements HarvestLis
 
         circuitBreakerConfig.updateEnabled(newEnabled);
         circuitBreakerConfig.updateThresholds(newGCCpuThreshold, newMemoryThreshold);
-        Agent.LOG.log(Level.INFO,
-                             "Circuit breaker: updated configuration - enabled {0} GC CPU Threshold {1}% Memory "
-                                     + "Threshold {2}%.",
+        Agent.LOG.log(Level.INFO, "Circuit breaker: updated configuration - enabled {0} GC CPU Threshold {1}% Memory "
+                                          + "Threshold {2}%.",
                              new Object[] {Boolean.valueOf(circuitBreakerConfig.isEnabled()),
                                                   Integer.valueOf(circuitBreakerConfig.getGcCpuThreshold()),
                                                   Integer.valueOf(circuitBreakerConfig.getMemoryThreshold())});

@@ -9,11 +9,10 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
 
-import com.newrelic.deps.org.apache.commons.cli.CommandLine;
-
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.config.ConfigServiceFactory;
 import com.newrelic.agent.util.Streams;
+import com.newrelic.deps.org.apache.commons.cli.CommandLine;
 
 public class Deployments {
     static final String REVISION_OPTION = "revision";
@@ -104,7 +103,8 @@ public class Deployments {
             builder.append("&deployment[user]=").append(URLEncoder.encode(cmd.getOptionValue(USER_OPTION), "UTF-8"));
         }
         if (cmd.hasOption(REVISION_OPTION)) {
-            builder.append("&deployment[revision]=").append(URLEncoder.encode(cmd.getOptionValue(REVISION_OPTION), "UTF-8"));
+            builder.append("&deployment[revision]=")
+                    .append(URLEncoder.encode(cmd.getOptionValue(REVISION_OPTION), "UTF-8"));
         }
 
         if (cmd.hasOption(CHANGE_LOG_OPTION)) {

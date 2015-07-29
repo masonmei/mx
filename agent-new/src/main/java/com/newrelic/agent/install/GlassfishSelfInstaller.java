@@ -1,70 +1,58 @@
 package com.newrelic.agent.install;
 
 import com.newrelic.agent.util.EditableFile;
-import java.io.PrintStream;
 
-public class GlassfishSelfInstaller extends SelfInstaller
-{
-  private final String scriptPath = "/config/domain.xml";
+public class GlassfishSelfInstaller extends SelfInstaller {
+    private final String scriptPath = "/config/domain.xml";
 
-  private final String agentAlreadySet = "(.*)\\-javaagent:(.*)newrelic.jar(.*)";
-  private final String locatorString = "(^.*java-config.*$)";
+    private final String agentAlreadySet = "(.*)\\-javaagent:(.*)newrelic.jar(.*)";
+    private final String locatorString = "(^.*java-config.*$)";
 
-  public boolean backupAndEditStartScript(String appServerRootDir)
-  {
-    return backupAndEdit(appServerRootDir + getStartScript());
-  }
-
-  private boolean backupAndEdit(String fullPathToScript)
-  {
-    try
-    {
-      EditableFile file = new EditableFile(fullPathToScript);
-
-      if (!file.contains(getAgentAlreadySetExpr())) {
-        backup(file);
-        file.insertAfterLocator(getLocator(), getAgentSettings(), true);
-        System.out.println("Added agent switch to start script " + file.getLocation());
-      }
-      else {
-        System.out.println("Did not edit start script " + file.getLocation() + " because:");
-        System.out.println(" .:. The agent switch is already set");
-      }
-
-      return true;
+    public boolean backupAndEditStartScript(String appServerRootDir) {
+        return backupAndEdit(appServerRootDir + getStartScript());
     }
-    catch (Exception e) {
-      System.out.println(e.getMessage());
-    }return false;
-  }
 
-  public String getStartScript()
-  {
-    return "/config/domain.xml";
-  }
+    private boolean backupAndEdit(String fullPathToScript) {
+        try {
+            EditableFile file = new EditableFile(fullPathToScript);
 
-  public String getAlternateStartScript()
-  {
-    return getStartScript();
-  }
+            if (!file.contains(getAgentAlreadySetExpr())) {
+                backup(file);
+                file.insertAfterLocator(getLocator(), getAgentSettings(), true);
+                System.out.println("Added agent switch to start script " + file.getLocation());
+            } else {
+                System.out.println("Did not edit start script " + file.getLocation() + " because:");
+                System.out.println(" .:. The agent switch is already set");
+            }
 
-  public String getLocator()
-  {
-    return "(^.*java-config.*$)";
-  }
+            return true;
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return false;
+    }
 
-  public String getAlternateLocator()
-  {
-    return getLocator();
-  }
+    public String getStartScript() {
+        return "/config/domain.xml";
+    }
 
-  public String getAgentSettings()
-  {
-    return "        <jvm-options>-javaagent:\\${com.sun.aas.instanceRoot}/newrelic/newrelic.jar</jvm-options>";
-  }
+    public String getAlternateStartScript() {
+        return getStartScript();
+    }
 
-  public String getAgentAlreadySetExpr()
-  {
-    return "(.*)\\-javaagent:(.*)newrelic.jar(.*)";
-  }
+    public String getLocator() {
+        return "(^.*java-config.*$)";
+    }
+
+    public String getAlternateLocator() {
+        return getLocator();
+    }
+
+    public String getAgentSettings() {
+        return "        <jvm-options>-javaagent:\\${com.sun.aas.instanceRoot}/newrelic/newrelic.jar</jvm-options>";
+    }
+
+    public String getAgentAlreadySetExpr() {
+        return "(.*)\\-javaagent:(.*)newrelic.jar(.*)";
+    }
 }

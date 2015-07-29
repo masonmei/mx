@@ -1,6 +1,5 @@
 package com.newrelic.agent.config;
 
-public abstract interface ThreadProfilerConfig
-{
-  public abstract boolean isEnabled();
+public abstract interface ThreadProfilerConfig {
+    public abstract boolean isEnabled();
 }

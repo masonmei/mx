@@ -76,7 +76,8 @@ public class ExternalTimeTracker {
             }
         }
         throw new NumberFormatException("The long " + time
-                                                + " could not be converted to a timestamp in nanoseconds (wrong magnitude).");
+                                                + " could not be converted to a timestamp in nanoseconds (wrong "
+                                                + "magnitude).");
     }
 
     public long getExternalTime() {

@@ -16,14 +16,13 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassWriter;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.pointcuts.InterfaceMixin;
 import com.newrelic.agent.util.Annotations;
 import com.newrelic.agent.util.Strings;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
 
 public class InterfaceMixinClassTransformer extends AbstractClassTransformer {
     private final Map<String, List<Class<?>>> interfaceVisitors = new HashMap();

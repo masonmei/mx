@@ -11,12 +11,11 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.json.simple.JSONObject;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.config.BrowserMonitoringConfig;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.util.Obfuscator;
+import com.newrelic.deps.org.json.simple.JSONObject;
 
 public class BrowserFooter {
     public static final String FOOTER_START_SCRIPT =

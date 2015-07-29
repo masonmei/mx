@@ -16,8 +16,6 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.extension.beans.Extension;
 import com.newrelic.agent.extension.beans.Extension.Instrumentation.Pointcut;
@@ -30,6 +28,8 @@ import com.newrelic.agent.instrumentation.custom.ExtensionClassAndMethodMatcher;
 import com.newrelic.agent.instrumentation.methodmatchers.MethodMatcher;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.util.asm.ClassStructure;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 
 public class ReinstrumentUtils {
     public ReinstrumentUtils() {
@@ -253,7 +253,8 @@ public class ReinstrumentUtils {
 
     }
 
-    private static boolean foundMethod(Method method, Set<com.newrelic.deps.org.objectweb.asm.commons.Method> actualMethods) {
+    private static boolean foundMethod(Method method,
+                                       Set<com.newrelic.deps.org.objectweb.asm.commons.Method> actualMethods) {
         try {
             MethodMatcher ex = MethodMatcherUtility.createMethodMatcher("BogusClass", method,
                                                                                Maps.<String, MethodMapper>newHashMap(),
@@ -261,7 +262,8 @@ public class ReinstrumentUtils {
             Iterator i$ = actualMethods.iterator();
 
             while (i$.hasNext()) {
-                com.newrelic.deps.org.objectweb.asm.commons.Method m = (com.newrelic.deps.org.objectweb.asm.commons.Method) i$.next();
+                com.newrelic.deps.org.objectweb.asm.commons.Method m =
+                        (com.newrelic.deps.org.objectweb.asm.commons.Method) i$.next();
                 if (ex.matches(-1, m.getName(), m.getDescriptor(), MethodMatcher.UNSPECIFIED_ANNOTATIONS)) {
                     return true;
                 }

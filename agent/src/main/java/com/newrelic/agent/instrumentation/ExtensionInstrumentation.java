@@ -7,9 +7,9 @@ import java.security.ProtectionDomain;
 import java.util.List;
 import java.util.logging.Level;
 
-import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.util.InstrumentationWrapper;
+import com.newrelic.deps.com.google.common.collect.Lists;
 
 class ExtensionInstrumentation extends InstrumentationWrapper {
     private final MultiClassFileTransformer transformer = new MultiClassFileTransformer();

@@ -2,10 +2,9 @@ package com.newrelic.agent.instrumentation.context;
 
 import java.util.regex.Pattern;
 
+import com.newrelic.agent.Agent;
 import com.newrelic.deps.org.objectweb.asm.ClassReader;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-
-import com.newrelic.agent.Agent;
 
 public class GeneratedClassDetector implements ClassMatchVisitorFactory {
     static final boolean isGenerated(String className) {

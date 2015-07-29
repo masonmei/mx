@@ -8,11 +8,6 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassWriter;
-
-import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher;
 import com.newrelic.agent.instrumentation.context.ContextClassTransformer;
@@ -25,6 +20,10 @@ import com.newrelic.agent.util.asm.ClassStructure;
 import com.newrelic.agent.util.asm.Utils;
 import com.newrelic.api.agent.weaver.MatchType;
 import com.newrelic.api.agent.weaver.Weave;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
 
 public class WeavingClassTransformer implements ContextClassTransformer {
     protected final InstrumentationPackage instrumentationPackage;

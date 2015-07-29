@@ -1,32 +1,32 @@
 package com.newrelic.agent.config;
 
-import com.newrelic.agent.instrumentation.annotationmatchers.AnnotationMatcher;
 import java.util.Collection;
 import java.util.Set;
 
-public abstract interface ClassTransformerConfig extends Config
-{
-  public abstract boolean isCustomTracingEnabled();
+import com.newrelic.agent.instrumentation.annotationmatchers.AnnotationMatcher;
 
-  public abstract Set<String> getExcludes();
+public abstract interface ClassTransformerConfig extends Config {
+    public abstract boolean isCustomTracingEnabled();
 
-  public abstract Set<String> getIncludes();
+    public abstract Set<String> getExcludes();
 
-  public abstract boolean computeFrames();
+    public abstract Set<String> getIncludes();
 
-  public abstract long getShutdownDelayInNanos();
+    public abstract boolean computeFrames();
 
-  public abstract boolean isEnabled();
+    public abstract long getShutdownDelayInNanos();
 
-  public abstract Collection<String> getJdbcStatements();
+    public abstract boolean isEnabled();
 
-  public abstract AnnotationMatcher getIgnoreTransactionAnnotationMatcher();
+    public abstract Collection<String> getJdbcStatements();
 
-  public abstract AnnotationMatcher getIgnoreApdexAnnotationMatcher();
+    public abstract AnnotationMatcher getIgnoreTransactionAnnotationMatcher();
 
-  public abstract AnnotationMatcher getTraceAnnotationMatcher();
+    public abstract AnnotationMatcher getIgnoreApdexAnnotationMatcher();
 
-  public abstract boolean isGrantPackageAccess();
+    public abstract AnnotationMatcher getTraceAnnotationMatcher();
 
-  public abstract Config getInstrumentationConfig(String paramString);
+    public abstract boolean isGrantPackageAccess();
+
+    public abstract Config getInstrumentationConfig(String paramString);
 }

@@ -1,5 +1,7 @@
 package com.newrelic.agent.service;
 
+import java.util.Map;
+
 import com.newrelic.agent.HarvestService;
 import com.newrelic.agent.IAgent;
 import com.newrelic.agent.RPMServiceManager;
@@ -31,75 +33,73 @@ import com.newrelic.agent.stats.StatsService;
 import com.newrelic.agent.trace.TransactionTraceService;
 import com.newrelic.agent.utilization.UtilizationService;
 import com.newrelic.agent.xray.IXRaySessionService;
-import java.util.Map;
 
-public abstract interface ServiceManager extends Service
-{
-  public abstract Map<String, Map<String, Object>> getServicesConfiguration();
+public abstract interface ServiceManager extends Service {
+    public abstract Map<String, Map<String, Object>> getServicesConfiguration();
 
-  public abstract void addService(Service paramService);
+    public abstract void addService(Service paramService);
 
-  public abstract Service getService(String paramString);
+    public abstract Service getService(String paramString);
 
-  public abstract ExtensionService getExtensionService();
+    public abstract ExtensionService getExtensionService();
 
-  public abstract ProfilerService getProfilerService();
+    public abstract ProfilerService getProfilerService();
 
-  public abstract TracerService getTracerService();
+    public abstract TracerService getTracerService();
 
-  public abstract TransactionTraceService getTransactionTraceService();
+    public abstract TransactionTraceService getTransactionTraceService();
 
-  public abstract ThreadService getThreadService();
+    public abstract ThreadService getThreadService();
 
-  public abstract HarvestService getHarvestService();
+    public abstract HarvestService getHarvestService();
 
-  public abstract SqlTraceService getSqlTraceService();
+    public abstract SqlTraceService getSqlTraceService();
 
-  public abstract BrowserService getBrowserService();
+    public abstract BrowserService getBrowserService();
 
-  public abstract CacheService getCacheService();
+    public abstract CacheService getCacheService();
 
-  public abstract DatabaseService getDatabaseService();
+    public abstract DatabaseService getDatabaseService();
 
-  public abstract TransactionService getTransactionService();
+    public abstract TransactionService getTransactionService();
 
-  public abstract JarCollectorService getJarCollectorService();
+    public abstract JarCollectorService getJarCollectorService();
 
-  public abstract JmxService getJmxService();
+    public abstract JmxService getJmxService();
 
-  public abstract TransactionEventsService getTransactionEventsService();
+    public abstract TransactionEventsService getTransactionEventsService();
 
-  public abstract CommandParser getCommandParser();
+    public abstract CommandParser getCommandParser();
 
-  public abstract RPMServiceManager getRPMServiceManager();
+    public abstract RPMServiceManager getRPMServiceManager();
 
-  public abstract SamplerService getSamplerService();
+    public abstract SamplerService getSamplerService();
 
-  public abstract IAgent getAgent();
+    public abstract IAgent getAgent();
 
-  public abstract ConfigService getConfigService();
+    public abstract ConfigService getConfigService();
 
-  public abstract RPMConnectionService getRPMConnectionService();
+    public abstract RPMConnectionService getRPMConnectionService();
 
-  public abstract EnvironmentService getEnvironmentService();
+    public abstract EnvironmentService getEnvironmentService();
 
-  public abstract ClassTransformerService getClassTransformerService();
+    public abstract ClassTransformerService getClassTransformerService();
 
-  public abstract StatsService getStatsService();
+    public abstract StatsService getStatsService();
 
-  public abstract NormalizationService getNormalizationService();
+    public abstract NormalizationService getNormalizationService();
 
-  public abstract RemoteInstrumentationService getRemoteInstrumentationService();
+    public abstract RemoteInstrumentationService getRemoteInstrumentationService();
 
-  public abstract IXRaySessionService getXRaySessionService();
+    public abstract IXRaySessionService getXRaySessionService();
 
-  public abstract AttributesService getAttributesService();
+    public abstract AttributesService getAttributesService();
 
-  public abstract InsightsService getInsights();
+    public abstract InsightsService getInsights();
 
-  public abstract AsyncTransactionService getAsyncTxService();
+    public abstract AsyncTransactionService getAsyncTxService();
 
-  public abstract CircuitBreakerService getCircuitBreakerService();
+    public abstract CircuitBreakerService getCircuitBreakerService();
 
-  public abstract UtilizationService getUtilizationService();
+    public abstract UtilizationService getUtilizationService();
 }

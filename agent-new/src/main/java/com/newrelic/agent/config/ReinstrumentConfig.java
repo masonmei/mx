@@ -1,8 +1,7 @@
 package com.newrelic.agent.config;
 
-public abstract interface ReinstrumentConfig
-{
-  public abstract boolean isEnabled();
+public abstract interface ReinstrumentConfig {
+    public abstract boolean isEnabled();
 
-  public abstract boolean isAttributesEnabled();
+    public abstract boolean isAttributesEnabled();
 }

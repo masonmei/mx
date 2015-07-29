@@ -59,9 +59,9 @@ public class NettyDispatcherPointCut extends TracerFactoryPointCut {
     }
 
     private static MethodMatcher createMethodMatcher() {
-        return new ExactMethodMatcher("unfoldAndFireMessageReceived",
-                                             "(Lorg/jboss/netty/channel/ChannelHandlerContext;"
-                                                     + "Ljava/net/SocketAddress;Ljava/lang/Object;)V");
+        return new ExactMethodMatcher("unfoldAndFireMessageReceived", "(Lorg/jboss/netty/channel/ChannelHandlerContext;"
+                                                                              + "Ljava/net/SocketAddress;"
+                                                                              + "Ljava/lang/Object;)V");
     }
 
     protected boolean isDispatcher() {
@@ -163,13 +163,15 @@ public class NettyDispatcherPointCut extends TracerFactoryPointCut {
     public static abstract interface HttpRequestDecoder {
     }
 
-    @InterfaceMapper(className = {"org/jboss/netty/channel/DefaultChannelPipeline$DefaultChannelHandlerContext"}, originalInterfaceName = "org/jboss/netty/channel/ChannelHandlerContext")
+    @InterfaceMapper(className = {"org/jboss/netty/channel/DefaultChannelPipeline$DefaultChannelHandlerContext"},
+                            originalInterfaceName = "org/jboss/netty/channel/ChannelHandlerContext")
     public static abstract interface ChannelHandlerContext {
         public static final String CLASS =
                 "org/jboss/netty/channel/DefaultChannelPipeline$DefaultChannelHandlerContext";
         public static final String INTERFACE = "org/jboss/netty/channel/ChannelHandlerContext";
 
-        @MethodMapper(originalMethodName = "getChannel", originalDescriptor = "()Lorg/jboss/netty/channel/Channel;", invokeInterface = false)
+        @MethodMapper(originalMethodName = "getChannel", originalDescriptor = "()Lorg/jboss/netty/channel/Channel;",
+                             invokeInterface = false)
         public abstract Object _nr_getChannel();
     }
 }

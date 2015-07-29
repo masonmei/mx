@@ -5,24 +5,21 @@ import com.newrelic.deps.org.objectweb.asm.Type;
 import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
-final class FixLoadClassMethodAdapter extends GeneratorAdapter
-{
-  FixLoadClassMethodAdapter(int access, Method method, MethodVisitor mv)
-  {
-    super(327680, mv, access, method.getName(), method.getDescriptor());
-  }
-
-  public void visitLdcInsn(Object cst)
-  {
-    if ((cst instanceof Type)) {
-      Type type = (Type)cst;
-
-      super.visitLdcInsn(type.getClassName());
-
-      invokeStatic(Type.getType(Class.class), new Method("forName", Type.getType(Class.class), new Type[] { Type.getType(String.class) }));
+final class FixLoadClassMethodAdapter extends GeneratorAdapter {
+    FixLoadClassMethodAdapter(int access, Method method, MethodVisitor mv) {
+        super(327680, mv, access, method.getName(), method.getDescriptor());
     }
-    else {
-      super.visitLdcInsn(cst);
+
+    public void visitLdcInsn(Object cst) {
+        if ((cst instanceof Type)) {
+            Type type = (Type) cst;
+
+            super.visitLdcInsn(type.getClassName());
+
+            invokeStatic(Type.getType(Class.class), new Method("forName", Type.getType(Class.class),
+                                                                      new Type[] {Type.getType(String.class)}));
+        } else {
+            super.visitLdcInsn(cst);
+        }
     }
-  }
 }

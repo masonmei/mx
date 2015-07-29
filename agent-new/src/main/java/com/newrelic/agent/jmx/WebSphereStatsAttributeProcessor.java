@@ -27,7 +27,8 @@
 //
 //public class WebSphereStatsAttributeProcessor extends AbstractStatsAttributeProcessor
 //{
-//  public boolean process(StatsEngine statsEngine, ObjectInstance instance, Attribute attribute, String metricName, Map<String, Float> values)
+//  public boolean process(StatsEngine statsEngine, ObjectInstance instance, Attribute attribute, String metricName,
+// Map<String, Float> values)
 //  {
 //    Object value = attribute.getValue();
 //    if ((value instanceof com.ibm.websphere.management.statistics.Stats)) {
@@ -54,14 +55,16 @@
 //    return false;
 //  }
 //
-//  private static void pullJMSStats(StatsEngine statsEngine, JMSStats jmsStats, Attribute attribute, String metricName, Map<String, Float> values, boolean isBuiltInMetric)
+//  private static void pullJMSStats(StatsEngine statsEngine, JMSStats jmsStats, Attribute attribute, String
+// metricName, Map<String, Float> values, boolean isBuiltInMetric)
 //  {
 //    for (JMSConnectionStats connStats : jmsStats.getConnections())
 //      for (JMSSessionStats current : connStats.getSessions())
 //        grabBaseStats(statsEngine, current, attribute, metricName, values, isBuiltInMetric);
 //  }
 //
-//  private static void pullJDBCStats(StatsEngine statsEngine, JDBCStats jdbcStats, Attribute attribute, String metricName, Map<String, Float> values, boolean isBuiltInMetric)
+//  private static void pullJDBCStats(StatsEngine statsEngine, JDBCStats jdbcStats, Attribute attribute, String
+// metricName, Map<String, Float> values, boolean isBuiltInMetric)
 //  {
 //    if (jdbcStats.getConnectionPools() != null) {
 //      for (JDBCConnectionPoolStats current : jdbcStats.getConnectionPools()) {
@@ -73,7 +76,8 @@
 //        grabBaseStats(statsEngine, current, attribute, metricName, values, isBuiltInMetric);
 //  }
 //
-//  private static void pullJCAStats(StatsEngine statsEngine, JCAStats jcaStats, Attribute attribute, String metricName, Map<String, Float> values, boolean isBuiltInMetric)
+//  private static void pullJCAStats(StatsEngine statsEngine, JCAStats jcaStats, Attribute attribute, String
+// metricName, Map<String, Float> values, boolean isBuiltInMetric)
 //  {
 //    if (jcaStats.getConnectionPools() != null) {
 //      for (JCAConnectionPoolStats current : jcaStats.getConnectionPools()) {
@@ -85,7 +89,8 @@
 //        grabBaseStats(statsEngine, current, attribute, metricName, values, isBuiltInMetric);
 //  }
 //
-//  private static void grabBaseStats(StatsEngine statsEngine, com.ibm.websphere.management.statistics.Stats jmxStats, Attribute attribute, String metricName, Map<String, Float> values, boolean isBuiltInMetric)
+//  private static void grabBaseStats(StatsEngine statsEngine, com.ibm.websphere.management.statistics.Stats
+// jmxStats, Attribute attribute, String metricName, Map<String, Float> values, boolean isBuiltInMetric)
 //  {
 //    for (Statistic statistic : jmxStats.getStatistics())
 //      if (isBuiltInMetric)
@@ -114,7 +119,8 @@
 //    } else if ((statistic instanceof TimeStatistic)) {
 //      TimeStatistic stat = (TimeStatistic)statistic;
 //      TimeUnit unit = getTimeUnit(stat.getUnit());
-//      statsEngine.getResponseTimeStats(fullMetricName).recordResponseTime((int)stat.getCount(), stat.getTotalTime(), stat.getMinTime(), stat.getMaxTime(), unit);
+//      statsEngine.getResponseTimeStats(fullMetricName).recordResponseTime((int)stat.getCount(), stat.getTotalTime()
+// , stat.getMinTime(), stat.getMaxTime(), unit);
 //    }
 //  }
 //
@@ -139,7 +145,8 @@
 //        return true;
 //      }
 //    } else {
-//      Agent.LOG.log(Level.FINEST, MessageFormat.format("Not recording stat {0} because it does not match the attribute name {1}.", new Object[] { statistic.getName(), attribute.getName() }));
+//      Agent.LOG.log(Level.FINEST, MessageFormat.format("Not recording stat {0} because it does not match the
+// attribute name {1}.", new Object[] { statistic.getName(), attribute.getName() }));
 //    }
 //
 //    return false;

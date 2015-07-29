@@ -1,13 +1,12 @@
 package com.newrelic.agent.instrumentation.weaver;
 
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.Instrumentation;
 import com.newrelic.agent.instrumentation.tracing.BridgeUtils;
 import com.newrelic.agent.util.asm.BytecodeGenProxyBuilder;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
 
 public class RegisterClosableInstrumentationVisitor extends ClassVisitor {
     private final InstrumentationPackage instrumentationPackage;

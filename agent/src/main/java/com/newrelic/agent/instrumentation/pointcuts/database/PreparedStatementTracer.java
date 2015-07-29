@@ -1,10 +1,9 @@
 package com.newrelic.agent.instrumentation.pointcuts.database;
 
-import com.newrelic.deps.org.json.simple.JSONAware;
-
 import com.newrelic.agent.Transaction;
 import com.newrelic.agent.database.RecordSql;
 import com.newrelic.agent.tracers.ClassMethodSignature;
+import com.newrelic.deps.org.json.simple.JSONAware;
 
 class PreparedStatementTracer extends SqlStatementTracer {
     private final PreparedStatementExtension preparedStatement;

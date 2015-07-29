@@ -10,13 +10,12 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import com.newrelic.deps.org.objectweb.asm.Type;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.annotationmatchers.AnnotationMatcher;
 import com.newrelic.agent.instrumentation.annotationmatchers.ClassNameAnnotationMatcher;
 import com.newrelic.agent.instrumentation.annotationmatchers.NoMatchAnnotationMatcher;
 import com.newrelic.agent.instrumentation.annotationmatchers.OrAnnotationMatcher;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 final class ClassTransformerConfigImpl extends BaseConfig implements ClassTransformerConfig {
     public static final String ENABLED = "enabled";

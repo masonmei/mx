@@ -12,12 +12,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.instrumentation.context.ClassMatchVisitorFactory;
+import com.newrelic.agent.instrumentation.context.InstrumentationContext;
+import com.newrelic.agent.instrumentation.methodmatchers.MethodMatcher;
 import com.newrelic.deps.com.google.common.base.Supplier;
 import com.newrelic.deps.com.google.common.collect.ImmutableMap;
 import com.newrelic.deps.com.google.common.collect.ImmutableSet;
@@ -26,10 +24,11 @@ import com.newrelic.deps.com.google.common.collect.Multimap;
 import com.newrelic.deps.com.google.common.collect.Multimaps;
 import com.newrelic.deps.com.google.common.collect.SetMultimap;
 import com.newrelic.deps.com.google.common.collect.Sets;
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.instrumentation.context.ClassMatchVisitorFactory;
-import com.newrelic.agent.instrumentation.context.InstrumentationContext;
-import com.newrelic.agent.instrumentation.methodmatchers.MethodMatcher;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public final class OptimizedClassMatcher implements ClassMatchVisitorFactory {
     public static final Set<Method> METHODS_WE_NEVER_INSTRUMENT = ImmutableSet.of(new Method("equals",

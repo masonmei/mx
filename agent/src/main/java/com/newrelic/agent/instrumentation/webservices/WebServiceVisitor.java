@@ -12,14 +12,6 @@ import java.util.logging.Level;
 import javax.jws.WebMethod;
 import javax.jws.WebService;
 
-import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
-import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
-import com.newrelic.deps.org.objectweb.asm.Type;
-import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.TransactionNamePriority;
 import com.newrelic.agent.instrumentation.InstrumentationType;
@@ -30,6 +22,13 @@ import com.newrelic.agent.util.Strings;
 import com.newrelic.agent.util.asm.AnnotationDetails;
 import com.newrelic.agent.util.asm.ClassStructure;
 import com.newrelic.agent.util.asm.Utils;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class WebServiceVisitor implements ClassMatchVisitorFactory {
     private static final String WEB_SERVICE_ANNOTATION_DESCRIPTOR = Type.getDescriptor(WebService.class);

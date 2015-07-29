@@ -21,12 +21,6 @@ import java.util.jar.JarInputStream;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-import com.newrelic.deps.org.objectweb.asm.Type;
-
-import com.newrelic.deps.com.google.common.collect.Lists;
-import com.newrelic.deps.com.google.common.collect.Maps;
-import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.AgentBridge;
 import com.newrelic.agent.config.AgentJarHelper;
@@ -40,6 +34,11 @@ import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.util.AgentError;
 import com.newrelic.agent.util.asm.BenignClassReadException;
 import com.newrelic.bootstrap.BootstrapAgent;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 public class ClassWeaverService {
     private static final int PARTITONS = 8;

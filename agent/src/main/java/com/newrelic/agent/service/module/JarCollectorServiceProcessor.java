@@ -24,14 +24,14 @@ import java.util.jar.JarInputStream;
 import java.util.jar.Manifest;
 import java.util.logging.Level;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.config.AgentConfig;
+import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.deps.com.google.common.cache.CacheBuilder;
 import com.newrelic.deps.com.google.common.collect.ImmutableMap;
 import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.deps.com.google.common.collect.Sets;
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.config.AgentConfig;
-import com.newrelic.agent.service.ServiceFactory;
 
 class JarCollectorServiceProcessor {
     static final String JAR_EXTENSION = ".jar";

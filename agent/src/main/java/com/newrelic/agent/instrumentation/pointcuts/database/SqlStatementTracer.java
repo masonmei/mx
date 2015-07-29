@@ -55,7 +55,7 @@ public class SqlStatementTracer extends DefaultTracer implements DatabaseTracer,
         this.setDatabaseVendor();
         Object sql = this.getSqlObject();
         if (sql != null) {
-            this.getTransaction().getIntrinsicAttributes().put("sql", sql);
+            this.getTransaction().getIntrinsicAttributes().put(SQL_PARAMETER_NAME, sql);
         }
 
     }
@@ -213,14 +213,14 @@ public class SqlStatementTracer extends DefaultTracer implements DatabaseTracer,
     }
 
     public boolean hasExplainPlan() {
-        return this.getAttribute("explanation") != null;
+        return this.getAttribute(EXPLAIN_PLAN_PARAMETER_NAME) != null;
     }
 
     public void setExplainPlan(Object... explainPlan) {
-        this.setAttribute("explanation", Arrays.asList(explainPlan));
+        this.setAttribute(EXPLAIN_PLAN_PARAMETER_NAME, Arrays.asList(explainPlan));
         if (this.databaseVendor != DatabaseVendor.UNKNOWN) {
-            this.setAttribute("database_vendor", this.databaseVendor.getType());
-            this.setAttribute("explanation_format", this.databaseVendor.getExplainPlanFormat());
+            this.setAttribute(DATABASE_VENDOR_PARAMETER_NAME, this.databaseVendor.getType());
+            this.setAttribute(EXPLAIN_PLAN_FORMAT_PARAMETER_NAME, this.databaseVendor.getExplainPlanFormat());
         }
 
     }

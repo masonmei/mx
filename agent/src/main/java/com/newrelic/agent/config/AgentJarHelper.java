@@ -17,14 +17,13 @@ import java.util.logging.Level;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 
-import com.newrelic.deps.org.objectweb.asm.Type;
-
 import com.newrelic.agent.Agent;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 public class AgentJarHelper {
     private static final Pattern AGENT_CLASS_PATTERN = Pattern.compile(Type.getInternalName(Agent.class) + ".class");
     private static final String AGENT_CLASS_NAME = Type.getInternalName(Agent.class) + ".class";
-//    private static final String NEW_RELIC_JAR_FILE = "newrelic.jar";
+    //    private static final String NEW_RELIC_JAR_FILE = "newrelic.jar";
     private static final String NEW_RELIC_JAR_FILE = "newrelic-jar-with-dependencies.jar";
     private static final String BUILT_DATE_ATTRIBUTE = "Built-Date";
 

@@ -95,9 +95,9 @@ public class HttpURLConnectionPointCut extends TracerFactoryPointCut {
             }
             return getConnectionTracer(transaction, sig, urlConnection, uri, host, methodName);
         }
-      if ("connect" == sig.getMethodName()) {
-        return null;
-      }
+        if ("connect" == sig.getMethodName()) {
+            return null;
+        }
         if ("getOutputStream" == sig.getMethodName()) {
             return new MethodExitTracer(sig, transaction) {
                 protected void doFinish(int opcode, Object returnValue) {

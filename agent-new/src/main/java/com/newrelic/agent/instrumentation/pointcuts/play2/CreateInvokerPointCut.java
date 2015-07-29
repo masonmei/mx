@@ -24,57 +24,56 @@ import com.newrelic.agent.tracers.metricname.ClassMethodMetricNameFormat;
 
 @PointCut
 public class CreateInvokerPointCut extends TracerFactoryPointCut {
-  static final String CLASS = "play/core/Router$Routes";
-  static final String METHOD_NAME = "createInvoker";
-  static final String METHOD_DESC =
-          "(Lscala/Function0;Lplay/core/Router$HandlerDef;Lplay/core/Router$HandlerInvokerFactory;)"
-                  + "Lplay/core/Router$HandlerInvoker;";
-  private static final boolean DEFAULT_ENABLED = true;
-  private static final String POINT_CUT_NAME = CreateInvokerPointCut.class.getName();
+    static final String CLASS = "play/core/Router$Routes";
+    static final String METHOD_NAME = "createInvoker";
+    static final String METHOD_DESC =
+            "(Lscala/Function0;Lplay/core/Router$HandlerDef;Lplay/core/Router$HandlerInvokerFactory;)"
+                    + "Lplay/core/Router$HandlerInvoker;";
+    private static final boolean DEFAULT_ENABLED = true;
+    private static final String POINT_CUT_NAME = CreateInvokerPointCut.class.getName();
 
-  public CreateInvokerPointCut(ClassTransformer classTransformer) {
-    super(createPointCutConfig(), createClassMatcher(), createMethodMatcher());
-  }
-
-  private static PointCutConfiguration createPointCutConfig() {
-    return new PointCutConfiguration(POINT_CUT_NAME, "play2_instrumentation", true);
-  }
-
-  private static ClassMatcher createClassMatcher() {
-    return new InterfaceMatcher("play/core/Router$Routes");
-  }
-
-  private static MethodMatcher createMethodMatcher() {
-    return new ExactMethodMatcher("createInvoker",
-                                         "(Lscala/Function0;Lplay/core/Router$HandlerDef;"
-                                                 + "Lplay/core/Router$HandlerInvokerFactory;)"
-                                                 + "Lplay/core/Router$HandlerInvoker;");
-  }
-
-  protected boolean isDispatcher() {
-    return true;
-  }
-
-  public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object target, Object[] args) {
-    return new CreateInvokerPointCut.CreateInvokerTracer(transaction, sig, target, args);
-  }
-
-  private static class CreateInvokerTracer extends OtherRootTracer {
-    private final HandlerDef handlerDef;
-
-    public CreateInvokerTracer(Transaction transaction, ClassMethodSignature sig, Object target, Object[] args) {
-      super(transaction, sig, target, new ClassMethodMetricNameFormat(sig, target, "OtherTransaction/Job"));
-      this.handlerDef = args[1] instanceof HandlerDef ? (HandlerDef) args[1] : null;
+    public CreateInvokerPointCut(ClassTransformer classTransformer) {
+        super(createPointCutConfig(), createClassMatcher(), createMethodMatcher());
     }
 
-    protected void doFinish(int opcode, Object returnValue) {
-      if (this.handlerDef != null && returnValue instanceof TaggingInvoker) {
-        TaggingInvoker taggingInvoker = (TaggingInvoker) returnValue;
-        Agent.LOG.log(Level.FINEST, "TaggingInvoker.setHandlerDef {0}.{1}",
-                             new Object[] {this.handlerDef.controller(), this.handlerDef.method()});
-        taggingInvoker.setHandlerDef(this.handlerDef);
-      }
-
+    private static PointCutConfiguration createPointCutConfig() {
+        return new PointCutConfiguration(POINT_CUT_NAME, "play2_instrumentation", true);
     }
-  }
+
+    private static ClassMatcher createClassMatcher() {
+        return new InterfaceMatcher("play/core/Router$Routes");
+    }
+
+    private static MethodMatcher createMethodMatcher() {
+        return new ExactMethodMatcher("createInvoker", "(Lscala/Function0;Lplay/core/Router$HandlerDef;"
+                                                               + "Lplay/core/Router$HandlerInvokerFactory;)"
+                                                               + "Lplay/core/Router$HandlerInvoker;");
+    }
+
+    protected boolean isDispatcher() {
+        return true;
+    }
+
+    public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object target, Object[] args) {
+        return new CreateInvokerPointCut.CreateInvokerTracer(transaction, sig, target, args);
+    }
+
+    private static class CreateInvokerTracer extends OtherRootTracer {
+        private final HandlerDef handlerDef;
+
+        public CreateInvokerTracer(Transaction transaction, ClassMethodSignature sig, Object target, Object[] args) {
+            super(transaction, sig, target, new ClassMethodMetricNameFormat(sig, target, "OtherTransaction/Job"));
+            this.handlerDef = args[1] instanceof HandlerDef ? (HandlerDef) args[1] : null;
+        }
+
+        protected void doFinish(int opcode, Object returnValue) {
+            if (this.handlerDef != null && returnValue instanceof TaggingInvoker) {
+                TaggingInvoker taggingInvoker = (TaggingInvoker) returnValue;
+                Agent.LOG.log(Level.FINEST, "TaggingInvoker.setHandlerDef {0}.{1}",
+                                     new Object[] {this.handlerDef.controller(), this.handlerDef.method()});
+                taggingInvoker.setHandlerDef(this.handlerDef);
+            }
+
+        }
+    }
 }

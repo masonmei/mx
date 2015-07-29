@@ -11,12 +11,11 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
+import com.newrelic.agent.Agent;
 import com.newrelic.deps.org.objectweb.asm.ClassReader;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.agent.Agent;
 
 public class RequireMethodsAdapter extends ClassVisitor {
     private final Set<Method> requiredMethods;

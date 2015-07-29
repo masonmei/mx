@@ -2,14 +2,12 @@ package com.newrelic.agent.stats;
 
 import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
-public abstract interface StatsBase extends Cloneable, JSONStreamAware
-{
-  public abstract boolean hasData();
+public abstract interface StatsBase extends Cloneable, JSONStreamAware {
+    public abstract boolean hasData();
 
-  public abstract void reset();
+    public abstract void reset();
 
-  public abstract void merge(StatsBase paramStatsBase);
+    public abstract void merge(StatsBase paramStatsBase);
 
-  public abstract Object clone()
-    throws CloneNotSupportedException;
+    public abstract Object clone() throws CloneNotSupportedException;
 }

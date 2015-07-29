@@ -17,17 +17,17 @@ import com.newrelic.agent.util.Strings;
 public class ClientProxyPointCut extends TracerFactoryPointCut {
     public ClientProxyPointCut(ClassTransformer classTransformer) {
         super(ClientProxyPointCut.class, new ExactClassMatcher("org/apache/cxf/frontend/ClientProxy"),
-                     createExactMethodMatcher("invokeSync",
-                                                     new String[] {"(Ljava/lang/reflect/Method;"
-                                                                           +
-                                                                           "Lorg/apache/cxf/service/model/BindingOperationInfo;[Ljava/lang/Object;)Ljava/lang/Object;"}));
+                     createExactMethodMatcher("invokeSync", new String[] {"(Ljava/lang/reflect/Method;"
+                                                                                  +
+                                                                                  "Lorg/apache/cxf/service/model/BindingOperationInfo;[Ljava/lang/Object;)Ljava/lang/Object;"}));
     }
 
     public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object proxy, Object[] args) {
         Method method = (Method) args[0];
 
         return new DefaultTracer(transaction, sig, proxy, new SimpleMetricNameFormat(Strings.join('/',
-                                                                                                         new String[] {"Java",
+                                                                                                         new String[]
+                                                                                                                 {"Java",
                                                                                                                               method.getDeclaringClass()
                                                                                                                                       .getName(),
                                                                                                                               method.getName()})));

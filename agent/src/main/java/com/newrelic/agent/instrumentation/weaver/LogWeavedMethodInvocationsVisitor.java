@@ -7,14 +7,13 @@ package com.newrelic.agent.instrumentation.weaver;
 
 import java.util.logging.Level;
 
+import com.newrelic.agent.Agent;
+import com.newrelic.agent.instrumentation.tracing.BridgeUtils;
+import com.newrelic.agent.util.Strings;
 import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
 import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
 import com.newrelic.deps.org.objectweb.asm.commons.Method;
-
-import com.newrelic.agent.Agent;
-import com.newrelic.agent.instrumentation.tracing.BridgeUtils;
-import com.newrelic.agent.util.Strings;
 
 public class LogWeavedMethodInvocationsVisitor extends ClassVisitor {
     private final InstrumentationPackage instrumentationPackage;
