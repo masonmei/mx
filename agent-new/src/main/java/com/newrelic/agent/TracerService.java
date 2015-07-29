@@ -17,7 +17,7 @@ import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.TracerFactory;
 
 public class TracerService extends AbstractService {
-    private final Map<String, TracerFactory> tracerFactories = new ConcurrentHashMap();
+    private final Map<String, TracerFactory> tracerFactories = new ConcurrentHashMap<String, TracerFactory>();
     public ITracerService tracerServiceFactory;
     private volatile PointCutInvocationHandler[] invocationHandlers = new PointCutInvocationHandler[0];
 
@@ -40,7 +40,7 @@ public class TracerService extends AbstractService {
     }
 
     public TracerFactory getTracerFactory(String tracerFactoryName) {
-        return (TracerFactory) this.tracerFactories.get(tracerFactoryName);
+        return this.tracerFactories.get(tracerFactoryName);
     }
 
     public void registerTracerFactory(String name, TracerFactory tracerFactory) {
@@ -49,8 +49,7 @@ public class TracerService extends AbstractService {
 
     public void registerInvocationHandlers(List<PointCutInvocationHandler> handlers) {
         if (this.invocationHandlers == null) {
-            this.invocationHandlers =
-                    ((PointCutInvocationHandler[]) handlers.toArray(new PointCutInvocationHandler[handlers.size()]));
+            this.invocationHandlers = handlers.toArray(new PointCutInvocationHandler[handlers.size()]);
         } else {
             PointCutInvocationHandler[] arrayToSwap =
                     new PointCutInvocationHandler[this.invocationHandlers.length + handlers.size()];
@@ -85,10 +84,9 @@ public class TracerService extends AbstractService {
         return true;
     }
 
-    private static abstract interface ITracerService {
-        public abstract Tracer getTracer(TracerFactory paramTracerFactory,
-                                         ClassMethodSignature paramClassMethodSignature, Object paramObject,
-                                         Object[] paramArrayOfObject);
+    private interface ITracerService {
+        Tracer getTracer(TracerFactory paramTracerFactory, ClassMethodSignature paramClassMethodSignature,
+                         Object paramObject, Object[] paramArrayOfObject);
     }
 
     private class TracerServiceImpl implements ITracerService {

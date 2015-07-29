@@ -18,6 +18,7 @@ import java.util.concurrent.TimeUnit;
 import com.newrelic.agent.service.AbstractService;
 import com.newrelic.agent.util.DefaultThreadFactory;
 import com.newrelic.agent.util.SafeWrappers;
+import com.newrelic.deps.ch.qos.logback.core.util.Loader;
 
 public class ThreadService extends AbstractService {
     private static final float HASH_SET_LOAD_FACTOR = 0.75F;
@@ -33,9 +34,9 @@ public class ThreadService extends AbstractService {
 
     public ThreadService() {
         super(ThreadService.class.getSimpleName());
-        this.agentThreadIds = new ConcurrentHashMap(6);
-        this.requestThreadIds = new ConcurrentHashMap();
-        this.backgroundThreadIds = new ConcurrentHashMap();
+        this.agentThreadIds = new ConcurrentHashMap<Long, Boolean>(6);
+        this.requestThreadIds = new ConcurrentHashMap<Long, Boolean>();
+        this.backgroundThreadIds = new ConcurrentHashMap<Long, Boolean>();
     }
 
     protected void doStart() {
@@ -49,8 +50,7 @@ public class ThreadService extends AbstractService {
                 try {
                     ThreadService.this.detectDeadThreads();
                 } catch (Throwable t) {
-                    String msg = MessageFormat.format("Unexpected exception detecting dead threads: {0}",
-                                                             new Object[] {t.toString()});
+                    String msg = MessageFormat.format("Unexpected exception detecting dead threads: {0}", t.toString());
                     ThreadService.this.getLogger().warning(msg);
                 }
             }
@@ -69,10 +69,10 @@ public class ThreadService extends AbstractService {
 
     protected void detectDeadThreads() {
         long[] threadIds = this.threadMXBean.getAllThreadIds();
-        int hashSetSize = (int) (threadIds.length / 0.75F) + 1;
-        Set ids = new HashSet(hashSetSize);
+        int hashSetSize = (int) (threadIds.length / HASH_SET_LOAD_FACTOR) + 1;
+        Set<Long> ids = new HashSet<Long>(hashSetSize);
         for (long threadId : threadIds) {
-            ids.add(Long.valueOf(threadId));
+            ids.add(threadId);
         }
         retainAll(this.requestThreadIds, ids);
         retainAll(this.backgroundThreadIds, ids);
@@ -119,9 +119,9 @@ public class ThreadService extends AbstractService {
     }
 
     public void registerAgentThreadId(long id) {
-        this.agentThreadIds.put(Long.valueOf(id), Boolean.TRUE);
+        this.agentThreadIds.put(id, Boolean.TRUE);
     }
 
-    public static abstract interface AgentThread {
+    public interface AgentThread {
     }
 }

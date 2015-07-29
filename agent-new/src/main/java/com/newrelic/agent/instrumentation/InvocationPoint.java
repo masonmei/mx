@@ -64,8 +64,7 @@ final class InvocationPoint implements InvocationHandler {
                     if (dispatcher != null) {
                         dispatcher.setIgnoreApdex(true);
                         if (Agent.LOG.isLoggable(Level.FINER)) {
-                            String msg = MessageFormat.format("Set Ignore apdex to \"{0}\"",
-                                                                     new Object[] {Boolean.valueOf(true)});
+                            String msg = MessageFormat.format("Set Ignore apdex to \"{0}\"", true);
                             Agent.LOG.log(Level.FINER, msg, new Exception());
                         }
                     }
@@ -85,7 +84,7 @@ final class InvocationPoint implements InvocationHandler {
     }
 
     public String toString() {
-        return MessageFormat.format("{0} {1}", new Object[] {this.classMethodSignature});
+        return MessageFormat.format("{0} {1}", this.classMethodSignature);
     }
 
     public TracerFactory getTracerFactory() {

@@ -21,29 +21,26 @@ public abstract class AttributeSender {
         }
         try {
             getAttributeMap().put(key, filteredValue);
-            Agent.LOG.log(Level.FINER, "Added {0} attribute \"{1}\": {2}",
-                                 new Object[] {getAttributeType(), key, filteredValue});
+            Agent.LOG.log(Level.FINER, "Added {0} attribute \"{1}\": {2}", getAttributeType(), key, filteredValue);
         } catch (Throwable t) {
             if (Agent.LOG.isLoggable(Level.FINEST)) {
-                Agent.LOG.log(Level.FINEST, "Exception adding attribute for key: \"{0}\": {1}", new Object[] {key, t});
+                Agent.LOG.log(Level.FINEST, "Exception adding attribute for key: \"{0}\": {1}", key, t);
             } else if (Agent.LOG.isLoggable(Level.FINER)) {
-                Agent.LOG.log(Level.FINER, "Exception adding attribute for key: \"{0}\": {1}", new Object[] {key});
+                Agent.LOG.log(Level.FINER, "Exception adding attribute for key: \"{0}\": {1}", key);
             }
         }
     }
 
-    public Object verifyParameterAndReturnValue(String key, Object value, String methodCalled) {
+    public <T> T verifyParameterAndReturnValue(String key, T value, String methodCalled) {
         if (key == null) {
             Agent.LOG.log(Level.FINER, "Unable to add {0} attribute because {1} was invoked with a null key",
-                                 new Object[] {getAttributeType(), methodCalled});
-
+                                 getAttributeType(), methodCalled);
             return null;
         }
         if (value == null) {
             Agent.LOG.log(Level.FINER,
                                  "Unable to add {0} attribute because {1} was invoked with a null value for key "
-                                         + "\"{2}\"",
-                                 new Object[] {getAttributeType(), methodCalled, key});
+                                         + "\"{2}\"", getAttributeType(), methodCalled, key);
 
             return null;
         }
@@ -52,19 +49,15 @@ public abstract class AttributeSender {
             if ((tx == null) || (!tx.isInProgress())) {
                 Agent.LOG.log(Level.FINER,
                                      "Unable to add {0} attribute with key \"{1}\" because {2} was invoked outside a "
-                                             + "New Relic transaction.",
-                                     new Object[] {getAttributeType(), key, methodCalled});
+                                             + "New Relic transaction.", getAttributeType(), key, methodCalled);
 
                 return null;
             }
             if (key.length() > tx.getAgentConfig().getMaxUserParameterSize()) {
                 Agent.LOG.log(Level.FINER,
                                      "Unable to add {0} attribute because {1} was invoked with a key longer than {2} "
-                                             + "bytes. Key is \"{3}\".",
-                                     new Object[] {getAttributeType(), methodCalled, Integer.valueOf(tx.getAgentConfig()
-                                                                                                             .getMaxUserParameterSize()),
-                                                          key});
-
+                                             + "bytes. Key is \"{3}\".", getAttributeType(), methodCalled,
+                                     tx.getAgentConfig().getMaxUserParameterSize(), key);
                 return null;
             }
 
@@ -72,11 +65,9 @@ public abstract class AttributeSender {
                                                                                     .getMaxUserParameterSize())) {
                 Agent.LOG.log(Level.FINER,
                                      "{0} was invoked with a value longer than {2} bytes for key \"{3}\". The value will be shortened.",
-                                     new Object[] {methodCalled, value, Integer.valueOf(tx.getAgentConfig()
-                                                                                                .getMaxUserParameterSize()),
-                                                          key});
+                                     methodCalled, value, tx.getAgentConfig().getMaxUserParameterSize(), key);
 
-                return ((String) value).substring(0, tx.getAgentConfig().getMaxUserParameterSize());
+                return (T) ((String) value).substring(0, tx.getAgentConfig().getMaxUserParameterSize());
             }
         } catch (Throwable t) {
             Agent.LOG.log(Level.FINEST, "Exception while verifying attribute", t);

@@ -29,7 +29,7 @@ public class TracerList implements List<Tracer> {
                 n += txa.getTracers().size();
             }
             n++;
-            this.tracers = new ArrayList(n);
+            this.tracers = new ArrayList<Tracer>(n);
             for (TransactionActivity txa : this.activities) {
                 if (txa.getRootTracer() != this.txRootTracer) {
                     this.tracers.add(txa.getRootTracer());
@@ -97,11 +97,11 @@ public class TracerList implements List<Tracer> {
     }
 
     public Tracer get(int index) {
-        return (Tracer) getTracers().get(index);
+        return getTracers().get(index);
     }
 
     public Tracer set(int index, Tracer element) {
-        return (Tracer) getTracers().set(index, element);
+        return getTracers().set(index, element);
     }
 
     public void add(int index, Tracer element) {
@@ -109,7 +109,7 @@ public class TracerList implements List<Tracer> {
     }
 
     public Tracer remove(int index) {
-        return (Tracer) getTracers().remove(index);
+        return getTracers().remove(index);
     }
 
     public int indexOf(Object o) {

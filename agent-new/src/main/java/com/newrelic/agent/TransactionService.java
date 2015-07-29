@@ -23,38 +23,38 @@ import com.newrelic.agent.stats.TransactionStats;
 import com.newrelic.agent.transaction.MergeStatsEngineResolvingScope;
 
 public class TransactionService extends AbstractService implements HarvestListener {
-    private static final ThreadLocal<Boolean> NOTICE_REQUEST_THREAD = new ThreadLocal() {
+    private static final ThreadLocal<Boolean> NOTICE_REQUEST_THREAD = new ThreadLocal<Boolean>() {
         protected Boolean initialValue() {
             return Boolean.FALSE;
         }
     };
 
-    private static final ThreadLocal<Boolean> NOTICE_BACKGROUND_THREAD = new ThreadLocal() {
+    private static final ThreadLocal<Boolean> NOTICE_BACKGROUND_THREAD = new ThreadLocal<Boolean>() {
         protected Boolean initialValue() {
             return Boolean.FALSE;
         }
     };
 
-    private final List<TransactionListener> transactionListeners = new CopyOnWriteArrayList();
-    private final Map<Long, Transaction> transactionThreadMap = new ConcurrentHashMap();
+    private final List<TransactionListener> transactionListeners = new CopyOnWriteArrayList<TransactionListener>();
+    private final Map<Long, Transaction> transactionThreadMap = new ConcurrentHashMap<Long, Transaction>();
 
     public TransactionService() {
         super(TransactionService.class.getSimpleName());
     }
 
     public static void noticeRequestThread(long threadId) {
-        if (((Boolean) NOTICE_REQUEST_THREAD.get()).booleanValue()) {
+        if (NOTICE_REQUEST_THREAD.get()) {
             return;
         }
-        ServiceFactory.getThreadService().noticeRequestThread(Long.valueOf(threadId));
+        ServiceFactory.getThreadService().noticeRequestThread(threadId);
         NOTICE_REQUEST_THREAD.set(Boolean.TRUE);
     }
 
     public static void noticeBackgroundThread(long threadId) {
-        if (((Boolean) NOTICE_BACKGROUND_THREAD.get()).booleanValue()) {
+        if (NOTICE_BACKGROUND_THREAD.get()) {
             return;
         }
-        ServiceFactory.getThreadService().noticeBackgroundThread(Long.valueOf(threadId));
+        ServiceFactory.getThreadService().noticeBackgroundThread(threadId);
         NOTICE_BACKGROUND_THREAD.set(Boolean.TRUE);
     }
 
@@ -63,7 +63,7 @@ public class TransactionService extends AbstractService implements HarvestListen
             doProcessTransaction(transactionData, transactionStats);
         } catch (Exception e) {
             String msg = MessageFormat.format("Error recording transaction \"{0}\": {1}",
-                                                     new Object[] {transactionData.getBlameMetricName(), e});
+                                                     transactionData.getBlameMetricName(), e);
 
             if (getLogger().isLoggable(Level.FINER)) {
                 getLogger().log(Level.FINER, msg, e);
@@ -123,17 +123,17 @@ public class TransactionService extends AbstractService implements HarvestListen
 
     public void addTransaction(Transaction tx) {
         long id = Thread.currentThread().getId();
-        this.transactionThreadMap.put(Long.valueOf(id), tx);
+        this.transactionThreadMap.put(id, tx);
     }
 
     public void removeTransaction() {
-        this.transactionThreadMap.remove(Long.valueOf(Thread.currentThread().getId()));
+        this.transactionThreadMap.remove(Thread.currentThread().getId());
     }
 
     public Set<Long> getRunningThreadIds() {
-        Set runningThreadIds = new HashSet();
-        for (Entry entry : this.transactionThreadMap.entrySet()) {
-            Transaction tx = (Transaction) entry.getValue();
+        Set<Long> runningThreadIds = new HashSet<Long>();
+        for (Entry<Long, Transaction> entry : transactionThreadMap.entrySet()) {
+            Transaction tx = entry.getValue();
             if (tx.isStarted()) {
                 runningThreadIds.add(entry.getKey());
             }
@@ -142,7 +142,7 @@ public class TransactionService extends AbstractService implements HarvestListen
     }
 
     public Set<Long> getThreadIds() {
-        return new HashSet(this.transactionThreadMap.keySet());
+        return new HashSet<Long>(transactionThreadMap.keySet());
     }
 
     public void addTransactionListener(TransactionListener listener) {
@@ -157,7 +157,7 @@ public class TransactionService extends AbstractService implements HarvestListen
         Set threadIds = this.transactionThreadMap.keySet();
         Iterator it = threadIds.iterator();
         while (it.hasNext()) {
-            long threadId = ((Long) it.next()).longValue();
+            long threadId = (Long) it.next();
             if (hasThreadTerminated(threadId)) {
                 it.remove();
             }
@@ -167,10 +167,7 @@ public class TransactionService extends AbstractService implements HarvestListen
     private boolean hasThreadTerminated(long threadId) {
         ThreadMXBean threadMXBean = ManagementFactory.getThreadMXBean();
         ThreadInfo threadInfo = threadMXBean.getThreadInfo(threadId, 0);
-        if (threadInfo == null) {
-            return true;
-        }
-        return threadInfo.getThreadState() == Thread.State.TERMINATED;
+        return threadInfo == null || threadInfo.getThreadState() == Thread.State.TERMINATED;
     }
 
     public void afterHarvest(String appName) {

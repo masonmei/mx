@@ -5,42 +5,39 @@ import com.newrelic.agent.tracers.ClassMethodSignature;
 import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.TracerFactory;
 
-public abstract interface TransactionState {
-    public abstract Tracer getTracer(Transaction paramTransaction, TracerFactory paramTracerFactory,
-                                     ClassMethodSignature paramClassMethodSignature, Object paramObject,
-                                     Object[] paramArrayOfObject);
+public interface TransactionState {
+    Tracer getTracer(Transaction paramTransaction, TracerFactory paramTracerFactory,
+                     ClassMethodSignature paramClassMethodSignature, Object paramObject, Object[] paramArrayOfObject);
 
-    public abstract Tracer getTracer(Transaction paramTransaction, String paramString,
-                                     ClassMethodSignature paramClassMethodSignature, Object paramObject,
-                                     Object[] paramArrayOfObject);
+    Tracer getTracer(Transaction paramTransaction, String paramString, ClassMethodSignature paramClassMethodSignature,
+                     Object paramObject, Object[] paramArrayOfObject);
 
-    public abstract Tracer getTracer(Transaction paramTransaction, Object paramObject,
-                                     ClassMethodSignature paramClassMethodSignature, String paramString, int paramInt);
+    Tracer getTracer(Transaction paramTransaction, Object paramObject, ClassMethodSignature paramClassMethodSignature,
+                     String paramString, int paramInt);
 
-    public abstract boolean finish(Transaction paramTransaction, Tracer paramTracer);
+    boolean finish(Transaction paramTransaction, Tracer paramTracer);
 
-    public abstract void resume();
+    void resume();
 
-    public abstract void suspend();
+    void suspend();
 
-    public abstract void suspendRootTracer();
+    void suspendRootTracer();
 
-    public abstract void complete();
+    void complete();
 
-    public abstract void asyncJobStarted(TransactionHolder paramTransactionHolder);
+    void asyncJobStarted(TransactionHolder paramTransactionHolder);
 
-    public abstract void asyncJobFinished(TransactionHolder paramTransactionHolder);
+    void asyncJobFinished(TransactionHolder paramTransactionHolder);
 
-    public abstract void asyncTransactionStarted(Transaction paramTransaction,
-                                                 TransactionHolder paramTransactionHolder);
+    void asyncTransactionStarted(Transaction paramTransaction, TransactionHolder paramTransactionHolder);
 
-    public abstract void asyncTransactionFinished(TransactionActivity paramTransactionActivity);
+    void asyncTransactionFinished(TransactionActivity paramTransactionActivity);
 
-    public abstract void mergeAsyncTracers();
+    void mergeAsyncTracers();
 
-    public abstract Tracer getRootTracer();
+    Tracer getRootTracer();
 
-    public abstract void asyncJobInvalidate(TransactionHolder paramTransactionHolder);
+    void asyncJobInvalidate(TransactionHolder paramTransactionHolder);
 
-    public abstract void setInvalidateAsyncJobs(boolean paramBoolean);
+    void setInvalidateAsyncJobs(boolean paramBoolean);
 }

@@ -14,7 +14,6 @@ import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Attributes.Name;
@@ -55,7 +54,7 @@ public class BootstrapLoader {
     }
 
     public static Collection<URL> getJarURLs() throws ClassNotFoundException, IOException {
-        List urls = new ArrayList();
+        List<URL> urls = new ArrayList<URL>();
         for (String name : new String[] {AGENT_BRIDGE_JAR_NAME, API_JAR_NAME, WEAVER_API_JAR_NAME}) {
             File jarFileInAgent = EmbeddedJarFilesImpl.INSTANCE.getJarFileInAgent(name);
             urls.add(jarFileInAgent.toURI().toURL());
@@ -86,6 +85,7 @@ public class BootstrapLoader {
             addMixinInterfacesToBootstrap(agentJarResource, agentJarUrl, inst);
         } finally {
             try {
+                assert agentJarResource != null;
                 agentJarResource.close();
             } catch (Throwable th) {
                 logIfNRDebug("closing Agent jar resource", th);
@@ -140,6 +140,7 @@ public class BootstrapLoader {
             logIfNRDebug("generating mixin jar file", iox);
         } finally {
             try {
+                assert outputJarStream != null;
                 outputJarStream.close();
             } catch (Throwable th) {
                 logIfNRDebug("closing outputJarStream", th);
@@ -156,6 +157,7 @@ public class BootstrapLoader {
                 logIfNRDebug("adding dynamic mixin jar to bootstrap", iox);
             } finally {
                 try {
+                    assert jarFile != null;
                     jarFile.close();
                 } catch (Throwable th) {
                     logIfNRDebug("closing generated jar file", th);
@@ -164,9 +166,8 @@ public class BootstrapLoader {
         }
     }
 
-    private static final boolean containsAnyOf(Collection<?> searchFor, Collection<?> searchIn) {
-        for (Iterator i$ = searchFor.iterator(); i$.hasNext(); ) {
-            Object key = i$.next();
+    private static boolean containsAnyOf(Collection<?> searchFor, Collection<?> searchIn) {
+        for (Object key : searchFor) {
             if (searchIn.contains(key)) {
                 return true;
             }
@@ -174,29 +175,29 @@ public class BootstrapLoader {
         return false;
     }
 
-    private static final boolean isNewRelicDebug() {
+    private static boolean isNewRelicDebug() {
         String newrelicDebug = "newrelic.debug";
-        return (System.getProperty("newrelic.debug") != null) && (Boolean.getBoolean("newrelic.debug"));
+        return (System.getProperty(newrelicDebug) != null) && (Boolean.getBoolean(newrelicDebug));
     }
 
-    private static final boolean isDisableMixinsOnBootstrap() {
+    private static boolean isDisableMixinsOnBootstrap() {
         String newrelicDisableMixinsOnBootstrap = "newrelic.disable.mixins.on.bootstrap";
         return (System.getProperty(newrelicDisableMixinsOnBootstrap) != null)
                        && (Boolean.getBoolean(newrelicDisableMixinsOnBootstrap));
     }
 
-    private static final void logIfNRDebug(String msg, Throwable th) {
+    private static void logIfNRDebug(String msg, Throwable th) {
         if (isNewRelicDebug()) {
-            System.out.println("While bootstrapping the Agent: " + msg + ": " + th.getStackTrace());
+            System.out.println("While bootstrapping the Agent: " + msg + ": " + Arrays.toString(th.getStackTrace()));
         }
     }
 
-    private static final JarOutputStream createJarOutputStream(File jarFile, Manifest manifest) throws IOException {
+    private static JarOutputStream createJarOutputStream(File jarFile, Manifest manifest) throws IOException {
         FileOutputStream outStream = new FileOutputStream(jarFile);
         return new JarOutputStream(outStream, manifest);
     }
 
-    private static final Manifest createManifest() {
+    private static Manifest createManifest() {
         Manifest manifest = new Manifest();
         Attributes a = manifest.getMainAttributes();
         a.put(Name.MANIFEST_VERSION, "1.0");
@@ -210,7 +211,7 @@ public class BootstrapLoader {
         try {
             byte[] buffer = new byte[bufferSize];
             int count = 0;
-            int n = 0;
+            int n;
             while (-1 != (n = input.read(buffer))) {
                 output.write(buffer, 0, n);
                 count += n;
