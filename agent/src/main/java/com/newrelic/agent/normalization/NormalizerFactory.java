@@ -3,8 +3,8 @@ package com.newrelic.agent.normalization;
 import java.util.Collections;
 import java.util.List;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.base.Joiner;
+import com.newrelic.deps.com.google.common.collect.Lists;
 
 public class NormalizerFactory {
     public static Normalizer createUrlNormalizer(String appName, List<NormalizationRule> urlRules) {

@@ -10,7 +10,7 @@ import java.util.Map.Entry;
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.config.AgentJarHelper;
 
-import ch.qos.logback.classic.Level;
+import com.newrelic.deps.ch.qos.logback.classic.Level;
 
 class LogbackLogManager implements IAgentLogManager {
     private static final String CONFIG_FILE_PROP = "logback.configurationFile";

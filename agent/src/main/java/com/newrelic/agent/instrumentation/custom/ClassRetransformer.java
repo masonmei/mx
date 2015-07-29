@@ -3,7 +3,7 @@ package com.newrelic.agent.instrumentation.custom;
 import java.util.List;
 import java.util.Set;
 
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.instrumentation.context.ClassMatchVisitorFactory;
 import com.newrelic.agent.instrumentation.context.InstrumentationContextManager;
 

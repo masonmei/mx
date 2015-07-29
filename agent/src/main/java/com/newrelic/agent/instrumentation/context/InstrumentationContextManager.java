@@ -11,22 +11,9 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
-import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.JSRInlinerAdapter;
-import org.objectweb.asm.commons.Method;
-
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.InstrumentationProxy;
 import com.newrelic.agent.config.AgentConfig;
@@ -52,6 +39,17 @@ import com.newrelic.agent.stats.StatsService;
 import com.newrelic.agent.stats.StatsWorks;
 import com.newrelic.agent.util.asm.PatchedClassWriter;
 import com.newrelic.agent.util.asm.Utils;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.JSRInlinerAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class InstrumentationContextManager {
     private static final Set<String> MARKER_INTERFACES_TO_SKIP =
@@ -184,9 +182,11 @@ public class InstrumentationContextManager {
                     if ((traceDetails != null) && (traceDetails.isCustom())) {
                         statsService.doStatsWork(StatsWorks.getRecordMetricWork(MessageFormat
                                                                                         .format("Supportability/Instrumented/{0}/{1}{2}",
-                                                                                                       className.replace('/', '.'),
+                                                                                                       className.replace('/',
+                                                                                                                                '.'),
                                                                                                        m.getName(),
-                                                                                                       m.getDescriptor()), 1.0F));
+                                                                                                       m.getDescriptor()),
+                                                                                       1.0F));
                     }
                 }
             }
@@ -245,20 +245,14 @@ public class InstrumentationContextManager {
         final boolean[] initialized = new boolean[] {false};
 
         ClassLoaderClassTransformer classLoaderTransformer = new ClassLoaderClassTransformer(manager);
+
         ClassFileTransformer transformer = new ClassFileTransformer() {
             public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
                                     ProtectionDomain protectionDomain, byte[] classfileBuffer)
                     throws IllegalClassFormatException {
-                if (!className.startsWith("org/objectweb/asm")
-                            && !className.startsWith("ch/qos/logback")
-                            && !className.startsWith("com/google")
-                            && !className.startsWith("javassist")
-                            && !className.startsWith("org/apache")
-                            && !className.startsWith("org/json/simple")
-                            && !className.startsWith("org/objectweb/asm")
-                            && !className.startsWith("org/reflections")
-                            && !className.startsWith("org/sl4j")
-                            && !className.startsWith("org/yaml/snakeyaml")
+                if (!className.startsWith("com/newrelic/deps/org/objectweb/asm") && !className
+                                                                                             .startsWith
+                                                                                                      ("com/newrelic/deps")
                             && !className.startsWith("com/newrelic/agent/tracers/")) {
                     if (!initialized[0] && className.startsWith("com/newrelic/")) {
                         return null;
@@ -280,7 +274,7 @@ public class InstrumentationContextManager {
                         } else if (Utils.isJdkProxy(reader)) {
                             Agent.LOG.finest(MessageFormat
                                                      .format("Instrumentation skipped by \'\'JDK proxy\'\' rule: {0}",
-                                                                    className));
+                                                                    new Object[] {className}));
                             return null;
                         } else {
                             InstrumentationContext context =
@@ -305,44 +299,36 @@ public class InstrumentationContextManager {
                                                                          + " {0}", className));
                                 return null;
                             } else {
-                                Iterator<Entry<ClassMatchVisitorFactory, OptimizedClassMatcher.Match>> iterator =
-                                        context.getMatches().entrySet().iterator();
 
-                                while (true) {
-                                    while (iterator.hasNext()) {
-                                        Entry<ClassMatchVisitorFactory, OptimizedClassMatcher.Match> entry =
-                                                iterator.next();
-                                        ContextClassTransformer transformer = manager.matchVisitors.get(entry.getKey());
-                                        if (transformer != null
-                                                    && transformer != InstrumentationContextManager.NO_OP_TRANSFORMER) {
-                                            byte[] bytes1 = transformer
-                                                                    .transform(loader, className, classBeingRedefined,
-                                                                                      protectionDomain, classfileBuffer,
-                                                                                      context, entry.getValue());
-                                            classfileBuffer = context.processTransformBytes(classfileBuffer, bytes1);
-                                        } else {
-                                            Agent.LOG.fine("Unable to find a class transformer to process match "
-                                                                   + entry.getValue());
-                                        }
+                                for (Map.Entry<ClassMatchVisitorFactory, OptimizedClassMatcher.Match> entry : context.getMatches().entrySet()) {
+                                    ContextClassTransformer transformer = manager.matchVisitors.get(entry.getKey());
+                                    if (transformer != null
+                                                && transformer != InstrumentationContextManager.NO_OP_TRANSFORMER) {
+                                        byte[] bytes1 = transformer.transform(loader, className, classBeingRedefined,
+                                                                                     protectionDomain, classfileBuffer,
+                                                                                     context, entry.getValue());
+                                        classfileBuffer = context.processTransformBytes(classfileBuffer, bytes1);
+                                    } else {
+                                        Agent.LOG.fine("Unable to find a class transformer to process match "
+                                                               + entry.getValue());
                                     }
-
-                                    if (context.isTracerMatch()) {
-                                        byte[] bytes2 = traceTransformer
-                                                                .transform(loader, className, classBeingRedefined,
-                                                                                  protectionDomain, classfileBuffer,
-                                                                                  context, null);
-                                        classfileBuffer = context.processTransformBytes(classfileBuffer, bytes2);
-                                    }
-
-                                    if (context.isModified()) {
-                                        return manager.FinishClassTransformer
-                                                       .transform(loader, className, classBeingRedefined,
-                                                                         protectionDomain, classfileBuffer, context,
-                                                                         null);
-                                    }
-
-                                    return null;
                                 }
+
+                                if (context.isTracerMatch()) {
+                                    byte[] bytes2 = traceTransformer.transform(loader, className, classBeingRedefined,
+                                                                                      protectionDomain, classfileBuffer,
+                                                                                      context, null);
+                                    classfileBuffer = context.processTransformBytes(classfileBuffer, bytes2);
+                                }
+
+                                if (context.isModified()) {
+                                    return manager.FinishClassTransformer
+                                                   .transform(loader, className, classBeingRedefined, protectionDomain,
+                                                                     classfileBuffer, context, null);
+                                }
+
+                                return null;
+
                             }
                         }
                     }
@@ -351,6 +337,103 @@ public class InstrumentationContextManager {
                 }
             }
         };
+        //        ClassFileTransformer transformer = new ClassFileTransformer() {
+        //            public byte[] transform(ClassLoader loader, String className, Class<?> classBeingRedefined,
+        //                                    ProtectionDomain protectionDomain, byte[] classfileBuffer)
+        //                    throws IllegalClassFormatException {
+        //                if ((className.startsWith("com/newrelic/deps/org/objectweb/asm")) || (className
+        //                                                                                              .startsWith
+        //
+        // ("com/newrelic/deps"))
+        //                            || (className.startsWith("com/newrelic/agent/tracers/"))) {
+        //                    return null;
+        //                }
+        //                if (initialized[0] && (className.startsWith("com/newrelic/"))) {
+        //                    return null;
+        //                }
+        //                if (loader == null) {
+        //                    if (!bootstrapClassloaderEnabled) {
+        //                        return null;
+        //                    }
+        //                    loader = ClassLoader.getSystemClassLoader();
+        //                }
+        //
+        //                ClassReader reader = new ClassReader(classfileBuffer);
+        //                if ((0x2200 & reader.getAccess()) != 0) {
+        //                    manager.applyInterfaceVisitors(loader, classBeingRedefined, reader);
+        //                    return null;
+        //                }
+        //                if (NewClassMarker.isNewWeaveClass(reader)) {
+        //                    return null;
+        //                }
+        //
+        //                if (Utils.isJdkProxy(reader)) {
+        //                    Agent.LOG.finest(MessageFormat
+        //                                             .format("Instrumentation skipped by ''JDK proxy'' rule: {0}",
+        // className));
+        //                    return null;
+        //                }
+        //
+        //                InstrumentationContext context =
+        //                        new InstrumentationContext(classfileBuffer, classBeingRedefined, protectionDomain);
+        //
+        //                context.match(loader, classBeingRedefined, reader, manager.matchVisitors.keySet());
+        //
+        //                if (context.isGenerated()) {
+        //                    if (context.hasSourceAttribute()) {
+        //                        Agent.LOG.finest(MessageFormat.format("Instrumentation skipped by ''generated''
+        // rule: {0}",
+        //                                                                     className));
+        //                    } else {
+        //                        Agent.LOG.finest(MessageFormat.format("Instrumentation skipped by ''no source''
+        // rule: {0}",
+        //                                                                     className));
+        //                    }
+        //                    return null;
+        //                }
+        //
+        //                if ((!context.getMatches().isEmpty()) && (InstrumentationContextManager.skipClass(reader))) {
+        //                    Agent.LOG.finest(MessageFormat
+        //                                             .format("Instrumentation skipped by ''class name'' rule: {0}",
+        // className));
+        //                    return null;
+        //                }
+        //
+        //                for (Map.Entry entry : context.getMatches().entrySet()) {
+        //                    ContextClassTransformer transformer = manager.matchVisitors.get(entry.getKey());
+        //                    if ((transformer != null) && (transformer != InstrumentationContextManager
+        // .NO_OP_TRANSFORMER)) {
+        //                        byte[] bytes = transformer.transform(loader, className, classBeingRedefined,
+        // protectionDomain,
+        //                                                                    classfileBuffer, context,
+        //                                                                    (OptimizedClassMatcher.Match) entry
+        // .getValue());
+        //
+        //                        classfileBuffer = context.processTransformBytes(classfileBuffer, bytes);
+        //                    } else {
+        //                        Agent.LOG.fine("Unable to find a class transformer to process match " + entry
+        // .getValue());
+        //                    }
+        //                }
+        //
+        //                if (context.isTracerMatch()) {
+        //                    byte[] bytes = traceTransformer.transform(loader, className, classBeingRedefined,
+        // protectionDomain,
+        //                                                                     classfileBuffer, context, null);
+        //
+        //                    classfileBuffer = context.processTransformBytes(classfileBuffer, bytes);
+        //                }
+        //
+        //                if (context.isModified()) {
+        //                    return manager.FinishClassTransformer
+        //                                   .transform(loader, className, classBeingRedefined, protectionDomain,
+        // classfileBuffer,
+        //                                                     context, null);
+        //                }
+        //
+        //                return null;
+        //            }
+        //        };
         instrumentation.addTransformer(transformer, true);
         manager.transformer = transformer;
 

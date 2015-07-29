@@ -3,8 +3,8 @@ package com.newrelic.agent.instrumentation.pointcuts.commons;
 import com.newrelic.agent.instrumentation.pointcuts.InterfaceMapper;
 import com.newrelic.agent.instrumentation.pointcuts.MethodMapper;
 
-@InterfaceMapper(originalInterfaceName = "org/apache/commons/httpclient/HttpMethod",
-                        className = {"org/apache/commons/httpclient/HttpMethodBase"})
+@InterfaceMapper(originalInterfaceName = "com/newrelic/deps/org/apache/commons/httpclient/HttpMethod",
+                        className = {"com/newrelic/deps/org/apache/commons/httpclient/HttpMethodBase"})
 public interface HttpMethodExtension {
     @MethodMapper(originalMethodName = "getRequestHeader",
                          originalDescriptor = "(Ljava/lang/String;)Lorg/apache/commons/httpclient/Header;",

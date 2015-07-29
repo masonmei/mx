@@ -4,8 +4,8 @@ import java.util.Map;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 
-import com.google.common.collect.MapMaker;
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.MapMaker;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.ObjectFieldManager;
 

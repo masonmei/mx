@@ -1,7 +1,7 @@
 package com.newrelic.agent.instrumentation;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
 
 class AgentClassWriter extends ClassWriter {
     private ClassLoader classLoader;

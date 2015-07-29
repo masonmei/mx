@@ -24,7 +24,7 @@ import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import java.util.regex.Pattern;
 
-import org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
 
 import com.newrelic.agent.config.AgentJarHelper;
 import com.newrelic.agent.config.JarResource;

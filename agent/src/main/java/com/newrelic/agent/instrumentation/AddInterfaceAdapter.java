@@ -5,8 +5,8 @@ import java.util.Arrays;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 import com.newrelic.agent.Agent;
 

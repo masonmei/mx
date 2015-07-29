@@ -7,7 +7,7 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.config.BaseConfig;

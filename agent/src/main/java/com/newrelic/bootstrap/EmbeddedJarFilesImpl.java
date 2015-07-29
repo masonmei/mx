@@ -8,9 +8,9 @@ import java.io.InputStream;
 import java.io.OutputStream;
 import java.util.concurrent.ExecutionException;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.newrelic.deps.com.google.common.cache.CacheBuilder;
+import com.newrelic.deps.com.google.common.cache.CacheLoader;
+import com.newrelic.deps.com.google.common.cache.LoadingCache;
 
 public class EmbeddedJarFilesImpl implements EmbeddedJarFiles {
     private static final String[] INTERNAL_JAR_FILE_NAMES =

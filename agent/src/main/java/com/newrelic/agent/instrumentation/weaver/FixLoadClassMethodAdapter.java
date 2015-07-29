@@ -1,9 +1,9 @@
 package com.newrelic.agent.instrumentation.weaver;
 
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 import com.newrelic.agent.Agent;
 

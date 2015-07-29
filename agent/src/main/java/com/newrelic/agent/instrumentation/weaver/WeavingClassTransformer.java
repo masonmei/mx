@@ -8,11 +8,11 @@ import java.util.Arrays;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
 
-import com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher;
 import com.newrelic.agent.instrumentation.context.ContextClassTransformer;

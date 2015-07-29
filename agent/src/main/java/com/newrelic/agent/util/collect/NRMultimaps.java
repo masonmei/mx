@@ -3,12 +3,12 @@ package com.newrelic.agent.util.collect;
 import java.util.Collection;
 import java.util.Set;
 
-import com.google.common.collect.ForwardingMultimap;
-import com.google.common.collect.ForwardingSetMultimap;
-import com.google.common.collect.ImmutableList;
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.SetMultimap;
+import com.newrelic.deps.com.google.common.collect.ForwardingMultimap;
+import com.newrelic.deps.com.google.common.collect.ForwardingSetMultimap;
+import com.newrelic.deps.com.google.common.collect.ImmutableList;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.com.google.common.collect.Multimap;
+import com.newrelic.deps.com.google.common.collect.SetMultimap;
 
 public class NRMultimaps {
     public static final <K, V> SetMultimap<K, V> performantSetMultimapFrom(final SetMultimap<K, V> multimap) {

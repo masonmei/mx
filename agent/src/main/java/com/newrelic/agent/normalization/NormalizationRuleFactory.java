@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.transport.DataSenderWriter;
 

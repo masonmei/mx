@@ -1,30 +1,30 @@
 package com.newrelic.agent.profile;
 
-import org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
-public abstract interface IProfile extends JSONStreamAware {
-    public abstract void start();
+public interface IProfile extends JSONStreamAware {
+    void start();
 
-    public abstract void end();
+    void end();
 
-    public abstract void beforeSampling();
+    void beforeSampling();
 
-    public abstract void addStackTrace(long paramLong, boolean paramBoolean, ThreadType paramThreadType,
-                                       StackTraceElement[] paramArrayOfStackTraceElement);
+    void addStackTrace(long paramLong, boolean paramBoolean, ThreadType paramThreadType,
+                       StackTraceElement[] paramArrayOfStackTraceElement);
 
-    public abstract ProfilerParameters getProfilerParameters();
+    ProfilerParameters getProfilerParameters();
 
-    public abstract int getSampleCount();
+    int getSampleCount();
 
-    public abstract Long getProfileId();
+    Long getProfileId();
 
-    public abstract ProfileTree getProfileTree(ThreadType paramThreadType);
+    ProfileTree getProfileTree(ThreadType paramThreadType);
 
-    public abstract int trimBy(int paramInt);
+    int trimBy(int paramInt);
 
-    public abstract long getStartTimeMillis();
+    long getStartTimeMillis();
 
-    public abstract long getEndTimeMillis();
+    long getEndTimeMillis();
 
-    public abstract void markInstrumentedMethods();
+    void markInstrumentedMethods();
 }

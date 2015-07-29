@@ -6,8 +6,8 @@ import java.util.Map;
 import org.w3c.dom.DOMException;
 import org.w3c.dom.Node;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.ImmutableMap;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
 public abstract class Unmarshaller<T> {
     private static final Map<Class<?>, Unmarshaller<?>> DEFAULT_UNMARSHALLERS = createDefaultUnmarshallers();

@@ -22,11 +22,11 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.google.common.base.Predicate;
-import com.google.common.collect.Collections2;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.base.Predicate;
+import com.newrelic.deps.com.google.common.collect.Collections2;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.HarvestListener;
 import com.newrelic.agent.config.AgentConfig;

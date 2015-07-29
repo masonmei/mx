@@ -8,7 +8,7 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.service.ServiceFactory;
 

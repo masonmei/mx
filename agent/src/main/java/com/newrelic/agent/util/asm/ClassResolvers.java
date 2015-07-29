@@ -19,8 +19,8 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.bootstrap.EmbeddedJarFilesImpl;
 

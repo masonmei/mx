@@ -6,9 +6,9 @@ import java.util.Set;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Level;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.newrelic.deps.com.google.common.cache.CacheBuilder;
+import com.newrelic.deps.com.google.common.cache.CacheLoader;
+import com.newrelic.deps.com.google.common.cache.LoadingCache;
 import com.newrelic.agent.Agent;
 
 public class DefaultDestinationPredicate implements DestinationPredicate {

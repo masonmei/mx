@@ -10,9 +10,9 @@ import java.util.Collections;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.GeneratorAdapter;
-import org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 import com.newrelic.agent.bridge.AgentBridge;
 

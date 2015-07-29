@@ -10,7 +10,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.GCService;
 import com.newrelic.agent.HarvestService;
 import com.newrelic.agent.HarvestServiceImpl;

@@ -7,7 +7,7 @@ package com.newrelic.agent.service.module;
 
 import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
+import com.newrelic.deps.com.google.common.collect.ImmutableMap;
 
 class JarInfo {
     static final JarInfo MISSING = new JarInfo(" ", ImmutableMap.<String, String>of());

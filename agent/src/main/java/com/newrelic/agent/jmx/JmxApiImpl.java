@@ -3,7 +3,7 @@ package com.newrelic.agent.jmx;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.JmxApi;
 import com.newrelic.agent.jmx.metrics.JmxFrameworkValues;

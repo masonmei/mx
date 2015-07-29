@@ -36,33 +36,33 @@ import java.util.zip.GZIPInputStream;
 
 import javax.net.ssl.SSLContext;
 
-import org.apache.http.Header;
-import org.apache.http.HttpEntity;
-import org.apache.http.HttpHost;
-import org.apache.http.StatusLine;
-import org.apache.http.auth.AuthScope;
-import org.apache.http.auth.Credentials;
-import org.apache.http.auth.UsernamePasswordCredentials;
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.config.RequestConfig.Builder;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpUriRequest;
-import org.apache.http.client.methods.RequestBuilder;
-import org.apache.http.client.protocol.HttpClientContext;
-import org.apache.http.config.SocketConfig;
-import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
-import org.apache.http.conn.ssl.SSLContextBuilder;
-import org.apache.http.conn.ssl.StrictHostnameVerifier;
-import org.apache.http.entity.ByteArrayEntity;
-import org.apache.http.impl.client.BasicCredentialsProvider;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.message.BasicHeader;
-import org.apache.http.protocol.HttpContext;
-import org.json.simple.JSONArray;
-import org.json.simple.JSONStreamAware;
-import org.json.simple.JSONValue;
-import org.json.simple.parser.JSONParser;
+import com.newrelic.deps.org.apache.http.Header;
+import com.newrelic.deps.org.apache.http.HttpEntity;
+import com.newrelic.deps.org.apache.http.HttpHost;
+import com.newrelic.deps.org.apache.http.StatusLine;
+import com.newrelic.deps.org.apache.http.auth.AuthScope;
+import com.newrelic.deps.org.apache.http.auth.Credentials;
+import com.newrelic.deps.org.apache.http.auth.UsernamePasswordCredentials;
+import com.newrelic.deps.org.apache.http.client.config.RequestConfig;
+import com.newrelic.deps.org.apache.http.client.config.RequestConfig.Builder;
+import com.newrelic.deps.org.apache.http.client.methods.CloseableHttpResponse;
+import com.newrelic.deps.org.apache.http.client.methods.HttpUriRequest;
+import com.newrelic.deps.org.apache.http.client.methods.RequestBuilder;
+import com.newrelic.deps.org.apache.http.client.protocol.HttpClientContext;
+import com.newrelic.deps.org.apache.http.config.SocketConfig;
+import com.newrelic.deps.org.apache.http.conn.ssl.SSLConnectionSocketFactory;
+import com.newrelic.deps.org.apache.http.conn.ssl.SSLContextBuilder;
+import com.newrelic.deps.org.apache.http.conn.ssl.StrictHostnameVerifier;
+import com.newrelic.deps.org.apache.http.entity.ByteArrayEntity;
+import com.newrelic.deps.org.apache.http.impl.client.BasicCredentialsProvider;
+import com.newrelic.deps.org.apache.http.impl.client.CloseableHttpClient;
+import com.newrelic.deps.org.apache.http.impl.client.HttpClientBuilder;
+import com.newrelic.deps.org.apache.http.message.BasicHeader;
+import com.newrelic.deps.org.apache.http.protocol.HttpContext;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONValue;
+import com.newrelic.deps.org.json.simple.parser.JSONParser;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.ForceDisconnectException;
@@ -133,7 +133,7 @@ public class DataSenderImpl implements DataSender {
 
     public DataSenderImpl(AgentConfig config) {
         this.agentRunId = NO_AGENT_RUN_ID;
-        System.setProperty("org.apache.commons.logging.LogFactory", ApacheCommonsAdaptingLogFactory.class.getName());
+        System.setProperty("com.newrelic.deps.org.apache.commons.logging.LogFactory", ApacheCommonsAdaptingLogFactory.class.getName());
         this.auditMode = config.isAuditMode();
         Agent.LOG.info(MessageFormat
                                .format("Setting audit_mode to {0}", new Object[] {Boolean.valueOf(this.auditMode)}));

@@ -4,11 +4,12 @@ import java.text.MessageFormat;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.SerialVersionUIDAdder;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.commons.SerialVersionUIDAdder;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.service.ServiceFactory;
@@ -71,7 +72,7 @@ public class InstrumentationUtils {
         return cr.readUnsignedShort(6);
     }
 
-    public static Set<org.objectweb.asm.commons.Method> getDeclaredMethods(Class<?> clazz) {
+    public static Set<Method> getDeclaredMethods(Class<?> clazz) {
         java.lang.reflect.Method[] methods = clazz.getDeclaredMethods();
         Set result = new HashSet(methods.length);
         for (java.lang.reflect.Method method : methods) {
@@ -80,12 +81,12 @@ public class InstrumentationUtils {
         return result;
     }
 
-    public static org.objectweb.asm.commons.Method getMethod(java.lang.reflect.Method method) {
+    public static Method getMethod(java.lang.reflect.Method method) {
         Class[] params = method.getParameterTypes();
         Type[] args = new Type[params.length];
         for (int i = 0; i < params.length; i++) {
             args[i] = Type.getType(params[i]);
         }
-        return new org.objectweb.asm.commons.Method(method.getName(), Type.getType(method.getReturnType()), args);
+        return new Method(method.getName(), Type.getType(method.getReturnType()), args);
     }
 }

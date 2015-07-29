@@ -8,16 +8,17 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.AdviceAdapter;
-import org.objectweb.asm.commons.GeneratorAdapter;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.AdviceAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
 
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.Transaction;
 import com.newrelic.agent.instrumentation.tracing.BridgeUtils;
 import com.newrelic.agent.util.AgentError;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class BytecodeGenProxyBuilder<T> {
     private final Class<T> target;
@@ -73,7 +74,7 @@ public class BytecodeGenProxyBuilder<T> {
     public T build() {
         InvocationHandler handler = new InvocationHandler() {
             public Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args) throws Throwable {
-                org.objectweb.asm.commons.Method m = org.objectweb.asm.commons.Method.getMethod(method);
+                Method m = Method.getMethod(method);
 
                 if (loadArguments) {
                     for (int i = 0; i < m.getArgumentTypes().length; i++) {

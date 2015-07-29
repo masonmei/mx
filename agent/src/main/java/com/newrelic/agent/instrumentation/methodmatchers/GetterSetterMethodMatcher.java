@@ -3,7 +3,7 @@ package com.newrelic.agent.instrumentation.methodmatchers;
 import java.util.Set;
 import java.util.regex.Pattern;
 
-import org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class GetterSetterMethodMatcher implements MethodMatcher {
     static final Pattern GETTER_METHOD_PATTERN = Pattern.compile("^get[A-Z][a-zA-Z0-9_]*$");

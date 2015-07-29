@@ -1,7 +1,7 @@
 package com.newrelic.agent.instrumentation;
 
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 import com.newrelic.agent.Agent;
 

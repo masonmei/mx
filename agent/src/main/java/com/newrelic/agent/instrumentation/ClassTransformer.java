@@ -13,10 +13,10 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.logging.Level;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
 
-import com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.InstrumentationProxy;
 import com.newrelic.agent.TracerService;
@@ -318,7 +318,7 @@ public class ClassTransformer implements ContextClassTransformer {
 
             if ((classLoader != null) && (!InstrumentationUtils.isAbleToResolveAgent(classLoader, className))) {
                 String msg = MessageFormat.format("Not instrumenting {0}: class loader unable to load agent classes",
-                                                         new Object[] {className});
+                                                         className);
 
                 Agent.LOG.log(Level.FINER, msg);
                 return null;

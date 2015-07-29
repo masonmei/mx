@@ -2,7 +2,7 @@ package com.newrelic.agent.util;
 
 import java.lang.reflect.Method;
 
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 public class Invoker {
     public static Object invoke(Object called, Class<?> clazz, String methodName, Object[] args) throws Exception {

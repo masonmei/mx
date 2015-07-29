@@ -21,10 +21,10 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.TransactionData;
 import com.newrelic.agent.attributes.AttributesUtils;

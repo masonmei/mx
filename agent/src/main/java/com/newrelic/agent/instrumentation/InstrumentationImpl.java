@@ -6,10 +6,10 @@ import java.lang.reflect.Modifier;
 import java.util.Set;
 import java.util.logging.Level;
 
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.TransactionActivity;
 import com.newrelic.agent.TransactionApiImpl;
@@ -168,7 +168,7 @@ public class InstrumentationImpl implements Instrumentation {
             return;
         }
         if (OptimizedClassMatcher.METHODS_WE_NEVER_INSTRUMENT
-                    .contains(org.objectweb.asm.commons.Method.getMethod(methodToInstrument))) {
+                    .contains(com.newrelic.deps.org.objectweb.asm.commons.Method.getMethod(methodToInstrument))) {
             return;
         }
         int modifiers = methodToInstrument.getModifiers();

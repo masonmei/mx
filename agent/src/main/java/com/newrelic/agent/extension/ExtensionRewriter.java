@@ -14,16 +14,16 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.jar.JarOutputStream;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.commons.RemappingClassAdapter;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.commons.RemappingClassAdapter;
 
-import com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
 import com.newrelic.agent.util.Streams;
 
 public class ExtensionRewriter {
     static final DependencyRemapper REMAPPER =
-            new DependencyRemapper(ImmutableSet.of("org/objectweb/asm/", "com/google/", "org/apache/commons/"));
+            new DependencyRemapper(ImmutableSet.of("com/newrelic/deps/org/objectweb/asm/", "com/newrelic/deps/com/google/", "com/newrelic/deps/org/apache/commons/"));
 
     private ExtensionRewriter() {
     }

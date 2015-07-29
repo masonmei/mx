@@ -12,13 +12,13 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.logging.Level;
 
-import org.apache.commons.cli.CommandLine;
-import org.apache.commons.cli.CommandLineParser;
-import org.apache.commons.cli.HelpFormatter;
-import org.apache.commons.cli.Option;
-import org.apache.commons.cli.Options;
-import org.apache.commons.cli.ParseException;
-import org.apache.commons.cli.PosixParser;
+import com.newrelic.deps.org.apache.commons.cli.CommandLine;
+import com.newrelic.deps.org.apache.commons.cli.CommandLineParser;
+import com.newrelic.deps.org.apache.commons.cli.HelpFormatter;
+import com.newrelic.deps.org.apache.commons.cli.Option;
+import com.newrelic.deps.org.apache.commons.cli.Options;
+import com.newrelic.deps.org.apache.commons.cli.ParseException;
+import com.newrelic.deps.org.apache.commons.cli.PosixParser;
 
 import com.newrelic.agent.command.XmlInstrumentOptions;
 import com.newrelic.agent.command.XmlInstrumentValidator;

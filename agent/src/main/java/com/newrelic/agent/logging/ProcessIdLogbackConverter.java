@@ -2,8 +2,8 @@ package com.newrelic.agent.logging;
 
 import java.lang.management.ManagementFactory;
 
-import ch.qos.logback.classic.pattern.ClassicConverter;
-import ch.qos.logback.classic.spi.ILoggingEvent;
+import com.newrelic.deps.ch.qos.logback.classic.pattern.ClassicConverter;
+import com.newrelic.deps.ch.qos.logback.classic.spi.ILoggingEvent;
 
 public class ProcessIdLogbackConverter extends ClassicConverter {
     private final String pid;

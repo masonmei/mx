@@ -1,0 +1,45 @@
+package com.newrelic.agent.instrumentation.methodmatchers;
+
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
+import java.util.Set;
+
+public class AccessMethodMatcher
+  implements MethodMatcher
+{
+  private final int accessFlags;
+
+  public AccessMethodMatcher(int accessFlags)
+  {
+    this.accessFlags = accessFlags;
+  }
+
+  public boolean matches(int access, String name, String desc, Set<String> annotations)
+  {
+    return (access == -1) || ((access & this.accessFlags) == this.accessFlags);
+  }
+
+  public Method[] getExactMethods()
+  {
+    return null;
+  }
+
+  public int hashCode()
+  {
+    int prime = 31;
+    int result = 1;
+    result = 31 * result + this.accessFlags;
+    return result;
+  }
+
+  public boolean equals(Object obj)
+  {
+    if (this == obj)
+      return true;
+    if (obj == null)
+      return false;
+    if (getClass() != obj.getClass())
+      return false;
+    AccessMethodMatcher other = (AccessMethodMatcher)obj;
+    return this.accessFlags == other.accessFlags;
+  }
+}

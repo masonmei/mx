@@ -2,8 +2,8 @@ package com.newrelic.agent.instrumentation.context;
 
 import java.util.regex.Pattern;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 
 import com.newrelic.agent.Agent;
 

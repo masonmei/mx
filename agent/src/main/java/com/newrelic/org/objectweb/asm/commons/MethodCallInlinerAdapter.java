@@ -4,16 +4,16 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Opcodes;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.AnalyzerAdapter;
-import org.objectweb.asm.commons.LocalVariablesSorter;
-import org.objectweb.asm.commons.Remapper;
-import org.objectweb.asm.commons.RemappingMethodAdapter;
-import org.objectweb.asm.commons.TryCatchBlockSorter;
-import org.objectweb.asm.tree.MethodNode;
+import com.newrelic.deps.org.objectweb.asm.Label;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Opcodes;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.AnalyzerAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.LocalVariablesSorter;
+import com.newrelic.deps.org.objectweb.asm.commons.Remapper;
+import com.newrelic.deps.org.objectweb.asm.commons.RemappingMethodAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.TryCatchBlockSorter;
+import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
 
 import com.newrelic.agent.Agent;
 

@@ -12,15 +12,15 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.commons.Method;
-import org.objectweb.asm.tree.MethodNode;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
 
-import com.google.common.collect.ImmutableMultimap;
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.ImmutableMultimap;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.classmatchers.ClassAndMethodMatcher;
 import com.newrelic.agent.instrumentation.classmatchers.OptimizedClassMatcher.Match;

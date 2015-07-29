@@ -8,17 +8,17 @@ import java.lang.reflect.Proxy;
 import java.net.URL;
 import java.util.Set;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.Method;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.util.Printer;
-import org.objectweb.asm.util.Textifier;
-import org.objectweb.asm.util.TraceClassVisitor;
-import org.objectweb.asm.util.TraceMethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
+import com.newrelic.deps.org.objectweb.asm.util.Printer;
+import com.newrelic.deps.org.objectweb.asm.util.Textifier;
+import com.newrelic.deps.org.objectweb.asm.util.TraceClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.util.TraceMethodVisitor;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.com.google.common.base.Joiner;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.util.BootstrapLoader;

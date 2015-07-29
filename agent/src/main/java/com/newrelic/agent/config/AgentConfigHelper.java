@@ -10,12 +10,12 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.yaml.snakeyaml.Loader;
-import org.yaml.snakeyaml.Yaml;
-import org.yaml.snakeyaml.constructor.Construct;
-import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.SequenceNode;
+import com.newrelic.deps.org.yaml.snakeyaml.Loader;
+import com.newrelic.deps.org.yaml.snakeyaml.Yaml;
+import com.newrelic.deps.org.yaml.snakeyaml.constructor.Construct;
+import com.newrelic.deps.org.yaml.snakeyaml.constructor.Constructor;
+import com.newrelic.deps.org.yaml.snakeyaml.nodes.Node;
+import com.newrelic.deps.org.yaml.snakeyaml.nodes.SequenceNode;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.errors.ExceptionHandlerSignature;

@@ -7,7 +7,7 @@ import java.util.HashSet;
 import java.util.LinkedList;
 import java.util.Set;
 
-import org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
 
 import com.newrelic.agent.util.Strings;
 

@@ -1,7 +1,7 @@
 package com.newrelic.agent.logging;
 
-import org.slf4j.Marker;
-import org.slf4j.MarkerFactory;
+import com.newrelic.deps.org.slf4j.Marker;
+import com.newrelic.deps.org.slf4j.MarkerFactory;
 
 class LogbackMarkers {
     private static String FINE_STR = "FINE";

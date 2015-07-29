@@ -1,6 +1,6 @@
 package com.newrelic.agent.stats;
 
-import org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 public interface StatsBase extends Cloneable, JSONStreamAware {
     boolean hasData();

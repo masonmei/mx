@@ -3,8 +3,8 @@ package com.newrelic.agent;
 import java.text.MessageFormat;
 import java.util.logging.Level;
 
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.parser.JSONParser;
 
 import com.newrelic.agent.service.ServiceUtils;
 import com.newrelic.api.agent.InboundHeaders;

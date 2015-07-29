@@ -5,9 +5,9 @@ import java.util.List;
 import java.util.Set;
 import java.util.logging.Level;
 
-import org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 
 public class NewClassDependencyVisitor extends ClassVisitor {

@@ -4,21 +4,20 @@ import java.text.MessageFormat;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.GeneratorAdapter;
-
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.pointcuts.MethodMapper;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class MethodMappersAdapter extends ClassVisitor {
-    private final Map<org.objectweb.asm.commons.Method, java.lang.reflect.Method> methods;
+    private final Map<Method, java.lang.reflect.Method> methods;
     private final String className;
     private final String originalInterface;
 
-    private MethodMappersAdapter(ClassVisitor cv,
-                                 Map<org.objectweb.asm.commons.Method, java.lang.reflect.Method> methods,
+    private MethodMappersAdapter(ClassVisitor cv, Map<Method, java.lang.reflect.Method> methods,
                                  String originalInterface, String className) {
         super(Agent.ASM_LEVEL, cv);
         this.methods = methods;
@@ -26,10 +25,10 @@ public class MethodMappersAdapter extends ClassVisitor {
         this.className = className;
     }
 
-    protected static Map<org.objectweb.asm.commons.Method, java.lang.reflect.Method> getMethodMappers(Class<?> type) {
+    protected static Map<Method, java.lang.reflect.Method> getMethodMappers(Class<?> type) {
         Map methods = new HashMap();
         for (java.lang.reflect.Method method : type.getDeclaredMethods()) {
-            MethodMapper annotation = (MethodMapper) method.getAnnotation(MethodMapper.class);
+            MethodMapper annotation = method.getAnnotation(MethodMapper.class);
             if (annotation == null) {
                 throw new RuntimeException("Method " + method.getName() + " does not have a MethodMapper annotation");
             }
@@ -41,21 +40,18 @@ public class MethodMappersAdapter extends ClassVisitor {
             if (method.getName().equals(annotation.originalMethodName())) {
                 String msg = MessageFormat
                                      .format("Ignoring {0} method in {1}: method name is same as orginalMethodName",
-                                                    new Object[] {method.getName(), type.getClass().getName()});
+                                                    method.getName(), type.getClass().getName());
 
                 Agent.LOG.fine(msg);
             } else {
-                methods.put(new org.objectweb.asm.commons.Method(originalMethodName, orginalDescriptor), method);
+                methods.put(new Method(originalMethodName, orginalDescriptor), method);
             }
         }
         return methods;
     }
 
     public static MethodMappersAdapter getMethodMappersAdapter(ClassVisitor cv,
-                                                               Map<org.objectweb.asm.commons.Method, java.lang
-                                                                                                             .reflect
-                                                                                                             .Method>
-                                                                       methods,
+                                                               Map<Method, java.lang.reflect.Method> methods,
                                                                String originalInterface, String className) {
         Map methods2 = new HashMap(methods);
         return new MethodMappersAdapter(cv, methods2, originalInterface, className);
@@ -67,18 +63,18 @@ public class MethodMappersAdapter extends ClassVisitor {
     }
 
     public MethodVisitor visitMethod(int access, String name, String desc, String signature, String[] exceptions) {
-        org.objectweb.asm.commons.Method originalMethod = new org.objectweb.asm.commons.Method(name, desc);
-        java.lang.reflect.Method method = (java.lang.reflect.Method) methods.remove(originalMethod);
+        Method originalMethod = new Method(name, desc);
+        java.lang.reflect.Method method = methods.remove(originalMethod);
         if (method != null) {
             addMethod(method, originalMethod);
         }
         return super.visitMethod(access, name, desc, signature, exceptions);
     }
 
-    private void addMethod(java.lang.reflect.Method method, org.objectweb.asm.commons.Method originalMethod) {
-        org.objectweb.asm.commons.Method newMethod = InstrumentationUtils.getMethod(method);
+    private void addMethod(java.lang.reflect.Method method, Method originalMethod) {
+        Method newMethod = InstrumentationUtils.getMethod(method);
 
-        MethodMapper methodMapper = (MethodMapper) method.getAnnotation(MethodMapper.class);
+        MethodMapper methodMapper = method.getAnnotation(MethodMapper.class);
 
         Type returnType = Type.getType(method.getReturnType());
         GeneratorAdapter mv = new GeneratorAdapter(1, newMethod, null, null, this);

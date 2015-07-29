@@ -7,21 +7,21 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.commons.Method;
-import org.objectweb.asm.tree.AbstractInsnNode;
-import org.objectweb.asm.tree.FrameNode;
-import org.objectweb.asm.tree.InnerClassNode;
-import org.objectweb.asm.tree.InsnNode;
-import org.objectweb.asm.tree.LabelNode;
-import org.objectweb.asm.tree.LineNumberNode;
-import org.objectweb.asm.tree.MethodInsnNode;
-import org.objectweb.asm.tree.MethodNode;
-import org.objectweb.asm.util.TraceClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.tree.AbstractInsnNode;
+import com.newrelic.deps.org.objectweb.asm.tree.FrameNode;
+import com.newrelic.deps.org.objectweb.asm.tree.InnerClassNode;
+import com.newrelic.deps.org.objectweb.asm.tree.InsnNode;
+import com.newrelic.deps.org.objectweb.asm.tree.LabelNode;
+import com.newrelic.deps.org.objectweb.asm.tree.LineNumberNode;
+import com.newrelic.deps.org.objectweb.asm.tree.MethodInsnNode;
+import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
+import com.newrelic.deps.org.objectweb.asm.util.TraceClassVisitor;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.api.agent.weaver.MatchType;
 

@@ -8,7 +8,7 @@ import java.io.Writer;
 import java.util.zip.Deflater;
 import java.util.zip.DeflaterOutputStream;
 
-import org.json.simple.JSONValue;
+import com.newrelic.deps.org.json.simple.JSONValue;
 
 import com.newrelic.org.apache.axis.encoding.Base64;
 

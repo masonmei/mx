@@ -3,7 +3,7 @@ package com.newrelic.agent;
 import java.util.concurrent.ConcurrentMap;
 import java.util.logging.Level;
 
-import com.google.common.collect.MapMaker;
+import com.newrelic.deps.com.google.common.collect.MapMaker;
 import com.newrelic.agent.bridge.AsyncApi;
 import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.servlet.ServletAsyncTransactionStateImpl;

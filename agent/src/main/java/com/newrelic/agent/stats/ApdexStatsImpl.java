@@ -5,7 +5,7 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.List;
 
-import org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONArray;
 
 public class ApdexStatsImpl implements ApdexStats {
     private static final Integer ZERO = Integer.valueOf(0);

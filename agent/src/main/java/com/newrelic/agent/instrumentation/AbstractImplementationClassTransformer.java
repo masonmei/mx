@@ -5,10 +5,10 @@ import java.security.ProtectionDomain;
 import java.text.MessageFormat;
 import java.util.logging.Level;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.InstrumentationProxy;

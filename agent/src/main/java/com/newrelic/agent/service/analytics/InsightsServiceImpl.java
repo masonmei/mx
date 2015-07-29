@@ -12,10 +12,10 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.cache.CacheBuilder;
+import com.newrelic.deps.com.google.common.cache.CacheLoader;
+import com.newrelic.deps.com.google.common.cache.LoadingCache;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.HarvestListener;
 import com.newrelic.agent.Transaction;

@@ -16,9 +16,9 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
-import com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Lists;
 
 public final class OrMethodMatcher extends ManyMethodMatcher {
     private OrMethodMatcher(MethodMatcher... methodMatchers) {

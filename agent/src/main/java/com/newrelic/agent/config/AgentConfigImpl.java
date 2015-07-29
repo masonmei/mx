@@ -11,7 +11,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 
 public class AgentConfigImpl extends BaseConfig implements AgentConfig {

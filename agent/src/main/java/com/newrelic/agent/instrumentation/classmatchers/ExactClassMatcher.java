@@ -3,8 +3,8 @@ package com.newrelic.agent.instrumentation.classmatchers;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 import com.newrelic.agent.util.Strings;
 

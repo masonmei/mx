@@ -15,7 +15,7 @@ import java.util.Set;
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.google.common.cache.Cache;
+import com.newrelic.deps.com.google.common.cache.Cache;
 import com.newrelic.agent.application.PriorityApplicationName;
 import com.newrelic.agent.bridge.CrossProcessState;
 import com.newrelic.agent.bridge.TracedMethod;

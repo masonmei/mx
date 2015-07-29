@@ -2,7 +2,7 @@ package com.newrelic.agent;
 
 import java.util.Set;
 
-import com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
 import com.newrelic.api.agent.HeaderType;
 import com.newrelic.api.agent.InboundHeaders;
 import com.newrelic.api.agent.OutboundHeaders;

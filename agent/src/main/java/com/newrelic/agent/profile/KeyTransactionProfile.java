@@ -15,7 +15,7 @@ import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.TransactionData;

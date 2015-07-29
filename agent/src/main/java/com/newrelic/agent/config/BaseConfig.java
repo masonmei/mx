@@ -12,8 +12,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.Set;
 
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.newrelic.deps.org.json.simple.parser.JSONParser;
+import com.newrelic.deps.org.json.simple.parser.ParseException;
 
 import com.newrelic.agent.Agent;
 

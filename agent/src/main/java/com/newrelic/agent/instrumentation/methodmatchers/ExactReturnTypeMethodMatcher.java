@@ -2,8 +2,8 @@ package com.newrelic.agent.instrumentation.methodmatchers;
 
 import java.util.Set;
 
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class ExactReturnTypeMethodMatcher implements MethodMatcher {
     private final Type returnType;

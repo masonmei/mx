@@ -4,10 +4,10 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.List;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
-import com.google.common.collect.ImmutableList;
+import com.newrelic.deps.com.google.common.collect.ImmutableList;
 
 public class Jar implements JSONStreamAware, Cloneable {
     private final String name;

@@ -28,7 +28,7 @@ import javax.management.ObjectName;
 import javax.management.QueryExp;
 import javax.management.openmbean.CompositeDataSupport;
 
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.HarvestListener;
 import com.newrelic.agent.config.AgentConfig;

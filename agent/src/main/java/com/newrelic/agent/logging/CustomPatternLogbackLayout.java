@@ -1,6 +1,6 @@
 package com.newrelic.agent.logging;
 
-import ch.qos.logback.classic.PatternLayout;
+import com.newrelic.deps.ch.qos.logback.classic.PatternLayout;
 
 class CustomPatternLogbackLayout extends PatternLayout {
     private static final String THREAD_ID_CHAR = "i";

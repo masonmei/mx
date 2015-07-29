@@ -5,7 +5,7 @@ import java.util.Map;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.ITransaction;
 import com.newrelic.agent.attributes.AttributesUtils;

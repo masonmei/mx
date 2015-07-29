@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Level;
 
-import org.json.simple.JSONObject;
+import com.newrelic.deps.org.json.simple.JSONObject;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.config.BrowserMonitoringConfig;

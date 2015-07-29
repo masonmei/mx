@@ -26,7 +26,7 @@ public class CreatePreparedStatementTracerFactory extends AbstractTracerFactory 
         return null;
     }
 
-    @InterfaceMixin(originalClassName = {"org/apache/commons/dbcp/DelegatingPreparedStatement"})
+    @InterfaceMixin(originalClassName = {"com/newrelic/deps/org/apache/commons/dbcp/DelegatingPreparedStatement"})
     public interface DelegatingPreparedStatement {
     }
 
@@ -76,8 +76,8 @@ public class CreatePreparedStatementTracerFactory extends AbstractTracerFactory 
             prepStatment._nr_setStatementData(statementData);
 
             if (isLoggable) {
-                Agent.LOG.finest(MessageFormat.format("Storing SQL: {0} for PreparedStatement: {1}",
-                                                             new Object[] {sql, statement.getClass().getName()}));
+                Agent.LOG.finest(MessageFormat.format("Storing SQL: {0} for PreparedStatement: {1}", sql,
+                                                             statement.getClass().getName()));
             }
 
             if (initParameters) {

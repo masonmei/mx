@@ -9,7 +9,7 @@ import java.net.URL;
 import java.net.URLEncoder;
 import java.text.MessageFormat;
 
-import org.apache.commons.cli.CommandLine;
+import com.newrelic.deps.org.apache.commons.cli.CommandLine;
 
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.config.ConfigServiceFactory;

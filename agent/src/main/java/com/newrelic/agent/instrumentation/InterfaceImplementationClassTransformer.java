@@ -10,16 +10,17 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.ClassWriter;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassWriter;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.pointcuts.InterfaceMapper;
 import com.newrelic.agent.util.Annotations;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class InterfaceImplementationClassTransformer extends AbstractImplementationClassTransformer {
-    private final Map<org.objectweb.asm.commons.Method, java.lang.reflect.Method> methods;
+    private final Map<Method, java.lang.reflect.Method> methods;
     private final boolean genericInterfaceSupportEnabled;
 
     public InterfaceImplementationClassTransformer(ClassTransformer classTransformer, boolean enabled,
@@ -62,7 +63,7 @@ public class InterfaceImplementationClassTransformer extends AbstractImplementat
 
     protected ClassVisitor createClassVisitor(ClassReader cr, ClassWriter cw, String className, ClassLoader loader) {
         InterfaceMapper mapper = (InterfaceMapper) interfaceToImplement.getAnnotation(InterfaceMapper.class);
-        Set<org.objectweb.asm.commons.Method> methods2 = new HashSet(methods.keySet());
+        Set<Method> methods2 = new HashSet(methods.keySet());
 
         Class classVisitorClass = mapper.classVisitor();
         if (classVisitorClass == Object.class) {

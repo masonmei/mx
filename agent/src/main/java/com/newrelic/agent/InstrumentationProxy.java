@@ -7,7 +7,7 @@ import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
-import com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.instrumentation.ClassTransformer;
 import com.newrelic.agent.service.ServiceFactory;

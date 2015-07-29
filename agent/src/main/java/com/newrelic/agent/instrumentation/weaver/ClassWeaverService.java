@@ -21,12 +21,12 @@ import java.util.jar.JarInputStream;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.AgentBridge;
 import com.newrelic.agent.config.AgentJarHelper;

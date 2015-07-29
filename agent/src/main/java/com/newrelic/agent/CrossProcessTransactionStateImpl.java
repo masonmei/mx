@@ -15,11 +15,11 @@ import java.util.TreeSet;
 import java.util.concurrent.TimeUnit;
 import java.util.logging.Level;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONValue;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONValue;
 
-import com.google.common.collect.MapMaker;
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.MapMaker;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.bridge.TracedMethod;
 import com.newrelic.agent.dispatchers.Dispatcher;
 import com.newrelic.agent.service.ServiceUtils;

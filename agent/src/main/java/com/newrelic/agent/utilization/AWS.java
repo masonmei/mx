@@ -4,15 +4,15 @@ import java.io.IOException;
 import java.text.MessageFormat;
 import java.util.logging.Level;
 
-import org.apache.http.client.config.RequestConfig;
-import org.apache.http.client.methods.CloseableHttpResponse;
-import org.apache.http.client.methods.HttpGet;
-import org.apache.http.config.SocketConfig;
-import org.apache.http.conn.ConnectTimeoutException;
-import org.apache.http.conn.ssl.StrictHostnameVerifier;
-import org.apache.http.impl.client.CloseableHttpClient;
-import org.apache.http.impl.client.HttpClientBuilder;
-import org.apache.http.util.EntityUtils;
+import com.newrelic.deps.org.apache.http.client.config.RequestConfig;
+import com.newrelic.deps.org.apache.http.client.methods.CloseableHttpResponse;
+import com.newrelic.deps.org.apache.http.client.methods.HttpGet;
+import com.newrelic.deps.org.apache.http.config.SocketConfig;
+import com.newrelic.deps.org.apache.http.conn.ConnectTimeoutException;
+import com.newrelic.deps.org.apache.http.conn.ssl.StrictHostnameVerifier;
+import com.newrelic.deps.org.apache.http.impl.client.CloseableHttpClient;
+import com.newrelic.deps.org.apache.http.impl.client.HttpClientBuilder;
+import com.newrelic.deps.org.apache.http.util.EntityUtils;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.service.ServiceFactory;

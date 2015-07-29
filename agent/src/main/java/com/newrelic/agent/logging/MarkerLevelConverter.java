@@ -1,9 +1,9 @@
 package com.newrelic.agent.logging;
 
-import org.slf4j.Marker;
+import com.newrelic.deps.org.slf4j.Marker;
 
-import ch.qos.logback.classic.pattern.ClassicConverter;
-import ch.qos.logback.classic.spi.ILoggingEvent;
+import com.newrelic.deps.ch.qos.logback.classic.pattern.ClassicConverter;
+import com.newrelic.deps.ch.qos.logback.classic.spi.ILoggingEvent;
 
 public class MarkerLevelConverter extends ClassicConverter {
     public String convert(ILoggingEvent pEvent) {

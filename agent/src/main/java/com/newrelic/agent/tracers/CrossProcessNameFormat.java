@@ -3,9 +3,9 @@ package com.newrelic.agent.tracers;
 import java.io.UnsupportedEncodingException;
 import java.text.MessageFormat;
 
-import org.json.simple.JSONArray;
-import org.json.simple.parser.JSONParser;
-import org.json.simple.parser.ParseException;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.parser.JSONParser;
+import com.newrelic.deps.org.json.simple.parser.ParseException;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.tracers.metricname.MetricNameFormat;

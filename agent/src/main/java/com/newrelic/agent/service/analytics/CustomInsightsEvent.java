@@ -5,8 +5,8 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONObject;
 
 public class CustomInsightsEvent extends AnalyticsEvent {
     public CustomInsightsEvent(String type, long timestamp, Map<String, Object> attributes) {

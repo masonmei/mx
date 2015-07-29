@@ -1,6 +1,6 @@
 package com.newrelic.agent.extension;
 
-import org.yaml.snakeyaml.constructor.Construct;
+import com.newrelic.deps.org.yaml.snakeyaml.constructor.Construct;
 
 public abstract class ConfigurationConstruct implements Construct {
     private final String name;

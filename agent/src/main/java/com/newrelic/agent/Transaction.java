@@ -20,9 +20,9 @@ import java.util.concurrent.atomic.AtomicInteger;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
-import com.google.common.collect.MapMaker;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.MapMaker;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.ThreadService.AgentThread;
 import com.newrelic.agent.application.ApplicationNamingPolicy;
 import com.newrelic.agent.application.HigherPriorityApplicationNamingPolicy;

@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.atomic.AtomicReference;
 
-import com.google.common.collect.MapMaker;
+import com.newrelic.deps.com.google.common.collect.MapMaker;
 
 public class LazyMapImpl<K, V> implements Map<K, V> {
     private final AtomicReference<Map<K, V>> parameters;

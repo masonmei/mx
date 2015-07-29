@@ -3,7 +3,7 @@ package com.newrelic.agent.instrumentation.classmatchers;
 import java.util.Collection;
 import java.util.Collections;
 
-import org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
 
 public class AllClassesMatcher extends ClassMatcher {
     public boolean isMatch(ClassLoader loader, ClassReader cr) {

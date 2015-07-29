@@ -2,7 +2,7 @@ package com.newrelic.agent.instrumentation.methodmatchers;
 
 import java.util.Set;
 
-import org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public final class NotMethodMatcher implements MethodMatcher {
     private MethodMatcher methodMatcher;

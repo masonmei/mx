@@ -12,8 +12,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.config.AgentConfig;
 
@@ -25,8 +25,8 @@ public class DestinationFilter {
                              List<String> confixExcludes, List<String> configIncludes, boolean captureParams,
                              boolean captureMessageParams, String[] defaultExclude, String... namesForIsEnabled) {
         this.isEnabled = AttributesConfigUtil.isAttsEnabled(config, defaultInclude, namesForIsEnabled);
-        Agent.LOG.log(Level.FINE, "Attributes are {0} for {1}",
-                             new Object[] {this.isEnabled ? "enabled" : "disabled", mainNameForFilter});
+        Agent.LOG.log(Level.FINE, "Attributes are {0} for {1}", this.isEnabled ? "enabled" : "disabled",
+                             mainNameForFilter);
         this.filter = getDestinationPredicate(this.isEnabled, config, confixExcludes, configIncludes, mainNameForFilter,
                                                      updateDefaults(captureParams, captureMessageParams,
                                                                            defaultExclude));

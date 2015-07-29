@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.ResourceBundle;
 import java.util.logging.Level;
 
-import com.google.common.collect.ImmutableMap;
+import com.newrelic.deps.com.google.common.collect.ImmutableMap;
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.config.ConfigService;
 import com.newrelic.agent.install.ConfigInstaller;

@@ -3,7 +3,7 @@ package com.newrelic.agent.transport;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import com.google.common.collect.ImmutableMap;
+import com.newrelic.deps.com.google.common.collect.ImmutableMap;
 
 public class HttpError extends Exception {
     private static final long serialVersionUID = 1L;

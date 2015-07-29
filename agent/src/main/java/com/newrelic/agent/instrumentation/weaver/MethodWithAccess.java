@@ -1,6 +1,6 @@
 package com.newrelic.agent.instrumentation.weaver;
 
-import org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class MethodWithAccess {
     protected final boolean isStatic;

@@ -6,8 +6,8 @@ import java.util.Arrays;
 import java.util.Collections;
 import java.util.Map;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONObject;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONObject;
 
 import com.newrelic.agent.service.ServiceFactory;
 import com.newrelic.agent.service.ServiceUtils;

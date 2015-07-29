@@ -15,8 +15,8 @@ public class ConnectionPointCut extends TracerFactoryPointCut {
     public ConnectionPointCut(ClassTransformer classTransformer) {
         super(ConnectionPointCut.class, ExactClassMatcher
                                                 .or(new String[]
-                                                            {"org/apache/commons/dbcp/PoolingDataSource$PoolGuardConnectionWrapper",
-                                                                         "org/apache/commons/dbcp/PoolableConnection",
+                                                            {"com/newrelic/deps/org/apache/commons/dbcp/PoolingDataSource$PoolGuardConnectionWrapper",
+                                                                         "com/newrelic/deps/org/apache/commons/dbcp/PoolableConnection",
                                                                          "org/apache/tomcat/dbcp/dbcp/cpdsadapter/ConnectionImpl",
                                                                          "org/jboss/resource/adapter/jdbc/WrappedConnection",
                                                                          "org/postgresql/jdbc2/AbstractJdbc2Connection",

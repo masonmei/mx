@@ -10,10 +10,10 @@ import java.util.Collection;
 import java.util.Iterator;
 import java.util.List;
 
-import org.yaml.snakeyaml.constructor.Constructor;
-import org.yaml.snakeyaml.nodes.Node;
-import org.yaml.snakeyaml.nodes.ScalarNode;
-import org.yaml.snakeyaml.nodes.SequenceNode;
+import com.newrelic.deps.org.yaml.snakeyaml.constructor.Constructor;
+import com.newrelic.deps.org.yaml.snakeyaml.nodes.Node;
+import com.newrelic.deps.org.yaml.snakeyaml.nodes.ScalarNode;
+import com.newrelic.deps.org.yaml.snakeyaml.nodes.SequenceNode;
 
 import com.newrelic.agent.extension.ConfigurationConstruct;
 import com.newrelic.agent.instrumentation.classmatchers.AndClassMatcher;

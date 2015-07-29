@@ -3,7 +3,7 @@ package com.newrelic.agent.instrumentation.classmatchers;
 import java.util.Arrays;
 import java.util.Collection;
 
-import org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
 
 public class AndClassMatcher extends ManyClassMatcher {
     public AndClassMatcher(ClassMatcher[] matchers) {

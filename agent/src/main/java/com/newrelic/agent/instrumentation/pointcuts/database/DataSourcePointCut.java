@@ -12,7 +12,7 @@ import java.util.logging.Level;
 
 import javax.sql.DataSource;
 
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.Transaction;

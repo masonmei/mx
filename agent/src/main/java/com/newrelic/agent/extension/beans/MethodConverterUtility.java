@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 class MethodConverterUtility {
     private static final String BEGIN_PARENTH_FOR_DESCRIPTOR = "(";

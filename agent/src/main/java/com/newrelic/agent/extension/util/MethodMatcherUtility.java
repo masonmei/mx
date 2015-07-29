@@ -11,7 +11,7 @@ import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
 
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.extension.beans.Extension.Instrumentation.Pointcut.Method;

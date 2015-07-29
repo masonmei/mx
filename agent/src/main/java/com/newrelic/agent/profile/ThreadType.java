@@ -3,14 +3,14 @@ package com.newrelic.agent.profile;
 import java.io.IOException;
 import java.io.Writer;
 
-import org.json.simple.JSONAware;
-import org.json.simple.JSONStreamAware;
-import org.json.simple.JSONValue;
+import com.newrelic.deps.org.json.simple.JSONAware;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONValue;
 
-public abstract interface ThreadType extends JSONStreamAware, JSONAware {
-    public abstract String getName();
+public interface ThreadType extends JSONStreamAware, JSONAware {
+    String getName();
 
-    public static enum BasicThreadType implements ThreadType {
+    enum BasicThreadType implements ThreadType {
         AGENT("agent"),
         AGENT_INSTRUMENTATION("agent_instrumentation"),
         REQUEST("request"), BACKGROUND("background"), OTHER("other");

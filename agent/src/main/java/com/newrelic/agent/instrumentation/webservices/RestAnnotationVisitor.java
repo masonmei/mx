@@ -8,17 +8,17 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
-import com.google.common.base.Function;
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.base.Function;
+import com.newrelic.deps.com.google.common.collect.ImmutableMap;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.TransactionNamePriority;
 import com.newrelic.agent.instrumentation.InstrumentationType;

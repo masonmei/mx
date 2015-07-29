@@ -3,8 +3,8 @@ package com.newrelic.agent.instrumentation;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 class ClassMetadata {
     private static final int HEADER_MODIFIERS_OFFSET = 0;

@@ -22,13 +22,13 @@ public abstract class HttpCommonsPointCut extends ExternalComponentPointCut {
         return new HttpCommonsTracer(transaction, sig, object, host, "CommonsHttp", uri, methodName);
     }
 
-    @InterfaceMixin(originalClassName = {"org/apache/http/StatusLine"})
+    @InterfaceMixin(originalClassName = {"com/newrelic/deps/org/apache/http/StatusLine"})
     public interface StatusLine {
         int getStatusCode();
     }
 
-    @InterfaceMapper(originalInterfaceName = "org/apache/http/message/BasicHttpResponse",
-                            className = {"org/apache/http/message/BasicHttpResponse"})
+    @InterfaceMapper(originalInterfaceName = "com/newrelic/deps/org/apache/http/message/BasicHttpResponse",
+                            className = {"com/newrelic/deps/org/apache/http/message/BasicHttpResponse"})
     public interface BasicHttpResponseExtension {
         @MethodMapper(originalMethodName = "getStatusLine", originalDescriptor = "()Lorg/apache/http/StatusLine;",
                              invokeInterface = false)

@@ -20,7 +20,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
-import com.google.common.base.Strings;
+import com.newrelic.deps.com.google.common.base.Strings;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.Transaction;
 import com.newrelic.agent.TransactionActivity;

@@ -8,8 +8,8 @@ import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 import com.newrelic.agent.util.Strings;
 import com.newrelic.agent.util.asm.Utils;

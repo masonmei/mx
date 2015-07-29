@@ -6,8 +6,8 @@ import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public final class ExactMethodMatcher implements MethodMatcher {
     private final String name;

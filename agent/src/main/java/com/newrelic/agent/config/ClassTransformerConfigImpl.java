@@ -10,7 +10,7 @@ import java.util.Map;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.annotationmatchers.AnnotationMatcher;

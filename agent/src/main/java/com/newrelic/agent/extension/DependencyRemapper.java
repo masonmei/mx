@@ -3,14 +3,14 @@ package com.newrelic.agent.extension;
 import java.util.Map;
 import java.util.Set;
 
-import org.objectweb.asm.commons.Remapper;
+import com.newrelic.deps.org.objectweb.asm.commons.Remapper;
 
-import com.google.common.collect.ImmutableSet;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.ImmutableSet;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 
 public class DependencyRemapper extends Remapper {
-    static final String DEPENDENCY_PREFIX = "com/newrelic/agent/deps/";
+    static final String DEPENDENCY_PREFIX = "com/newrelic/deps/";
     private final Set<String> prefixes;
     private final Map<String, String> oldToNew = Maps.newHashMap();
 

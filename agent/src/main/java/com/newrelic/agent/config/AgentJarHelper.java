@@ -17,7 +17,7 @@ import java.util.logging.Level;
 import java.util.regex.Pattern;
 import java.util.zip.ZipEntry;
 
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 import com.newrelic.agent.Agent;
 

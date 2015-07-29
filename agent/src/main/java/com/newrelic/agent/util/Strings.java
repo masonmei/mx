@@ -6,12 +6,12 @@ import java.util.List;
 import java.util.StringTokenizer;
 import java.util.regex.Pattern;
 
-import com.google.common.base.Joiner;
-import com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.base.Joiner;
+import com.newrelic.deps.com.google.common.collect.Lists;
 
 public class Strings {
-    public static final String NEWRELIC_DEPENDENCY_INTERNAL_PACKAGE_PREFIX = "com/newrelic/agent/deps/";
-    private static final String NEWRELIC_DEPENDENCY_PACKAGE_PREFIX = "com.newrelic.agent.deps.";
+    public static final String NEWRELIC_DEPENDENCY_INTERNAL_PACKAGE_PREFIX = "com/newrelic/deps/";
+    private static final String NEWRELIC_DEPENDENCY_PACKAGE_PREFIX = "com.newrelic.deps.";
 
     public static boolean isBlank(String str) {
         return (str == null) || (str.length() == 0);

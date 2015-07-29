@@ -9,10 +9,10 @@ import java.util.HashSet;
 import java.util.Map;
 import java.util.Set;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
 public class ProfileSegment implements JSONStreamAware {
     private final ProfiledMethod method;

@@ -4,7 +4,7 @@ import java.text.MessageFormat;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.Transaction;
 import com.newrelic.agent.bridge.TransactionNamePriority;

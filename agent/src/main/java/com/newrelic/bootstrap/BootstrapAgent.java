@@ -8,12 +8,8 @@ import java.net.URLClassLoader;
 import java.net.URLDecoder;
 import java.text.MessageFormat;
 import java.util.Collection;
-import java.util.Map;
-import java.util.Properties;
 import java.util.jar.JarFile;
 import java.util.zip.ZipEntry;
-
-import ch.qos.logback.core.net.SyslogOutputStream;
 
 public class BootstrapAgent {
     public static final String AGENT_CLASS_NAME = "com.newrelic.agent.Agent";

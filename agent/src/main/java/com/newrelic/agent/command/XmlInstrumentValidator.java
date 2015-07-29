@@ -7,8 +7,8 @@ import java.text.MessageFormat;
 import java.util.Collection;
 import java.util.List;
 
-import org.apache.commons.cli.CommandLine;
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.apache.commons.cli.CommandLine;
+import com.newrelic.deps.org.objectweb.asm.Type;
 import org.xml.sax.SAXException;
 
 import com.newrelic.agent.extension.beans.Extension;

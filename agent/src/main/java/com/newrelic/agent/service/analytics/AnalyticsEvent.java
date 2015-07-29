@@ -5,7 +5,7 @@ import java.io.Writer;
 import java.util.Map;
 import java.util.regex.Pattern;
 
-import org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 public abstract class AnalyticsEvent implements JSONStreamAware {
     private static final Pattern TYPE_VALID = Pattern.compile("^[a-zA-Z0-9:_ ]{1,255}$");

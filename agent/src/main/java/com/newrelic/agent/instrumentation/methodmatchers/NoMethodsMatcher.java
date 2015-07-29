@@ -2,7 +2,7 @@ package com.newrelic.agent.instrumentation.methodmatchers;
 
 import java.util.Set;
 
-import org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public final class NoMethodsMatcher implements MethodMatcher {
     public boolean matches(int access, String name, String desc, Set<String> annotations) {

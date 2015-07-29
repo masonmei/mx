@@ -6,7 +6,7 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.config.BaseConfig;
 import com.newrelic.agent.config.Config;
@@ -26,7 +26,7 @@ public class YamlExtension extends Extension {
             throw new IllegalArgumentException("Extensions must have a name");
         }
         this.configuration = new BaseConfig(configuration);
-        enabled = ((Boolean) this.configuration.getProperty("enabled", Boolean.valueOf(true))).booleanValue();
+        enabled = this.configuration.getProperty("enabled", true);
     }
 
     YamlExtension(ClassLoader classloader, Map<String, Object> config, boolean custom) {

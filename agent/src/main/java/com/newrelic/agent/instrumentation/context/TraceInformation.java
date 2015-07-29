@@ -11,10 +11,10 @@ import java.util.Map.Entry;
 import java.util.Set;
 import java.util.logging.Level;
 
-import org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.tracing.TraceDetails;
 import com.newrelic.agent.instrumentation.tracing.TraceDetailsBuilder;

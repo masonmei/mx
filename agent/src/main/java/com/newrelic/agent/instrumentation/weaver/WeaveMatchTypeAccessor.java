@@ -1,7 +1,7 @@
 package com.newrelic.agent.instrumentation.weaver;
 
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.api.agent.weaver.MatchType;

@@ -2,11 +2,11 @@ package com.newrelic.agent.logging;
 
 import java.util.logging.Level;
 
-import org.slf4j.Marker;
+import com.newrelic.deps.org.slf4j.Marker;
 
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.filter.Filter;
-import ch.qos.logback.core.spi.FilterReply;
+import com.newrelic.deps.ch.qos.logback.classic.spi.ILoggingEvent;
+import com.newrelic.deps.ch.qos.logback.core.filter.Filter;
+import com.newrelic.deps.ch.qos.logback.core.spi.FilterReply;
 
 class FineFilter extends Filter<ILoggingEvent> {
     private static FineFilter instance;

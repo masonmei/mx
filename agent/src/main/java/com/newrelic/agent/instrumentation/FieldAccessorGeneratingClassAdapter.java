@@ -4,13 +4,14 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.GeneratorAdapter;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.FieldVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
 
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.instrumentation.pointcuts.FieldAccessor;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 public class FieldAccessorGeneratingClassAdapter extends ClassVisitor {
     private final String className;
@@ -97,7 +98,7 @@ public class FieldAccessorGeneratingClassAdapter extends ClassVisitor {
 
     private void writeMethod(String fieldName, Type returnType, Type fieldType, java.lang.reflect.Method method) {
         boolean setter = Void.TYPE.equals(method.getReturnType());
-        org.objectweb.asm.commons.Method newMethod = InstrumentationUtils.getMethod(method);
+        Method newMethod = InstrumentationUtils.getMethod(method);
         GeneratorAdapter mv = new GeneratorAdapter(1, newMethod, null, null, this);
         mv.visitCode();
 

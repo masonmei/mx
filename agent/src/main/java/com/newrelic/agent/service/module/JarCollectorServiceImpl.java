@@ -8,10 +8,10 @@ import java.util.Map;
 import java.util.concurrent.atomic.AtomicReference;
 import java.util.logging.Level;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
 
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.HarvestListener;
 import com.newrelic.agent.config.AgentConfig;

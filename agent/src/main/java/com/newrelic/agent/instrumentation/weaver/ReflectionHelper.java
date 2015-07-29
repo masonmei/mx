@@ -2,11 +2,11 @@ package com.newrelic.agent.instrumentation.weaver;
 
 import java.util.Map;
 
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.GeneratorAdapter;
-
-import com.google.common.collect.Maps;
 import com.newrelic.agent.bridge.reflect.ClassReflection;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.GeneratorAdapter;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 class ReflectionHelper {
     private static final ReflectionHelper INSTANCE = new ReflectionHelper();
@@ -16,7 +16,7 @@ class ReflectionHelper {
         classes = Maps.newHashMap();
 
         for (java.lang.reflect.Method m : ClassReflection.class.getMethods()) {
-            org.objectweb.asm.commons.Method staticMethod = org.objectweb.asm.commons.Method.getMethod(m);
+            Method staticMethod = Method.getMethod(m);
 
             if ((m.getDeclaringClass().equals(ClassReflection.class)) && (staticMethod.getArgumentTypes().length > 0)) {
                 Type targetClass = staticMethod.getArgumentTypes()[0];
@@ -25,7 +25,7 @@ class ReflectionHelper {
                 try {
                     m.getParameterTypes()[0].getMethod(m.getName(), args);
 
-                    ClassReflector classReflector = (ClassReflector) classes.get(targetClass.getInternalName());
+                    ClassReflector classReflector = classes.get(targetClass.getInternalName());
                     if (classReflector == null) {
                         classReflector = new ClassReflector();
                         classes.put(targetClass.getInternalName(), classReflector);
@@ -35,9 +35,7 @@ class ReflectionHelper {
                     System.arraycopy(staticMethod.getArgumentTypes(), 1, argumentTypes, 0,
                                             staticMethod.getArgumentTypes().length - 1);
 
-                    org.objectweb.asm.commons.Method targetMethod =
-                            new org.objectweb.asm.commons.Method(m.getName(), staticMethod.getReturnType(),
-                                                                        argumentTypes);
+                    Method targetMethod = new Method(m.getName(), staticMethod.getReturnType(), argumentTypes);
                     classReflector.methods.put(targetMethod, staticMethod);
                 } catch (NoSuchMethodException ex) {
                 }
@@ -50,11 +48,9 @@ class ReflectionHelper {
     }
 
     public boolean process(String owner, String name, String desc, GeneratorAdapter generatorAdapter) {
-        ClassReflector classReflector = (ClassReflector) classes.get(owner);
+        ClassReflector classReflector = classes.get(owner);
         if (classReflector != null) {
-            org.objectweb.asm.commons.Method method = (org.objectweb.asm.commons.Method) classReflector.methods
-                                                                                                 .get(new org.objectweb.asm.commons.Method(name,
-                                                                                                                                                  desc));
+            Method method = classReflector.methods.get(new Method(name, desc));
             if (method != null) {
                 generatorAdapter.invokeStatic(Type.getType(ClassReflection.class), method);
                 return true;
@@ -64,7 +60,6 @@ class ReflectionHelper {
     }
 
     private static class ClassReflector {
-        private final Map<org.objectweb.asm.commons.Method, org.objectweb.asm.commons.Method> methods =
-                Maps.newHashMap();
+        private final Map<Method, Method> methods = Maps.newHashMap();
     }
 }

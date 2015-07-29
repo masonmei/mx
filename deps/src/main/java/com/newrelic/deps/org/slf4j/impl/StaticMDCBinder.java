@@ -24,6 +24,7 @@
  */
 package com.newrelic.deps.org.slf4j.impl;
 
+import com.newrelic.deps.ch.qos.logback.classic.util.LogbackMDCAdapter;
 import com.newrelic.deps.org.slf4j.spi.MDCAdapter;
 
 
@@ -42,7 +43,6 @@ public class StaticMDCBinder {
   public static final StaticMDCBinder SINGLETON = new StaticMDCBinder();
 
   private StaticMDCBinder() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
   }
   
   /**
@@ -50,10 +50,10 @@ public class StaticMDCBinder {
    * {@link StaticMDCBinder}.
    */
   public MDCAdapter getMDCA() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
+    return new LogbackMDCAdapter();
   }
   
   public String  getMDCAdapterClassStr() {
-    throw new UnsupportedOperationException("This code should never make it into the jar");
+    return LogbackMDCAdapter.class.getName();
   }
 }

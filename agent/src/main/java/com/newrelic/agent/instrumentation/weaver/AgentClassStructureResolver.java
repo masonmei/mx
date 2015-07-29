@@ -8,7 +8,7 @@ package com.newrelic.agent.instrumentation.weaver;
 import java.io.IOException;
 import java.io.InputStream;
 
-import org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
 
 import com.newrelic.agent.util.asm.ClassResolver;
 import com.newrelic.agent.util.asm.ClassResolvers;

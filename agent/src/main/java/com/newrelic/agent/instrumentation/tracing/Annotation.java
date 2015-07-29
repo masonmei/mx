@@ -5,10 +5,10 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 
-import org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.TransactionNamePriority;
 

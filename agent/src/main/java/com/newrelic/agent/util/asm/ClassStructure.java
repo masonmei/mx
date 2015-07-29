@@ -23,17 +23,17 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 import java.util.logging.Level;
 
-import org.objectweb.asm.AnnotationVisitor;
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.Method;
-import org.objectweb.asm.tree.FieldNode;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.FieldVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.tree.FieldNode;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.ImmutableMap;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.bridge.reflect.ClassReflection;
 
@@ -281,7 +281,7 @@ public class ClassStructure {
     private static AnnotationDetails getAnnotationDetails(Annotation annotation) {
         Class annotationType = annotation.annotationType();
         String annotationDesc = Type.getDescriptor(annotationType);
-        AnnotationDetails node = new AnnotationDetails((AnnotationVisitor) null, annotationDesc);
+        AnnotationDetails node = new AnnotationDetails(null, annotationDesc);
         java.lang.reflect.Method[] arr$ = annotationType.getDeclaredMethods();
         int len$ = arr$.length;
 
@@ -289,7 +289,7 @@ public class ClassStructure {
             java.lang.reflect.Method annotationMethod = arr$[i$];
 
             try {
-                Object e = annotationMethod.invoke(annotation, new Object[0]);
+                Object e = annotationMethod.invoke(annotation);
                 node.getOrCreateAttributes().put(annotationMethod.getName(), e);
             } catch (Exception var9) {
                 Agent.LOG.log(Level.FINEST, "Error getting annotation value for " + annotationMethod.getName(), var9);

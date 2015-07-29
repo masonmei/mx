@@ -13,10 +13,10 @@ import java.util.Map;
 import java.util.logging.Level;
 import java.util.regex.Pattern;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
-import com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Lists;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.config.TransactionTracerConfig;
 import com.newrelic.agent.database.SqlObfuscator;

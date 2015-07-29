@@ -5,8 +5,8 @@ import java.io.Writer;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONObject;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 public final class MetricName implements JSONStreamAware {
     public static final MetricName WEB_TRANSACTION_ORM_ALL = create("ORM/allWeb");

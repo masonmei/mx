@@ -3,7 +3,7 @@ package com.newrelic.agent.instrumentation.classmatchers;
 import java.io.IOException;
 import java.util.Collection;
 
-import org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
 
 public abstract class ClassMatcher {
     protected static final String JAVA_LANG_OBJECT_INTERNAL_NAME = "java/lang/Object";

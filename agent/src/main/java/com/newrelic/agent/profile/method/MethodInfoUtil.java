@@ -13,10 +13,10 @@ import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.profile.MethodLineNumberMatcher;
 
 public class MethodInfoUtil {

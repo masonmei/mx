@@ -2,7 +2,7 @@ package com.newrelic.agent.instrumentation;
 
 import java.text.MessageFormat;
 
-import com.google.common.collect.ComparisonChain;
+
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.Transaction;
 import com.newrelic.agent.instrumentation.classmatchers.ClassAndMethodMatcher;
@@ -16,6 +16,7 @@ import com.newrelic.agent.tracers.IgnoreTransactionTracerFactory;
 import com.newrelic.agent.tracers.PointCutInvocationHandler;
 import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.TracerFactory;
+import com.newrelic.deps.com.google.common.collect.ComparisonChain;
 
 public abstract class PointCut implements Comparable<PointCut>, ClassAndMethodMatcher {
     protected static final int HIGH_PRIORITY = 2147483647;

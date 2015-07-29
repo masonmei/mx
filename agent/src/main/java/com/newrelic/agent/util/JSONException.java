@@ -4,8 +4,8 @@ import java.io.IOException;
 import java.io.Writer;
 import java.util.HashMap;
 
-import org.json.simple.JSONObject;
-import org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONObject;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 public class JSONException extends Exception implements JSONStreamAware {
     private static final long serialVersionUID = 3132223563667774992L;

@@ -1,7 +1,7 @@
 package com.newrelic.agent.attributes;
 
-import com.google.common.base.Predicate;
+import com.newrelic.deps.com.google.common.base.Predicate;
 
-public abstract interface DestinationPredicate extends Predicate<String> {
-    public abstract boolean isPotentialConfigMatch(String paramString);
+public interface DestinationPredicate extends Predicate<String> {
+    boolean isPotentialConfigMatch(String paramString);
 }

@@ -5,14 +5,14 @@ import java.util.Collections;
 import java.util.List;
 import java.util.Map;
 
-import org.objectweb.asm.AnnotationVisitor;
+import com.newrelic.deps.org.objectweb.asm.AnnotationVisitor;
 
-import com.google.common.base.Supplier;
-import com.google.common.collect.ListMultimap;
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
-import com.google.common.collect.Multimap;
-import com.google.common.collect.Multimaps;
+import com.newrelic.deps.com.google.common.base.Supplier;
+import com.newrelic.deps.com.google.common.collect.ListMultimap;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Multimap;
+import com.newrelic.deps.com.google.common.collect.Multimaps;
 import com.newrelic.agent.Agent;
 
 public class AnnotationDetails extends AnnotationVisitor {

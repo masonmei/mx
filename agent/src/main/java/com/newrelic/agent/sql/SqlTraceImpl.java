@@ -6,8 +6,8 @@ import java.io.Writer;
 import java.util.Arrays;
 import java.util.Map;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 import com.newrelic.agent.transport.DataSenderWriter;
 

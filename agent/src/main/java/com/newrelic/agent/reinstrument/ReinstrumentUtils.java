@@ -16,8 +16,8 @@ import java.util.Map;
 import java.util.Set;
 import java.util.logging.Level;
 
-import com.google.common.collect.Maps;
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.extension.beans.Extension;
 import com.newrelic.agent.extension.beans.Extension.Instrumentation.Pointcut;
@@ -242,19 +242,18 @@ public class ReinstrumentUtils {
                                                                       .format("The method {0} with parameter type {1}"
                                                                                       + " on class {2} is not present"
                                                                                       + " and therefore will never "
-                                                                                      + "match anything.",
-                                                                                     new Object[] {m.getName(),
-                                                                                                          MethodParameters
-                                                                                                                  .getDescriptor(m.getParameters()),
-                                                                                                          ExtensionConversionUtility
-                                                                                                                  .getClassName(pc)}));
+                                                                                      + "match anything.", m.getName(),
+                                                                                     MethodParameters
+                                                                                             .getDescriptor(m.getParameters()),
+                                                                                     ExtensionConversionUtility
+                                                                                             .getClassName(pc)));
                 }
             }
         }
 
     }
 
-    private static boolean foundMethod(Method method, Set<org.objectweb.asm.commons.Method> actualMethods) {
+    private static boolean foundMethod(Method method, Set<com.newrelic.deps.org.objectweb.asm.commons.Method> actualMethods) {
         try {
             MethodMatcher ex = MethodMatcherUtility.createMethodMatcher("BogusClass", method,
                                                                                Maps.<String, MethodMapper>newHashMap(),
@@ -262,7 +261,7 @@ public class ReinstrumentUtils {
             Iterator i$ = actualMethods.iterator();
 
             while (i$.hasNext()) {
-                org.objectweb.asm.commons.Method m = (org.objectweb.asm.commons.Method) i$.next();
+                com.newrelic.deps.org.objectweb.asm.commons.Method m = (com.newrelic.deps.org.objectweb.asm.commons.Method) i$.next();
                 if (ex.matches(-1, m.getName(), m.getDescriptor(), MethodMatcher.UNSPECIFIED_ANNOTATIONS)) {
                     return true;
                 }

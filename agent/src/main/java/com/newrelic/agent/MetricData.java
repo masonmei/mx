@@ -5,8 +5,8 @@ import java.io.Writer;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 import com.newrelic.agent.metric.MetricName;
 import com.newrelic.agent.stats.StatsBase;

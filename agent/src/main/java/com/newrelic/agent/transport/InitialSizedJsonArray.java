@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
 
 public class InitialSizedJsonArray implements JSONStreamAware {
     private List<Object> toSend;

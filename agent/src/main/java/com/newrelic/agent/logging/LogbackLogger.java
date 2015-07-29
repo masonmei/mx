@@ -6,22 +6,21 @@ import java.security.PrivilegedAction;
 import java.text.MessageFormat;
 import java.util.Map;
 
-import org.slf4j.LoggerFactory;
-
-import com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
-
-import ch.qos.logback.classic.Logger;
-import ch.qos.logback.classic.spi.ILoggingEvent;
-import ch.qos.logback.core.ConsoleAppender;
-import ch.qos.logback.core.Context;
-import ch.qos.logback.core.FileAppender;
-import ch.qos.logback.core.encoder.Encoder;
-import ch.qos.logback.core.rolling.FixedWindowRollingPolicy;
-import ch.qos.logback.core.rolling.RollingFileAppender;
-import ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy;
-import ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
-import ch.qos.logback.core.rolling.TriggeringPolicy;
+import com.newrelic.deps.ch.qos.logback.classic.Level;
+import com.newrelic.deps.ch.qos.logback.classic.Logger;
+import com.newrelic.deps.ch.qos.logback.classic.spi.ILoggingEvent;
+import com.newrelic.deps.ch.qos.logback.core.ConsoleAppender;
+import com.newrelic.deps.ch.qos.logback.core.Context;
+import com.newrelic.deps.ch.qos.logback.core.FileAppender;
+import com.newrelic.deps.ch.qos.logback.core.encoder.Encoder;
+import com.newrelic.deps.ch.qos.logback.core.rolling.FixedWindowRollingPolicy;
+import com.newrelic.deps.ch.qos.logback.core.rolling.RollingFileAppender;
+import com.newrelic.deps.ch.qos.logback.core.rolling.SizeBasedTriggeringPolicy;
+import com.newrelic.deps.ch.qos.logback.core.rolling.TimeBasedRollingPolicy;
+import com.newrelic.deps.ch.qos.logback.core.rolling.TriggeringPolicy;
+import com.newrelic.deps.com.google.common.collect.Maps;
+import com.newrelic.deps.org.slf4j.LoggerFactory;
 
 class LogbackLogger implements IAgentLogger {
     private static final boolean PRUDENT_VALUE = false;
@@ -154,7 +153,7 @@ class LogbackLogger implements IAgentLogger {
     }
 
     public String getLevel() {
-        if (logger.getLevel() == ch.qos.logback.classic.Level.DEBUG) {
+        if (logger.getLevel() == Level.DEBUG) {
             return FineFilter.getFineFilter().getLevel().toString();
         }
         return logger.getLevel().toString();

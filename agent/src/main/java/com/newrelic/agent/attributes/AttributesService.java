@@ -3,7 +3,7 @@ package com.newrelic.agent.attributes;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.config.AgentConfigListener;
 import com.newrelic.agent.service.AbstractService;

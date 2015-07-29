@@ -1,8 +1,8 @@
 package com.newrelic.assembly;
 
-import org.reflections.Reflections;
-import org.reflections.serializers.JsonSerializer;
-import org.reflections.util.ConfigurationBuilder;
+import com.newrelic.deps.org.reflections.Reflections;
+import com.newrelic.deps.org.reflections.serializers.JsonSerializer;
+import com.newrelic.deps.org.reflections.util.ConfigurationBuilder;
 
 public class BuildManifest {
     public static void main(String[] args) {

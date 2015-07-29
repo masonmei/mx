@@ -14,8 +14,8 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Level;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.extension.beans.Extension;
 import com.newrelic.agent.extension.beans.Extension.Instrumentation;
@@ -239,7 +239,7 @@ public final class ExtensionConversionUtility {
         if (methods != null && !methods.isEmpty()) {
             return MethodMatcherUtility.createMethodMatcher(getClassName(cut), methods, classesToMethods, pExtName);
         } else if (cut.getMethodAnnotation() != null) {
-            return new AnnotationMethodMatcher(org.objectweb.asm.Type
+            return new AnnotationMethodMatcher(com.newrelic.deps.org.objectweb.asm.Type
                                                        .getObjectType(cut.getMethodAnnotation().replace('.', '/')));
         } else {
             throw new XmlException(MessageFormat
@@ -249,7 +249,7 @@ public final class ExtensionConversionUtility {
         }
     }
 
-    static boolean isReturnTypeOkay(org.objectweb.asm.Type returnType) {
+    static boolean isReturnTypeOkay(com.newrelic.deps.org.objectweb.asm.Type returnType) {
         return returnType.getSort() == 9 ? isReturnTypeOkay(returnType.getElementType()) : returnType.getSort() == 10;
     }
 

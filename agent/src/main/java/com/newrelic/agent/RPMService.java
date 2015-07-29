@@ -13,8 +13,8 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.atomic.AtomicInteger;
 import java.util.logging.Level;
 
-import org.apache.http.conn.HttpHostConnectException;
-import org.json.simple.JSONObject;
+import com.newrelic.deps.org.apache.http.conn.HttpHostConnectException;
+import com.newrelic.deps.org.json.simple.JSONObject;
 
 import com.newrelic.agent.config.AgentConfig;
 import com.newrelic.agent.config.AgentConfigListener;

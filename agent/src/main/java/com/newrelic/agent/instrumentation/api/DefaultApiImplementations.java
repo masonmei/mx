@@ -5,14 +5,14 @@ import java.util.Arrays;
 import java.util.Enumeration;
 import java.util.Map;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.commons.Method;
-import org.objectweb.asm.tree.MethodNode;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
+import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
 
-import com.google.common.collect.ImmutableMap;
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.ImmutableMap;
+import com.newrelic.deps.com.google.common.collect.Maps;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.util.asm.Utils;
 import com.newrelic.api.agent.HeaderType;

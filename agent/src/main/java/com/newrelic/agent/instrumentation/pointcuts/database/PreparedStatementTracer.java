@@ -1,6 +1,6 @@
 package com.newrelic.agent.instrumentation.pointcuts.database;
 
-import org.json.simple.JSONAware;
+import com.newrelic.deps.org.json.simple.JSONAware;
 
 import com.newrelic.agent.Transaction;
 import com.newrelic.agent.database.RecordSql;

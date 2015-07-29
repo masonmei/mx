@@ -15,7 +15,7 @@ import com.newrelic.agent.tracers.Tracer;
 @PointCut
 public class PlayContinuationPointCut extends TracerFactoryPointCut {
     private static final String POINT_CUT_NAME = PlayContinuationPointCut.class.getName();
-    private static final String CONTINUATION_CLASS = "org/apache/commons/javaflow/Continuation";
+    private static final String CONTINUATION_CLASS = "com/newrelic/deps/org/apache/commons/javaflow/Continuation";
     private static final String SUSPEND_METHOD_NAME = "suspend";
     private static final String SUSPEND_METHOD_DESC = "(Ljava/lang/Object;)Ljava/lang/Object;";
 

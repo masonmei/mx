@@ -7,9 +7,9 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.List;
 
-import org.json.simple.JSONArray;
-import org.json.simple.JSONStreamAware;
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.json.simple.JSONArray;
+import com.newrelic.deps.org.json.simple.JSONStreamAware;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
 import com.newrelic.agent.instrumentation.classmatchers.ClassMatcher;
 import com.newrelic.agent.instrumentation.classmatchers.ExactClassMatcher;

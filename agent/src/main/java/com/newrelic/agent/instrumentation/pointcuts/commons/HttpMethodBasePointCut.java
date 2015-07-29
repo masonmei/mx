@@ -24,10 +24,10 @@ import com.newrelic.api.agent.OutboundHeaders;
 @PointCut
 public class HttpMethodBasePointCut extends HttpCommonsPointCut {
     protected static final String HTTP_METHOD_BASE_CLASS_NAME_MATCH =
-            "org/apache/commons/httpclient/HttpMethodBase";
+            "com/newrelic/deps/org/apache/commons/httpclient/HttpMethodBase";
     private static final int HOST_DELIMITER = 58;
     private static final String HTTPCONNECTION_CLASS_NAME =
-            "org/apache/commons/httpclient/HttpConnection";
+            "com/newrelic/deps/org/apache/commons/httpclient/HttpConnection";
     private static final String GET_HOST_METHOD_NAME = "getHost";
     private static final String GET_HOST_METHOD_DESC = "()V";
     private static final String GET_PORT_METHOD_NAME = "getPort";

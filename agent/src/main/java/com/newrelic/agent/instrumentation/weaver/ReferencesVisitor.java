@@ -10,16 +10,15 @@ import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
 
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
-import org.objectweb.asm.commons.Method;
-
-import com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.logging.IAgentLogger;
 import com.newrelic.api.agent.weaver.MatchType;
+import com.newrelic.deps.com.google.common.collect.Sets;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.FieldVisitor;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.commons.Method;
 
 class ReferencesVisitor extends ClassVisitor {
     private final Map<String, Set<MethodWithAccess>> referencedClassMethods;
@@ -65,9 +64,9 @@ class ReferencesVisitor extends ClassVisitor {
 
     public void visit(int version, int access, String name, String signature, String superName, String[] interfaces) {
         this.className = name;
-        this.addClassReference(Type.getObjectType(name), (MethodWithAccess) null);
+        this.addClassReference(Type.getObjectType(name), null);
         if (null != superName) {
-            this.addClassReference(Type.getObjectType(superName), (MethodWithAccess) null);
+            this.addClassReference(Type.getObjectType(superName), null);
         }
 
         String[] arr$ = interfaces;
@@ -75,14 +74,14 @@ class ReferencesVisitor extends ClassVisitor {
 
         for (int i$ = 0; i$ < len$; ++i$) {
             String interfaceName = arr$[i$];
-            this.addInterfaceReference(Type.getObjectType(interfaceName), (MethodWithAccess) null);
+            this.addInterfaceReference(Type.getObjectType(interfaceName), null);
         }
 
         super.visit(version, access, name, signature, superName, interfaces);
     }
 
     public FieldVisitor visitField(int access, String name, String desc, String signature, Object value) {
-        this.addClassReference(Type.getType(desc), (MethodWithAccess) null);
+        this.addClassReference(Type.getType(desc), null);
         return super.visitField(access, name, desc, signature, value);
     }
 
@@ -90,13 +89,13 @@ class ReferencesVisitor extends ClassVisitor {
         MethodVisitor mv = super.visitMethod(access, name, desc, signature, exceptions);
         Method method = new Method(name, desc);
         MethodWithAccess methodWithAccess = new MethodWithAccess((access & 8) == 8, method);
-        this.addClassReference(method.getReturnType(), (MethodWithAccess) null);
+        this.addClassReference(method.getReturnType(), null);
         Type[] isAbstract = method.getArgumentTypes();
         int synthetic = isAbstract.length;
 
         for (int i$ = 0; i$ < synthetic; ++i$) {
             Type argType = isAbstract[i$];
-            this.addClassReference(argType, (MethodWithAccess) null);
+            this.addClassReference(argType, null);
         }
 
         boolean var13 = (1024 & access) != 0;

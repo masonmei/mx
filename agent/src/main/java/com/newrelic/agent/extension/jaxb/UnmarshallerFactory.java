@@ -21,8 +21,8 @@ import org.w3c.dom.Document;
 import org.w3c.dom.Node;
 import org.w3c.dom.NodeList;
 
-import com.google.common.collect.Lists;
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Lists;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
 public class UnmarshallerFactory {
     static final Map<Class<?>, Unmarshaller<?>> cachedUnmarshallers = Maps.newConcurrentMap();

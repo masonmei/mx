@@ -4,7 +4,7 @@ import java.util.Collections;
 import java.util.Map;
 import java.util.Map.Entry;
 
-import com.google.common.collect.Maps;
+import com.newrelic.deps.com.google.common.collect.Maps;
 
 public class AttributesUtils {
     public static final Map<String, String> appendAttributePrefixes(Map<String, Map<String, String>> input) {

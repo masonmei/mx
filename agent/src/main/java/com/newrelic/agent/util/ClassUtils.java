@@ -9,14 +9,14 @@ import java.lang.reflect.Method;
 import java.util.HashSet;
 import java.util.Set;
 
-import org.objectweb.asm.ClassReader;
-import org.objectweb.asm.ClassVisitor;
-import org.objectweb.asm.FieldVisitor;
-import org.objectweb.asm.Label;
-import org.objectweb.asm.MethodVisitor;
-import org.objectweb.asm.Type;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
+import com.newrelic.deps.org.objectweb.asm.ClassVisitor;
+import com.newrelic.deps.org.objectweb.asm.FieldVisitor;
+import com.newrelic.deps.org.objectweb.asm.Label;
+import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
+import com.newrelic.deps.org.objectweb.asm.Type;
 
-import com.google.common.collect.Sets;
+import com.newrelic.deps.com.google.common.collect.Sets;
 import com.newrelic.agent.Agent;
 
 public class ClassUtils {
@@ -111,7 +111,7 @@ public class ClassUtils {
             }
 
             private void addMethodClasses(String name, String desc) {
-                org.objectweb.asm.commons.Method method = new org.objectweb.asm.commons.Method(name, desc);
+                com.newrelic.deps.org.objectweb.asm.commons.Method method = new com.newrelic.deps.org.objectweb.asm.commons.Method(name, desc);
                 Type[] arr$ = method.getArgumentTypes();
                 int len$ = arr$.length;
 

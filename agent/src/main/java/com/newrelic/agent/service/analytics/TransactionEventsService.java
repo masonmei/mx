@@ -9,9 +9,9 @@ import java.util.concurrent.ConcurrentMap;
 import java.util.concurrent.ExecutionException;
 import java.util.concurrent.TimeUnit;
 
-import com.google.common.cache.CacheBuilder;
-import com.google.common.cache.CacheLoader;
-import com.google.common.cache.LoadingCache;
+import com.newrelic.deps.com.google.common.cache.CacheBuilder;
+import com.newrelic.deps.com.google.common.cache.CacheLoader;
+import com.newrelic.deps.com.google.common.cache.LoadingCache;
 import com.newrelic.agent.Agent;
 import com.newrelic.agent.HarvestListener;
 import com.newrelic.agent.TransactionData;
