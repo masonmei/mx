@@ -36,7 +36,7 @@ public class BytecodeGenProxyBuilder<T> {
 
     public static <T> BytecodeGenProxyBuilder<T> newBuilder(Class<T> target, GeneratorAdapter methodAdapter,
                                                             boolean loadArguments) {
-        return new BytecodeGenProxyBuilder(target, methodAdapter, loadArguments);
+        return new BytecodeGenProxyBuilder<T>(target, methodAdapter, loadArguments);
     }
 
     public Variables getVariables() {
@@ -203,13 +203,13 @@ public class BytecodeGenProxyBuilder<T> {
         return (T) Proxy.newProxyInstance(classLoader, new Class[] {target}, handler);
     }
 
-    public static abstract interface LoaderMarker extends Runnable {
+    public interface LoaderMarker extends Runnable {
     }
 
     private static abstract class Handler implements InvocationHandler {
         public final Object invoke(Object proxy, java.lang.reflect.Method method, Object[] args) throws Throwable {
             if (method.getName().equals("hashCode")) {
-                return Integer.valueOf(System.identityHashCode(proxy));
+                return System.identityHashCode(proxy);
             }
             if (method.getName().equals("toString")) {
                 return toString();
@@ -257,7 +257,7 @@ public class BytecodeGenProxyBuilder<T> {
         }
 
         public Transaction loadCurrentTransaction() {
-            return (Transaction) load(Transaction.class, new Runnable() {
+            return load(Transaction.class, new Runnable() {
                 public void run() {
                     BridgeUtils.getCurrentTransaction(methodAdapter);
                 }
@@ -269,9 +269,12 @@ public class BytecodeGenProxyBuilder<T> {
         }
 
         public <O> O load(Class<O> clazz, final Runnable runnable) {
-            if (clazz.isInterface()) {
-                InvocationHandler handler = new Handler() {
-                    public Object doInvoke(Object proxy, java.lang.reflect.Method method, Object[] args) {
+            if(clazz.isInterface()) {
+                Handler key2 = new Handler() {
+
+                    @Override
+                    protected Object doInvoke(Object paramObject, java.lang.reflect.Method paramMethod,
+                                              Object[] paramArrayOfObject) {
                         runnable.run();
                         return null;
                     }
@@ -280,20 +283,18 @@ public class BytecodeGenProxyBuilder<T> {
                         return runnable.toString();
                     }
                 };
-                return (O) Proxy.newProxyInstance(ClassLoader.getSystemClassLoader(),
-                                                         new Class[] {clazz, LoaderMarker.class}, handler);
-            }
-            if (clazz.isArray()) {
-                Object key = Array.newInstance(clazz.getComponentType(), 0);
+                return (O) Proxy.newProxyInstance(ClassLoader.getSystemClassLoader(), new Class[]{clazz, LoaderMarker.class}, key2);
+            } else if(clazz.isArray()) {
+                Object key1 = Array.newInstance(clazz.getComponentType(), 0);
+                BytecodeGenProxyBuilder.this.addArgument(key1, runnable);
+                return (O) key1;
+            } else if(String.class.equals(clazz)) {
+                String key = Long.toString((long)System.identityHashCode(runnable));
                 BytecodeGenProxyBuilder.this.addArgument(key, runnable);
                 return (O) key;
+            } else {
+                throw new AgentError("Unsupported type " + clazz.getName());
             }
-            if (String.class.equals(clazz)) {
-                Object key = Long.toString(System.identityHashCode(runnable));
-                BytecodeGenProxyBuilder.this.addArgument(key, runnable);
-                return (O) key;
-            }
-            throw new AgentError("Unsupported type " + clazz.getName());
         }
 
         public <O> O loadLocal(final int localId, final Class<O> clazz) {

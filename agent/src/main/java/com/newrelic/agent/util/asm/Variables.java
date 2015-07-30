@@ -12,7 +12,7 @@ public interface Variables {
 
     <N extends Number> N load(N paramN, Runnable paramRunnable);
 
-    <O> O load(Class<O> paramClass, Runnable paramRunnable);
+    <O> Object load(Class<O> paramClass, Runnable paramRunnable);
 
     <O> O loadLocal(int paramInt, Class<O> paramClass);
 }
