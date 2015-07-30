@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<extension
+        xmlns="https://newrelic.com/docs/java/xsd/v1.0"
+        name="com.newrelic.agent.instrumentation.webservices">
+    <instrumentation>
+
+        <pointcut>
+            <nameTransaction/>
+            <interfaceName>javax.xml.ws.Provider</interfaceName>
+            <method>
+                <name>invoke</name>
+            </method>
+        </pointcut>
+
+    </instrumentation>
+</extension>

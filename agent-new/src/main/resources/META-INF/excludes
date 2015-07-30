@@ -1,0 +1,25 @@
+^(java/|sun/|com/sun/|com/newrelic/agent/|com/newrelic/yml/|com/newrelic/apache/|com/newrelic/objectweb/|com/newrelic/org/)(.*)
+^(org/objectweb/asm/|javax/xml/|org/apache/juli/)(.*)
+^org/apache/tomcat/dbcp/dbcp/Delegating(Statement|PreparedStatement|CallableStatement|Connection|ResultSet)$
+^org/apache/tomcat/dbcp/dbcp/PoolingDataSource\$PoolGuardConnectionWrapper
+^org/apache/commons/dbcp/Delegating(.*)
+^org/apache/catalina/startup/Bootstrap
+^com/ibm/ws/webcontainer/servlet/ServletWrapper
+^oracle/jdbc/driver/(OraclePreparedStatementWrapper|OracleCallableStatementWrapper)$
+^com/mchange/v2/c3p0/impl/NewProxyPreparedStatement
+.*ByCGLIB\$\$.*
+.*\$Proxy.*
+.*\$\$EnhancerByProxool\$\$.*
+^weblogic/jdbc/wrapper/.*
+# java.lang.ClassCircularityError in JBoss https://support.newrelic.com/tickets/23933
+^org/jboss/vfs/VFSUtils
+# Instrumentation of Spring security classes breaks webapps: https://newrelic.atlassian.net/browse/JAVA-130
+^org/springframework/security.*
+# AJP timeouts when Agent instruments JServ: https://support.newrelic.com/tickets/24311
+^org/apache/jserv.*
+# Instrumentation of AttribuesMap is breaking Jetty 9.  The specific error is that the Java 7 class verifier complains about the 
+# instrumented bytecodes.   https://support.newrelic.com/tickets/33976
+^org/eclipse/jetty/util/AttributesMap
+# Instrumentation of WebSocketFrame is giving a verification error with Java 7. Currently we do not 
+# provide any instrumentation for Web Sockets.
+^org/eclipse/jetty/websocket/common/WebSocketFrame

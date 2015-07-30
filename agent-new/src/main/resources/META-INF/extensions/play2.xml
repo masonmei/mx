@@ -1,0 +1,38 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<urn:extension xmlns:urn="newrelic-extension"
+               xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+               xsi:schemaLocation="newrelic-extension extension.xsd " name="play2 controller extension">
+    <urn:instrumentation>
+        <urn:pointcut>
+            <urn:className includeSubclasses="true">play.mvc.Controller</urn:className>
+            <urn:method>
+                <urn:returnType>play.mvc.Result</urn:returnType>
+            </urn:method>
+            <urn:method>
+                <urn:returnType>play.mvc.Action</urn:returnType>
+            </urn:method>
+            <urn:method>
+                <urn:returnType>play.libs.F.Promise</urn:returnType>
+            </urn:method>
+            <urn:method>
+                <urn:returnType>scala.concurrent.Future</urn:returnType>
+            </urn:method>
+        </urn:pointcut>
+        <urn:pointcut>
+            <urn:interfaceName>play.api.mvc.Controller</urn:interfaceName>
+            <urn:method>
+                <urn:returnType>play.api.mvc.Result</urn:returnType>
+            </urn:method>
+            <urn:method>
+                <urn:returnType>play.api.mvc.Action</urn:returnType>
+            </urn:method>
+            <urn:method>
+                <urn:returnType>play.api.libs.concurrent.Promise</urn:returnType>
+            </urn:method>
+            <urn:method>
+                <urn:returnType>scala.concurrent.Future</urn:returnType>
+            </urn:method>
+        </urn:pointcut>
+    </urn:instrumentation>
+</urn:extension>
