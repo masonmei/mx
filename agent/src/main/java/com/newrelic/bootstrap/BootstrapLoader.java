@@ -33,6 +33,7 @@ public class BootstrapLoader {
     public static final String AGENT_BRIDGE_JAR_NAME = "agent-bridge-1.0";
     public static final String API_JAR_NAME = "agent-api-1.0";
     public static final String WEAVER_API_JAR_NAME = "weaver-api-1.0";
+    public static final String DEPS_JAR = "deps-1.0";
     private static final String NEWRELIC_BOOTSTRAP = "newrelic-bootstrap";
     private static final String NEWRELIC_API_INTERNAL_CLASS_NAME = "com/newrelic/api/agent/NewRelic";
 
@@ -55,7 +56,7 @@ public class BootstrapLoader {
 
     public static Collection<URL> getJarURLs() throws ClassNotFoundException, IOException {
         List urls = new ArrayList();
-        for (String name : new String[] {AGENT_BRIDGE_JAR_NAME, API_JAR_NAME, WEAVER_API_JAR_NAME}) {
+        for (String name : new String[] {AGENT_BRIDGE_JAR_NAME, API_JAR_NAME, WEAVER_API_JAR_NAME, DEPS_JAR}) {
             File jarFileInAgent = EmbeddedJarFilesImpl.INSTANCE.getJarFileInAgent(name);
             urls.add(jarFileInAgent.toURI().toURL());
         }
