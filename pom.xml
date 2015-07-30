@@ -28,7 +28,6 @@
         <module>weaver-api</module>
         <module>agent</module>
         <module>deps</module>
-        <module>agent-new</module>
     </modules>
 
 
