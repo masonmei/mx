@@ -14,7 +14,6 @@ import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Attributes.Name;
@@ -107,8 +106,8 @@ public class BootstrapLoader {
         String fieldAccessorAnnotation = "Lcom/newrelic/agent/instrumentation/pointcuts/FieldAccessor;";
 
         List bootstrapAnnotations =
-                Arrays.asList(new String[] {interfaceMixinAnnotation, interfaceMapperAnnotation, methodMapperAnnotation,
-                                                   fieldAccessorAnnotation, loadOnBootstrapAnnotation});
+                Arrays.asList(interfaceMixinAnnotation, interfaceMapperAnnotation, methodMapperAnnotation,
+                                     fieldAccessorAnnotation, loadOnBootstrapAnnotation);
 
         File generatedFile = null;
         JarOutputStream outputJarStream = null;
@@ -175,29 +174,29 @@ public class BootstrapLoader {
         return false;
     }
 
-    private static final boolean isNewRelicDebug() {
+    private static boolean isNewRelicDebug() {
         String newrelicDebug = "newrelic.debug";
         return (System.getProperty(newrelicDebug) != null) && (Boolean.getBoolean(newrelicDebug));
     }
 
-    private static final boolean isDisableMixinsOnBootstrap() {
+    private static boolean isDisableMixinsOnBootstrap() {
         String newrelicDisableMixinsOnBootstrap = "newrelic.disable.mixins.on.bootstrap";
         return (System.getProperty(newrelicDisableMixinsOnBootstrap) != null)
                        && (Boolean.getBoolean(newrelicDisableMixinsOnBootstrap));
     }
 
-    private static final void logIfNRDebug(String msg, Throwable th) {
+    private static void logIfNRDebug(String msg, Throwable th) {
         if (isNewRelicDebug()) {
             System.out.println("While bootstrapping the Agent: " + msg + ": " + th.getStackTrace());
         }
     }
 
-    private static final JarOutputStream createJarOutputStream(File jarFile, Manifest manifest) throws IOException {
+    private static JarOutputStream createJarOutputStream(File jarFile, Manifest manifest) throws IOException {
         FileOutputStream outStream = new FileOutputStream(jarFile);
         return new JarOutputStream(outStream, manifest);
     }
 
-    private static final Manifest createManifest() {
+    private static Manifest createManifest() {
         Manifest manifest = new Manifest();
         Attributes a = manifest.getMainAttributes();
         a.put(Name.MANIFEST_VERSION, "1.0");

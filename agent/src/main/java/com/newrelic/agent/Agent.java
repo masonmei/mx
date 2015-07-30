@@ -82,7 +82,7 @@ public final class Agent extends AbstractService implements IAgent {
             return;
         }
         String enabled = System.getProperty(AGENT_ENABLED_PROPERTY);
-        if ((enabled != null) && (!Boolean.parseBoolean(enabled.toString()))) {
+        if ((enabled != null) && (!Boolean.parseBoolean(enabled))) {
             LOG.warning("New Relic agent is disabled by a system property.");
             return;
         }
@@ -130,10 +130,7 @@ public final class Agent extends AbstractService implements IAgent {
             }
         } catch (Throwable t) {
             String msg = MessageFormat.format("Unable to start New Relic agent: {0}", t);
-            try {
-                LOG.log(Level.SEVERE, msg, t);
-            } catch (Throwable t2) {
-            }
+            LOG.log(Level.SEVERE, msg, t);
             System.err.println(msg);
             t.printStackTrace();
         }
@@ -144,8 +141,7 @@ public final class Agent extends AbstractService implements IAgent {
         if (javaVersion.startsWith("1.5")) {
             String msg = MessageFormat
                                  .format("Java version is: {0}.  This version of the New Relic Agent does not support"
-                                                 + " Java 1.5.  Please use a 2.21.x or earlier version.",
-                                                new Object[] {javaVersion});
+                                                 + " Java 1.5.  Please use a 2.21.x or earlier version.", javaVersion);
 
             System.err.println("----------");
             System.err.println(msg);
@@ -161,12 +157,12 @@ public final class Agent extends AbstractService implements IAgent {
 
     private static void recordPremainTime(StatsService statsService) {
         agentPremainTime = System.currentTimeMillis() - BootstrapAgent.getAgentStartTime();
-        LOG.log(Level.INFO, "Premain startup complete in {0}ms", new Object[] {Long.valueOf(agentPremainTime)});
+        LOG.log(Level.INFO, "Premain startup complete in {0}ms", getAgentPremainTimeInMillis());
         statsService
-                .doStatsWork(StatsWorks.getRecordResponseTimeWork("Supportability/Timing/Premain", agentPremainTime));
+                .doStatsWork(StatsWorks.getRecordResponseTimeWork("Supportability/Timing/Premain", getAgentPremainTimeInMillis()));
 
         Map environmentInfo =
-                ImmutableMap.builder().put("Duration", Long.valueOf(agentPremainTime)).put("Version", getVersion())
+                ImmutableMap.builder().put("Duration", getAgentPremainTimeInMillis()).put("Version", getVersion())
                         .put("JRE Vendor", System.getProperty("java.vendor"))
                         .put("JRE Version", System.getProperty("java.version"))
                         .put("JVM Vendor", System.getProperty("java.vm.vendor"))
@@ -175,10 +171,10 @@ public final class Agent extends AbstractService implements IAgent {
                         .put("OS Name", System.getProperty("os.name"))
                         .put("OS Version", System.getProperty("os.version"))
                         .put("OS Arch", System.getProperty("os.arch"))
-                        .put("Processors", Integer.valueOf(Runtime.getRuntime().availableProcessors()))
-                        .put("Free Memory", Long.valueOf(Runtime.getRuntime().freeMemory()))
-                        .put("Total Memory", Long.valueOf(Runtime.getRuntime().totalMemory()))
-                        .put("Max Memory", Long.valueOf(Runtime.getRuntime().maxMemory())).build();
+                        .put("Processors", Runtime.getRuntime().availableProcessors())
+                        .put("Free Memory", Runtime.getRuntime().freeMemory())
+                        .put("Total Memory", Runtime.getRuntime().totalMemory())
+                        .put("Max Memory", Runtime.getRuntime().maxMemory()).build();
 
         LOG.log(Level.FINE, "Premain environment info: {0}", environmentInfo);
     }
