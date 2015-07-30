@@ -11,7 +11,7 @@ public class Base64 {
                     'p', 'q', 'r', 's', 't', 'u', 'v', 'w', 'x', 'y', 'z', '0', '1', '2', '3', '4', '5', '6', '7', '8',
                     '9', '+', '/'};
     private static final char S_BASE64PAD = '=';
-    private static final byte[] S_DECODETABLE = new byte[''];
+    private static final byte[] S_DECODETABLE = new byte[128];
 
     static {
         for (int i = 0; i < S_DECODETABLE.length; i++) {
@@ -24,10 +24,10 @@ public class Base64 {
 
     private static int decode0(char[] ibuf, byte[] obuf, int wp) {
         int outlen = 3;
-        if (ibuf[3] == '=') {
+        if (ibuf[3] == S_BASE64PAD) {
             outlen = 2;
         }
-        if (ibuf[2] == '=') {
+        if (ibuf[2] == S_BASE64PAD) {
             outlen = 1;
         }
         int b0 = S_DECODETABLE[ibuf[0]];
@@ -58,7 +58,7 @@ public class Base64 {
         int obufcount = 0;
         for (int i = off; i < off + len; i++) {
             char ch = data[i];
-            if ((ch == '=') || ((ch < S_DECODETABLE.length) && (S_DECODETABLE[ch] != 127))) {
+            if ((ch == S_BASE64PAD) || ((ch < S_DECODETABLE.length) && (S_DECODETABLE[ch] != 127))) {
                 ibuf[(ibufcount++)] = ch;
                 if (ibufcount == ibuf.length) {
                     ibufcount = 0;
@@ -81,7 +81,7 @@ public class Base64 {
         int obufcount = 0;
         for (int i = 0; i < data.length(); i++) {
             char ch = data.charAt(i);
-            if ((ch == '=') || ((ch < S_DECODETABLE.length) && (S_DECODETABLE[ch] != 127))) {
+            if ((ch == S_BASE64PAD) || ((ch < S_DECODETABLE.length) && (S_DECODETABLE[ch] != 127))) {
                 ibuf[(ibufcount++)] = ch;
                 if (ibufcount == ibuf.length) {
                     ibufcount = 0;
@@ -103,7 +103,7 @@ public class Base64 {
         byte[] obuf = new byte[3];
         for (int i = off; i < off + len; i++) {
             char ch = data[i];
-            if ((ch == '=') || ((ch < S_DECODETABLE.length) && (S_DECODETABLE[ch] != 127))) {
+            if ((ch == S_BASE64PAD) || ((ch < S_DECODETABLE.length) && (S_DECODETABLE[ch] != 127))) {
                 ibuf[(ibufcount++)] = ch;
                 if (ibufcount == ibuf.length) {
                     ibufcount = 0;
@@ -120,7 +120,7 @@ public class Base64 {
         byte[] obuf = new byte[3];
         for (int i = 0; i < data.length(); i++) {
             char ch = data.charAt(i);
-            if ((ch == '=') || ((ch < S_DECODETABLE.length) && (S_DECODETABLE[ch] != 127))) {
+            if ((ch == S_BASE64PAD) || ((ch < S_DECODETABLE.length) && (S_DECODETABLE[ch] != 127))) {
                 ibuf[(ibufcount++)] = ch;
                 if (ibufcount == ibuf.length) {
                     ibufcount = 0;
@@ -156,14 +156,14 @@ public class Base64 {
             int i = data[rindex] & 0xFF;
             out[(windex++)] = S_BASE64CHAR[(i >> 2)];
             out[(windex++)] = S_BASE64CHAR[(i << 4 & 0x3F)];
-            out[(windex++)] = '=';
-            out[(windex++)] = '=';
+            out[(windex++)] = S_BASE64PAD;
+            out[(windex++)] = S_BASE64PAD;
         } else if (rest == 2) {
             int i = ((data[rindex] & 0xFF) << 8) + (data[(rindex + 1)] & 0xFF);
             out[(windex++)] = S_BASE64CHAR[(i >> 10)];
             out[(windex++)] = S_BASE64CHAR[(i >> 4 & 0x3F)];
             out[(windex++)] = S_BASE64CHAR[(i << 2 & 0x3F)];
-            out[(windex++)] = '=';
+            out[(windex++)] = S_BASE64PAD;
         }
         return new String(out, 0, windex);
     }
@@ -228,15 +228,15 @@ public class Base64 {
             int i = data[rindex] & 0xFF;
             out[0] = S_BASE64CHAR[(i >> 2)];
             out[1] = S_BASE64CHAR[(i << 4 & 0x3F)];
-            out[2] = '=';
-            out[3] = '=';
+            out[2] = S_BASE64PAD;
+            out[3] = S_BASE64PAD;
             writer.write(out, 0, 4);
         } else if (rest == 2) {
             int i = ((data[rindex] & 0xFF) << 8) + (data[(rindex + 1)] & 0xFF);
             out[0] = S_BASE64CHAR[(i >> 10)];
             out[1] = S_BASE64CHAR[(i >> 4 & 0x3F)];
             out[2] = S_BASE64CHAR[(i << 2 & 0x3F)];
-            out[3] = '=';
+            out[3] = S_BASE64PAD;
             writer.write(out, 0, 4);
         }
     }

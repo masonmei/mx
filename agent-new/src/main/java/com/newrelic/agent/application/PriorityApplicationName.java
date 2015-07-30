@@ -21,7 +21,7 @@ public class PriorityApplicationName {
         } else {
             this.names = Collections.unmodifiableList(BaseConfig.getUniqueStringsFromString(name, ";"));
 
-            this.name = ((String) this.names.get(0));
+            this.name = this.names.get(0);
         }
     }
 
@@ -42,15 +42,14 @@ public class PriorityApplicationName {
     }
 
     public String toString() {
-        return MessageFormat.format("{0}[name={1}, priority={2}]",
-                                           new Object[] {getClass().getName(), getName(), getPriority()});
+        return MessageFormat.format("{0}[name={1}, priority={2}]", getClass().getName(), getName(), getPriority());
     }
 
     public int hashCode() {
         int prime = 31;
         int result = 1;
-        result = 31 * result + (this.name == null ? 0 : this.name.hashCode());
-        result = 31 * result + (this.priority == null ? 0 : this.priority.hashCode());
+        result = prime * result + (this.name == null ? 0 : this.name.hashCode());
+        result = prime * result + (this.priority == null ? 0 : this.priority.hashCode());
         return result;
     }
 
@@ -72,9 +71,6 @@ public class PriorityApplicationName {
         } else if (!this.name.equals(other.name)) {
             return false;
         }
-        if (this.priority != other.priority) {
-            return false;
-        }
-        return true;
+        return this.priority == other.priority;
     }
 }

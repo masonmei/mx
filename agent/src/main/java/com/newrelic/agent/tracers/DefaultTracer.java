@@ -164,8 +164,7 @@ public class DefaultTracer extends AbstractTracer {
                 recordMetrics(getTransactionActivity().getTransactionStats());
             } catch (Throwable t) {
                 String msg = MessageFormat.format("An error occurred recording tracer metrics for class {0} : {1}",
-                                                         new Object[] {classMethodSignature.getClassName(),
-                                                                              t.toString()});
+                                                         classMethodSignature.getClassName(), t.toString());
 
                 Agent.LOG.severe(msg);
                 Agent.LOG.log(Level.FINER, msg, t);
@@ -177,8 +176,7 @@ public class DefaultTracer extends AbstractTracer {
             } catch (Throwable t) {
                 String msg = MessageFormat
                                      .format("An error occurred calling Transaction.tracerFinished() for class {0} : "
-                                                     + "{1}",
-                                                    new Object[] {classMethodSignature.getClassName(), t.toString()});
+                                                     + "{1}", classMethodSignature.getClassName(), t.toString());
 
                 Agent.LOG.severe(msg);
                 Agent.LOG.log(Level.FINER, msg, t);
@@ -235,7 +233,7 @@ public class DefaultTracer extends AbstractTracer {
         getTransaction().getTransactionCounts().incrementSize(sizeof(value));
 
         if (attributes == null) {
-            attributes = new HashMap(1, 5.0F);
+            attributes = new HashMap<String, Object>(1, 5.0F);
         }
         attributes.put(key, value);
     }

@@ -2,6 +2,7 @@ package com.newrelic.agent.tracers;
 
 import java.lang.reflect.Method;
 import java.text.MessageFormat;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 import java.util.logging.Level;
@@ -45,22 +46,22 @@ public abstract class AbstractTracer implements Tracer {
                 Agent.LOG.severe("Tracer.finish() was invoked with no arguments");
             } else if ("s" == methodName) {
                 if (args.length == 2) {
-                    finish(((Integer) args[0]).intValue(), args[1]);
+                    finish((Integer) args[0], args[1]);
                 } else {
                     Agent.LOG.severe(MessageFormat
                                              .format("Tracer.finish(int, Object) was invoked with {0} arguments(s)",
-                                                            new Object[] {Integer.valueOf(args.length)}));
+                                                            args.length));
                 }
             } else if ("u" == methodName) {
                 if (args.length == 1) {
                     finish((Throwable) args[0]);
                 } else {
                     Agent.LOG.severe(MessageFormat.format("Tracer.finish(Throwable) was invoked with {0} arguments(s)",
-                                                                 new Object[] {Integer.valueOf(args.length)}));
+                                                                 args.length));
                 }
             } else {
-                Agent.LOG.severe(MessageFormat.format("Tracer.finish was invoked with an unknown method: {0}",
-                                                             new Object[] {methodName}));
+                Agent.LOG.severe(MessageFormat
+                                         .format("Tracer.finish was invoked with an unknown method: {0}", methodName));
             }
         } catch (RetryException e) {
             return invoke(methodName, method, args);
@@ -68,8 +69,7 @@ public abstract class AbstractTracer implements Tracer {
             if (Agent.LOG.isLoggable(Level.FINE)) {
                 String msg = MessageFormat
                                      .format("An error occurred finishing method tracer {0} for signature {1} : {2}",
-                                                    new Object[] {getClass().getName(), getClassMethodSignature(),
-                                                                         t.toString()});
+                                                    getClass().getName(), getClassMethodSignature(), t.toString());
 
                 if (Agent.LOG.isLoggable(Level.FINEST)) {
                     Agent.LOG.log(Level.FINEST, msg, t);
@@ -95,8 +95,7 @@ public abstract class AbstractTracer implements Tracer {
                                        : invocationTarget.getClass().getName();
 
             String txName = "/Custom/" + className + '/' + classMethodSignature.getMethodName();
-            Agent.LOG.log(Level.FINER, "Setting transaction name using instrumented class and method: {0}",
-                                 new Object[] {txName});
+            Agent.LOG.log(Level.FINER, "Setting transaction name using instrumented class and method: {0}", txName);
             Transaction tx = transactionActivity.getTransaction();
             tx.setPriorityTransactionName(PriorityTransactionName.create(tx, txName, "Custom", priority));
         } catch (Throwable t) {
@@ -117,10 +116,8 @@ public abstract class AbstractTracer implements Tracer {
     }
 
     public void setRollupMetricNames(String[] metricNames) {
-        rollupMetricNames = new HashSet(metricNames.length);
-        for (String metricName : metricNames) {
-            rollupMetricNames.add(metricName);
-        }
+        rollupMetricNames = new HashSet<String>(metricNames.length);
+        Collections.addAll(rollupMetricNames, metricNames);
     }
 
     protected Set<String> getExclusiveRollupMetricNames() {
@@ -129,14 +126,14 @@ public abstract class AbstractTracer implements Tracer {
 
     public void addRollupMetricName(String[] metricNameParts) {
         if (rollupMetricNames == null) {
-            rollupMetricNames = new HashSet();
+            rollupMetricNames = new HashSet<String>();
         }
         rollupMetricNames.add(Strings.join('/', metricNameParts));
     }
 
     public void addExclusiveRollupMetricName(String[] metricNameParts) {
         if (exclusiveRollupMetricNames == null) {
-            exclusiveRollupMetricNames = new HashSet();
+            exclusiveRollupMetricNames = new HashSet<String>();
         }
         exclusiveRollupMetricNames.add(Strings.join('/', metricNameParts));
     }

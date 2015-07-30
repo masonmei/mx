@@ -18,7 +18,6 @@ import java.util.concurrent.TimeUnit;
 import com.newrelic.agent.service.AbstractService;
 import com.newrelic.agent.util.DefaultThreadFactory;
 import com.newrelic.agent.util.SafeWrappers;
-import com.newrelic.deps.ch.qos.logback.core.util.Loader;
 
 public class ThreadService extends AbstractService {
     private static final float HASH_SET_LOAD_FACTOR = 0.75F;
@@ -43,7 +42,7 @@ public class ThreadService extends AbstractService {
         if (this.threadMXBean == null) {
             return;
         }
-        ThreadFactory threadFactory = new DefaultThreadFactory("New Relic Thread Service", true);
+        ThreadFactory threadFactory = new DefaultThreadFactory(THREAD_SERVICE_THREAD_NAME, true);
         this.scheduledExecutor = Executors.newSingleThreadScheduledExecutor(threadFactory);
         Runnable runnable = new Runnable() {
             public void run() {
@@ -55,9 +54,10 @@ public class ThreadService extends AbstractService {
                 }
             }
         };
-        this.deadThreadsTask = this.scheduledExecutor
-                                       .scheduleWithFixedDelay(SafeWrappers.safeRunnable(runnable), 300L, 300L,
-                                                                      TimeUnit.SECONDS);
+        this.deadThreadsTask = this.scheduledExecutor.scheduleWithFixedDelay(SafeWrappers.safeRunnable(runnable),
+                                                                                    INITIAL_DELAY_IN_SECONDS,
+                                                                                    SUBSEQUENT_DELAY_IN_SECONDS,
+                                                                                    TimeUnit.SECONDS);
     }
 
     protected void doStop() {
@@ -79,7 +79,7 @@ public class ThreadService extends AbstractService {
     }
 
     private void retainAll(Map<Long, Boolean> map, Set<Long> ids) {
-        for (Entry entry : map.entrySet()) {
+        for (Entry<Long, Boolean> entry : map.entrySet()) {
             if (!ids.contains(entry.getKey())) {
                 map.remove(entry.getKey());
             }

@@ -108,7 +108,6 @@ public class SqlStatementTracer extends DefaultTracer implements DatabaseTracer,
         try {
             Connection connection = this.statementData.getStatement().getConnection();
             this.databaseVendor = DatabaseUtils.getDatabaseVendor(connection);
-            return;
         } catch (Throwable var6) {
             Agent.LOG.log(Level.FINEST, "Error getting database information", var6);
         } finally {
@@ -142,8 +141,6 @@ public class SqlStatementTracer extends DefaultTracer implements DatabaseTracer,
                                                                        + this.statementData.getStatement().getClass()
                                                                                  .getName());
                                 }
-
-                                return;
                             }
 
                             if (this.databaseVendor.isExplainPlanSupported()) {
@@ -159,7 +156,6 @@ public class SqlStatementTracer extends DefaultTracer implements DatabaseTracer,
                                         this.getTransaction().getTransactionCounts()
                                                 .incrementExplainPlanCountAndLogIfReachedMax(transactionTracerConfig
                                                                                                      .getMaxExplainPlans());
-                                        return;
                                     }
                                 } else {
                                     this.setExplainPlan("Unable to create a connection to run the explain plan");
@@ -173,11 +169,8 @@ public class SqlStatementTracer extends DefaultTracer implements DatabaseTracer,
                                                                           this.statementData.getStatement().getClass()
                                                                                   .getName());
                                         Agent.LOG.finer(msg);
-                                        return;
                                     }
                                 }
-
-                                return;
                             }
 
                             this.setExplainPlan("Unable to run explain plans for " + this.databaseVendor.getName()
@@ -186,7 +179,6 @@ public class SqlStatementTracer extends DefaultTracer implements DatabaseTracer,
                             msg = MessageFormat.format("An error occurred running the explain plan: {0}", var11);
                             this.setExplainPlan(msg);
                             Agent.LOG.finer(msg);
-                            return;
                         }
                     } finally {
                         if (this.explainPlanExecutor == null) {
@@ -209,7 +201,7 @@ public class SqlStatementTracer extends DefaultTracer implements DatabaseTracer,
     }
 
     private boolean captureSql() {
-        return "off" != this.getTransaction().getTransactionTracerConfig().getRecordSql();
+        return !"off".equals(this.getTransaction().getTransactionTracerConfig().getRecordSql());
     }
 
     public boolean hasExplainPlan() {
