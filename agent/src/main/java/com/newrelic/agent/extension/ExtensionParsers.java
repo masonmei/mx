@@ -16,6 +16,11 @@ public class ExtensionParsers {
 
     public ExtensionParsers(final List<ConfigurationConstruct> constructs) {
         Constructor constructor = new Constructor() {
+            {
+                for (ConfigurationConstruct construct : constructs) {
+                    this.yamlConstructors.put(construct.getName(), construct);
+                }
+            }
         };
         Loader loader = new Loader(constructor);
         final Yaml yaml = new Yaml(loader);
@@ -52,8 +57,8 @@ public class ExtensionParsers {
         return yamlParser;
     }
 
-    public static abstract interface ExtensionParser {
-        public abstract Extension parse(ClassLoader paramClassLoader, InputStream paramInputStream,
-                                        boolean paramBoolean) throws Exception;
+    public interface ExtensionParser {
+        Extension parse(ClassLoader paramClassLoader, InputStream paramInputStream, boolean paramBoolean) throws
+                Exception;
     }
 }

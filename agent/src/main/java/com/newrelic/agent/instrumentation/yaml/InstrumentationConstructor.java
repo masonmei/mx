@@ -28,29 +28,18 @@ import com.newrelic.agent.instrumentation.yaml.PointCutFactory.ClassMethodNameFo
 
 public class InstrumentationConstructor extends Constructor {
     public final Collection<ConfigurationConstruct> constructs =
-            Arrays.asList(new ConfigurationConstruct[] {new InstrumentationConstructor
-                                                                    .ConstructClassMethodNameFormatDescriptor(),
-                                                               new InstrumentationConstructor
-                                                                           .ConstructChildClassMatcher(),
-                                                               new InstrumentationConstructor
-                                                                           .ConstructNotClassMatcher(),
-                                                               new InstrumentationConstructor
-                                                                           .ConstructAndClassMatcher(),
-                                                               new InstrumentationConstructor.ConstructOrClassMatcher(),
-                                                               new InstrumentationConstructor
-                                                                           .ConstructExactClassMatcher(),
-                                                               new InstrumentationConstructor
-                                                                           .ConstructInterfaceMatcher(),
-                                                               new InstrumentationConstructor
-                                                                           .ConstructAllMethodsMatcher(),
-                                                               new InstrumentationConstructor
-                                                                           .ConstructOrMethodMatcher(),
-                                                               new InstrumentationConstructor
-                                                                           .ConstructExactMethodMatcher(),
-                                                               new InstrumentationConstructor
-                                                                           .ConstructInstanceMethodMatcher(),
-                                                               new InstrumentationConstructor
-                                                                           .ConstructStaticMethodMatcher()});
+            Arrays.asList(new ConstructClassMethodNameFormatDescriptor(),
+                                 new ConstructChildClassMatcher(),
+                                 new ConstructNotClassMatcher(),
+                                 new ConstructAndClassMatcher(),
+                                 new ConstructOrClassMatcher(),
+                                 new ConstructExactClassMatcher(),
+                                 new ConstructInterfaceMatcher(),
+                                 new ConstructAllMethodsMatcher(),
+                                 new ConstructOrMethodMatcher(),
+                                 new ConstructExactMethodMatcher(),
+                                 new ConstructInstanceMethodMatcher(),
+                                 new ConstructStaticMethodMatcher());
 
     public InstrumentationConstructor() {
         Iterator i$ = this.constructs.iterator();
