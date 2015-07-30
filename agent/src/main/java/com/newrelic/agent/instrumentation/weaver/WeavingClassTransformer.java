@@ -59,8 +59,7 @@ public class WeavingClassTransformer implements ContextClassTransformer {
             return null;
         }
 
-        MixinClassVisitor mixinClassVisitor =
-                instrumentationPackage.getMixinClassVisitor(new String[] {className, classMatch});
+        MixinClassVisitor mixinClassVisitor = instrumentationPackage.getMixinClassVisitor(className, classMatch);
 
         if (null != mixinClassVisitor) {
             if ((!verifier.isVerified(loader)) && (!verifier.verify(instrumentationPackage.getClassAppender(), loader,
@@ -120,11 +119,10 @@ public class WeavingClassTransformer implements ContextClassTransformer {
                 StatsService statsService = ServiceFactory.getStatsService();
                 statsService.doStatsWork(StatsWorks.getRecordMetricWork(MessageFormat
                                                                                 .format("Supportability/WeaveInstrumentation/WeaveClass/{0}/{1}",
-                                                                                               new Object[]
-                                                                                                       {instrumentationPackage
-                                                                                                                     .getImplementationTitle(),
-                                                                                                                    className}),
-                                                                               1.0F));
+
+                                                                                               instrumentationPackage
+                                                                                                       .getImplementationTitle(),
+                                                                                               className), 1.0F));
 
                 return writer.toByteArray();
             } catch (SkipTransformException e) {
