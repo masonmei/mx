@@ -87,7 +87,7 @@ public class TraceMethodVisitor extends AdviceAdapter {
 
             instrumentation.createTracer(loader.loadThis(access), signatureId, metricName, tracerFlags);
         } else {
-            Object[] loadArgs = (Object[]) loader.load(Object.class, new Runnable() {
+            Object[] loadArgs = (Object[]) loader.load(Object[].class, new Runnable() {
                 public void run() {
                     loadArgArray();
                 }
@@ -156,7 +156,7 @@ public class TraceMethodVisitor extends AdviceAdapter {
 
         loadLocal(tracerLocal);
 
-        ExitTracer tracer = (ExitTracer) BytecodeGenProxyBuilder.newBuilder(ExitTracer.class, this, false).build();
+        ExitTracer tracer = BytecodeGenProxyBuilder.newBuilder(ExitTracer.class, this, false).build();
         if (191 == opcode) {
             swap();
             tracer.finish(null);
