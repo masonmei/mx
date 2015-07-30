@@ -30,12 +30,11 @@ public class CachingDatabaseStatementParser implements DatabaseStatementParser {
 
     public ParsedDatabaseStatement getParsedDatabaseStatement(final String statement,
                                                               final ResultSetMetaData resultSetMetaData) {
-        Throwable toLog = null;
+        Throwable toLog;
         try {
-            return (ParsedDatabaseStatement) getOrCreateCache().get(statement, new Callable() {
+            return getOrCreateCache().get(statement, new Callable<ParsedDatabaseStatement>() {
                 public ParsedDatabaseStatement call() throws Exception {
-                    return CachingDatabaseStatementParser.this.databaseStatementParser
-                                   .getParsedDatabaseStatement(statement, resultSetMetaData);
+                    return databaseStatementParser.getParsedDatabaseStatement(statement, resultSetMetaData);
                 }
             });
         } catch (ExecutionException ee) {

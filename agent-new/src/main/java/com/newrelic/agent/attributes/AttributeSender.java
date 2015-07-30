@@ -38,9 +38,8 @@ public abstract class AttributeSender {
             return null;
         }
         if (value == null) {
-            Agent.LOG.log(Level.FINER,
-                                 "Unable to add {0} attribute because {1} was invoked with a null value for key "
-                                         + "\"{2}\"", getAttributeType(), methodCalled, key);
+            Agent.LOG.log(Level.FINER, "Unable to add {0} attribute because {1} was invoked with a null value for key "
+                                               + "\"{2}\"", getAttributeType(), methodCalled, key);
 
             return null;
         }
@@ -64,7 +63,8 @@ public abstract class AttributeSender {
             if (((value instanceof String)) && (((String) value).length() > tx.getAgentConfig()
                                                                                     .getMaxUserParameterSize())) {
                 Agent.LOG.log(Level.FINER,
-                                     "{0} was invoked with a value longer than {2} bytes for key \"{3}\". The value will be shortened.",
+                                     "{0} was invoked with a value longer than {2} bytes for key \"{3}\". The value "
+                                             + "will be shortened.",
                                      methodCalled, value, tx.getAgentConfig().getMaxUserParameterSize(), key);
 
                 return (T) ((String) value).substring(0, tx.getAgentConfig().getMaxUserParameterSize());

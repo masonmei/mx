@@ -37,30 +37,30 @@ public class BrowserConfig extends BaseConfig implements IBrowserConfig {
     }
 
     private void logVersion(String appName) {
-        String version = (String) getProperty("browser_monitoring.loader_version");
+        String version = (String) getProperty(BROWSER_LOADER_VERSION);
         if (version != null) {
-            Agent.LOG.log(Level.INFO, MessageFormat.format("Using RUM version {0} for application \"{1}\"",
-                                                                  new Object[] {version, appName}));
+            Agent.LOG.log(Level.INFO, MessageFormat.format("Using RUM version {0} for application \"{1}\"", version,
+                                                                  appName));
         }
     }
 
     private String initBrowserHeader() throws Exception {
-        return "\n<script type=\"text/javascript\">" + getRequiredProperty("js_agent_loader") + "</script>";
+        return HEADER_BEGIN + getRequiredProperty(JS_AGENT_LOADER) + HEADER_END;
     }
 
     private BrowserFooter initBrowserFooter(String appName) throws Exception {
-        String beacon = getRequiredProperty("beacon");
-        String browserKey = getRequiredProperty("browser_key");
-        String errorBeacon = getRequiredProperty("error_beacon");
-        String payloadScript = getRequiredProperty("js_agent_file");
-        String appId = getRequiredProperty("application_id");
+        String beacon = getRequiredProperty(BEACON);
+        String browserKey = getRequiredProperty(BROWSER_KEY);
+        String errorBeacon = getRequiredProperty(ERROR_BEACON);
+        String payloadScript = getRequiredProperty(JS_AGENT_FILE);
+        String appId = getRequiredProperty(APPLICATION_ID);
         return new BrowserFooter(appName, beacon, browserKey, errorBeacon, payloadScript, appId);
     }
 
     public String getRequiredProperty(String key) throws Exception {
         Object val = getProperty(key, null);
         if (val == null) {
-            String msg = MessageFormat.format("Real User Monitoring value for {0} is missing", new Object[] {key});
+            String msg = MessageFormat.format("Real User Monitoring value for {0} is missing", key);
             throw new Exception(msg);
         }
         return val.toString();

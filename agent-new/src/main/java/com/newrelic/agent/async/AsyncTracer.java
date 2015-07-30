@@ -74,8 +74,8 @@ public class AsyncTracer extends AbstractTracer {
             activity.lockTracerStart();
             doFinish(throwable);
         } catch (Throwable t) {
-            String msg = MessageFormat.format("An error occurred finishing tracer for class {0} : {1}", this.classMethodSignature.getClassName(),
-                                                     t);
+            String msg = MessageFormat.format("An error occurred finishing tracer for class {0} : {1}",
+                                                     this.classMethodSignature.getClassName(), t);
 
             if (Agent.LOG.isLoggable(Level.FINER)) {
                 Agent.LOG.log(Level.WARNING, msg, t);
@@ -100,8 +100,8 @@ public class AsyncTracer extends AbstractTracer {
                 doFinish(opcode, returnValue);
             }
         } catch (Throwable t) {
-            String msg = MessageFormat.format("An error occurred finishing tracer for class {0} : {1}", this.classMethodSignature.getClassName(),
-                                                     t.toString());
+            String msg = MessageFormat.format("An error occurred finishing tracer for class {0} : {1}",
+                                                     this.classMethodSignature.getClassName(), t.toString());
 
             Agent.LOG.severe(msg);
             Agent.LOG.log(Level.FINER, msg, t);
@@ -115,8 +115,8 @@ public class AsyncTracer extends AbstractTracer {
         try {
             recordMetrics(getTransaction().getTransactionActivity().getTransactionStats());
         } catch (Throwable t) {
-            String msg = MessageFormat.format("An error occurred recording tracer metrics for class {0} : {1}", this.classMethodSignature.getClassName(),
-                                                     t.toString());
+            String msg = MessageFormat.format("An error occurred recording tracer metrics for class {0} : {1}",
+                                                     this.classMethodSignature.getClassName(), t.toString());
 
             Agent.LOG.severe(msg);
             Agent.LOG.log(Level.FINER, msg, t);

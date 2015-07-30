@@ -167,10 +167,9 @@ class LogbackLogManager implements IAgentLogManager {
         if (canWriteLogFile(logFileName)) {
             this.rootLogger.info(MessageFormat.format("New Relic Agent: Writing to log file: {0}", logFileName));
         } else {
-            this.rootLogger.warning(MessageFormat
-                                            .format("New Relic Agent: Unable to write log file: {0}. Please check "
-                                                            + "permissions on the file and directory.",
-                                                           logFileName));
+            this.rootLogger.warning(MessageFormat.format("New Relic Agent: Unable to write log file: {0}. Please check "
+                                                                 + "permissions on the file and directory.",
+                                                                logFileName));
         }
 
         this.rootLogger.removeConsoleAppender();

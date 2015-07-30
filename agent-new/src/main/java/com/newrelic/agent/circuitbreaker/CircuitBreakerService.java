@@ -136,9 +136,8 @@ public class CircuitBreakerService extends AbstractService implements HarvestLis
 
         int freeMemoryThreshold = this.circuitBreakerConfig.getMemoryThreshold();
         int gcCPUThreshold = this.circuitBreakerConfig.getGcCpuThreshold();
-        Agent.LOG.log(Level.FINEST,
-                             "Circuit breaker: percentage free memory {0}%  GC CPU time percentage {1}% "
-                                     + "(freeMemoryThreshold {2}, gcCPUThreshold {3})",
+        Agent.LOG.log(Level.FINEST, "Circuit breaker: percentage free memory {0}%  GC CPU time percentage {1}% "
+                                            + "(freeMemoryThreshold {2}, gcCPUThreshold {3})",
                              new Object[] {Double.valueOf(percentageFreeMemory), Double.valueOf(gcCpuTimePercentage),
                                                   Integer.valueOf(freeMemoryThreshold),
                                                   Integer.valueOf(gcCPUThreshold)});
@@ -286,7 +285,8 @@ public class CircuitBreakerService extends AbstractService implements HarvestLis
         this.circuitBreakerConfig.updateEnabled(newEnabled);
         this.circuitBreakerConfig.updateThresholds(newGCCpuThreshold, newMemoryThreshold);
         Agent.LOG.log(Level.INFO,
-                             "Circuit breaker: updated configuration - enabled {0} GC CPU Threshold {1}% Memory Threshold {2}%.",
+                             "Circuit breaker: updated configuration - enabled {0} GC CPU Threshold {1}% Memory "
+                                     + "Threshold {2}%.",
                              new Object[] {Boolean.valueOf(this.circuitBreakerConfig.isEnabled()),
                                                   Integer.valueOf(this.circuitBreakerConfig.getGcCpuThreshold()),
                                                   Integer.valueOf(this.circuitBreakerConfig.getMemoryThreshold())});

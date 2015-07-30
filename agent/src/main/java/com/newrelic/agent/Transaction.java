@@ -545,8 +545,7 @@ public class Transaction implements ITransaction {
             } else {
                 Agent.LOG.log(Level.FINER, "Not setting the transaction name to  \"{0}\" for transaction {1}: a higher "
                                                    + "priority name is already in place. Current transaction name is "
-                                                   + "{2}",
-                                     name, this, this.getTransactionName());
+                                                   + "{2}", name, this, this.getTransactionName());
                 return false;
             }
         }

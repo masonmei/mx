@@ -55,7 +55,9 @@ class ReflectionHelper {
         if (classReflector != null) {
             com.newrelic.deps.org.objectweb.asm.commons.Method method =
                     (com.newrelic.deps.org.objectweb.asm.commons.Method) classReflector.methods
-                                                                                 .get(new com.newrelic.deps.org.objectweb.asm.commons.Method(name,
+                                                                                 .get(new com.newrelic.deps.org
+                                                                                                  .objectweb.asm
+                                                                                                  .commons.Method(name,
                                                                                                                                                     desc));
             if (method != null) {
                 generatorAdapter.invokeStatic(Type.getType(ClassReflection.class), method);
@@ -66,7 +68,8 @@ class ReflectionHelper {
     }
 
     private static class ClassReflector {
-        private final Map<com.newrelic.deps.org.objectweb.asm.commons.Method, com.newrelic.deps.org.objectweb.asm.commons.Method>
+        private final Map<com.newrelic.deps.org.objectweb.asm.commons.Method, com.newrelic.deps.org.objectweb.asm
+                                                                                      .commons.Method>
                 methods = Maps.newHashMap();
     }
 }

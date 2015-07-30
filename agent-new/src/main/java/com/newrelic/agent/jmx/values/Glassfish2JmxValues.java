@@ -31,7 +31,8 @@ public class Glassfish2JmxValues extends JmxFrameworkValues {
                                                                     ServerJmxMetricGenerator.SESSION_REJECTED_COUNT
                                                                             .createMetric("rejectedSessions"),
                                                                     ServerJmxMetricGenerator.SESSION_AVG_ALIVE_TIME
-                                                                            .createMetric("sessionAverageAliveTimeSeconds")}));
+                                                                            .createMetric
+                                                                                     ("sessionAverageAliveTimeSeconds")}));
 
         METRICS.add(new BaseJmxValue("com.sun.appserv:type=transaction-service,category=monitor,server=*",
                                             "JmxBuiltIn/Transactions/",

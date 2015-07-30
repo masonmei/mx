@@ -77,7 +77,8 @@ public class Environment implements JSONStreamAware, Cloneable {
         } else if (System.getProperty("jboss.home") != null) {
             dispatcher = "JBoss";
         } else if ((System.getProperty("jboss.home.dir") != null) || (System.getProperty("org.jboss.resolver.warning")
-                                                                              != null) || (System.getProperty("jboss.partition.name") != null)) {
+                                                                              != null)
+                           || (System.getProperty("jboss.partition.name") != null)) {
             dispatcher = "JBoss Web";
         } else if (System.getProperty("catalina.home") != null) {
             dispatcher = "Apache Tomcat";

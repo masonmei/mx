@@ -639,10 +639,8 @@ public class RPMService extends AbstractService implements IRPMService, Environm
                 if (503 == e.getStatusCode()) {
                     handle503Error(e);
                 } else if (retry) {
-                    Agent.LOG.log(Level.INFO,
-                                         "An error occurred posting metric data - {0}.  This data will be resent "
-                                                 + "later.",
-                                         new Object[] {e.getMessage()});
+                    Agent.LOG.log(Level.INFO, "An error occurred posting metric data - {0}.  This data will be resent "
+                                                      + "later.", new Object[] {e.getMessage()});
                 } else {
                     Agent.LOG.log(Level.SEVERE,
                                          "An error occurred posting metric data - {0}.  {1} timeslices will not be "
@@ -660,8 +658,7 @@ public class RPMService extends AbstractService implements IRPMService, Environm
                 retry = true;
                 Agent.LOG.log(Level.INFO,
                                      "An connection error occurred contacting {0}.  Please check your network / proxy"
-                                             + " settings.",
-                                     new Object[] {e.getHost()});
+                                             + " settings.", new Object[] {e.getHost()});
 
                 Agent.LOG.log(Level.FINEST, e, e.toString(), new Object[0]);
             } catch (Exception e) {
@@ -719,7 +716,9 @@ public class RPMService extends AbstractService implements IRPMService, Environm
 
     private void logMetricDataError(Exception e) {
         Agent.LOG.log(Level.INFO,
-                             "An unexpected error occurred sending metric data to New Relic.  Please file a support ticket once you have seen several of these messages in a short period of time: {0}",
+                             "An unexpected error occurred sending metric data to New Relic.  Please file a support "
+                                     + "ticket once you have seen several of these messages in a short period of "
+                                     + "time: {0}",
                              new Object[] {e.toString()});
 
         Agent.LOG.log(Level.FINEST, e, e.toString(), new Object[0]);
@@ -727,7 +726,8 @@ public class RPMService extends AbstractService implements IRPMService, Environm
 
     private void handle503Error(Exception e) {
         String msg =
-                "A 503 (Unavailable) response was received while sending metric data to New Relic.  The agent will continue to aggregate data and report it in the next time period.";
+                "A 503 (Unavailable) response was received while sending metric data to New Relic.  The agent will "
+                        + "continue to aggregate data and report it in the next time period.";
 
         if (this.last503Error.getAndIncrement() == 5) {
             Agent.LOG.info(msg);

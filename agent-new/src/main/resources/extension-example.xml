@@ -2,10 +2,10 @@
 
 <!-- This is an example of a custom instrumentation extension XML file. -->
 
-<extension xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-           xmlns="https://newrelic.com/docs/java/xsd/v1.0"
-           name="extension-example"
-           version="1.0" enabled="true">
+<extension
+        xmlns="https://newrelic.com/docs/java/xsd/v1.0"
+        name="extension-example"
+        version="1.0" enabled="true">
     <instrumentation>
 
         <!-- This point cut instruments some of the methods in the class com.sample.SampleArrayList. -->

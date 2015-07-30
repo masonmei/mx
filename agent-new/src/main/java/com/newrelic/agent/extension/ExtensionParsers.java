@@ -57,7 +57,7 @@ public class ExtensionParsers {
     }
 
     public interface ExtensionParser {
-        Extension parse(ClassLoader paramClassLoader, InputStream paramInputStream, boolean paramBoolean) throws
-                Exception;
+        Extension parse(ClassLoader paramClassLoader, InputStream paramInputStream, boolean paramBoolean)
+                throws Exception;
     }
 }

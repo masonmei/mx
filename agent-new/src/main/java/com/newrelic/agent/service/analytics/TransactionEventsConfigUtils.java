@@ -25,7 +25,8 @@ abstract class TransactionEventsConfigUtils {
         Integer oldMax = (Integer) config.getValue("analytics_events.max_samples_stored", Integer.valueOf(2000));
         if (oldMax != null) {
             Agent.LOG
-                    .info("The property analytics_events.max_samples_stored is deprecated. Please use transaction_events.max_samples_stored.");
+                    .info("The property analytics_events.max_samples_stored is deprecated. Please use "
+                                  + "transaction_events.max_samples_stored.");
             return oldMax.intValue();
         }
 

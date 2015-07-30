@@ -18,8 +18,7 @@ public class XmlInstrumentParams {
         if (!this.filePath.isFile()) {
             throw new IllegalArgumentException(MessageFormat
                                                        .format("The file specified with the tag {0} must be a file "
-                                                                       + "and is not.",
-                                                                      new Object[] {tagName}));
+                                                                       + "and is not.", new Object[] {tagName}));
         }
         if (!this.filePath.canRead()) {
             throw new IllegalArgumentException(MessageFormat

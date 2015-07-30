@@ -24,14 +24,17 @@ public class Jboss7UpJmxValues extends JmxFrameworkValues {
                                                                             .createMetric
                                                                                      ("numberOfCommittedTransactions"),
                                                                     ServerJmxMetricGenerator.TRANS_ACTIVE_COUNT
-                                                                            .createMetric("numberOfInflightTransactions"),
+                                                                            .createMetric
+                                                                                     ("numberOfInflightTransactions"),
                                                                     ServerJmxMetricGenerator.TRANS_NESTED_COUNT
                                                                             .createMetric("numberOfNestedTransactions"),
                                                                     JmxMetric
-                                                                            .create(new String[] {"numberOfTransactions",
+                                                                            .create(new String[]
+                                                                                            {"numberOfTransactions",
                                                                                                          "numberOfNestedTransactions"},
                                                                                            "Created/Top Level",
-                                                                                           JmxAction.SUBTRACT_ALL_FROM_FIRST,
+                                                                                           JmxAction
+                                                                                                   .SUBTRACT_ALL_FROM_FIRST,
                                                                                            JmxType.MONOTONICALLY_INCREASING)}));
     }
 

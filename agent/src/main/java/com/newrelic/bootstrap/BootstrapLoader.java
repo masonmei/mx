@@ -14,7 +14,6 @@ import java.security.ProtectionDomain;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Iterator;
 import java.util.List;
 import java.util.jar.Attributes;
 import java.util.jar.Attributes.Name;
@@ -24,12 +23,11 @@ import java.util.jar.JarOutputStream;
 import java.util.jar.Manifest;
 import java.util.regex.Pattern;
 
-import com.newrelic.deps.org.objectweb.asm.ClassReader;
-
 import com.newrelic.agent.config.AgentJarHelper;
 import com.newrelic.agent.config.JarResource;
 import com.newrelic.agent.util.Streams;
 import com.newrelic.agent.util.asm.ClassStructure;
+import com.newrelic.deps.org.objectweb.asm.ClassReader;
 
 public class BootstrapLoader {
     public static final String AGENT_BRIDGE_JAR_NAME = "agent-bridge-1.0";
@@ -69,8 +67,7 @@ public class BootstrapLoader {
             addMixinInterfacesToBootstrap(inst);
             addBridgeJarToClassPath(inst);
             addJarToClassPath(inst, new JarFile(EmbeddedJarFilesImpl.INSTANCE.getJarFileInAgent(API_JAR_NAME)));
-            addJarToClassPath(inst, new JarFile(EmbeddedJarFilesImpl.INSTANCE
-                                                        .getJarFileInAgent(WEAVER_API_JAR_NAME)));
+            addJarToClassPath(inst, new JarFile(EmbeddedJarFilesImpl.INSTANCE.getJarFileInAgent(WEAVER_API_JAR_NAME)));
         } catch (Exception e) {
             throw new RuntimeException(e);
         }
@@ -168,7 +165,7 @@ public class BootstrapLoader {
 
     private static final boolean containsAnyOf(Collection<?> searchFor, Collection<?> searchIn) {
         for (Object key : searchFor) {
-            if(searchIn.contains(key)){
+            if (searchIn.contains(key)) {
                 return true;
             }
         }

@@ -98,8 +98,7 @@ public class UtilizationService extends AbstractService {
         MemoryData.cleanup();
         Agent.LOG.log(Level.FINEST, MessageFormat
                                             .format("Utilization task exception. Returning cached utilization data. "
-                                                            + "{0}",
-                                                           new Object[] {t}));
+                                                            + "{0}", new Object[] {t}));
     }
 
     protected AWS.AwsData getAwsData() {

@@ -56,15 +56,14 @@ public class ServerTimeTracker {
                 if (lastServerName != null) {
                     long serverTimeInNanos = Math.max(0L, serverStartTimeInNanos - lastServerStartTimeInNanos);
                     if (Agent.LOG.isLoggable(Level.FINEST)) {
-                        String msg = MessageFormat
-                                             .format("{0} start time (nanoseconds): {1}, {2} start time (in "
-                                                             + "nanoseconds): {3}, {4} time (in nanoseconds): {5}",
-                                                            new Object[] {serverName,
-                                                                                 Long.valueOf(serverStartTimeInNanos),
-                                                                                 lastServerName,
-                                                                                 Long.valueOf(lastServerStartTimeInNanos),
-                                                                                 lastServerName,
-                                                                                 Long.valueOf(serverTimeInNanos)});
+                        String msg = MessageFormat.format("{0} start time (nanoseconds): {1}, {2} start time (in "
+                                                                  + "nanoseconds): {3}, {4} time (in nanoseconds): {5}",
+                                                                 new Object[] {serverName,
+                                                                                      Long.valueOf(serverStartTimeInNanos),
+                                                                                      lastServerName,
+                                                                                      Long.valueOf(lastServerStartTimeInNanos),
+                                                                                      lastServerName,
+                                                                                      Long.valueOf(serverTimeInNanos)});
 
                         Agent.LOG.finest(msg);
                     }
@@ -85,14 +84,14 @@ public class ServerTimeTracker {
         if (lastServerName != null) {
             long serverTimeInNanos = Math.max(0L, txStartTimeInNanos - lastServerStartTimeInNanos - queueTime);
             if (Agent.LOG.isLoggable(Level.FINEST)) {
-                String msg = MessageFormat
-                                     .format("Transaction start time (nanoseconds): {0}, {1} start time (in "
-                                                     + "nanoseconds): {2}, queue time (in nanoseconds): {3}, {4} time"
-                                                     + " (in nanoseconds): {5}",
-                                                    new Object[] {Long.valueOf(txStartTimeInNanos), lastServerName,
-                                                                         Long.valueOf(lastServerStartTimeInNanos),
-                                                                         Long.valueOf(queueTime), lastServerName,
-                                                                         Long.valueOf(serverTimeInNanos)});
+                String msg = MessageFormat.format("Transaction start time (nanoseconds): {0}, {1} start time (in "
+                                                          + "nanoseconds): {2}, queue time (in nanoseconds): {3}, {4}"
+                                                          + " time"
+                                                          + " (in nanoseconds): {5}",
+                                                         new Object[] {Long.valueOf(txStartTimeInNanos), lastServerName,
+                                                                              Long.valueOf(lastServerStartTimeInNanos),
+                                                                              Long.valueOf(queueTime), lastServerName,
+                                                                              Long.valueOf(serverTimeInNanos)});
 
                 Agent.LOG.finest(msg);
             }

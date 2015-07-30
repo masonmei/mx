@@ -470,9 +470,9 @@ public class InstrumentationPackage implements ClassResolver {
             ((List) methods).remove(OptimizedClassMatcher.DEFAULT_CONSTRUCTOR);
             if (((List) methods).isEmpty()) {
                 if (this.instrumentationClass.getTracedMethods().isEmpty()) {
-                    InstrumentationPackage.this.logger.fine(this.className
-                                                                    + " is marked as a weaved class, but no methods "
-                                                                    + "are matched to be weaved.");
+                    InstrumentationPackage.this.logger
+                            .fine(this.className + " is marked as a weaved class, but no methods "
+                                          + "are matched to be weaved.");
                     return;
                 }
 

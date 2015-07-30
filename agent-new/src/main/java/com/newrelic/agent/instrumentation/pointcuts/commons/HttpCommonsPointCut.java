@@ -30,7 +30,8 @@ public abstract class HttpCommonsPointCut extends ExternalComponentPointCut {
     @InterfaceMapper(originalInterfaceName = "com/newrelic/agent/deps/org/apache/http/message/BasicHttpResponse",
                             className = {"com/newrelic/agent/deps/org/apache/http/message/BasicHttpResponse"})
     public static abstract interface BasicHttpResponseExtension {
-        @MethodMapper(originalMethodName = "getStatusLine", originalDescriptor = "()Lorg/apache/http/StatusLine;", invokeInterface = false)
+        @MethodMapper(originalMethodName = "getStatusLine", originalDescriptor = "()Lorg/apache/http/StatusLine;",
+                             invokeInterface = false)
         public abstract Object _nr_getStatusLine();
     }
 }

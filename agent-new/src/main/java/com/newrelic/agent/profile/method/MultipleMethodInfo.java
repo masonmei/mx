@@ -24,7 +24,8 @@ public class MultipleMethodInfo extends MethodInfo {
             Map oneMethod = Maps.newHashMap();
             addOneMethodArgs(oneMethod, MethodInfoUtil.getArguments(current));
             addOneMethodInstrumentedInfo(oneMethod, (InstrumentedMethod) ((AnnotatedElement) current)
-                                                                                 .getAnnotation(InstrumentedMethod.class));
+                                                                                 .getAnnotation(InstrumentedMethod
+                                                                                                        .class));
 
             methodList.add(oneMethod);
         }

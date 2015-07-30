@@ -82,77 +82,96 @@ public class WeblogicJmxValues extends JmxFrameworkValues {
         METRICS.add(new BaseJmxValue("com.bea:ServerRuntime=*,Name=*,ApplicationRuntime=*,Type=EJBPoolRuntime,"
                                              + "EJBComponentRuntime=*,*",
                                             "JmxBuiltIn/EJB/Pool/Bean/{ApplicationRuntime}/{EJBComponentRuntime"
-                                                    + "}/{Name}/",
-                                            FILTER, new JmxMetric[] {EjbPoolJmxMetricGenerator.SUCCESS
-                                                                             .createMetric(new String[]
-                                                                                                   {"AccessTotalCount",
-                                                                                                                "MissTotalCount"}),
-                                                                            EjbPoolJmxMetricGenerator.FAILURE
-                                                                                    .createMetric(new String[]
-                                                                                                          {"MissTotalCount"}),
-                                                                            EjbPoolJmxMetricGenerator.THREADS_WAITING
-                                                                                    .createMetric(new String[]
-                                                                                                          {"WaiterCurrentCount"}),
-                                                                            EjbPoolJmxMetricGenerator.DESTROY
-                                                                                    .createMetric(new String[]
-                                                                                                          {"DestroyedTotalCount"}),
-                                                                            EjbPoolJmxMetricGenerator.ACTIVE
-                                                                                    .createMetric(new String[]
-                                                                                                          {"BeansInUseCurrentCount"}),
-                                                                            EjbPoolJmxMetricGenerator.AVAILABLE
-                                                                                    .createMetric(new String[] {"PooledBeansCurrentCount"})}));
+                                                    + "}/{Name}/", FILTER,
+                                            new JmxMetric[] {EjbPoolJmxMetricGenerator.SUCCESS
+                                                                     .createMetric(new String[] {"AccessTotalCount",
+                                                                                                        "MissTotalCount"}),
+                                                                    EjbPoolJmxMetricGenerator.FAILURE
+                                                                            .createMetric(new String[]
+                                                                                                  {"MissTotalCount"}),
+                                                                    EjbPoolJmxMetricGenerator.THREADS_WAITING
+                                                                            .createMetric(new String[]
+                                                                                                  {"WaiterCurrentCount"}),
+                                                                    EjbPoolJmxMetricGenerator.DESTROY
+                                                                            .createMetric(new String[]
+                                                                                                  {"DestroyedTotalCount"}),
+                                                                    EjbPoolJmxMetricGenerator.ACTIVE
+                                                                            .createMetric(new String[]
+                                                                                                  {"BeansInUseCurrentCount"}),
+                                                                    EjbPoolJmxMetricGenerator.AVAILABLE
+                                                                            .createMetric(new String[]
+                                                                                                  {"PooledBeansCurrentCount"})}));
 
-        METRICS.add(new BaseJmxValue("com.bea:ServerRuntime=*,Name=*,ApplicationRuntime=*,Type=EJBTransactionRuntime,EJBComponentRuntime=*,*",
+        METRICS.add(new BaseJmxValue("com.bea:ServerRuntime=*,Name=*,ApplicationRuntime=*,Type=EJBTransactionRuntime,"
+                                             + "EJBComponentRuntime=*,*",
                                             "JmxBuiltIn/EJB/Transactions/Application/{ApplicationRuntime}/", FILTER,
                                             null, JMXMetricType.SUM_ALL_BEANS,
                                             new JmxMetric[] {EjbTransactionJmxMetricGenerator.COUNT
-                                                                     .createMetric(new String[] {"TransactionsCommittedTotalCount",
+                                                                     .createMetric(new String[]
+                                                                                           {"TransactionsCommittedTotalCount",
                                                                                                         "TransactionsRolledBackTotalCount",
                                                                                                         "TransactionsTimedOutTotalCount"}),
                                                                     EjbTransactionJmxMetricGenerator.COMMIT
-                                                                            .createMetric(new String[] {"TransactionsCommittedTotalCount"}),
+                                                                            .createMetric(new String[]
+                                                                                                  {"TransactionsCommittedTotalCount"}),
                                                                     EjbTransactionJmxMetricGenerator.ROLLBACK
-                                                                            .createMetric(new String[] {"TransactionsRolledBackTotalCount"}),
+                                                                            .createMetric(new String[]
+                                                                                                  {"TransactionsRolledBackTotalCount"}),
                                                                     EjbTransactionJmxMetricGenerator.TIMEOUT
-                                                                            .createMetric(new String[] {"TransactionsTimedOutTotalCount"})}));
+                                                                            .createMetric(new String[]
+                                                                                                  {"TransactionsTimedOutTotalCount"})}));
 
-        METRICS.add(new BaseJmxValue("com.bea:ServerRuntime=*,Name=*,ApplicationRuntime=*,Type=EJBTransactionRuntime,EJBComponentRuntime=*,*",
+        METRICS.add(new BaseJmxValue("com.bea:ServerRuntime=*,Name=*,ApplicationRuntime=*,Type=EJBTransactionRuntime,"
+                                             + "EJBComponentRuntime=*,*",
                                             "JmxBuiltIn/EJB/Transactions/Module/{ApplicationRuntime}/{EJBComponentRuntime}/",
                                             FILTER, null, JMXMetricType.SUM_ALL_BEANS,
                                             new JmxMetric[] {EjbTransactionJmxMetricGenerator.COUNT
-                                                                     .createMetric(new String[] {"TransactionsCommittedTotalCount",
+                                                                     .createMetric(new String[]
+                                                                                           {"TransactionsCommittedTotalCount",
                                                                                                         "TransactionsRolledBackTotalCount",
                                                                                                         "TransactionsTimedOutTotalCount"}),
                                                                     EjbTransactionJmxMetricGenerator.COMMIT
-                                                                            .createMetric(new String[] {"TransactionsCommittedTotalCount"}),
+                                                                            .createMetric(new String[]
+                                                                                                  {"TransactionsCommittedTotalCount"}),
                                                                     EjbTransactionJmxMetricGenerator.ROLLBACK
-                                                                            .createMetric(new String[] {"TransactionsRolledBackTotalCount"}),
+                                                                            .createMetric(new String[]
+                                                                                                  {"TransactionsRolledBackTotalCount"}),
                                                                     EjbTransactionJmxMetricGenerator.TIMEOUT
-                                                                            .createMetric(new String[] {"TransactionsTimedOutTotalCount"})}));
+                                                                            .createMetric(new String[]
+                                                                                                  {"TransactionsTimedOutTotalCount"})}));
 
-        METRICS.add(new BaseJmxValue("com.bea:ServerRuntime=*,Name=*,ApplicationRuntime=*,Type=EJBTransactionRuntime,EJBComponentRuntime=*,*",
+        METRICS.add(new BaseJmxValue("com.bea:ServerRuntime=*,Name=*,ApplicationRuntime=*,Type=EJBTransactionRuntime,"
+                                             + "EJBComponentRuntime=*,*",
                                             "JmxBuiltIn/EJB/Transactions/Bean/{ApplicationRuntime}/{EJBComponentRuntime}/{Name}/",
                                             FILTER, new JmxMetric[] {EjbTransactionJmxMetricGenerator.COUNT
-                                                                             .createMetric(new String[] {"TransactionsCommittedTotalCount",
+                                                                             .createMetric(new String[]
+                                                                                                   {"TransactionsCommittedTotalCount",
                                                                                                                 "TransactionsRolledBackTotalCount",
                                                                                                                 "TransactionsTimedOutTotalCount"}),
                                                                             EjbTransactionJmxMetricGenerator.COMMIT
-                                                                                    .createMetric(new String[] {"TransactionsCommittedTotalCount"}),
+                                                                                    .createMetric(new String[]
+                                                                                                          {"TransactionsCommittedTotalCount"}),
                                                                             EjbTransactionJmxMetricGenerator.ROLLBACK
-                                                                                    .createMetric(new String[] {"TransactionsRolledBackTotalCount"}),
+                                                                                    .createMetric(new String[]
+                                                                                                          {"TransactionsRolledBackTotalCount"}),
                                                                             EjbTransactionJmxMetricGenerator.TIMEOUT
-                                                                                    .createMetric(new String[] {"TransactionsTimedOutTotalCount"})}));
+                                                                                    .createMetric(new String[]
+                                                                                                          {"TransactionsTimedOutTotalCount"})}));
 
         METRICS.add(new BaseJmxValue("com.bea:ServerRuntime=*,Name=JTARuntime,Type=JTARuntime",
                                             "JmxBuiltIn/JTA/{Name}/", FILTER,
                                             new JmxMetric[] {JtaJmxMetricGenerator.COUNT
-                                                                     .createMetric(new String[] {"TransactionTotalCount"}),
+                                                                     .createMetric(new String[]
+                                                                                           {"TransactionTotalCount"}),
                                                                     JtaJmxMetricGenerator.COMMIT
-                                                                            .createMetric(new String[] {"TransactionCommittedTotalCount"}),
+                                                                            .createMetric(new String[]
+                                                                                                  {"TransactionCommittedTotalCount"}),
                                                                     JtaJmxMetricGenerator.ROLLBACK
-                                                                            .createMetric(new String[] {"TransactionRolledBackTotalCount"}),
+                                                                            .createMetric(new String[]
+                                                                                                  {"TransactionRolledBackTotalCount"}),
                                                                     JtaJmxMetricGenerator.ABANDONDED
-                                                                            .createMetric(new String[] {"TransactionAbandonedTotalCount"})}));
+                                                                            .createMetric(new String[]
+                                                                                                  {"TransactionAbandonedTotalCount"})}));
     }
 
     public List<BaseJmxValue> getFrameworkMetrics() {

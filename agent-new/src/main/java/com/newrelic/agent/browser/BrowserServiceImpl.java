@@ -31,7 +31,7 @@ public class BrowserServiceImpl extends AbstractService implements BrowserServic
         if ((appName == null) || (appName.equals(this.defaultAppName))) {
             return this.defaultBrowserConfig;
         }
-        return (IBrowserConfig) this.browserConfigs.get(appName);
+        return this.browserConfigs.get(appName);
     }
 
     public boolean isEnabled() {

@@ -91,7 +91,8 @@ public class TransactionSegment implements JSONStreamAware {
         if (len > maxLength) {
             return MessageFormat.format("{0}..({1} more chars)", new Object[] {sql.substring(0, maxLength),
                                                                                       Integer.valueOf(len
-                                                                                                              - maxLength)});
+                                                                                                              -
+                                                                                                              maxLength)});
         }
         return sql;
     }

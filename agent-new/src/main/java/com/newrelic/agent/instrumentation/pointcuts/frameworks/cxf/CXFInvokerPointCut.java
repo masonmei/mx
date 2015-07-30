@@ -26,12 +26,12 @@ public class CXFInvokerPointCut extends TracerFactoryPointCut {
 
     public CXFInvokerPointCut(ClassTransformer classTransformer) {
         super(CXFInvokerPointCut.class, new ExactClassMatcher("org/apache/cxf/service/invoker/AbstractInvoker"),
-                     createExactMethodMatcher("performInvocation",
-                                                     new String[] {"(Lorg/apache/cxf/message/Exchange;"
-                                                                           + "Ljava/lang/Object;"
-                                                                           + "Ljava/lang/reflect/Method;"
-                                                                           + "[Ljava/lang/Object;)Ljava/lang/Object;"
-                                                                           + ""}));
+                     createExactMethodMatcher("performInvocation", new String[] {"(Lorg/apache/cxf/message/Exchange;"
+                                                                                         + "Ljava/lang/Object;"
+                                                                                         + "Ljava/lang/reflect/Method;"
+                                                                                         + "[Ljava/lang/Object;)"
+                                                                                         + "Ljava/lang/Object;"
+                                                                                         + ""}));
     }
 
     static String getCXFRequestUri(String address, Method method) {
@@ -81,7 +81,8 @@ public class CXFInvokerPointCut extends TracerFactoryPointCut {
         }
         TransactionNamingPolicy policy = TransactionNamingPolicy.getHigherPriorityTransactionNamingPolicy();
         if ((Agent.LOG.isLoggable(Level.FINER)) && (policy.canSetTransactionName(transaction,
-                                                                                        TransactionNamePriority.FRAMEWORK))) {
+                                                                                        TransactionNamePriority
+                                                                                                .FRAMEWORK))) {
             String msg = MessageFormat.format("Setting transaction name to \"{0}\" using CXF", new Object[] {path});
             Agent.LOG.finer(msg);
         }

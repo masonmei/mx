@@ -16,8 +16,7 @@ public class HttpCommComponentPointCut extends AbstractSolrPointCut {
                      new ExactClassMatcher("org/apache/solr/handler/component/HttpCommComponent"),
                      createExactMethodMatcher("submit",
                                                      new String[] {"(Lorg/apache/solr/handler/component/ShardRequest;"
-                                                                           + "Ljava/lang/String;"
-                                                                           +
+                                                                           + "Ljava/lang/String;" +
                                                                            "Lorg/apache/solr/common/params/ModifiableSolrParams;)V"}));
     }
 

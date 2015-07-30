@@ -76,7 +76,8 @@ public class SpringDispatcherPointCut extends TracerFactoryPointCut {
         }
         TransactionNamingPolicy policy = TransactionNamingPolicy.getHigherPriorityTransactionNamingPolicy();
         if ((Agent.LOG.isLoggable(Level.FINER)) && (policy.canSetTransactionName(transaction,
-                                                                                        TransactionNamePriority.FRAMEWORK))) {
+                                                                                        TransactionNamePriority
+                                                                                                .FRAMEWORK))) {
             String msg = MessageFormat.format("Setting transaction name to \"{0}\" using Spring view",
                                                      new Object[] {viewName});
             Agent.LOG.finer(msg);

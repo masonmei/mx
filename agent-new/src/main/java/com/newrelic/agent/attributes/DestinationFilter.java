@@ -46,8 +46,8 @@ public class DestinationFilter {
     }
 
     private static Set<String> getMandatoryExcludes(boolean highSecurity) {
-        return  (highSecurity ? Sets.newHashSet("request.parameters.*", "message.parameters.*")
-                              : Collections.<String>emptySet());
+        return (highSecurity ? Sets.newHashSet("request.parameters.*", "message.parameters.*")
+                        : Collections.<String>emptySet());
     }
 
     private static Set<String> updateDefaults(boolean captureParams, boolean captureMessageParams,

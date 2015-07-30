@@ -47,8 +47,7 @@ public class DefaultDatabaseStatementParser implements DatabaseStatementParser {
                     }
                 }, new DefaultStatementFactory("insert",
                                                       Pattern.compile("^\\s*insert(?:\\s+ignore)?\\s+into\\s+([^\\s(,"
-                                                                              + ";]*).*",
-                                                                             PATTERN_SWITCHES), true),
+                                                                              + ";]*).*", PATTERN_SWITCHES), true),
                                                        new DefaultStatementFactory("update",
                                                                                           Pattern.compile("^\\s*update\\s+([^\\s,;]*).*",
                                                                                                                  PATTERN_SWITCHES),

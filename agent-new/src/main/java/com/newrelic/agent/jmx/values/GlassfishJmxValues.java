@@ -38,7 +38,8 @@ public class GlassfishJmxValues extends JmxFrameworkValues {
                                                                     ServerJmxMetricGenerator.SESSION_EXPIRED_COUNT
                                                                             .createMetric("expiredsessionstotal.count"),
                                                                     ServerJmxMetricGenerator.SESSION_REJECTED_COUNT
-                                                                            .createMetric("rejectedsessionstotal.count")}));
+                                                                            .createMetric("rejectedsessionstotal"
+                                                                                                  + ".count")}));
 
         METRICS.add(new BaseJmxValue("amx:type=transaction-service-mon,pp=*,name=*", "JmxBuiltIn/Transactions/",
                                             new JmxMetric[] {ServerJmxMetricGenerator.TRANS_ACTIVE_COUNT

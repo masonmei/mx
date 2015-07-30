@@ -87,18 +87,15 @@ public class TransactionHolderDispatcherPointCut extends TracerFactoryPointCut {
             }
             if (tx == savedTx) {
                 tx.getTransactionState().asyncJobInvalidate(txHolder);
-                Agent.LOG.log(Level.FINEST,
-                                     "The transaction is the same transaction as its parent. Transaction: {0}. "
-                                             + "Invalidating job {1}",
-                                     new Object[] {tx, txHolder});
+                Agent.LOG.log(Level.FINEST, "The transaction is the same transaction as its parent. Transaction: {0}. "
+                                                    + "Invalidating job {1}", new Object[] {tx, txHolder});
 
                 return null;
             }
             if (tx.getDispatcher() != null) {
                 Agent.LOG.log(Level.FINEST,
                                      "The job {0} is being run in an existing transaction {1}. Remove from parent "
-                                             + "transaction: {2}",
-                                     new Object[] {txHolder, tx, savedTx});
+                                             + "transaction: {2}", new Object[] {txHolder, tx, savedTx});
 
                 savedTx.getTransactionState().asyncJobInvalidate(txHolder);
                 return null;
@@ -167,7 +164,8 @@ public class TransactionHolderDispatcherPointCut extends TracerFactoryPointCut {
     public static abstract interface ScalaPromiseCompletingRunnable {
         public static final String CLASS = "scala/concurrent/impl/Future$PromiseCompletingRunnable";
 
-        @FieldAccessor(fieldName = "promise", fieldDesc = "Lscala/concurrent/impl/Promise$DefaultPromise;", existingField = true)
+        @FieldAccessor(fieldName = "promise", fieldDesc = "Lscala/concurrent/impl/Promise$DefaultPromise;",
+                              existingField = true)
         public abstract Object _nr_promise();
     }
 }

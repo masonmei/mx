@@ -777,9 +777,11 @@ class InstrumentationClassVisitor extends ClassVisitor implements WeavedClassInf
             final AnnotationVisitor av = super.visitAnnotation(desc, visible);
             if (Type.getDescriptor(Trace.class).equals(desc)) {
                 final TraceDetailsBuilder builder = TraceDetailsBuilder.newBuilder()
-                                                            .setInstrumentationType(InstrumentationType.WeaveInstrumentation)
+                                                            .setInstrumentationType(InstrumentationType
+                                                                                            .WeaveInstrumentation)
                                                             .setInstrumentationSourceName(InstrumentationClassVisitor
-                                                                                                  .this.instrumentationPackage.implementationTitle);
+                                                                                                  .this
+                                                                                                  .instrumentationPackage.implementationTitle);
                 return new Annotation(av, desc, builder) {
                     public void visitEnd() {
                         InstrumentationClassVisitor.this.tracedMethods

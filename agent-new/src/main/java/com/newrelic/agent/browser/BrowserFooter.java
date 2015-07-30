@@ -50,7 +50,7 @@ public class BrowserFooter {
         BrowserMonitoringConfig config =
                 ServiceFactory.getConfigService().getAgentConfig(appName).getBrowserMonitoringConfig();
         if (config.isSslForHttpSet()) {
-            isSslForHttp = Boolean.valueOf(config.isSslForHttp());
+            isSslForHttp = config.isSslForHttp();
         } else {
             isSslForHttp = null;
         }
@@ -66,7 +66,7 @@ public class BrowserFooter {
             Map agentAtts = ServiceFactory.getAttributesService()
                                     .filterBrowserAttributes(state.getAppName(), state.getAgentAttributes());
 
-            atts = new HashMap(3);
+            atts = new HashMap<String, Object>(3);
 
             if ((!ServiceFactory.getConfigService().getDefaultAgentConfig().isHighSecurity())
                         && (!userAtts.isEmpty())) {
@@ -121,7 +121,7 @@ public class BrowserFooter {
     }
 
     private Map<String, Object> createMapWithData(BrowserTransactionState state) {
-        Map output = new HashMap();
+        Map<String, Object> output = new HashMap<String, Object>();
 
         output.put("beacon", beacon);
         output.put("errorBeacon", errorBeacon);
@@ -129,8 +129,8 @@ public class BrowserFooter {
         output.put("applicationID", appId);
         output.put("agent", payloadScript);
 
-        output.put("queueTime", Long.valueOf(state.getExternalTimeInMilliseconds()));
-        output.put("applicationTime", Long.valueOf(state.getDurationInMilliseconds()));
+        output.put("queueTime", state.getExternalTimeInMilliseconds());
+        output.put("applicationTime", state.getDurationInMilliseconds());
         output.put("transactionName", obfuscate(state.getTransactionName()));
 
         addToMapIfNotNullOrEmpty(output, "sslForHttp", isSslForHttp);
@@ -170,7 +170,7 @@ public class BrowserFooter {
             return Obfuscator.obfuscateNameUsingKey(name, licenseKey.substring(0, 13));
         } catch (UnsupportedEncodingException e) {
             if (Agent.LOG.isLoggable(Level.FINER)) {
-                String msg = MessageFormat.format("Error obfuscating {0}: {1}", new Object[] {name, e});
+                String msg = MessageFormat.format("Error obfuscating {0}: {1}", name, e);
                 Agent.LOG.finer(msg);
             }
         }

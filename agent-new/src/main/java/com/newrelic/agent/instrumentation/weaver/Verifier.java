@@ -13,7 +13,6 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.HashSet;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
@@ -79,18 +78,16 @@ public class Verifier {
                                 Map<String, Set<MethodWithAccess>> allReferenced, ClassLoader loader,
                                 Map<String, ClassStructure> resolvedClasses, Set<String> unresolvedClasses,
                                 boolean isInterface) {
-        Iterator i$ = allReferenced.entrySet().iterator();
 
-        while (i$.hasNext()) {
-            Entry entry = (Entry) i$.next();
-            String internalName = (String) entry.getKey();
+        for (Entry<String, Set<MethodWithAccess>> entry : allReferenced.entrySet()) {
+            String internalName = entry.getKey();
             ClassStructure classStructure = null;
 
             try {
                 classStructure = classStructureResolver.getClassStructure(logger, loader, internalName, 7);
             } catch (IOException var12) {
-                logger.log(Level.FINEST, var12, "Error fetching class structure of {0} : {1}",
-                                  new Object[] {internalName, var12.getMessage()});
+                logger.log(Level.FINEST, var12, "Error fetching class structure of {0} : {1}", internalName,
+                                  var12.getMessage());
             }
 
             if (classStructure == null) {
@@ -120,60 +117,61 @@ public class Verifier {
     }
 
     public boolean isEnabled(ClassLoader loader) {
-        Boolean enabled = (Boolean) this.classLoaders.getIfPresent(loader);
-        return enabled == null || enabled.booleanValue();
+        Boolean enabled = this.classLoaders.getIfPresent(loader);
+        return enabled == null || enabled;
     }
 
     public boolean isVerified(ClassLoader loader) {
         Boolean verified = this.isVerifiedObject(loader);
-        return verified != null && verified.booleanValue();
+        return verified != null && verified;
     }
 
     private Boolean isVerifiedObject(ClassLoader loader) {
-        return (Boolean) this.classLoaders.getIfPresent(loader);
+        return this.classLoaders.getIfPresent(loader);
     }
 
     public boolean verify(ClassAppender classAppender, ClassLoader loader, Map<String, byte[]> classesInNewJar,
                           List<String> newClassLoadOrder) {
         Boolean verified = this.isVerifiedObject(loader);
         if (verified != null) {
-            return verified.booleanValue();
+            return verified;
         } else {
             verified = this.doVerify(classAppender, loader, classesInNewJar, newClassLoadOrder);
             if (verified == null) {
                 return this.isVerified(loader);
             } else {
                 this.classLoaders.put(loader, verified);
-                if (verified.booleanValue()) {
+                if (verified) {
                     this.instrumentationPackage.getLogger()
                             .debug("Loading " + this.getImplementationTitle() + " instrumentation");
                 }
 
                 StatsService statsService = ServiceFactory.getStatsService();
-                statsService.doStatsWork(StatsWorks.getRecordMetricWork(MessageFormat.format(verified.booleanValue()
+                statsService.doStatsWork(StatsWorks.getRecordMetricWork(MessageFormat.format(verified
                                                                                                      ?
                                                                                                      "Supportability/WeaveInstrumentation/Loaded/{0}/{1}"
                                                                                                      : "Supportability/WeaveInstrumentation/Skipped/{0}/{1}",
-                                                                                                    new Object[]
-                                                                                                            {this.getImplementationTitle(),
-                                                                                                                         Float.valueOf(this.instrumentationPackage
-                                                                                                                                               .getImplementationVersion())}),
+
+                                                                                                    this.getImplementationTitle(),
+
+                                                                                                    this.instrumentationPackage
+                                                                                                            .getImplementationVersion()),
                                                                                1.0F));
-                return verified.booleanValue();
+                return verified;
             }
         }
     }
 
     private Boolean doVerify(ClassAppender classAppender, ClassLoader loader, Map<String, byte[]> classesInNewJar,
                              List<String> newClassLoadOrder) {
-        HashMap resolvedClasses = Maps.newHashMap();
-        HashSet unresolvedClasses = Sets.newHashSet();
+        HashMap<String, ClassStructure> resolvedClasses = Maps.newHashMap();
+        HashSet<String> unresolvedClasses = Sets.newHashSet();
         this.resolveWeaveClasses(loader, unresolvedClasses);
         if (!unresolvedClasses.isEmpty()) {
             this.instrumentationPackage.getLogger()
                     .finer("Skipping " + this.getImplementationTitle() + " instrumentation.  Unresolved classes: "
                                    + unresolvedClasses);
-            return Boolean.valueOf(false);
+            return false;
         } else {
             if (!this.instrumentationPackage.getSkipClasses().isEmpty()) {
                 this.instrumentationPackage.getLogger()
@@ -182,37 +180,33 @@ public class Verifier {
             }
 
             if (this.shouldSkip(loader)) {
-                return Boolean.valueOf(false);
+                return false;
             } else {
                 resolve(this.instrumentationPackage.getLogger(), this.classStructureResolver,
                                this.referencedClassMethods, loader, resolvedClasses, unresolvedClasses, false);
                 resolve(this.instrumentationPackage.getLogger(), this.classStructureResolver,
                                this.referencedInterfaceMethods, loader, resolvedClasses, unresolvedClasses, true);
                 unresolvedClasses.removeAll(resolvedClasses.keySet());
-                HashMap allReferenced = Maps.newHashMap(this.referencedClassMethods);
+                HashMap<String, Set<MethodWithAccess>> allReferenced = Maps.newHashMap(this.referencedClassMethods);
                 allReferenced.putAll(this.referencedInterfaceMethods);
-                HashSet set = Sets.newHashSet(unresolvedClasses);
+                HashSet<String> set = Sets.newHashSet(unresolvedClasses);
                 set.removeAll(classesInNewJar.keySet());
                 if (!set.isEmpty()) {
                     this.instrumentationPackage.getLogger().finer("Skipping " + this.getImplementationTitle()
                                                                           + " instrumentation.  Unresolved classes: "
                                                                           + set);
-                    return Boolean.valueOf(false);
+                    return false;
                 } else {
-                    Iterator copy = resolvedClasses.entrySet().iterator();
-
-                    while (copy.hasNext()) {
-                        Entry ex = (Entry) copy.next();
-
+                    for (Entry<String, ClassStructure> ex : resolvedClasses.entrySet()) {
                         try {
                             Set e = (Set) allReferenced.get(ex.getKey());
                             if (!e.isEmpty()) {
-                                this.verifyMethods(loader, e, (ClassStructure) ex.getValue());
+                                this.verifyMethods(loader, e, ex.getValue());
                                 if (!e.isEmpty()) {
                                     this.instrumentationPackage.getLogger()
                                             .finer("Skipping " + this.getImplementationTitle() + " instrumentation.  "
-                                                           + (String) ex.getKey() + " unresolved methods: " + e);
-                                    return Boolean.valueOf(false);
+                                                           + ex.getKey() + " unresolved methods: " + e);
+                                    return false;
                                 }
                             }
                         } catch (IOException var14) {
@@ -220,11 +214,11 @@ public class Verifier {
                         }
                     }
 
-                    HashMap copy1 = Maps.newHashMap(classesInNewJar);
+                    HashMap<String, byte[]> copy1 = Maps.newHashMap(classesInNewJar);
                     copy1.keySet().retainAll(unresolvedClasses);
                     if (!copy1.isEmpty()) {
                         try {
-                            AtomicInteger ex1 = (AtomicInteger) this.classLoaderLocks.get(loader);
+                            AtomicInteger ex1 = this.classLoaderLocks.get(loader);
                             if (ex1.getAndIncrement() == 0) {
                                 try {
                                     this.loadClasses(classAppender, loader, copy1, newClassLoadOrder);
@@ -235,22 +229,19 @@ public class Verifier {
                                 }
                             }
                         } catch (ExecutionException var13) {
-                            Agent.LOG.log(Level.FINEST, var13, var13.toString(), new Object[0]);
+                            Agent.LOG.log(Level.FINEST, var13, var13.toString());
                             return this.isVerifiedObject(loader);
                         }
                     }
 
-                    return Boolean.valueOf(true);
+                    return true;
                 }
             }
         }
     }
 
     private boolean shouldSkip(ClassLoader loader) {
-        Iterator i$ = this.instrumentationPackage.getSkipClasses().iterator();
-
-        while (i$.hasNext()) {
-            String className = (String) i$.next();
+        for (String className : this.instrumentationPackage.getSkipClasses()) {
             ClassStructure classStructure = null;
 
             try {
@@ -261,7 +252,7 @@ public class Verifier {
 
             if (classStructure != null) {
                 this.instrumentationPackage.getLogger()
-                        .log(Level.FINER, "Skipping weave package because {0} is present", new Object[] {className});
+                        .log(Level.FINER, "Skipping weave package because {0} is present", className);
                 return true;
             }
         }
@@ -270,28 +261,23 @@ public class Verifier {
     }
 
     private void resolveWeaveClasses(ClassLoader loader, Set<String> unresolvedClasses) {
-        Iterator i$ = this.instrumentationPackage.getWeaveClasses().entrySet().iterator();
-
-        while (i$.hasNext()) {
-            Entry entry = (Entry) i$.next();
-            String internalName = (String) entry.getKey();
+        for (Entry<String, WeavedClassInfo> entry : this.instrumentationPackage.getWeaveClasses().entrySet()) {
+            String internalName = entry.getKey();
             ClassStructure classStructure = null;
 
             try {
                 classStructure = this.getClassStructure(this.instrumentationPackage.getLogger(), loader, internalName);
             } catch (IOException var11) {
                 this.instrumentationPackage.getLogger()
-                        .log(Level.WARNING, "Could not resolved class structure for {0}", new Object[] {internalName});
+                        .log(Level.WARNING, "Could not resolved class structure for {0}", internalName);
             }
 
             if (classStructure != null && !classStructure.getClassAnnotations()
                                                    .containsKey(Type.getDescriptor(Weave.class))) {
-                Collection referencedFields = ((WeavedClassInfo) entry.getValue()).getReferencedFields();
-                Iterator i$1 = referencedFields.iterator();
+                Collection<FieldNode> referencedFields = entry.getValue().getReferencedFields();
 
-                while (i$1.hasNext()) {
-                    FieldNode field = (FieldNode) i$1.next();
-                    FieldNode fieldNode = (FieldNode) classStructure.getFields().get(field.name);
+                for (FieldNode field : referencedFields) {
+                    FieldNode fieldNode = classStructure.getFields().get(field.name);
                     if (fieldNode == null) {
                         unresolvedClasses.add(internalName);
                         this.instrumentationPackage.getLogger()
@@ -321,24 +307,20 @@ public class Verifier {
             throws IOException {
         this.resolvedClasses.put(classStructure.getType(), classStructure);
         Set classStructureMethods = classStructure.getMethods();
-        HashSet methodsInClassStructure = Sets.newHashSet();
-        Iterator superName = methods.iterator();
+        HashSet<MethodWithAccess> methodsInClassStructure = Sets.newHashSet();
 
-        while (superName.hasNext()) {
-            MethodWithAccess len$ = (MethodWithAccess) superName.next();
-            Method i$ = len$.getMethod();
-            if (classStructureMethods.contains(i$) && classStructure.isStatic(i$).booleanValue() == len$.isStatic()) {
-                methodsInClassStructure.add(len$);
+        for (MethodWithAccess access : methods) {
+            Method method = access.getMethod();
+            if (classStructureMethods.contains(method) && classStructure.isStatic(method) == access.isStatic()) {
+                methodsInClassStructure.add(access);
             }
         }
 
         methods.removeAll(methodsInClassStructure);
         if (!methods.isEmpty()) {
-            String[] var10 = classStructure.getInterfaces();
-            int var12 = var10.length;
+            String[] interfaces = classStructure.getInterfaces();
 
-            for (int var13 = 0; var13 < var12; ++var13) {
-                String interfaceClass = var10[var13];
+            for (String interfaceClass : interfaces) {
                 this.verifyMethods(loader, methods,
                                           this.getClassStructure(this.instrumentationPackage.getLogger(), loader,
                                                                         interfaceClass));
@@ -359,18 +341,15 @@ public class Verifier {
 
     private void loadClasses(ClassAppender classAppender, ClassLoader loader, Map<String, byte[]> classBytes,
                              List<String> newClassLoadOrder) throws IOException {
-        ArrayList loadedClasses = Lists.newArrayList();
-        Iterator i$ = classBytes.entrySet().iterator();
+        ArrayList<String> loadedClasses = Lists.newArrayList();
 
-        while (i$.hasNext()) {
-            Entry nameAndBytes = (Entry) i$.next();
-
+        for (Entry<String, byte[]> nameAndBytes : classBytes.entrySet()) {
             try {
-                Class ex = loader.loadClass(Type.getObjectType((String) nameAndBytes.getKey()).getClassName());
+                Class ex = loader.loadClass(Type.getObjectType(nameAndBytes.getKey()).getClassName());
                 if (ex.getClassLoader() == null || ex.getClassLoader().equals(loader) || this.isFullyResolveable(loader,
                                                                                                                         ex,
-                                                                                                                        (byte[]) nameAndBytes
-                                                                                                                                         .getValue(),
+                                                                                                                        nameAndBytes
+                                                                                                                                .getValue(),
                                                                                                                         classBytes
                                                                                                                                 .keySet())) {
                     loadedClasses.add(Type.getInternalName(ex));
@@ -397,22 +376,19 @@ public class Verifier {
 
     private boolean isFullyResolveable(ClassLoader loader, Class<?> clazz, byte[] classBytes,
                                        Set<String> newClassNames) {
-        Set referencedClasses = ClassUtils.getClassReferences(classBytes);
+        Set<String> referencedClasses = ClassUtils.getClassReferences(classBytes);
         referencedClasses.removeAll(newClassNames);
         referencedClasses = Sets.filter(referencedClasses, new Predicate<String>() {
             public boolean apply(String internalClassName) {
                 return !internalClassName.startsWith("java/");
             }
         });
-        Iterator i$ = referencedClasses.iterator();
 
-        while (i$.hasNext()) {
-            String internalClassName = (String) i$.next();
-
+        for (String internalClassName : referencedClasses) {
             try {
                 String e = Type.getObjectType(internalClassName).getClassName();
-                Class throughLoader = loader.loadClass(e);
-                Class throughClassLoader = clazz.getClassLoader().loadClass(e);
+                Class<?> throughLoader = loader.loadClass(e);
+                Class<?> throughClassLoader = clazz.getClassLoader().loadClass(e);
                 if (throughLoader != throughClassLoader && (!throughLoader.isAssignableFrom(throughClassLoader)
                                                                     || !throughClassLoader
                                                                                 .isAssignableFrom(throughLoader))) {
@@ -421,11 +397,9 @@ public class Verifier {
                                                                                + "but it references {2} and the "
                                                                                + "version of that class loaded "
                                                                                + "through {3} differs from the one "
-                                                                               + "loaded through {4}",
-                                                                       new Object[] {clazz.getName(),
-                                                                                            clazz.getClassLoader(), e,
-                                                                                            loader, throughClassLoader
-                                                                                                            .getClassLoader()});
+                                                                               + "loaded through {4}", clazz.getName(),
+                                                                       clazz.getClassLoader(), e, loader,
+                                                                       throughClassLoader.getClassLoader());
                     return false;
                 }
             } catch (ClassNotFoundException var11) {
@@ -437,15 +411,13 @@ public class Verifier {
     }
 
     public ClassStructure getClassStructure(Type type) {
-        ClassStructure classStructure = (ClassStructure) this.getResolvedClasses().get(type);
+        ClassStructure classStructure = this.getResolvedClasses().get(type);
         if (classStructure == null) {
-            Iterator i$ = this.classLoaders.asMap().entrySet().iterator();
 
-            while (i$.hasNext()) {
-                Entry entry = (Entry) i$.next();
-                if (((Boolean) entry.getValue()).booleanValue()) {
-                    URL resource = ((ClassLoader) entry.getKey())
-                                           .getResource(Utils.getClassResourceName(type.getInternalName()));
+            for (Entry<ClassLoader, Boolean> entry : this.classLoaders.asMap().entrySet()) {
+
+                if (entry.getValue()) {
+                    URL resource = entry.getKey().getResource(Utils.getClassResourceName(type.getInternalName()));
                     if (resource != null) {
                         try {
                             classStructure = ClassStructure.getClassStructure(resource);

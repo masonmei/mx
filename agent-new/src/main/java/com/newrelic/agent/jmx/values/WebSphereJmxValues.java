@@ -24,13 +24,13 @@ public class WebSphereJmxValues extends JmxFrameworkValues {
                                                                             .createMetric("maximumSize")}));
 
         METRICS.add(new BaseJmxValue("WebSphere:j2eeType=JTAResource,type=TransactionService,name=*,process=*,"
-                                             + "platform=*,node=*,*",
-                                            "JmxBuiltIn/JTA/{type}/", new JmxMetric[] {JtaJmxMetricGenerator.COMMIT
-                                                                                               .createMetric(new String[] {"stats.CommittedCount"}),
-                                                                                              JtaJmxMetricGenerator.ROLLBACK
-                                                                                                      .createMetric(new String[] {"stats.RolledbackCount"}),
-                                                                                              JtaJmxMetricGenerator.TIMEOUT
-                                                                                                      .createMetric(new String[] {"stats.GlobalTimeoutCount"})}));
+                                             + "platform=*,node=*,*", "JmxBuiltIn/JTA/{type}/",
+                                            new JmxMetric[] {JtaJmxMetricGenerator.COMMIT
+                                                                     .createMetric(new String[] {"stats.CommittedCount"}),
+                                                                    JtaJmxMetricGenerator.ROLLBACK
+                                                                            .createMetric(new String[] {"stats.RolledbackCount"}),
+                                                                    JtaJmxMetricGenerator.TIMEOUT
+                                                                            .createMetric(new String[] {"stats.GlobalTimeoutCount"})}));
 
         METRICS.add(new BaseJmxValue("WebSphere:type=SessionManager,name=*,process=*,platform=*,node=*,*",
                                             "JmxBuiltIn/Session/{name}/",

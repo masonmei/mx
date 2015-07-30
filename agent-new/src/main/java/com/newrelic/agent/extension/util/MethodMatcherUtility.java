@@ -97,15 +97,13 @@ public class MethodMatcherUtility {
         if (m == null) {
             throw new XmlException(MessageFormat
                                            .format("At least one method must be specified for each point cut in the "
-                                                           + "extension {0}",
-                                                          new Object[] {extName}));
+                                                           + "extension {0}", new Object[] {extName}));
         }
         String mName = m.getName();
         if ((mName == null) || (mName.trim().length() == 0)) {
             throw new XmlException(MessageFormat
                                            .format("A method name must be specified for each method in the extension "
-                                                           + "{0}",
-                                                          new Object[] {extName}));
+                                                           + "{0}", new Object[] {extName}));
         }
     }
 

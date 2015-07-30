@@ -17,11 +17,10 @@ public class PriorityApplicationName {
         this.priority = priority;
         if (name == null) {
             this.name = null;
-            this.names = null;
+            names = null;
         } else {
-            this.names = Collections.unmodifiableList(BaseConfig.getUniqueStringsFromString(name, ";"));
-
-            this.name = this.names.get(0);
+            names = Collections.unmodifiableList(BaseConfig.getUniqueStringsFromString(name, ";"));
+            this.name = names.get(0);
         }
     }
 
@@ -30,15 +29,15 @@ public class PriorityApplicationName {
     }
 
     public String getName() {
-        return this.name;
+        return name;
     }
 
     public List<String> getNames() {
-        return this.names;
+        return names;
     }
 
     public ApplicationNamePriority getPriority() {
-        return this.priority;
+        return priority;
     }
 
     public String toString() {
@@ -64,13 +63,13 @@ public class PriorityApplicationName {
             return false;
         }
         PriorityApplicationName other = (PriorityApplicationName) obj;
-        if (this.name == null) {
+        if (name == null) {
             if (other.name != null) {
                 return false;
             }
         } else if (!this.name.equals(other.name)) {
             return false;
         }
-        return this.priority == other.priority;
+        return priority == other.priority;
     }
 }

@@ -23,10 +23,10 @@ public class JerseyResourcePointCut extends TracerFactoryPointCut {
                                                                                .or(new String[]
                                                                                            {"com/sun/jersey/server/impl/model/method/dispatch/ResourceJavaMethodDispatcher",
                                                                                                         "com/sun/jersey/impl/model/method/dispatch/ResourceJavaMethodDispatcher"}),
-                     createExactMethodMatcher("dispatch",
-                                                     new String[] {"(Ljava/lang/Object;"
-                                                                           + "Lcom/sun/jersey/api/core/HttpContext;)"
-                                                                           + "V"}));
+                     createExactMethodMatcher("dispatch", new String[] {"(Ljava/lang/Object;"
+                                                                                +
+                                                                                "Lcom/sun/jersey/api/core/HttpContext;)"
+                                                                                + "V"}));
     }
 
     public Tracer doGetTracer(Transaction transaction, ClassMethodSignature sig, Object dispatcher, Object[] args) {

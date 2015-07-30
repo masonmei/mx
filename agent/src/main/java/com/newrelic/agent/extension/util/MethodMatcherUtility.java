@@ -116,10 +116,8 @@ public class MethodMatcherUtility {
         } else {
             String mName = m.getName();
             if (mName == null || mName.trim().length() == 0) {
-                throw new XmlException(MessageFormat
-                                               .format("A method name must be specified for each method in the "
-                                                               + "extension {0}",
-                                                              new Object[] {extName}));
+                throw new XmlException(MessageFormat.format("A method name must be specified for each method in the "
+                                                                    + "extension {0}", new Object[] {extName}));
             }
         }
     }

@@ -20,29 +20,30 @@ public class BrowserConfigFactory {
                     agentConfig.getBrowserMonitoringConfig().isAutoInstrumentEnabled() ? " with auto instrumentation"
                             : "";
 
-            String msg = MessageFormat.format("Real user monitoring is enabled{0} for application \"{1}\"",
-                                                     new Object[] {autoInstrument, appName});
+            String msg = MessageFormat
+                                 .format("Real user monitoring is enabled{0} for application \"{1}\"", autoInstrument,
+                                                appName);
 
             Agent.LOG.info(msg);
             return browserConfig;
         } catch (Exception e) {
             String msg = MessageFormat.format("Unable to configure application \"{0}\" for Real User Monitoring: {1}",
-                                                     new Object[] {appName, e});
+                                                     appName, e);
 
             if (Agent.LOG.isLoggable(Level.FINEST)) {
                 Agent.LOG.log(Level.FINEST, msg, e);
             } else {
                 Agent.LOG.finer(msg);
             }
-            Agent.LOG.info(MessageFormat.format("Real user monitoring is not enabled for application \"{0}\"",
-                                                       new Object[] {appName}));
+            Agent.LOG
+                    .info(MessageFormat.format("Real user monitoring is not enabled for application \"{0}\"", appName));
         }
         return null;
     }
 
     private static IBrowserConfig createTheBrowserConfig(String appName, Map<String, Object> serverData)
             throws Exception {
-        Map settings = createMap();
+        Map<String, Object> settings = createMap();
         mergeBrowserSettings(settings, serverData);
         Map agentData = AgentConfigFactory.getAgentData(serverData);
 
@@ -54,13 +55,13 @@ public class BrowserConfigFactory {
         if (data == null) {
             return;
         }
-        mergeSetting("browser_key", settings, data);
-        mergeSetting("browser_monitoring.loader_version", settings, data);
-        mergeSetting("js_agent_loader", settings, data);
-        mergeSetting("js_agent_file", settings, data);
-        mergeSetting("beacon", settings, data);
-        mergeSetting("error_beacon", settings, data);
-        mergeSetting("application_id", settings, data);
+        mergeSetting(BrowserConfig.BROWSER_KEY, settings, data);
+        mergeSetting(BrowserConfig.BROWSER_LOADER_VERSION, settings, data);
+        mergeSetting(BrowserConfig.JS_AGENT_LOADER, settings, data);
+        mergeSetting(BrowserConfig.JS_AGENT_FILE, settings, data);
+        mergeSetting(BrowserConfig.BEACON, settings, data);
+        mergeSetting(BrowserConfig.ERROR_BEACON, settings, data);
+        mergeSetting(BrowserConfig.APPLICATION_ID, settings, data);
     }
 
     private static void mergeSetting(String currentSetting, Map<String, Object> settings, Map<String, Object> data) {
@@ -71,6 +72,6 @@ public class BrowserConfigFactory {
     }
 
     private static Map<String, Object> createMap() {
-        return new HashMap();
+        return new HashMap<String, Object>();
     }
 }

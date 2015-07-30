@@ -73,8 +73,7 @@ public class ServletUtils {
             if (name.length() > maxSizeLimit) {
                 Agent.LOG.log(Level.FINER,
                                      "Rejecting request parameter with key \"{0}\" because the key is over the size "
-                                             + "limit of {1}",
-                                     new Object[] {name, Integer.valueOf(maxSizeLimit)});
+                                             + "limit of {1}", new Object[] {name, Integer.valueOf(maxSizeLimit)});
             } else {
                 String[] values = request.getParameterValues(name);
                 String value = getValue(values, maxSizeLimit);

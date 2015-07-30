@@ -12,6 +12,7 @@ import com.newrelic.agent.dispatchers.Dispatcher;
 import com.newrelic.agent.tracers.ClassMethodSignature;
 import com.newrelic.agent.tracers.EntryInvocationHandler;
 import com.newrelic.agent.tracers.PointCutInvocationHandler;
+import com.newrelic.agent.tracers.Tracer;
 import com.newrelic.agent.tracers.TracerFactory;
 
 final class InvocationPoint implements InvocationHandler {
@@ -71,12 +72,12 @@ final class InvocationPoint implements InvocationHandler {
                 }
             }
 
-            Object t = this.tracerService
-                               .getTracer(this.tracerFactory, this.classMethodSignature, args[0], (Object[]) args[1]);
-            if (t == null) {
-                ;
+            Tracer t1 = this.tracerService.getTracer(this.tracerFactory, this.classMethodSignature, args[0], (Object[]) args[1]);
+            if(t1 == null) {
+                t1 = null;
             }
-            return null;
+
+            return t1;
         } catch (Throwable t) {
             Agent.LOG.log(Level.FINEST, "Tracer invocation error", t);
         }

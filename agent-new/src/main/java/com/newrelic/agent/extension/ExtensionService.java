@@ -372,8 +372,7 @@ public class ExtensionService extends AbstractService implements HarvestListener
 
             this.getLogger().log(Level.FINER, MessageFormat.format("Additional extension with name {0} and version {1} "
                                                                            + "being ignored. Another file with name "
-                                                                           + "and "
-                                                                           + "version already read in.",
+                                                                           + "and " + "version already read in.",
                                                                           new Object[] {name, Double.valueOf(version)
                                                                                                       .toString()}));
         }
@@ -423,7 +422,8 @@ public class ExtensionService extends AbstractService implements HarvestListener
                                                                                       : (jarDirectory.exists()
                                                                                                  ? this.loadJars(new File[] {jarDirectory})
                                                                                                  : Collections
-                                                                                                           .emptyList()))
+                                                                                                           .emptyList
+                                                                                                                    ()))
                                      : Collections.emptyList());
     }
 

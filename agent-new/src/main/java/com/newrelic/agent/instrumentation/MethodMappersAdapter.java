@@ -54,7 +54,8 @@ public class MethodMappersAdapter extends ClassVisitor {
     }
 
     public static MethodMappersAdapter getMethodMappersAdapter(ClassVisitor cv,
-                                                               Map<com.newrelic.deps.org.objectweb.asm.commons.Method, java.lang.reflect.Method> methods,
+                                                               Map<com.newrelic.deps.org.objectweb.asm.commons
+                                                                           .Method, java.lang.reflect.Method> methods,
                                                                String originalInterface, String className) {
         Map methods2 = new HashMap(methods);
         return new MethodMappersAdapter(cv, methods2, originalInterface, className);

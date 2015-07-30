@@ -112,7 +112,7 @@ public class BootstrapAgent {
     }
 
     static void startAgent(String agentArgs, Instrumentation inst) {
-        Class clazz;
+        Class<?> clazz;
         if (isBootstrapClasspathFlagSet()) {
             clazz = BootstrapLoader.class;
             clazz = BootstrapLoader.ApiClassTransformer.class;
@@ -126,7 +126,7 @@ public class BootstrapAgent {
             Method premain = clazz.getDeclaredMethod("premain", String.class, Instrumentation.class);
             premain.invoke(null, agentArgs, inst);
         } catch (Throwable t) {
-            System.err.println(MessageFormat.format("Error bootstrapping New Relic agent: {0}", new Object[] {t}));
+            System.err.println(MessageFormat.format("Error bootstrapping New Relic agent: {0}", t));
             t.printStackTrace();
         }
     }

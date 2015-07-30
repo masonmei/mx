@@ -4,6 +4,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import com.newrelic.agent.Agent;
 import com.newrelic.deps.org.objectweb.asm.Label;
 import com.newrelic.deps.org.objectweb.asm.MethodVisitor;
 import com.newrelic.deps.org.objectweb.asm.Opcodes;
@@ -14,8 +15,6 @@ import com.newrelic.deps.org.objectweb.asm.commons.Remapper;
 import com.newrelic.deps.org.objectweb.asm.commons.RemappingMethodAdapter;
 import com.newrelic.deps.org.objectweb.asm.commons.TryCatchBlockSorter;
 import com.newrelic.deps.org.objectweb.asm.tree.MethodNode;
-
-import com.newrelic.agent.Agent;
 
 public abstract class MethodCallInlinerAdapter extends LocalVariablesSorter {
     static InlinedMethod DO_NOT_INLINE = new InlinedMethod(null, null);
@@ -64,10 +63,10 @@ public abstract class MethodCallInlinerAdapter extends LocalVariablesSorter {
 
     private InlinedMethod getInliner(String owner, String name, String desc) {
         if (inliners == null) {
-            inliners = new HashMap();
+            inliners = new HashMap<String, InlinedMethod>();
         }
         String key = owner + "." + name + desc;
-        InlinedMethod method = (InlinedMethod) inliners.get(key);
+        InlinedMethod method = inliners.get(key);
         if (method == null) {
             method = mustInline(owner, name, desc);
             if (method == null) {
@@ -137,8 +136,8 @@ public abstract class MethodCallInlinerAdapter extends LocalVariablesSorter {
             Type[] args = Type.getArgumentTypes(desc);
 
             int argRegister = off;
-            for (int i = 0; i < args.length; i++) {
-                argRegister += args[i].getSize();
+            for (Type arg : args) {
+                argRegister += arg.getSize();
             }
             for (int i = args.length - 1; i >= 0; i--) {
                 argRegister -= args[i].getSize();

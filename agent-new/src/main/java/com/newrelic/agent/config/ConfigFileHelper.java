@@ -49,9 +49,8 @@ public class ConfigFileHelper {
             }
             System.err.println(MessageFormat
                                        .format("The configuration file {0} specified with the {1} property does not "
-                                                       + "exist",
-                                                      new Object[] {configFile.getAbsolutePath(),
-                                                                           "newrelic.config.file"}));
+                                                       + "exist", new Object[] {configFile.getAbsolutePath(),
+                                                                                       "newrelic.config.file"}));
         }
 
         return null;

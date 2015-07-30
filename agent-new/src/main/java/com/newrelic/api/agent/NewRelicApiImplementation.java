@@ -11,6 +11,7 @@ import com.newrelic.agent.Agent;
 import com.newrelic.agent.Transaction;
 import com.newrelic.agent.attributes.AttributeSender;
 import com.newrelic.agent.attributes.CustomAttributeSender;
+import com.newrelic.agent.bridge.AgentBridge;
 import com.newrelic.agent.bridge.PublicApi;
 import com.newrelic.agent.bridge.TransactionNamePriority;
 import com.newrelic.agent.dispatchers.Dispatcher;
@@ -106,12 +107,12 @@ public class NewRelicApiImplementation implements PublicApi {
     }
 
     public static void initialize() {
-        com.newrelic.agent.bridge.AgentBridge.publicApi = new NewRelicApiImplementation();
+        AgentBridge.publicApi = new NewRelicApiImplementation();
     }
 
     public void noticeError(Throwable throwable, Map<String, String> params) {
         try {
-            ErrorService.reportException(throwable, filtorErrorAtts(params, this.attributeSender));
+            ErrorService.reportException(throwable, filtorErrorAtts(params, attributeSender));
             if (Agent.LOG.isLoggable(Level.FINER)) {
                 String msg = MessageFormat.format("Reported error: {0}", throwable);
                 Agent.LOG.finer(msg);
@@ -129,7 +130,7 @@ public class NewRelicApiImplementation implements PublicApi {
 
     public void noticeError(String message, Map<String, String> params) {
         try {
-            ErrorService.reportError(message, filtorErrorAtts(params, this.attributeSender));
+            ErrorService.reportError(message, filtorErrorAtts(params, attributeSender));
             if (Agent.LOG.isLoggable(Level.FINER)) {
                 String msg = MessageFormat.format("Reported error: {0}", message);
                 Agent.LOG.finer(msg);
@@ -146,11 +147,11 @@ public class NewRelicApiImplementation implements PublicApi {
     }
 
     public void addCustomParameter(String key, String value) {
-        this.attributeSender.addAttribute(key, value, "addCustomParameter");
+        attributeSender.addAttribute(key, value, "addCustomParameter");
     }
 
     public void addCustomParameter(String key, Number value) {
-        this.attributeSender.addAttribute(key, value, "addCustomParameter");
+        attributeSender.addAttribute(key, value, "addCustomParameter");
     }
 
     public void setTransactionName(String category, String name) {
@@ -289,61 +290,55 @@ public class NewRelicApiImplementation implements PublicApi {
             return;
         }
         if (Agent.LOG.isLoggable(Level.FINER)) {
-            String msg = MessageFormat.format("Attepmting to set user name to \"{0}\" in NewRelic API", name);
+            String msg = MessageFormat.format("Attempting to set user name to \"{0}\" in NewRelic API", name);
             Agent.LOG.finer(msg);
         }
-        this.attributeSender.addAttribute("user", name, "setUserName");
+        attributeSender.addAttribute("user", name, "setUserName");
     }
 
     public void setAccountName(String name) {
         Transaction tx = Transaction.getTransaction().getRootTransaction();
         Dispatcher dispatcher = tx.getDispatcher();
         if (dispatcher == null) {
-            Agent.LOG.finer(MessageFormat
-                                    .format("Unable to set the account name to \"{0}\" in NewRelic API - no "
-                                                    + "transaction",
-                                                   name));
+            Agent.LOG.finer(MessageFormat.format("Unable to set the account name to \"{0}\" in NewRelic API - no "
+                                                         + "transaction", name));
 
             return;
         }
         if (!dispatcher.isWebTransaction()) {
             Agent.LOG.finer(MessageFormat
                                     .format("Unable to set the account name to \"{0}\" in NewRelic API - transaction "
-                                                    + "is not a web transaction",
-                                                   name));
+                                                    + "is not a web transaction", name));
 
             return;
         }
         if (Agent.LOG.isLoggable(Level.FINER)) {
-            String msg = MessageFormat.format("Attepmting to set account name to \"{0}\" in NewRelic API", name);
+            String msg = MessageFormat.format("Attempting to set account name to \"{0}\" in NewRelic API", name);
             Agent.LOG.finer(msg);
         }
-        this.attributeSender.addAttribute("account", name, "setAccountName");
+        attributeSender.addAttribute("account", name, "setAccountName");
     }
 
     public void setProductName(String name) {
         Transaction tx = Transaction.getTransaction().getRootTransaction();
         Dispatcher dispatcher = tx.getDispatcher();
         if (dispatcher == null) {
-            Agent.LOG.finer(MessageFormat
-                                    .format("Unable to set the product name to \"{0}\" in NewRelic API - no "
-                                                    + "transaction",
-                                                   name));
+            Agent.LOG.finer(MessageFormat.format("Unable to set the product name to \"{0}\" in NewRelic API - no "
+                                                         + "transaction", name));
 
             return;
         }
         if (!dispatcher.isWebTransaction()) {
             Agent.LOG.finer(MessageFormat
                                     .format("Unable to set the product name to \"{0}\" in NewRelic API - transaction "
-                                                    + "is not a web transaction",
-                                                   name));
+                                                    + "is not a web transaction", name));
 
             return;
         }
         if (Agent.LOG.isLoggable(Level.FINER)) {
-            String msg = MessageFormat.format("Attepmting to set product name to \"{0}\" in NewRelic API", name);
+            String msg = MessageFormat.format("Attempting to set product name to \"{0}\" in NewRelic API", name);
             Agent.LOG.finer(msg);
         }
-        this.attributeSender.addAttribute("product", name, "setProductName");
+        attributeSender.addAttribute("product", name, "setProductName");
     }
 }

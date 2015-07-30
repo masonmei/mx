@@ -30,12 +30,11 @@ public class QueueTimeTracker {
         if (queueStartTimeInNanos > 0L) {
             long queueTime = txStartTimeInNanos - queueStartTimeInNanos;
             if (Agent.LOG.isLoggable(Level.FINEST)) {
-                String msg = MessageFormat
-                                     .format("Transaction start time (nanoseconds): {0}, queue start time "
-                                                     + "(nanoseconds): {1}, queue time (nanoseconds): {2}",
-                                                    new Object[] {Long.valueOf(txStartTimeInNanos),
-                                                                         Long.valueOf(queueStartTimeInNanos),
-                                                                         Long.valueOf(queueTime)});
+                String msg = MessageFormat.format("Transaction start time (nanoseconds): {0}, queue start time "
+                                                          + "(nanoseconds): {1}, queue time (nanoseconds): {2}",
+                                                         new Object[] {Long.valueOf(txStartTimeInNanos),
+                                                                              Long.valueOf(queueStartTimeInNanos),
+                                                                              Long.valueOf(queueTime)});
 
                 Agent.LOG.finest(msg);
             }

@@ -30,8 +30,7 @@ public class CXFInvokerPointCut extends TracerFactoryPointCut {
                                                                                          + "Ljava/lang/Object;"
                                                                                          + "Ljava/lang/reflect/Method;"
                                                                                          + "[Ljava/lang/Object;)"
-                                                                                         + "Ljava/lang/Object;"
-                                                                                         + ""}));
+                                                                                         + "Ljava/lang/Object;" + ""}));
     }
 
     static String getCXFRequestUri(String address, Method method) {

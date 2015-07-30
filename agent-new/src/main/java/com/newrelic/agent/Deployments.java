@@ -67,9 +67,8 @@ public class Deployments {
         if (responseCode < 300) {
             System.out.println("Deployment successfully recorded");
         } else if (responseCode == 401) {
-            System.out
-                    .println("Unable to notify New Relic of the deployment because of an authorization error.  Check "
-                                     + "your license key.");
+            System.out.println("Unable to notify New Relic of the deployment because of an authorization error.  Check "
+                                       + "your license key.");
             System.out.println("Response message: " + conn.getResponseMessage());
         } else {
             System.out.println("Unable to notify New Relic of the deployment");

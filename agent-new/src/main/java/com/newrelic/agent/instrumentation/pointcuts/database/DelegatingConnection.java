@@ -11,9 +11,8 @@ public abstract interface DelegatingConnection {
 
     public abstract Connection getDelegate();
 
-    @InterfaceMixin(originalClassName =
-                            {"com/newrelic/agent/deps/org/apache/commons/dbcp"
-                                     + "/PoolingDataSource$PoolGuardConnectionWrapper"})
+    @InterfaceMixin(originalClassName = {"com/newrelic/agent/deps/org/apache/commons/dbcp"
+                                                 + "/PoolingDataSource$PoolGuardConnectionWrapper"})
     public static abstract interface PoolGuardConnectionWrapper {
         @FieldAccessor(fieldName = "delegate", existingField = true)
         public abstract Connection _nr_getDelegate();

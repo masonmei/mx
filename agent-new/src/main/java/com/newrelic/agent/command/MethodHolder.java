@@ -55,8 +55,7 @@ class MethodHolder {
                 XmlInstrumentValidator.printMessage(MessageFormat
                                                             .format("Found the method {0} from the xml in the list of"
                                                                             + " class methods. Checking method "
-                                                                            + "parameters.",
-                                                                           new Object[] {name}));
+                                                                            + "parameters.", new Object[] {name}));
             }
 
             Iterator it = value.iterator();

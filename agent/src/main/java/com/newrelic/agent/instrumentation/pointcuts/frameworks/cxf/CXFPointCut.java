@@ -20,8 +20,7 @@ public class CXFPointCut extends TracerFactoryPointCut {
     public CXFPointCut(ClassTransformer classTransformer) {
         super(CXFPointCut.class, new ExactClassMatcher("org/apache/cxf/transport/servlet/ServletDestination"),
                      createExactMethodMatcher("invoke", new String[] {"(Ljavax/servlet/ServletConfig;"
-                                                                              + "Ljavax/servlet/ServletContext;"
-                                                                              +
+                                                                              + "Ljavax/servlet/ServletContext;" +
                                                                               "Ljavax/servlet/http/HttpServletRequest;"
                                                                               +
                                                                               "Ljavax/servlet/http/HttpServletResponse;)"

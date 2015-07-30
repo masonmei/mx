@@ -75,7 +75,7 @@ public class InstrumentationPackage implements ClassResolver {
     private final ClassAppender classAppender;
     private final InstrumentationMetadata metaData;
     private final Instrumentation instrumentation;
-    private final Collection<Closeable> closeables = new ConcurrentLinkedQueue();
+    private final Collection<Closeable> closeables = new ConcurrentLinkedQueue<Closeable>();
     private final ClassMatchVisitorFactory matcher;
     private final String location;
     private final IAgentLogger logger;
@@ -85,14 +85,14 @@ public class InstrumentationPackage implements ClassResolver {
                                   InstrumentationMetadata metaData, JarInputStream jarStream) throws Exception {
         this.location = metaData.getLocation();
         this.instrumentation = instrumentation;
-        HashMap classBytes = Maps.newHashMap();
-        HashMap instrumentationClasses = Maps.newHashMap();
+        HashMap<String, byte[]> classBytes = Maps.newHashMap();
+        HashMap<String, InstrumentationClassVisitor> instrumentationClasses = Maps.newHashMap();
         this.implementationTitle = metaData.getImplementationTitle();
         this.metaData = metaData;
         this.logger = logger;
         this.implementationVersion = metaData.getImplementationVersion();
         this.verifier = new Verifier(this);
-        JarEntry entry = null;
+        JarEntry entry;
 
         while ((entry = jarStream.getNextJarEntry()) != null) {
             if (entry.getName().endsWith(".class")) {
@@ -134,10 +134,10 @@ public class InstrumentationPackage implements ClassResolver {
     }
 
     static ClassMatcher getClassMatcher(MatchType type, String className) {
-        switch (type.ordinal()) {
-            case 1:
+        switch (type) {
+            case Interface:
                 return new InterfaceMatcher(className);
-            case 2:
+            case BaseClass:
                 return new ChildClassMatcher(className, false);
             default:
                 return new ExactClassMatcher(className);
@@ -147,25 +147,21 @@ public class InstrumentationPackage implements ClassResolver {
     private Map<String, byte[]> performThirdPassProcessing(Map<String, byte[]> classBytes,
                                                            Map<String, InstrumentationClassVisitor>
                                                                    instrumentationClasses) {
-        HashMap renamedClasses = Maps.newHashMap();
-        Iterator i$ = instrumentationClasses.values().iterator();
+        HashMap<String, String> renamedClasses = Maps.newHashMap();
+        Iterator<InstrumentationClassVisitor> iterator = instrumentationClasses.values().iterator();
 
         while (true) {
             InstrumentationClassVisitor instrumentationClass;
             do {
-                if (!i$.hasNext()) {
+                if (!iterator.hasNext()) {
                     return this.renameClasses(classBytes, renamedClasses, instrumentationClasses);
                 }
 
-                instrumentationClass = (InstrumentationClassVisitor) i$.next();
+                instrumentationClass = iterator.next();
             } while (!instrumentationClass.isWeaveInstrumentation());
 
-            Iterator i$1 = instrumentationClass.innerClasses.iterator();
-
-            while (i$1.hasNext()) {
-                InnerClassNode innerClass = (InnerClassNode) i$1.next();
-                InstrumentationClassVisitor innerClassInfo =
-                        (InstrumentationClassVisitor) instrumentationClasses.get(innerClass.name);
+            for (InnerClassNode innerClass : instrumentationClass.innerClasses) {
+                InstrumentationClassVisitor innerClassInfo = instrumentationClasses.get(innerClass.name);
                 if (innerClassInfo != null && !innerClassInfo.isWeaveInstrumentation()) {
                     renamedClasses.put(innerClass.name, innerClass.name + "$NR");
                 }
@@ -175,64 +171,54 @@ public class InstrumentationPackage implements ClassResolver {
 
     private Map<String, byte[]> renameClasses(Map<String, byte[]> classBytes, Map<String, String> classesToRename,
                                               Map<String, InstrumentationClassVisitor> instrumentationClasses) {
-        HashMap actualClassNames = Maps.newHashMap();
-        HashMap referencedClassMethods = Maps.newHashMap();
-        HashMap referencedInterfaceMethods = Maps.newHashMap();
+        HashMap<String, byte[]> actualClassNames = Maps.newHashMap();
+        HashMap<String, Set<MethodWithAccess>> referencedClassMethods = Maps.newHashMap();
+        HashMap<String, Set<MethodWithAccess>> referencedInterfaceMethods = Maps.newHashMap();
         SimpleRemapper remapper = new SimpleRemapper(classesToRename);
-        Iterator i$ = classBytes.entrySet().iterator();
 
-        while (true) {
-            while (i$.hasNext()) {
-                Entry entry = (Entry) i$.next();
-                ClassReader reader = new ClassReader((byte[]) entry.getValue());
-                ClassWriter writer = new ClassWriter(1);
-                Object cv = writer;
-                WeavedClassInfo instrumentationClass =
-                        (WeavedClassInfo) this.instrumentationInfo.get(reader.getClassName());
-                boolean isWeaveClass = instrumentationClass != null && instrumentationClass.getMatchType() != null;
-                if (isWeaveClass) {
-                    cv = new InstrumentationPackage.GatherClassMethodMatchers(writer, reader.getClassName(),
-                                                                                     instrumentationClass);
-                }
-
-                cv = new ReferencesVisitor(this.logger, this.getWeavedClassDetails(reader.getClassName()),
-                                                  (ClassVisitor) cv, referencedClassMethods,
-                                                  referencedInterfaceMethods);
-                if (!classesToRename.isEmpty()) {
-                    cv = new RemappingClassAdapter((ClassVisitor) cv, remapper);
-                }
-
-                reader.accept((ClassVisitor) cv, 8);
-                String className = (String) classesToRename.get(entry.getKey());
-                if (className == null) {
-                    className = (String) entry.getKey();
-                }
-
-                actualClassNames.put(className, writer.toByteArray());
-                if (instrumentationClass != null && instrumentationClass.isSkipIfPresent()) {
-                    this.skipClasses.add(className);
-                } else if (!isWeaveClass) {
-                    this.newClasses.put(className, writer.toByteArray());
-                }
+        for (Entry<String, byte[]> entry : classBytes.entrySet()) {
+            ClassReader reader = new ClassReader(entry.getValue());
+            ClassWriter writer = new ClassWriter(1);
+            Object cv = writer;
+            WeavedClassInfo instrumentationClass = this.instrumentationInfo.get(reader.getClassName());
+            boolean isWeaveClass = instrumentationClass != null && instrumentationClass.getMatchType() != null;
+            if (isWeaveClass) {
+                cv = new GatherClassMethodMatchers(writer, reader.getClassName(), instrumentationClass);
             }
 
-            this.verifier.setReferences(referencedClassMethods, referencedInterfaceMethods);
-            return actualClassNames;
+            cv = new ReferencesVisitor(this.logger, this.getWeavedClassDetails(reader.getClassName()),
+                                              (ClassVisitor) cv, referencedClassMethods, referencedInterfaceMethods);
+            if (!classesToRename.isEmpty()) {
+                cv = new RemappingClassAdapter((ClassVisitor) cv, remapper);
+            }
+
+            reader.accept((ClassVisitor) cv, 8);
+            String className = classesToRename.get(entry.getKey());
+            if (className == null) {
+                className = entry.getKey();
+            }
+
+            actualClassNames.put(className, writer.toByteArray());
+            if (instrumentationClass != null && instrumentationClass.isSkipIfPresent()) {
+                this.skipClasses.add(className);
+            } else if (!isWeaveClass) {
+                this.newClasses.put(className, writer.toByteArray());
+            }
         }
+
+        this.verifier.setReferences(referencedClassMethods, referencedInterfaceMethods);
+        return actualClassNames;
+
     }
 
     protected boolean loadClasses(ClassLoader loader, Map<String, URL> resolvedClasses) {
-        Iterator i$ = resolvedClasses.keySet().iterator();
 
-        while (i$.hasNext()) {
-            String className = (String) i$.next();
-
+        for (String className : resolvedClasses.keySet()) {
             try {
                 loader.loadClass(Type.getObjectType(className).getClassName());
             } catch (ClassNotFoundException var6) {
                 this.logger.log(Level.FINER, "Error loading classes for {0} ({1}) : {2}",
-                                       new Object[] {this.metaData.getImplementationTitle(), className,
-                                                            var6.getMessage()});
+                                       this.metaData.getImplementationTitle(), className, var6.getMessage());
                 return false;
             }
         }
@@ -242,15 +228,15 @@ public class InstrumentationPackage implements ClassResolver {
 
     private boolean isBootstrapClassName(Collection<String> names) {
         BootstrapLoader bootstrapLoader = BootstrapLoader.get();
-        Iterator i$ = names.iterator();
+        Iterator<String> iterator = names.iterator();
 
         String name;
         do {
-            if (!i$.hasNext()) {
+            if (!iterator.hasNext()) {
                 return false;
             }
 
-            name = (String) i$.next();
+            name = iterator.next();
         } while (!bootstrapLoader.isBootstrapClass(name));
 
         return true;
@@ -305,11 +291,11 @@ public class InstrumentationPackage implements ClassResolver {
     }
 
     public MixinClassVisitor getMixin(String className) throws IOException {
-        WeavedClassInfo weavedClassInfo = (WeavedClassInfo) this.weaveClasses.get(className);
+        WeavedClassInfo weavedClassInfo = this.weaveClasses.get(className);
         if (weavedClassInfo == null) {
             return null;
         } else {
-            byte[] bytes = (byte[]) this.classNames.get(className);
+            byte[] bytes = this.classNames.get(className);
             if (bytes != null) {
                 ClassReader classReader = new ClassReader(bytes);
                 MixinClassVisitor cv = new MixinClassVisitor(bytes, this, weavedClassInfo);
@@ -330,15 +316,15 @@ public class InstrumentationPackage implements ClassResolver {
     }
 
     public boolean containsJDKClasses() {
-        Iterator i$ = this.getClassBytes().keySet().iterator();
+        Iterator<String> iterator = this.getClassBytes().keySet().iterator();
 
         String className;
         do {
-            if (!i$.hasNext()) {
+            if (!iterator.hasNext()) {
                 return false;
             }
 
-            className = (String) i$.next();
+            className = iterator.next();
         } while (!className.startsWith("java/") && !className.startsWith("sun/"));
 
         return true;
@@ -346,10 +332,8 @@ public class InstrumentationPackage implements ClassResolver {
 
     public Set<String> getClassNames() {
         HashSet names = Sets.newHashSet();
-        Iterator i$ = this.getClassBytes().keySet().iterator();
 
-        while (i$.hasNext()) {
-            String name = (String) i$.next();
+        for (String name : this.getClassBytes().keySet()) {
             names.add(Type.getObjectType(name).getClassName());
         }
 
@@ -361,14 +345,9 @@ public class InstrumentationPackage implements ClassResolver {
     }
 
     public String getClassMatch(Match match) {
-        Iterator i$ = match.getClassMatches().values().iterator();
 
-        while (i$.hasNext()) {
-            Collection classNames = (Collection) i$.next();
-            Iterator i$1 = classNames.iterator();
-
-            while (i$1.hasNext()) {
-                String className = (String) i$1.next();
+        for (Collection<String> classNames : match.getClassMatches().values()) {
+            for (String className : classNames) {
                 if (this.classNames.get(className) != null) {
                     return className;
                 }
@@ -381,8 +360,8 @@ public class InstrumentationPackage implements ClassResolver {
     public boolean isEnabled() {
         Config config = ServiceFactory.getConfigService().getDefaultAgentConfig().getClassTransformerConfig()
                                 .getInstrumentationConfig(this.implementationTitle);
-        if (!((Boolean) config.getProperty("enabled", Boolean.valueOf(this.metaData.isEnabled()))).booleanValue()) {
-            this.logger.log(Level.FINE, "Disabled instrumentation \"{0}\"", new Object[] {this.implementationTitle});
+        if (!config.getProperty("enabled", this.metaData.isEnabled())) {
+            this.logger.log(Level.FINE, "Disabled instrumentation \"{0}\"", this.implementationTitle);
             return false;
         } else {
             return true;
@@ -394,7 +373,7 @@ public class InstrumentationPackage implements ClassResolver {
     }
 
     public WeavedClassInfo getWeavedClassDetails(String internalName) {
-        return (WeavedClassInfo) this.weaveClasses.get(internalName);
+        return this.weaveClasses.get(internalName);
     }
 
     public Map<String, WeavedClassInfo> getWeaveClasses() {
@@ -402,13 +381,13 @@ public class InstrumentationPackage implements ClassResolver {
     }
 
     public ClassWriter getClassWriter(int flags, ClassLoader loader) {
-        ClassResolver classResolver = ClassResolvers.getMultiResolver(new ClassResolver[] {this, ClassResolvers
-                                                                                                         .getClassLoaderResolver(loader)});
+        ClassResolver classResolver =
+                ClassResolvers.getMultiResolver(this, ClassResolvers.getClassLoaderResolver(loader));
         return new PatchedClassWriter(2, classResolver);
     }
 
     public InputStream getClassResource(String internalName) throws IOException {
-        byte[] bytes = (byte[]) this.newClasses.get(internalName);
+        byte[] bytes = this.newClasses.get(internalName);
         return bytes != null ? new ByteArrayInputStream(bytes) : null;
     }
 
@@ -470,8 +449,9 @@ public class InstrumentationPackage implements ClassResolver {
             ((List) methods).remove(OptimizedClassMatcher.DEFAULT_CONSTRUCTOR);
             if (((List) methods).isEmpty()) {
                 if (this.instrumentationClass.getTracedMethods().isEmpty()) {
-                    InstrumentationPackage.this.logger.fine(this.className
-                                                                    + " is marked as a weaved class, but no methods are matched to be weaved.");
+                    InstrumentationPackage.this.logger
+                            .fine(this.className + " is marked as a weaved class, but no methods "
+                                          + "are matched to be weaved.");
                     return;
                 }
 

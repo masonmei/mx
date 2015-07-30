@@ -61,7 +61,8 @@ public class AsyncHttpRequestBuilderPointCut extends com.newrelic.agent.instrume
         public static final String CLASS = "com/ning/http/client/RequestBuilderBase";
 
         @MethodMapper(originalMethodName = "setHeader", originalDescriptor = "(Ljava/lang/String;Ljava/lang/String;)"
-                                                                                     + "Lcom/ning/http/client/RequestBuilderBase;", invokeInterface = false)
+                                                                                     +
+                                                                                     "Lcom/ning/http/client/RequestBuilderBase;", invokeInterface = false)
         public abstract Object nr_setHeader(String paramString1, String paramString2);
     }
 

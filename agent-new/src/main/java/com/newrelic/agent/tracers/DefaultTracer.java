@@ -68,12 +68,12 @@ public class DefaultTracer extends AbstractTracer {
 
     static int sizeof(Object value) {
         int size = 0;
-      if (value == null) {
-        return 0;
-      }
-      if ((value instanceof String)) {
-        return ((String) value).length();
-      }
+        if (value == null) {
+            return 0;
+        }
+        if ((value instanceof String)) {
+            return ((String) value).length();
+        }
         if ((value instanceof StackTraceElement)) {
             StackTraceElement elem = (StackTraceElement) value;
 
@@ -88,9 +88,9 @@ public class DefaultTracer extends AbstractTracer {
     }
 
     public void finish(Throwable throwable) {
-      if (!getTransaction().getTransactionState().finish(getTransaction(), this)) {
-        return;
-      }
+        if (!getTransaction().getTransactionState().finish(getTransaction(), this)) {
+            return;
+        }
         try {
             getTransactionActivity().lockTracerStart();
             doFinish(throwable);
@@ -98,20 +98,20 @@ public class DefaultTracer extends AbstractTracer {
             String msg = MessageFormat.format("An error occurred finishing tracer for class {0} : {1}",
                                                      new Object[] {this.classMethodSignature.getClassName(), t});
 
-          if (Agent.LOG.isLoggable(Level.FINER)) {
-            Agent.LOG.log(Level.WARNING, msg, t);
-          } else {
-            Agent.LOG.warning(msg);
-          }
+            if (Agent.LOG.isLoggable(Level.FINER)) {
+                Agent.LOG.log(Level.WARNING, msg, t);
+            } else {
+                Agent.LOG.warning(msg);
+            }
         } finally {
             getTransactionActivity().unlockTracerStart();
         }
 
         finish(191, null);
 
-      if (Agent.isDebugEnabled()) {
-        Agent.LOG.log(Level.FINE, "(Debug) Tracer.finish(Throwable)");
-      }
+        if (Agent.isDebugEnabled()) {
+            Agent.LOG.log(Level.FINE, "(Debug) Tracer.finish(Throwable)");
+        }
     }
 
     protected void reset() {
@@ -137,9 +137,9 @@ public class DefaultTracer extends AbstractTracer {
         getTransactionActivity().lockTracerStart();
         try {
             try {
-              if (191 != opcode) {
-                doFinish(opcode, returnValue);
-              }
+                if (191 != opcode) {
+                    doFinish(opcode, returnValue);
+                }
             } catch (Throwable t) {
                 String msg = MessageFormat.format("An error occurred finishing tracer for class {0} : {1}",
                                                          new Object[] {this.classMethodSignature.getClassName(),
@@ -174,15 +174,14 @@ public class DefaultTracer extends AbstractTracer {
                 Agent.LOG.log(Level.FINER, msg, t);
             }
             try {
-              if (!(this instanceof SkipTracer)) {
-                getTransactionActivity().tracerFinished(this, opcode);
-              }
+                if (!(this instanceof SkipTracer)) {
+                    getTransactionActivity().tracerFinished(this, opcode);
+                }
             } catch (Throwable t) {
                 String msg = MessageFormat
                                      .format("An error occurred calling Transaction.tracerFinished() for class {0} : "
-                                                     + "{1}",
-                                                    new Object[] {this.classMethodSignature.getClassName(),
-                                                                         t.toString()});
+                                                     + "{1}", new Object[] {this.classMethodSignature.getClassName(),
+                                                                                   t.toString()});
 
                 Agent.LOG.severe(msg);
                 Agent.LOG.log(Level.FINER, msg, t);
@@ -369,9 +368,9 @@ public class DefaultTracer extends AbstractTracer {
             this.exclusiveDuration -= child.getDuration();
             if ((isTransactionSegment()) && (child.isTransactionSegment())) {
                 this.isParent = true;
-              if (child.isChildHasStackTrace()) {
-                this.childHasStackTrace = true;
-              }
+                if (child.isChildHasStackTrace()) {
+                    this.childHasStackTrace = true;
+                }
             }
         }
     }

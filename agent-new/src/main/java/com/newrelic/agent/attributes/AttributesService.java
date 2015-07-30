@@ -100,27 +100,23 @@ public class AttributesService extends AbstractService implements AgentConfigLis
         AgentConfig config = ServiceFactory.getConfigService().getDefaultAgentConfig();
 
         if (config.getValue("analytics_events.capture_attributes") != null) {
-            getLogger().log(Level.INFO,
-                                   "The property analytics_events.capture_attributes is deprecated. Change to "
-                                           + "transaction_events.attributes.enabled.");
+            getLogger().log(Level.INFO, "The property analytics_events.capture_attributes is deprecated. Change to "
+                                                + "transaction_events.attributes.enabled.");
         }
 
         if (config.getValue("transaction_tracer.capture_attributes") != null) {
-            getLogger().log(Level.INFO,
-                                   "The property transaction_tracer.captures_attributes is deprecated. Change to "
-                                           + "transaction_tracer.attributes.enabled.");
+            getLogger().log(Level.INFO, "The property transaction_tracer.captures_attributes is deprecated. Change to "
+                                                + "transaction_tracer.attributes.enabled.");
         }
 
         if (config.getValue("browser_monitoring.capture_attributes") != null) {
-            getLogger().log(Level.INFO,
-                                   "The property browser_monitoring.capture_attributes is deprecated. Change to "
-                                           + "browser_monitoring.attributes.enabled.");
+            getLogger().log(Level.INFO, "The property browser_monitoring.capture_attributes is deprecated. Change to "
+                                                + "browser_monitoring.attributes.enabled.");
         }
 
         if (config.getValue("error_collector.capture_attributes") != null) {
-            getLogger().log(Level.INFO,
-                                   "The property error_collector.capture_attributes is deprecated. Change to "
-                                           + "error_collector.attributes.enabled.");
+            getLogger().log(Level.INFO, "The property error_collector.capture_attributes is deprecated. Change to "
+                                                + "error_collector.attributes.enabled.");
         }
 
         if (config.getValue("capture_params") != null) {
@@ -133,12 +129,14 @@ public class AttributesService extends AbstractService implements AgentConfigLis
         if (config.getValue("capture_messaging_params") != null) {
             getLogger().log(Level.INFO,
                                    "The property capture_messaging_params is deprecated. Message queue parameters are"
-                                           + " off by default. To enable message queue parameters, use attributes.include = message.parameters.*");
+                                           + " off by default. To enable message queue parameters, use attributes"
+                                           + ".include = message.parameters.*");
         }
 
         if (config.getValue("ignored_params") != null) {
             getLogger().log(Level.INFO,
-                                   "The property ignored_params is deprecated. Change to attributes.exclude = request.parameters.${param_name}");
+                                   "The property ignored_params is deprecated. Change to attributes.exclude = request"
+                                           + ".parameters.${param_name}");
         }
 
         if (config.getValue("ignored_messaging_params") != null) {

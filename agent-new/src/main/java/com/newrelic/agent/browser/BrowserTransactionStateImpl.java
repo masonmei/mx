@@ -121,8 +121,7 @@ public class BrowserTransactionStateImpl implements BrowserTransactionState {
         } catch (Exception e) {
             String msg = MessageFormat
                                  .format("Unable to inject browser timing header in a JSP: exception getting content "
-                                                 + "type: {0}",
-                                                new Object[] {e});
+                                                 + "type: {0}", new Object[] {e});
 
             if (Agent.LOG.isLoggable(Level.FINEST)) {
                 Agent.LOG.log(Level.FINEST, msg, e);

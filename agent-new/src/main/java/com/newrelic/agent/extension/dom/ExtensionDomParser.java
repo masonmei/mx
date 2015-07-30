@@ -89,10 +89,9 @@ public class ExtensionDomParser {
             Document doc = getDocument(xml, false);
             return parseDocument(doc);
         } catch (Exception e) {
-            Agent.LOG.log(Level.WARNING, MessageFormat
-                                                 .format("Failed to read extension {0}. Skipping the extension. "
-                                                                 + "Reason: {1}",
-                                                                new Object[] {xml, e.getMessage()}));
+            Agent.LOG.log(Level.WARNING, MessageFormat.format("Failed to read extension {0}. Skipping the extension. "
+                                                                      + "Reason: {1}",
+                                                                     new Object[] {xml, e.getMessage()}));
 
             if (Agent.LOG.isFinerEnabled()) {
                 Agent.LOG.log(Level.FINER, "Reason For Failure: " + e.getMessage(), e);
@@ -105,10 +104,9 @@ public class ExtensionDomParser {
         try {
             return readFile(file);
         } catch (Exception e) {
-            Agent.LOG.log(Level.WARNING, MessageFormat
-                                                 .format("Failed to read extension {0}. Skipping the extension. "
-                                                                 + "Reason: {1}",
-                                                                new Object[] {file.getName(), e.getMessage()}));
+            Agent.LOG.log(Level.WARNING, MessageFormat.format("Failed to read extension {0}. Skipping the extension. "
+                                                                      + "Reason: {1}",
+                                                                     new Object[] {file.getName(), e.getMessage()}));
 
             if (Agent.LOG.isFinerEnabled()) {
                 Agent.LOG.log(Level.FINER, "Reason For Failure: " + e.getMessage(), e);
@@ -260,10 +258,9 @@ public class ExtensionDomParser {
             setupDocumentFactory(factory);
             return factory;
         } catch (Throwable e) {
-            Agent.LOG
-                    .info("Your application has loaded a Java 1.4 or below implementation of the class "
-                                  + "DocumentBuilderFactory. Please upgrade to a 1.5 version if you want to use Java "
-                                  + "agent XML instrumentation.");
+            Agent.LOG.info("Your application has loaded a Java 1.4 or below implementation of the class "
+                                   + "DocumentBuilderFactory. Please upgrade to a 1.5 version if you want to use Java "
+                                   + "agent XML instrumentation.");
         }
         throw new NoSuchMethodError("The method setFeature can not be called.");
     }

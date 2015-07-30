@@ -129,7 +129,8 @@ public class PointCutFactory {
             return methodMatcher;
         } catch (InvalidMethodDescriptor e) {
             Agent.LOG.log(Level.SEVERE, MessageFormat
-                                                .format("The method matcher can not be created, meaning the methods associated with it will not be monitored - {0}",
+                                                .format("The method matcher can not be created, meaning the methods "
+                                                                + "associated with it will not be monitored - {0}",
                                                                new Object[] {e.toString()}));
 
             Agent.LOG.log(Level.FINER, "Error creating method matcher.", e);

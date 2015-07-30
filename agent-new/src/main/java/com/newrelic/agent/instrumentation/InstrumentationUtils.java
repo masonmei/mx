@@ -23,10 +23,9 @@ public class InstrumentationUtils {
             ClassLoaderCheck.loadAgentClass(loader);
             return true;
         } catch (Throwable t) {
-            String msg = MessageFormat
-                                 .format("Classloader {0} failed to load Agent class. The agent might need to be "
-                                                 + "loaded by the bootstrap classloader.: {1}",
-                                                new Object[] {loader.getClass().getName(), t});
+            String msg = MessageFormat.format("Classloader {0} failed to load Agent class. The agent might need to be "
+                                                      + "loaded by the bootstrap classloader.: {1}",
+                                                     new Object[] {loader.getClass().getName(), t});
 
             Agent.LOG.finer(msg);
         }

@@ -214,8 +214,7 @@ public class ClassTransformer implements ContextClassTransformer {
             if (isLoggable) {
                 this.logger.finest(MessageFormat
                                            .format("Skipping class {0} because it does not appear to be a valid class"
-                                                           + " file",
-                                                          new Object[] {className}));
+                                                           + " file", new Object[] {className}));
             }
 
             return false;
@@ -225,8 +224,7 @@ public class ClassTransformer implements ContextClassTransformer {
             if (isLoggable) {
                 this.logger.finest(MessageFormat
                                            .format("Skipping class {0} because bootstrap class instrumentation is not"
-                                                           + " supported",
-                                                          new Object[] {className}));
+                                                           + " supported", new Object[] {className}));
             }
 
             return false;
@@ -382,7 +380,8 @@ public class ClassTransformer implements ContextClassTransformer {
                 throw e;
             } catch (Throwable t) {
                 ClassTransformer.this.logger.warning(MessageFormat
-                                                             .format("Skipping transformation of class {0} because an error occurred: {1}",
+                                                             .format("Skipping transformation of class {0} because an"
+                                                                             + " error occurred: {1}",
                                                                             new Object[] {className, t.toString()}));
 
                 if (ClassTransformer.this.logger.isLoggable(Level.FINER)) {
@@ -398,7 +397,8 @@ public class ClassTransformer implements ContextClassTransformer {
                 return true;
             } catch (Throwable t) {
                 String msg = MessageFormat
-                                     .format("Classloader {0} failed to load Agent class. The agent might need to be loaded by the bootstrap classloader.: {1}",
+                                     .format("Classloader {0} failed to load Agent class. The agent might need to be "
+                                                     + "loaded by the bootstrap classloader.: {1}",
                                                     new Object[] {loader.getClass().getName(), t});
 
                 if (Agent.LOG.isLoggable(Level.FINEST)) {

@@ -72,7 +72,8 @@ public class SqlStatementPointCut extends TracerFactoryPointCut {
             if ((parent instanceof SqlStatementTracer)) {
                 if (Agent.LOG.isLoggable(Level.FINEST)) {
                     String msg = MessageFormat
-                                         .format("Skipping sql statement because last tracer is a SqlStatementTracer: {0}",
+                                         .format("Skipping sql statement because last tracer is a SqlStatementTracer:"
+                                                         + " {0}",
                                                         new Object[] {statement.getClass().getName()});
 
                     Agent.LOG.finest(msg);

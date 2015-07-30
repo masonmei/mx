@@ -25,7 +25,8 @@ public class AttributesFilter {
         rootExcludes.addAll(AttributesConfigUtil.getBaseList(config, "attributes.exclude"));
         rootExcludes.addAll(AttributesConfigUtil.getBaseList(config, "ignored_params", "request.parameters."));
 
-        rootExcludes.addAll(AttributesConfigUtil.getBaseList(config, "ignored_messaging_params", "message.parameters."));
+        rootExcludes
+                .addAll(AttributesConfigUtil.getBaseList(config, "ignored_messaging_params", "message.parameters."));
 
         List<String> rootIncludes = AttributesConfigUtil.getBaseList(config, "attributes.include");
 

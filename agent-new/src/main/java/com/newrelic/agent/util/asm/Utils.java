@@ -24,18 +24,16 @@ import com.newrelic.deps.org.objectweb.asm.util.TraceMethodVisitor;
 
 public class Utils {
     private static final String PROXY_CLASS_NAME = "java/lang/reflect/Proxy";
-    private static final Set<String> JAXB_SUPERCLASSES = ImmutableSet
-                                                                 .of("com.sun.xml.internal.bind.v2.runtime.reflect"
-                                                                             + ".Accessor",
-                                                                            "com.sun.xml.bind.v2.runtime.reflect"
-                                                                                    + ".Accessor",
-                                                                            "com.sun.xml.internal.bind.v2.runtime"
-                                                                                    + ".unmarshaller.Receiver");
+    private static final Set<String> JAXB_SUPERCLASSES = ImmutableSet.of("com.sun.xml.internal.bind.v2.runtime.reflect"
+                                                                                 + ".Accessor",
+                                                                                "com.sun.xml.bind.v2.runtime.reflect"
+                                                                                        + ".Accessor",
+                                                                                "com.sun.xml.internal.bind.v2.runtime"
+                                                                                        + ".unmarshaller.Receiver");
 
-    private static final Set<String> RMI_SUPERCLASSES = ImmutableSet
-                                                                .of("org.omg.stub.javax.management.remote.rmi"
-                                                                            + "._RMIConnection_Stub",
-                                                                           "com.sun.jmx.remote.internal.ProxyRef");
+    private static final Set<String> RMI_SUPERCLASSES = ImmutableSet.of("org.omg.stub.javax.management.remote.rmi"
+                                                                                + "._RMIConnection_Stub",
+                                                                               "com.sun.jmx.remote.internal.ProxyRef");
 
     private static final Set<String> PRIMITIVE_TYPES = ImmutableSet.of(Type.BOOLEAN_TYPE.getClassName(),
                                                                               Type.BYTE_TYPE.getClassName(),

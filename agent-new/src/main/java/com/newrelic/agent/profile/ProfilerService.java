@@ -37,22 +37,19 @@ public class ProfilerService extends AbstractService implements ProfilerControl 
                 ServiceFactory.getConfigService().getDefaultAgentConfig().getThreadProfilerConfig().isEnabled();
         if ((!enabled) || (samplePeriodInMillis <= 0L) || (durationInMillis <= 0L) || (samplePeriodInMillis
                                                                                                > durationInMillis)) {
-            getLogger().info(MessageFormat
-                                     .format("Ignoring the start profiler command: enabled={0}, "
-                                                     + "samplePeriodInMillis={1}, durationInMillis={2}",
-                                                    new Object[] {Boolean.valueOf(enabled),
-                                                                         Long.valueOf(samplePeriodInMillis),
-                                                                         Long.valueOf(durationInMillis)}));
+            getLogger().info(MessageFormat.format("Ignoring the start profiler command: enabled={0}, "
+                                                          + "samplePeriodInMillis={1}, durationInMillis={2}",
+                                                         new Object[] {Boolean.valueOf(enabled),
+                                                                              Long.valueOf(samplePeriodInMillis),
+                                                                              Long.valueOf(durationInMillis)}));
 
             return;
         }
 
         ProfileSession oldSession = this.currentSession;
         if ((oldSession != null) && (!oldSession.isDone())) {
-            getLogger().info(MessageFormat
-                                     .format("Ignoring the start profiler command because a session is currently "
-                                                     + "active. {0}",
-                                                    new Object[] {oldSession.getProfileId()}));
+            getLogger().info(MessageFormat.format("Ignoring the start profiler command because a session is currently "
+                                                          + "active. {0}", new Object[] {oldSession.getProfileId()}));
 
             return;
         }
