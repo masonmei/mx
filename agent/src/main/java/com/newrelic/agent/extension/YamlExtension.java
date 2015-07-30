@@ -26,7 +26,7 @@ public class YamlExtension extends Extension {
             throw new IllegalArgumentException("Extensions must have a name");
         }
         this.configuration = new BaseConfig(configuration);
-        enabled = ((Boolean) this.configuration.getProperty("enabled", Boolean.valueOf(true))).booleanValue();
+        enabled = this.configuration.getProperty("enabled", true);
     }
 
     YamlExtension(ClassLoader classloader, Map<String, Object> config, boolean custom) {
