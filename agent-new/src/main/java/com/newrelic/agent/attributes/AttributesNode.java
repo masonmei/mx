@@ -22,7 +22,7 @@ public class AttributesNode {
 
     public AttributesNode(String pOriginal, boolean isIncluded, String dest, boolean isDefault) {
         this.original = pOriginal;
-        if (this.original.endsWith("*")) {
+        if (this.original.endsWith(END_WILDCARD)) {
             this.name = this.original.substring(0, this.original.length() - 1);
             this.hasEndWildcard = true;
         } else {
@@ -32,7 +32,7 @@ public class AttributesNode {
         this.includeDestination = isIncluded;
         this.destination = dest;
         this.isDefaultRule = isDefault;
-        this.children = new HashSet();
+        this.children = new HashSet<AttributesNode>();
         this.parent = null;
     }
 
@@ -40,7 +40,7 @@ public class AttributesNode {
         Boolean result = null;
         if (matches(key)) {
             logMatch(key);
-            result = Boolean.valueOf(this.includeDestination);
+            result = this.includeDestination;
 
             for (AttributesNode current : this.children) {
                 Boolean tmp = current.applyRules(key);
@@ -55,9 +55,10 @@ public class AttributesNode {
 
     private void logMatch(String key) {
         if (Agent.LOG.isFinerEnabled()) {
-            Agent.LOG.log(Level.FINEST, "{0}: Attribute key \"{1}\" matched {2} {3} rule \"{4}\"",
-                                 new Object[] {this.destination, key, this.isDefaultRule ? "default" : "config",
-                                                      this.includeDestination ? "INCLUDE" : "EXCLUDE", this.original});
+            Agent.LOG
+                    .log(Level.FINEST, "{0}: Attribute key \"{1}\" matched {2} {3} rule \"{4}\"", this.destination, key,
+                                this.isDefaultRule ? "default" : "config",
+                                this.includeDestination ? "INCLUDE" : "EXCLUDE", this.original);
         }
     }
 
@@ -153,11 +154,9 @@ public class AttributesNode {
                 sb.append("null");
             }
             sb.append(" This: ").append(ar.original).append(" Children: ");
-            if (this.children != null) {
-                for (AttributesNode c : ar.children) {
-                    sb.append(" ").append(c.original);
-                    q.add(c);
-                }
+            for (AttributesNode c : ar.children) {
+                sb.append(" ").append(c.original);
+                q.add(c);
             }
             ar = (AttributesNode) q.poll();
             sb.append("\n");

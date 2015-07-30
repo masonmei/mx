@@ -36,8 +36,8 @@ public class DestinationFilter {
                                                                 List<String> rootExcludes, List<String> rootIncludes,
                                                                 String name, Set<String> defaultExclude) {
         if (isEnabled) {
-            Set configExclude = AttributesConfigUtil.getExcluded(config, rootExcludes, name);
-            Set configInclude = AttributesConfigUtil.getIncluded(config, rootIncludes, name);
+            Set<String> configExclude = AttributesConfigUtil.getExcluded(config, rootExcludes, name);
+            Set<String> configInclude = AttributesConfigUtil.getIncluded(config, rootIncludes, name);
             return new DefaultDestinationPredicate(name, configExclude, configInclude, defaultExclude,
                                                           getMandatoryExcludes(config.isHighSecurity()));
         } else {
@@ -46,13 +46,13 @@ public class DestinationFilter {
     }
 
     private static Set<String> getMandatoryExcludes(boolean highSecurity) {
-        return (Set) (highSecurity ? Sets.newHashSet(new String[] {"request.parameters.*", "message.parameters.*"})
-                              : Collections.emptySet());
+        return  (highSecurity ? Sets.newHashSet("request.parameters.*", "message.parameters.*")
+                              : Collections.<String>emptySet());
     }
 
     private static Set<String> updateDefaults(boolean captureParams, boolean captureMessageParams,
                                               String[] defaultExclude) {
-        HashSet defaultExc = Sets.newHashSet(defaultExclude);
+        HashSet<String> defaultExc = Sets.newHashSet(defaultExclude);
         if (!captureParams) {
             defaultExc.add("request.parameters.*");
         }
@@ -72,13 +72,12 @@ public class DestinationFilter {
         return this.isEnabled;
     }
 
-    protected Map<String, ? extends Object> filterAttributes(Map<String, ? extends Object> values) {
+    protected <T> Map<String, T> filterAttributes(Map<String, T> values) {
         return this.filterAttributes(values, this.filter);
     }
 
-    private Map<String, ? extends Object> filterAttributes(Map<String, ? extends Object> values,
-                                                           DestinationPredicate predicate) {
+    private <T> Map<String, T> filterAttributes(Map<String, T> values, DestinationPredicate predicate) {
         return this.isEnabled && values != null && !values.isEmpty() ? Maps.filterKeys(values, predicate)
-                       : Collections.EMPTY_MAP;
+                       : Collections.<String, T>emptyMap();
     }
 }

@@ -18,7 +18,7 @@ public class AttributesService extends AbstractService implements AgentConfigLis
     public AttributesService() {
         super(AttributesService.class.getSimpleName());
         AgentConfig config = ServiceFactory.getConfigService().getDefaultAgentConfig();
-        this.enabled = ((Boolean) config.getValue("attributes.enabled", Boolean.TRUE)).booleanValue();
+        this.enabled = config.getValue("attributes.enabled", Boolean.TRUE);
         this.defaultAppName = config.getApplicationName();
         this.defaultFilter = new AttributesFilter(config);
         this.appNamesToFilters = Maps.newConcurrentMap();
@@ -82,7 +82,7 @@ public class AttributesService extends AbstractService implements AgentConfigLis
         if ((appName == null) || (appName.equals(this.defaultAppName))) {
             return this.defaultFilter;
         }
-        AttributesFilter filter = (AttributesFilter) this.appNamesToFilters.get(appName);
+        AttributesFilter filter = this.appNamesToFilters.get(appName);
         return filter == null ? this.defaultFilter : filter;
     }
 

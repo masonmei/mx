@@ -37,7 +37,7 @@ public class AttributesConfigUtil {
     }
 
     protected static boolean isAttsEnabled(AgentConfig config, boolean defaultProp, String[] dest) {
-        Boolean enabledRoot = config.getValue("attributes.enabled");
+        Boolean enabledRoot = config.getValue(ATTS_ENABLED);
         if ((enabledRoot != null) && (!enabledRoot)) {
             return enabledRoot;
         }
@@ -45,7 +45,7 @@ public class AttributesConfigUtil {
         boolean toEnable = false;
         Boolean destEnabled;
         for (String current : dest) {
-            destEnabled = getBooleanValue(config, current + "." + "attributes.enabled");
+            destEnabled = getBooleanValue(config, current + "." + ATTS_ENABLED);
             if (destEnabled != null) {
                 if (!destEnabled) {
                     return destEnabled;
@@ -56,7 +56,7 @@ public class AttributesConfigUtil {
 
         boolean toCapture = false;
         for (String current : dest) {
-            destEnabled = getBooleanValue(config, current + ".capture_attributes");
+            destEnabled = getBooleanValue(config, current + CAPTURE_ATTRIBUTES);
             if (destEnabled != null) {
                 if (!destEnabled) {
                     return destEnabled;
@@ -87,7 +87,7 @@ public class AttributesConfigUtil {
         } catch (Exception e) {
             Agent.LOG.log(Level.FINE, MessageFormat
                                               .format("The configuration property {0} should be a boolean but is not.",
-                                                             new Object[] {value}));
+                                                             value));
         }
 
         return null;
@@ -111,14 +111,14 @@ public class AttributesConfigUtil {
     protected static Set<String> getExcluded(AgentConfig config, List<String> baseList, String dest) {
         Set<String> output = Sets.newHashSet();
         output.addAll(baseList);
-        output.addAll(getBaseList(config, dest + "." + "attributes.exclude"));
+        output.addAll(getBaseList(config, dest + "." + ATTS_EXCLUDE));
         return output;
     }
 
     protected static Set<String> getIncluded(AgentConfig config, List<String> baseList, String dest) {
         Set<String> output = Sets.newHashSet();
         output.addAll(baseList);
-        output.addAll(getBaseList(config, dest + "." + "attributes.include"));
+        output.addAll(getBaseList(config, dest + "." + ATTS_INCLUDE));
         return output;
     }
 }
